@@ -1,0 +1,10 @@
+main {
+  padding-top: 40px;
+  min-height: calc(100vh - 80px);
+  width: 100%;
+}
+
+.background {
+  position: absolute;
+  z-index: -1;
+}

@@ -1,0 +1,95 @@
+@import 'colors';
+
+smitd-header img,
+smitd-header div {
+  width: 40px;
+  height: 40px;
+}
+
+smitd-header h1 {
+  margin: 0;
+}
+
+
+.warbands {
+  overflow: auto;
+  margin: 12px;
+  box-sizing: border-box;
+  min-height: calc(100vh - 104px);
+
+  .warband {
+    background: $red-primary;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin: 12px 0;
+    padding: 8px 12px 8px 6px;
+    border-radius: 12px;
+    overflow: hidden;
+
+    box-shadow: 0 0 10px $black;
+
+    .warband-name {
+      display: block;
+      width: 100%;
+      height: 100%;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .warband-ripple {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 1;
+    }
+
+    .warband-options {
+      position: relative;
+      z-index: 2;
+    }
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+}
+
+.cdk-drag-preview {
+  background: $green-primary;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px 0 6px;
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: calc(100vw - 42px);
+
+  box-shadow: 0 0 10px $black;
+
+  .warband-name {
+    display: block;
+    width: 100%;
+    font-weight: bold;
+    font-size: 18px;
+  }
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.warband:last-child {
+  border: none;
+}
+
+.warbands.cdk-drop-list-dragging .warband:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

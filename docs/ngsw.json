@@ -1,0 +1,81 @@
+{
+  "configVersion": 1,
+  "timestamp": 1659432645644,
+  "index": "/warcry-companion/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/warcry-companion/favicon.ico",
+        "/warcry-companion/index.html",
+        "/warcry-companion/main.853085f46d78f28e.js",
+        "/warcry-companion/manifest.webmanifest",
+        "/warcry-companion/polyfills.e538943a6ac4b686.js",
+        "/warcry-companion/runtime.322503438c877328.js",
+        "/warcry-companion/styles.4250b0d34cda138a.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/warcry-companion/assets/icons/icon-128x128.png",
+        "/warcry-companion/assets/icons/icon-144x144.png",
+        "/warcry-companion/assets/icons/icon-152x152.png",
+        "/warcry-companion/assets/icons/icon-192x192.png",
+        "/warcry-companion/assets/icons/icon-384x384.png",
+        "/warcry-companion/assets/icons/icon-512x512.png",
+        "/warcry-companion/assets/icons/icon-72x72.png",
+        "/warcry-companion/assets/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/warcry-companion/assets/icons/icon-128x128.png": "4c28b8a5450b8837cf559506d2287e9bf098686e",
+    "/warcry-companion/assets/icons/icon-144x144.png": "fd495f2b9be4e2659ad75a273af3f6b61eaf9e51",
+    "/warcry-companion/assets/icons/icon-152x152.png": "8dfd06c799e23b65be662f9bd9cac62c1388b022",
+    "/warcry-companion/assets/icons/icon-192x192.png": "d6f671fe518bbaecce15460a186d5d43b1edcd59",
+    "/warcry-companion/assets/icons/icon-384x384.png": "4476f7fdafe49bee86f6acbf3723237685f13271",
+    "/warcry-companion/assets/icons/icon-512x512.png": "d940a8f1da2bdc8569d010df6ea8713498db79fb",
+    "/warcry-companion/assets/icons/icon-72x72.png": "9ca90eb00eb34fadf9da774780dcac1e9ac37237",
+    "/warcry-companion/assets/icons/icon-96x96.png": "6e4836499bb32e3c647881c21aa55bd70995f490",
+    "/warcry-companion/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/warcry-companion/index.html": "c66a4db719e823832ae24d8eddc3d5143d54c7af",
+    "/warcry-companion/main.853085f46d78f28e.js": "d679b574c116ac934583408960a2fcab3efc5640",
+    "/warcry-companion/manifest.webmanifest": "e6f55ad0e111e59efceb6e89392d4165935003b8",
+    "/warcry-companion/polyfills.e538943a6ac4b686.js": "a45d0cb659c9114cc226ab3493826c8eb211acea",
+    "/warcry-companion/runtime.322503438c877328.js": "e1f9dd2ebb9154ebca72faae9f11ddfafb26471b",
+    "/warcry-companion/styles.4250b0d34cda138a.css": "34de5ea327fbe5d4ec0240d1936f85537247d95f"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}

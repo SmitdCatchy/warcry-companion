@@ -1,0 +1,63 @@
+@use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Gentium+Basic:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import 'colors';
+
+$typography: mat.define-typography-config(
+  $font-family: 'Gentium Basic'
+);
+
+@include mat.core($typography);
+
+$Rulebook-primary: mat.define-palette(mat.$green-palette);
+$Rulebook-accent: mat.define-palette(mat.$blue-palette, A200, A100, A400);
+$Rulebook-warn: mat.define-palette(mat.$red-palette);
+
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $Rulebook-primary,
+      accent: $Rulebook-accent,
+      warn: $Rulebook-warn
+    )
+  )
+);
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $Rulebook-primary,
+      accent: $Rulebook-accent,
+      warn: $Rulebook-warn
+    )
+  )
+);
+
+body {
+  @include mat.all-component-themes($dark-theme);
+  margin: 0;
+  background-image: linear-gradient($black 40%, $red-darkest 90%);
+  color: $white;
+
+  &.light {
+    background-color: $grey-light;
+    color: $black;
+    @include mat.all-component-colors($light-theme);
+  }
+}
+
+.mat-menu-submenu-icon {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.mat-drawer-container {
+  background-color: transparent !important;
+}
+
+.mat-card-header-text {
+  margin: 0 !important;
+}
+
+mat-card-actions {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+}
