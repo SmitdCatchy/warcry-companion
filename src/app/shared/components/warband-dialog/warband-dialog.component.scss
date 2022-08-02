@@ -1,0 +1,39 @@
+@import 'colors';
+
+form {
+  & > * {
+    display: block;
+    width: 100%;
+  }
+
+  .hint {
+    margin-top: -1.2em;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: justify;
+    text-align-last: center;
+    white-space: pre-line;
+  }
+
+  .color-picker {
+    display: grid;
+    grid-template-columns: auto 40px;
+    align-items: center;
+    gap: 16px;
+
+    .color-sample {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      margin-bottom: 1.34375em;
+      border: 2px solid;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: space-evenly;
+  grid-gap: 24px;
+  margin-top: 16px;
+}

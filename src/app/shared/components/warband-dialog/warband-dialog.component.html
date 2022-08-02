@@ -1,0 +1,28 @@
+<h2>{{'warband-dialog.title' | translate}}</h2>
+<form [formGroup]="warbandForm">
+  <mat-form-field appearance="fill">
+    <mat-label>{{'warband-dialog.form.name.label' | translate}}</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>{{'warband-dialog.form.faction.label' | translate}}</mat-label>
+    <input matInput formControlName="faction">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>{{'warband-dialog.form.alliance.label' | translate}}</mat-label>
+    <input matInput formControlName="alliance">
+  </mat-form-field>
+  <div class="color-picker">
+    <mat-form-field appearance="fill">
+      <mat-label>{{'warband-dialog.form.name.label' | translate}}</mat-label>
+      <mat-select formControlName="color">
+        <mat-option *ngFor="let color of colorList" [value]="color.value">{{'color.' + color.key | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="color-sample" [ngStyle]="{'background-color': selectedColor}"></div>
+  </div>
+</form>
+<div class="actions">
+  <button mat-flat-button color="primary" (click)="acceptDialog()" [disabled]="warbandForm.invalid">{{'warband-dialog.action.add' | translate}}</button>
+  <button mat-flat-button (click)="closeDialog()">{{'common.back' | translate}}</button>
+</div>

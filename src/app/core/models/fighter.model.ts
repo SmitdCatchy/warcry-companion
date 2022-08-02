@@ -11,7 +11,7 @@ export interface Fighter {
   runemarks: string;
   weapons: Weapon[];
   points: number;
-  name?: string;
-  modifiers?: Modifier[];
-  note?: string;
+  name: string;
+  modifiers: Modifier[];
+  note: string;
 }

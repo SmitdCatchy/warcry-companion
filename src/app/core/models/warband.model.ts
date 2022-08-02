@@ -6,7 +6,7 @@ import { Fighter } from './fighter.model';
 export interface Warband {
   name: string;
   faction: string;
-  alliance?: string;
+  alliance: string;
   color: Color;
   fighters: Fighter[];
   abilities: Ability[];

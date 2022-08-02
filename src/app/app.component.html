@@ -1,7 +1,7 @@
 <div class="background" >
   <ng-particles [options]="particlesOptions" [particlesInit]="particlesInit" *ngIf="core.effectsEnabled"></ng-particles>
 </div>
-<main>
-  <router-outlet></router-outlet>
+<main class="content" [@routeAnimations]="prepareRoute(outlet)">
+  <router-outlet #outlet="outlet"></router-outlet>
 </main>
 <smitd-footer></smitd-footer>

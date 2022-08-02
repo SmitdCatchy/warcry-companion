@@ -1,6 +1,8 @@
+import { AbilityType } from '../enums/ability-type.enum';
+
 export interface Ability {
-  value: number;
-  runemarks: string;
+  type: AbilityType;
+  runemarks: string[];
   title: string;
   description: string;
   dependencies: string[];

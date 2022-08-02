@@ -1,32 +1,34 @@
 @import 'colors';
 
-smitd-header img,
-smitd-header div {
-  width: 40px;
-  height: 40px;
+:host {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 smitd-header h1 {
   margin: 0;
+  font-weight: bold;
 }
 
-
 .warbands {
-  overflow: auto;
   margin: 12px;
+  width: calc(100% - 24px);
+  max-width: 1200px;
   box-sizing: border-box;
   min-height: calc(100vh - 104px);
 
   .warband {
-    background: $red-primary;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
     margin: 12px 0;
-    padding: 8px 12px 8px 6px;
+    padding: 8px 8px 8px 16px;
     border-radius: 12px;
     overflow: hidden;
+    box-sizing: border-box;
 
     box-shadow: 0 0 10px $black;
 
@@ -59,14 +61,14 @@ smitd-header h1 {
 }
 
 .cdk-drag-preview {
-  background: $green-primary;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 12px 0 6px;
+  padding: 0 8px 0 16px;
+  box-sizing: border-box;
   border-radius: 12px;
   overflow: hidden;
-  max-width: calc(100vw - 42px);
+  max-width: calc(100vw - 24px);
 
   box-shadow: 0 0 10px $black;
 
