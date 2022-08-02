@@ -8,56 +8,102 @@ $typography: mat.define-typography-config(
 
 @include mat.core($typography);
 
-$Rulebook-primary: mat.define-palette(mat.$green-palette);
-$Rulebook-accent: mat.define-palette(mat.$blue-palette, A200, A100, A400);
-$Rulebook-warn: mat.define-palette(mat.$red-palette);
+@function createPalette($base-color, $font-primary, $font-secondary) {
+  @return mat.define-palette(
+    (
+      50: lighten($base-color, 30%),
+      100: lighten($base-color, 30%),
+      200: lighten($base-color, 20%),
+      300: lighten($base-color, 10%),
+      400: $base-color,
+      500: $base-color,
+      600: darken($base-color, 10%),
+      700: darken($base-color, 20%),
+      800: darken($base-color, 30%),
+      900: darken($base-color, 30%),
+      A100: lighten($base-color, 30%),
+      A200: lighten($base-color, 20%),
+      A400: lighten($base-color, 10%),
+      A700: $base-color,
+      contrast: (
+        50: $font-secondary,
+        100: $font-secondary,
+        200: $font-secondary,
+        300: $font-primary,
+        400: $font-primary,
+        500: $font-primary,
+        600: $font-primary,
+        700: $font-primary,
+        800: $font-primary,
+        900: $font-primary,
+        A100: $font-secondary,
+        A200: $font-secondary,
+        A400: $font-secondary,
+        A700: $font-secondary
+      )
+    )
+  );
+}
+
+$warcry-primary: createPalette($green-primary, $white, $black);
+$warcry-accent: createPalette($grey, $white, $black);
+$warcry-warn: createPalette($red-primary, $white, $black);
+
+@mixin set-background-color($color) {
+  .mat-raised-button,
+  .mat-fab,
+  .mat-mini-fab,
+  .mat-flat-button,
+  .mat-raised-button,
+  .mat-fab,
+  .mat-mini-fab,
+  .mat-menu-panel,
+  .mat-dialog-container {
+    background-color: $color;
+  }
+}
 
 $light-theme: mat.define-light-theme(
   (
     color: (
-      primary: $Rulebook-primary,
-      accent: $Rulebook-accent,
-      warn: $Rulebook-warn
+      primary: $warcry-primary,
+      accent: $warcry-accent,
+      warn: $warcry-warn
     )
   )
 );
 $dark-theme: mat.define-dark-theme(
   (
     color: (
-      primary: $Rulebook-primary,
-      accent: $Rulebook-accent,
-      warn: $Rulebook-warn
+      primary: $warcry-primary,
+      accent: $warcry-accent,
+      warn: $warcry-warn
     )
   )
 );
 
+$material-shadow: 0px 1px 1px -2px rgba($black, 0.4),
+  0px 1px 1px 0px rgba($black, 0.4), 0px 1px 4px 0px rgba($black, 0.4),
+  0px -1px 1px 0px rgba($black, 0.4);
+
 body {
   @include mat.all-component-themes($dark-theme);
   margin: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
   background-image: linear-gradient($black 40%, $red-darkest 90%);
   color: $white;
 
+  @include set-background-color($grey-dark);
+
   &.light {
-    background-color: $grey-light;
-    color: $black;
+    background-image: linear-gradient($white 40%, $blue-brightest 90%);
     @include mat.all-component-colors($light-theme);
+    @include set-background-color($white);
+
+    .color-sample {
+      border-color:$grey-dark;
+    }
   }
-}
-
-.mat-menu-submenu-icon {
-  transform: translateY(-50%) rotate(180deg);
-}
-
-.mat-drawer-container {
-  background-color: transparent !important;
-}
-
-.mat-card-header-text {
-  margin: 0 !important;
-}
-
-mat-card-actions {
-  display: flex !important;
-  justify-content: space-between;
-  align-items: center;
 }

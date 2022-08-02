@@ -1,56 +1,58 @@
 <smitd-header>
+
   <div></div>
-  <!-- <img src="/assets/icons/icon-72x72.png" alt="logo"> -->
-  <h1>Warcry Companion</h1>
+
+  <h1>{{'title' | translate}}</h1>
+
   <button mat-icon-button [matMenuTriggerFor]="main">
     <mat-icon>menu</mat-icon>
   </button>
+
+  <mat-menu #main="matMenu">
+    <button mat-menu-item (click)="battleService.quickBattle()">{{'main-page.menu.quick-battle' | translate}}</button>
+    <button mat-menu-item (click)="addWarband()">{{'main-page.menu.warband-create' | translate}}</button>
+    <button mat-menu-item (click)="importWarband()">{{'main-page.menu.warband-import' | translate}}</button>
+    <button mat-menu-item (click)="core.switchEffects()">{{'main-page.menu.toggle-effects' | translate}}</button>
+    <button mat-menu-item [matMenuTriggerFor]="theme">{{'main-page.menu.select-theme' | translate}}</button>
+    <button mat-menu-item [matMenuTriggerFor]="language">{{'main-page.menu.language-selection' | translate}}</button>
+    <a href="https://github.com/SmitdCatchy/warcry-companion#warcry-companion" target="_blank"
+      mat-menu-item>{{'main-page.menu.github' | translate}}</a>
+  </mat-menu>
+
+  <mat-menu #language="matMenu">
+    <button mat-menu-item (click)="translationService.setLanguage(language)"
+      *ngFor="let language of languageList">{{'language.' + language | translate}}</button>
+    <a href="https://github.com/SmitdCatchy/warcry-companion#language-support" target="_blank"
+      mat-menu-item>{{'main-page.menu.language-add' | translate}}</a>
+  </mat-menu>
+
+  <mat-menu #theme="matMenu">
+    <button mat-menu-item (click)="core.setTheme(theme)"
+      *ngFor="let theme of themeList">{{'theme.' + theme | translate}}</button>
+  </mat-menu>
 </smitd-header>
 
-<mat-menu #main="matMenu">
-  <button mat-menu-item>quick battle</button>
-  <button mat-menu-item>create warband</button>
-  <button mat-menu-item>import warband</button>
-  <button mat-menu-item (click)="core.switchEffects()">switch effects</button>
-  <!-- <button mat-menu-item [matMenuTriggerFor]="language">language</button> -->
-  <!-- <button mat-menu-item [matMenuTriggerFor]="theme">theme</button>
-  <button mat-menu-item [matMenuTriggerFor]="color">color</button> -->
-</mat-menu>
 
-<mat-menu #language="matMenu">
-  <button mat-menu-item>hu</button>
-  <button mat-menu-item>en</button>
-</mat-menu>
-
-<mat-menu #theme="matMenu">
-  <button mat-menu-item (click)="core.setTheme(Theme.dark)">dark</button>
-  <button mat-menu-item (click)="core.setTheme(Theme.light)">light</button>
-</mat-menu>
-
-<mat-menu #color="matMenu">
-  <button mat-menu-item (click)="core.setColor(color.value)" *ngFor="let color of ColorList">{{color.key}}</button>
-</mat-menu>
-
-<div class="warbands" cdkDropList (cdkDropListDropped)="drop($event)">
-  <div class="warband" cdkDrag cdkDragBoundary=".warbands"
-    *ngFor="let warband of warbands; let index = index">
+<div class="warbands" cdkDropList (cdkDropListDropped)="warbandService.moveWarband($event)">
+  <div class="warband" [warbandColor]="warband.color" cdkDrag cdkDragBoundary=".warbands"
+    *ngFor="let warband of warbandService.warbands; let index = index">
     <span class="warband-name">
-      {{warband}}
+      {{warband.name}}
     </span>
-    <div class="warband-ripple" matRipple ></div>
+    <div class="warband-ripple" matRipple (click)="warbandService.selectWarband(index)"></div>
     <button class="warband-options" mat-icon-button [matMenuTriggerFor]="warbandMenu" cdkDragHandle>
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #warbandMenu="matMenu">
-      <!-- <button mat-menu-item (click)="removeWarband(index)">
-        <span>{{'menu-page.warband-options.remove' | translate}}</span>
-      </button>
-      <button mat-menu-item (click)="uploadWarband(index)">
-        <span>{{'menu-page.warband-options.' + (warband.id ? 'update' : 'upload') | translate}}</span>
+      <button mat-menu-item (click)="warbandService.selectWarband(index)">
+        <span>{{'main-page.warband-options.select' | translate}}</span>
       </button>
       <button mat-menu-item (click)="exportWarband(warband)">
-        <span>{{'menu-page.warband-options.export' | translate}}</span>
-      </button> -->
+        <span>{{'main-page.warband-options.export' | translate}}</span>
+      </button>
+      <button mat-menu-item (click)="warbandService.removeWarband(index)">
+        <span>{{'main-page.warband-options.remove' | translate}}</span>
+      </button>
     </mat-menu>
   </div>
 </div>

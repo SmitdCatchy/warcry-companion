@@ -1,0 +1,71 @@
+{
+  "lang": "EN",
+  "title": "Warcry Companion",
+  "language": {
+    "en": "English",
+    "hu": "Hungarian"
+  },
+  "color": {
+    "blue": "Blue",
+    "green": "Green",
+    "grey": "Grey",
+    "orange": "Orange",
+    "purple": "Purple",
+    "red": "Red"
+  },
+  "theme": {
+    "light": "Light theme",
+    "dark": "Dark theme"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "ok": "Ok",
+    "back": "Back",
+    "unaligned": "Unaligned",
+    "unknown": "Unknown"
+  },
+  "main-page": {
+    "menu": {
+      "quick-battle": "Quick Battle",
+      "warband-create": "Create Warband",
+      "warband-import": "Import Warband",
+      "toggle-effects": "Toggle Effects",
+      "select-theme": "Select Theme",
+      "language-selection": "Choose Language",
+      "language-add": "Add my language",
+      "github": "Support on GitHub"
+    },
+    "warband-options": {
+      "select": "Select Warband",
+      "remove": "Remove Warband",
+      "export": "Export Warband"
+    }
+  },
+  "warband": {},
+  "battle": {},
+  "warband-service": {
+    "warband-exists": "You already have a warband called \"{{warband}}\".",
+    "warband-remove": "Are you sure you want to remove your warband called \"{{warband}}\"?"
+  },
+  "warband-dialog": {
+    "title": "New Warband",
+    "form": {
+      "name": {
+        "label": "Name"
+      },
+      "faction": {
+        "label": "Faction"
+      },
+      "alliance": {
+        "label": "Grand Alliance"
+      },
+      "color": {
+        "label": "Color"
+      }
+    },
+    "action": {
+      "add": "Add Warband"
+    }
+  }
+}

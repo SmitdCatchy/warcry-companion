@@ -5,7 +5,7 @@ import { CoreService } from 'src/app/core/services/core.service';
   selector: 'smitd-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class HeaderComponent {
   constructor(public core: CoreService) {}
