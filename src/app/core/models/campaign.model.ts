@@ -3,5 +3,5 @@ export interface Campaign {
   limit: number;
   reputation: number;
   glory: number;
-  notes?: string;
+  notes: string;
 }

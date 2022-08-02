@@ -15,13 +15,14 @@ export class CoreService {
 
   constructor() {
     this._themeSubject = new BehaviorSubject<Theme>(
-      CoreService.getLocalStorage(LocalStorageKey.Theme, Theme.dark) as Theme
+      CoreService.getLocalStorage(LocalStorageKey.Theme, Theme.Dark) as Theme
     );
     this._colorSubject = new BehaviorSubject<Color>(
-      CoreService.getLocalStorage(LocalStorageKey.Color, Color.Orange) as Color
+      CoreService.getLocalStorage(LocalStorageKey.Color, Color.orange) as Color
     );
 
-    this.effectsEnabled = CoreService.getLocalStorage(LocalStorageKey.Effects, 'true') === 'true';
+    this.effectsEnabled =
+      CoreService.getLocalStorage(LocalStorageKey.Effects, 'true') === 'true';
     this._previousTheme = this._themeSubject.value;
     document.body.classList.toggle(this._themeSubject.value);
     this._themeSubject
@@ -36,14 +37,23 @@ export class CoreService {
     return this._themeSubject.asObservable();
   }
 
+  public getTheme(): Theme {
+    return this._themeSubject.value;
+  }
+
   public get color(): Observable<Color> {
     return this._colorSubject.asObservable();
+  }
+
+  public getColor(): Color {
+    return this._colorSubject.value;
   }
 
   public setTheme(theme: Theme) {
     this._previousTheme = this._themeSubject.value;
     CoreService.setLocalStorage(LocalStorageKey.Theme, theme);
     this._themeSubject.next(theme);
+    location.reload();
   }
 
   public setColor(color: Color) {
@@ -65,7 +75,10 @@ export class CoreService {
 
   public switchEffects(): void {
     this.effectsEnabled = !this.effectsEnabled;
-    CoreService.setLocalStorage(LocalStorageKey.Effects, `${this.effectsEnabled}`);
+    CoreService.setLocalStorage(
+      LocalStorageKey.Effects,
+      `${this.effectsEnabled}`
+    );
     location.reload();
   }
 }

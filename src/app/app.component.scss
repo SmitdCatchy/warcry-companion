@@ -1,7 +1,21 @@
-main {
-  padding-top: 40px;
-  min-height: calc(100vh - 80px);
-  width: 100%;
+:host {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: inherit;
+  height: inherit;
+}
+
+.content {
+  overflow: auto;
+  position: relative;
+  z-index: 1;
+  width: inherit;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-x: hidden;
 }
 
 .background {

@@ -1,0 +1,16 @@
+<smitd-header>
+
+  <button mat-icon-button (click)="back()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+
+  <h2>{{warband.name}}</h2>
+
+  <button mat-icon-button [matMenuTriggerFor]="main">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #main="matMenu">
+    <button mat-menu-item (click)="true">{{'battle-page.menu.' | translate}}</button>
+  </mat-menu>
+</smitd-header>
