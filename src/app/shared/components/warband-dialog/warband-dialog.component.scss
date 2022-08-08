@@ -12,21 +12,6 @@ form {
     text-align-last: center;
     white-space: pre-line;
   }
-
-  .color-picker {
-    display: grid;
-    grid-template-columns: auto 40px;
-    align-items: center;
-    gap: 16px;
-
-    .color-sample {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      margin-bottom: 1.34375em;
-      border: 2px solid;
-    }
-  }
 }
 
 .actions {

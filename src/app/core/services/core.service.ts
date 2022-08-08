@@ -3,6 +3,7 @@ import { BehaviorSubject, filter, Observable } from 'rxjs';
 import { LocalStorageKey } from '../enums/local-keys.enum';
 import { Theme } from '../enums/theme.enum';
 import { Color } from '../enums/color.enum';
+import { Meta } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,17 @@ export class CoreService {
   private _previousTheme: Theme;
   public effectsEnabled: boolean;
 
-  constructor() {
+  constructor(private meta: Meta) {
     this._themeSubject = new BehaviorSubject<Theme>(
       CoreService.getLocalStorage(LocalStorageKey.Theme, Theme.Dark) as Theme
     );
     this._colorSubject = new BehaviorSubject<Color>(
       CoreService.getLocalStorage(LocalStorageKey.Color, Color.orange) as Color
     );
-
+    this.meta.updateTag(
+      { name: 'theme-color', content: this.getColor() },
+      'name=theme-color'
+    )
     this.effectsEnabled =
       CoreService.getLocalStorage(LocalStorageKey.Effects, 'true') === 'true';
     this._previousTheme = this._themeSubject.value;
@@ -58,6 +62,10 @@ export class CoreService {
 
   public setColor(color: Color) {
     CoreService.setLocalStorage(LocalStorageKey.Color, color);
+    this.meta.updateTag(
+      { name: 'theme-color', content: color },
+      'name=theme-color'
+    )
     this._colorSubject.next(color);
   }
 

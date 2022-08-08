@@ -1,0 +1,36 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.ability-details {
+  display: grid;
+  grid-template-columns: min-content 72px min-content 1fr min-content;
+  align-items: center;
+  margin-top: -18px;
+
+  mat-divider {
+    height: 100%;
+  }
+
+  .runemarks {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 8px;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  p {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 16px 8px;
+    height: 100%;
+    box-sizing: border-box;
+    text-align: justify;
+    text-align-last: left;
+  }
+}

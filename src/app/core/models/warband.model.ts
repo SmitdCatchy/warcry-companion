@@ -11,4 +11,5 @@ export interface Warband {
   fighters: Fighter[];
   abilities: Ability[];
   campaign: Campaign;
+  icon?: string;
 }
