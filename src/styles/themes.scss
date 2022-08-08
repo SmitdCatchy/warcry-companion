@@ -45,11 +45,12 @@ $typography: mat.define-typography-config(
   );
 }
 
-$warcry-primary: createPalette($green-primary, $white, $black);
-$warcry-accent: createPalette($grey, $white, $black);
+$warcry-primary: createPalette($white, $white, $black);
+$warcry-primary-light: createPalette($black, $white, $black);
+$warcry-accent: createPalette($green-primary, $white, $black);
 $warcry-warn: createPalette($red-primary, $white, $black);
 
-@mixin set-background-color($color) {
+@mixin set-background-color($color, $accent) {
   .mat-raised-button,
   .mat-fab,
   .mat-mini-fab,
@@ -58,15 +59,21 @@ $warcry-warn: createPalette($red-primary, $white, $black);
   .mat-fab,
   .mat-mini-fab,
   .mat-menu-panel,
-  .mat-dialog-container {
+  .mat-dialog-container,
+  .mat-tab-header,
+  .mat-expansion-panel {
     background-color: $color;
+  }
+
+  .mat-expansion-panel {
+    background-color: rgba($accent, 0.1)
   }
 }
 
 $light-theme: mat.define-light-theme(
   (
     color: (
-      primary: $warcry-primary,
+      primary: $warcry-primary-light,
       accent: $warcry-accent,
       warn: $warcry-warn
     )
@@ -95,15 +102,36 @@ body {
   background-image: linear-gradient($black 40%, $red-darkest 90%);
   color: $white;
 
-  @include set-background-color($grey-dark);
+  @include set-background-color($grey-dark, $white);
+
+  .color-sample {
+    border-color: $grey-light;
+  }
+
+  .glass {
+    background-color: rgba($white, 0.1);
+  }
+
+  .invert {
+    filter: invert(1);
+  }
+
 
   &.light {
     background-image: linear-gradient($white 40%, $blue-brightest 90%);
     @include mat.all-component-colors($light-theme);
-    @include set-background-color($white);
+    @include set-background-color($white, $black);
 
     .color-sample {
-      border-color:$grey-dark;
+      border-color: $grey-dark;
+    }
+
+    .glass {
+      background-color: rgba($black, 0.2);
+    }
+
+    .invert {
+      filter: invert(0);
     }
   }
 }

@@ -1,7 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Color } from 'src/app/core/enums/color.enum';
+import { Warband } from 'src/app/core/models/warband.model';
+import { WarbandService } from 'src/app/core/services/warband.service';
 
 @Component({
   selector: 'smitd-warband-dialog',
@@ -18,22 +20,38 @@ export class WarbandDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<WarbandDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: {}
+    public data: {
+      warband: Warband;
+    },
+    private readonly warbandService: WarbandService
   ) {
     this.warbandForm = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      faction: new FormControl('', [Validators.required]),
-      alliance: new FormControl('', [Validators.required]),
-      color: new FormControl(Color.grey, [Validators.required]),
-      fighters: new FormControl([]),
-      abilities: new FormControl([]),
-      campaign: new FormControl({
-        name: '',
-        limit: 1000,
-        reputation: 2,
-        glory: 0,
-        notes: ''
-      })
+      name: new FormControl(data.warband ? data.warband.name : '', [
+        Validators.required
+      ]),
+      faction: new FormControl(data.warband ? data.warband.faction : '', [
+        Validators.required
+      ]),
+      alliance: new FormControl(data.warband ? data.warband.alliance : '', [
+        Validators.required
+      ]),
+      color: new FormControl(data.warband ? data.warband.color : Color.grey, [
+        Validators.required
+      ]),
+      fighters: new FormControl(data.warband ? data.warband.fighters : []),
+      abilities: new FormControl(data.warband ? data.warband.abilities : []),
+      campaign: new FormControl(
+        data.warband
+          ? data.warband.campaign
+          : {
+              name: '',
+              limit: 1000,
+              reputation: 2,
+              glory: 0,
+              notes: ''
+            }
+      ),
+      icon: new FormControl(data.warband ? data.warband.icon : undefined, []),
     });
   }
 
@@ -41,8 +59,18 @@ export class WarbandDialogComponent {
     return this.warbandForm.get('color')!.value;
   }
 
+  public get icon(): AbstractControl {
+    return this.warbandForm.get('icon') as AbstractControl;
+  }
+
+  public iconValueChange(icon: string): void {
+    this.icon.setValue(icon);
+  }
+
   public acceptDialog(): void {
-    this.dialogRef.close(this.warbandForm.value);
+    if (!this.warbandService.checkWarband(this.warbandForm.value)) {
+      this.dialogRef.close(this.warbandForm.value);
+    }
   }
 
   public closeDialog(): void {

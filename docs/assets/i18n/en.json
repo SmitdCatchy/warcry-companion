@@ -6,12 +6,12 @@
     "hu": "Hungarian"
   },
   "color": {
-    "blue": "Blue",
-    "green": "Green",
-    "grey": "Grey",
-    "orange": "Orange",
-    "purple": "Purple",
-    "red": "Red"
+    "blue": "Order Blue",
+    "green": "Destruction Green",
+    "grey": "Unaligned Grey",
+    "orange": "Wildlands Orange",
+    "purple": "Death Purple",
+    "red": "Chaos Red"
   },
   "theme": {
     "light": "Light theme",
@@ -23,7 +23,8 @@
     "ok": "Ok",
     "back": "Back",
     "unaligned": "Unaligned",
-    "unknown": "Unknown"
+    "unknown": "Unknown",
+    "pts": "PTS"
   },
   "main-page": {
     "menu": {
@@ -42,11 +43,10 @@
       "export": "Export Warband"
     }
   },
-  "warband": {},
-  "battle": {},
   "warband-service": {
     "warband-exists": "You already have a warband called \"{{warband}}\".",
-    "warband-remove": "Are you sure you want to remove your warband called \"{{warband}}\"?"
+    "warband-remove": "Are you sure you want to remove your warband called \"{{warband}}\"?",
+    "fighter-remove": "Are you sure you want to remove your fighter called \"{{fighter}}\" from your warband \"{{warband}}\"?"
   },
   "warband-dialog": {
     "title": "New Warband",
@@ -67,5 +67,121 @@
     "action": {
       "add": "Add Warband"
     }
-  }
+  },
+  "warband-page": {
+    "menu": {
+      "quick-battle": "Quick Batlle",
+      "fighter-add": "Add Fighter"
+    },
+    "tab": {
+      "fighters": {
+        "title": "Fighters",
+        "option": {
+          "edit": "Edit",
+          "remove": "Remove",
+          "duplicate": "Duplicate"
+        }
+      },
+      "campaign": {
+        "title": "Campaign",
+        "update": "Update Campaign",
+        "form": {
+          "name": "Campaign Name",
+          "limit": "Point Limit",
+          "reputation": "Reputation",
+          "glory": "Glory Points",
+          "notes": "Notes"
+        }
+      },
+      "warband": {
+        "title": "Warband",
+        "update": "Update Warband",
+        "form": {
+          "name": "Warband Name",
+          "faction": "Faction",
+          "alliance": "Grand Alliance",
+          "color": "Color",
+          "abilities": {
+            "label": "Abilities",
+            "add": "Add Ability",
+            "edit": "Edit Ability",
+            "remove": "Remove Ability",
+            "remove-question": "Are you sure you want to remove the ability called \"{{ability}}\" from your warband \"{{warband}}\"?"
+          }
+        }
+      }
+    }
+  },
+  "fighter-card": {
+    "characteristic": {
+      "no-ability": "Abilities",
+      "movement": "Movement",
+      "toughness": "Toughness",
+      "wounds": "Wounds",
+      "range": "Range",
+      "attacks": "Attacks",
+      "strength": "Strength",
+      "damage": "Damage",
+      "crit": "Crit"
+    }
+  },
+  "fighter-role": {
+    "leader": "Leader",
+    "hero": "Hero",
+    "fighter": "Fighter",
+    "thrall": "Thrall",
+    "monster": "Monster"
+  },
+  "fighter-dialog": {
+    "title": {
+      "add": "New Fighter",
+      "edit": "Edit Fighter"
+    },
+    "form": {
+      "name": { "label": "Narrative Name" },
+      "role": { "label": "Role" },
+      "points": { "label": "Points" },
+      "runemarks": { "label": "Runemarks" },
+      "type": { "label": "Type" },
+      "weapons": { "label": "Weapons" }
+    },
+    "action": {
+      "add-weapon": "Add Secondary Weapon",
+      "remove-weapon": "Remove Secondary Weapon",
+      "add": "Add Fighter",
+      "update": "Update Fighter"
+    }
+  },
+  "ability-type": {
+    "reaction": "Reaction",
+    "single": "Single",
+    "double": "Double",
+    "triple": "Triple",
+    "quad": "Quad"
+  },
+  "ability-form": {
+    "type": "Type",
+    "title": "Title",
+    "battleground": "Battlegrounds",
+    "runemarks": "Runemarks",
+    "description": "Description"
+  },
+  "ability-dialog": {
+    "title": {
+      "add": "New Ability",
+      "edit": "Edit Ability"
+    },
+    "action": {
+      "add": "Add Ability",
+      "update": "Update Ability"
+    }
+  },
+  "battleground": {
+    "dungeon": "Dungeon",
+    "arena": "Arena",
+    "mines": "Mines",
+    "wildlands": "Wildlands",
+    "hunt": "Hunt"
+  },
+  "battle-page": {}
 }

@@ -1,0 +1,20 @@
+<div class="divider">
+  <mat-divider></mat-divider>
+  <span>[{{'ability-type.' + ability.type  | translate}}]
+    {{ability.title || 'common.unknown' | translate}}</span>
+  <mat-divider></mat-divider>
+</div>
+<div class="ability-details">
+  <mat-divider vertical></mat-divider>
+  <div class="runemarks">
+    <ng-container *ngIf="ability.runemarks as runemarks">
+      <span *ngFor="let runemark of runemarks; let runemarkIndex = index">
+        {{runemark}}
+      </span>
+    </ng-container>
+  </div>
+  <mat-divider vertical></mat-divider>
+  <p>{{ability.description}}</p>
+  <mat-divider vertical></mat-divider>
+</div>
+<mat-divider></mat-divider>

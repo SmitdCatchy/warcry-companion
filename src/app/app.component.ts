@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { loadFull } from 'tsparticles';
 import { Engine, MoveDirection, OutMode } from 'tsparticles-engine';
-import { ColorCodes } from './core/enums/color.enum';
 import { Theme } from './core/enums/theme.enum';
 import { CoreService } from './core/services/core.service';
 import { Slider } from './app-routing.animation';
+import { Color } from './core/enums/color.enum';
 @Component({
   selector: 'smitd-root',
   templateUrl: './app.component.html',
@@ -21,8 +21,8 @@ export class AppComponent {
         color: {
           value:
             this.core.getTheme() === Theme.Dark
-              ? ColorCodes.Orange
-              : ColorCodes.Blue
+              ? Color.orange
+              : Color.blue
         },
         move: {
           direction: MoveDirection.top,

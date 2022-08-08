@@ -8,13 +8,36 @@ import { TranslateModule } from '@ngx-translate/core';
 import { WarbandDialogComponent } from './components/warband-dialog/warband-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WarbandColorDirective } from './directives/warband-color.directive';
+import { FighterCardComponent } from './components/fighter-card/fighter-card.component';
+import { FighterDialogComponent } from './components/fighter-dialog/fighter-dialog.component';
+import { AbilityFormComponent } from './components/ability-form/ability-form.component';
+import { AbilityDialogComponent } from './components/ability-dialog/ability-dialog.component';
+import { AbilityCardComponent } from './components/ability-card/ability-card.component';
+import { IconUploaderComponent } from './components/icon-uploader/icon-uploader.component';
 
-const declarationsAndExports = [HeaderComponent, FooterComponent, ConfirmDialogComponent, WarbandDialogComponent, WarbandColorDirective];
+const declarationsAndExports = [
+  HeaderComponent,
+  FooterComponent,
+  ConfirmDialogComponent,
+  WarbandDialogComponent,
+  WarbandColorDirective,
+  FighterCardComponent,
+  FighterDialogComponent,
+  AbilityFormComponent,
+  AbilityDialogComponent,
+  AbilityCardComponent,
+  IconUploaderComponent
+];
 const importsAndExports = [MaterialModule];
 
 @NgModule({
   declarations: [...declarationsAndExports],
-  imports: [...importsAndExports, CommonModule, TranslateModule, ReactiveFormsModule],
+  imports: [
+    ...importsAndExports,
+    CommonModule,
+    TranslateModule,
+    ReactiveFormsModule
+  ],
   exports: [...declarationsAndExports, ...importsAndExports]
 })
 export class SharedModule {}

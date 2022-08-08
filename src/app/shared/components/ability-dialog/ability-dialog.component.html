@@ -1,0 +1,9 @@
+<h2>{{(data.edit ? 'ability-dialog.title.edit' : 'ability-dialog.title.add') | translate}}</h2>
+<div class="dialog-content">
+  <smitd-ability-form [abilityForm]="data.abilityForm"></smitd-ability-form>
+</div>
+<div class="actions">
+  <button mat-flat-button color="accent" (click)="acceptDialog()"
+    [disabled]="data.abilityForm.invalid">{{(data.edit ? 'ability-dialog.action.update' : 'ability-dialog.action.add')  | translate}}</button>
+  <button mat-flat-button (click)="closeDialog()">{{'common.back' | translate}}</button>
+</div>

@@ -1,0 +1,41 @@
+@import 'colors';
+
+:host {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  input {
+    display: none;
+  }
+}
+.canvas {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  border-radius: 12px;
+  width: 52px;
+  height: 52px;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+  }
+
+  .remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: $red-primary;
+    color: $black;
+    border-radius: 50%;
+  }
+}

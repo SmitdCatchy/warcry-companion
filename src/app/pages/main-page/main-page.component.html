@@ -13,9 +13,9 @@
     <button mat-menu-item (click)="addWarband()">{{'main-page.menu.warband-create' | translate}}</button>
     <button mat-menu-item (click)="importWarband()">{{'main-page.menu.warband-import' | translate}}</button>
     <button mat-menu-item (click)="core.switchEffects()">{{'main-page.menu.toggle-effects' | translate}}</button>
-    <button mat-menu-item [matMenuTriggerFor]="theme">{{'main-page.menu.select-theme' | translate}}</button>
+    <!-- <button mat-menu-item [matMenuTriggerFor]="theme">{{'main-page.menu.select-theme' | translate}}</button> -->
     <button mat-menu-item [matMenuTriggerFor]="language">{{'main-page.menu.language-selection' | translate}}</button>
-    <a href="https://github.com/SmitdCatchy/warcry-companion#warcry-companion" target="_blank"
+    <a href="https://github.com/SmitdCatchy/warcry-companion#-warcry-companion" target="_blank"
       mat-menu-item>{{'main-page.menu.github' | translate}}</a>
   </mat-menu>
 
@@ -34,15 +34,20 @@
 
 
 <div class="warbands" cdkDropList (cdkDropListDropped)="warbandService.moveWarband($event)">
-  <div class="warband" [warbandColor]="warband.color" cdkDrag cdkDragBoundary=".warbands"
+  <div class="warband" [warbandColor]="warband.color" cdkDrag cdkDragBoundary=".warbands" [ngClass]="{'iconed': warband.icon}"
     *ngFor="let warband of warbandService.warbands; let index = index">
+    <div class="warband-icon" warbandColor [warbandColor]="warband.color" [warbandColorOpaque]="false" *ngIf="warband.icon as iconSrc">
+      <img [src]="iconSrc" [alt]="warband.name" >
+    </div>
     <span class="warband-name">
       {{warband.name}}
     </span>
     <div class="warband-ripple" matRipple (click)="warbandService.selectWarband(index)"></div>
-    <button class="warband-options" mat-icon-button [matMenuTriggerFor]="warbandMenu" cdkDragHandle>
-      <mat-icon>more_vert</mat-icon>
-    </button>
+    <div class="drag-marker">
+      <button class="warband-options" mat-icon-button [matMenuTriggerFor]="warbandMenu" cdkDragHandle>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
     <mat-menu #warbandMenu="matMenu">
       <button mat-menu-item (click)="warbandService.selectWarband(index)">
         <span>{{'main-page.warband-options.select' | translate}}</span>
