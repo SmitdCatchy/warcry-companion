@@ -5,4 +5,5 @@ export interface Weapon {
   damage: number;
   crit: number;
   type?: string;
+  icon?: string;
 }

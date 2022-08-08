@@ -4,4 +4,5 @@ export interface Campaign {
   reputation: number;
   glory: number;
   notes: string;
+  logs: string[];
 }

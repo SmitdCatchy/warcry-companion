@@ -1,0 +1,13 @@
+:host {
+  display: block;
+
+  & > * {
+    width: 100%;
+  }
+}
+
+
+.double.right {
+  grid-template-columns: 1fr 2fr;
+  align-items: end;
+}

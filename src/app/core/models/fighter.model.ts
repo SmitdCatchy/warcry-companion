@@ -8,10 +8,11 @@ export interface Fighter {
   movement: number;
   toughness: number;
   wounds: number;
-  runemarks: string;
+  runemarks: string[];
   weapons: Weapon[];
   points: number;
-  name: string;
-  modifiers: Modifier[];
-  note: string;
+  name?: string;
+  modifiers?: Modifier[];
+  note?: string;
+  icon?: string;
 }

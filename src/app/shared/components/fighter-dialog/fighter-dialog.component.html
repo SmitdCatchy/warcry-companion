@@ -1,0 +1,129 @@
+<h2>{{(data.edit ? 'fighter-dialog.title.edit' : 'fighter-dialog.title.add') | translate}}</h2>
+<div class="dialog-content">
+  <form [formGroup]="fighterForm">
+    <div class="double icon">
+      <smitd-icon-uploader [iconValue]="icon.value" (iconValueChange)="iconValueChange($event)"></smitd-icon-uploader>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'fighter-dialog.form.name.label' | translate}}</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+    </div>
+    <div class="double">
+      <mat-form-field appearance="fill">
+        <mat-label>{{'fighter-dialog.form.role.label' | translate}}</mat-label>
+        <mat-select formControlName="role">
+          <mat-option *ngFor="let role of fighterRoleList" [value]="role">{{'fighter-role.' + role | translate}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'fighter-dialog.form.points.label' | translate}}</mat-label>
+        <input matInput type="number" formControlName="points">
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>{{'fighter-dialog.form.type.label' | translate}}</mat-label>
+      <input matInput formControlName="type">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{'fighter-dialog.form.runemarks.label' | translate}}</mat-label>
+      <mat-chip-list #runemarkList aria-label="Fruit selection">
+        <mat-chip *ngFor="let runemark of runemarks.value" (removed)="removeRunemark(runemark)">
+          {{runemark}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input placeholder="New runemark" #runemarkInput [formControl]="runemarkCtrl" [matChipInputFor]="runemarkList"
+          (matChipInputTokenEnd)="addRunemark($event)">
+      </mat-chip-list>
+    </mat-form-field>
+    <div class="triple">
+      <div class="hint">
+        <mat-form-field appearance="fill" class="center">
+          <input matInput type="number" formControlName="movement">
+          <img matPrefix class="runemark invert" src="assets/runemarks/characteristic-movement.svg"
+            [alt]="'fighter-card.characteristic.movement' | translate">
+        </mat-form-field>
+        <span>{{'fighter-card.characteristic.movement' | translate}}</span>
+      </div>
+      <div class="hint">
+        <mat-form-field appearance="fill" class="center">
+          <input matInput type="number" formControlName="toughness">
+          <img matPrefix class="runemark invert" src="assets/runemarks/characteristic-toughness.svg"
+            [alt]="'fighter-card.characteristic.toughness' | translate">
+        </mat-form-field>
+        <span>{{'fighter-card.characteristic.toughness' | translate}}</span>
+      </div>
+      <div class="hint">
+        <mat-form-field appearance="fill" class="center">
+          <input matInput type="number" formControlName="wounds">
+          <img matPrefix class="runemark invert" src="assets/runemarks/characteristic-wounds.svg"
+            [alt]="'fighter-card.characteristic.wounds' | translate">
+        </mat-form-field>
+        <span>{{'fighter-card.characteristic.wounds' | translate}}</span>
+      </div>
+    </div>
+    <div class="divider">
+      <mat-divider></mat-divider>
+      <span>{{'fighter-dialog.form.weapons.label' | translate}}</span>
+      <mat-divider></mat-divider>
+    </div>
+    <ng-container formArrayName="weapons">
+      <div class="quad">
+        <img class="runemark invert" src="assets/runemarks/characteristic-range.svg"
+          [alt]="'fighter-card.characteristic.range' | translate">
+        <img class="runemark invert" src="assets/runemarks/characteristic-attacks.svg"
+          [alt]="'fighter-card.characteristic.attacks' | translate">
+        <img class="runemark invert" src="assets/runemarks/characteristic-strength.svg"
+          [alt]="'fighter-card.characteristic.strength' | translate">
+        <img class="runemark invert" src="assets/runemarks/characteristic-damage.svg"
+          [alt]="'fighter-card.characteristic.damage' | translate">
+      </div>
+      <ng-container *ngFor="let weaponForm of weapons.controls; let index = index">
+        <div class="quad" [ngClass]="{'closer': index > 0}" [formGroupName]="index">
+          <mat-form-field appearance="fill" class="center">
+            <input matInput maxlength="5" formControlName="range">
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="center">
+            <input matInput type="number" formControlName="attacks">
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="center">
+            <input matInput type="number" formControlName="strength">
+          </mat-form-field>
+          <div class="double">
+            <mat-form-field appearance="fill" class="center">
+              <input matInput type="number" formControlName="damage">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="center">
+              <input matInput type="number" formControlName="crit">
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-container>
+      <div class="quad">
+        <div class="hint">
+          <span>{{'fighter-card.characteristic.range' | translate}}</span>
+        </div>
+        <div class="hint">
+          <span>{{'fighter-card.characteristic.attacks' | translate}}</span>
+        </div>
+        <div class="hint">
+          <span>{{'fighter-card.characteristic.strength' | translate}}</span>
+        </div>
+        <div class="hint">
+          <span>{{'fighter-card.characteristic.damage' | translate}}</span>
+        </div>
+      </div>
+    </ng-container>
+    <button class="add-weapon" mat-flat-button (click)="addWeapon()"
+      *ngIf="weapons.length < 2">{{'fighter-dialog.action.add-weapon' | translate}}</button>
+    <button class="remove-weapon" mat-flat-button color="warn" (click)="removeWeapon(1)"
+      *ngIf="weapons.length === 2">{{'fighter-dialog.action.remove-weapon' | translate}}</button>
+  </form>
+</div>
+<div class="actions">
+  <button mat-flat-button color="accent" (click)="acceptDialog()"
+    [disabled]="fighterForm.invalid">{{(data.edit ? 'fighter-dialog.action.update' : 'fighter-dialog.action.add')  | translate}}</button>
+  <button mat-flat-button (click)="closeDialog()">{{'common.back' | translate}}</button>
+</div>

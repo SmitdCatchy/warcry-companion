@@ -6,11 +6,4 @@ export enum Color {
   purple = '#540293',
   red = '#930D03'
 }
-export enum ColorCodes {
-  Blue = '#025793',
-  Green = '#549302',
-  Grey = '#424242',
-  Orange = '#935902',
-  Purple = '#540293',
-  Red = '#930D03'
-}
+

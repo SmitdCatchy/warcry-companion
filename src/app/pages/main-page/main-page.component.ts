@@ -23,7 +23,7 @@ export class MainPageComponent {
     public readonly translationService: TranslationService,
     private readonly dialog: MatDialog,
     public readonly warbandService: WarbandService,
-    public readonly battleService: BattleService,
+    public readonly battleService: BattleService
   ) {}
 
   public addWarband(): void {
@@ -70,7 +70,23 @@ export class MainPageComponent {
         const reader: FileReader = new FileReader();
         reader.addEventListener('load', () => {
           const warband = JSON.parse((reader as any).result) as Warband;
-          this.warbandService.addWarband(warband);
+          if (this.warbandService.checkWarband(warband, false)) {
+            this.dialog
+              .open(WarbandDialogComponent, {
+                data: {
+                  warband: warband
+                },
+                disableClose: true
+              })
+              .afterClosed()
+              .subscribe((newWarband) => {
+                if (newWarband) {
+                  this.warbandService.addWarband(newWarband);
+                }
+              });
+          } else {
+            this.warbandService.addWarband(warband);
+          }
         });
         reader.readAsText((upload as any).files[0]);
       }
