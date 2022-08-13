@@ -1,0 +1,276 @@
+{
+  "lang": "EN",
+  "title": "Warcry Companion",
+  "language": {
+    "en": "English",
+    "hu": "Hungarian"
+  },
+  "color": {
+    "blue": "Order Blue",
+    "green": "Destruction Green",
+    "grey": "Unaligned Grey",
+    "orange": "Wildlands Orange",
+    "purple": "Death Purple",
+    "red": "Chaos Red"
+  },
+  "theme": {
+    "light": "Light theme (Experimental)",
+    "dark": "Dark theme"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "ok": "Ok",
+    "back": "Back",
+    "unaligned": "Unaligned",
+    "unknown": "Unknown",
+    "pts": "PTS",
+    "options": "Options"
+  },
+  "main-page": {
+    "menu": {
+      "quick-battle": "Quick Battle",
+      "warband-create": "Create Warband",
+      "warband-import": "Import Warband",
+      "universal-settings": "Universal Abilities",
+      "settings": "Settings",
+      "toggle-effects": "Toggle Effects",
+      "select-theme": "Select Theme",
+      "language-selection": "Choose Language",
+      "language-add": "Add my language",
+      "github": "Support on GitHub"
+    },
+    "warband-options": {
+      "select": "Select Warband",
+      "remove": "Remove Warband",
+      "export": "Export Warband"
+    }
+  },
+  "warband-service": {
+    "warband-exists": "You already have a warband called \"{{warband}}\".",
+    "warband-remove": "Are you sure you want to remove your warband called \"{{warband}}\"?",
+    "fighter-remove": "Are you sure you want to remove your fighter called \"{{fighter}}\" from your warband \"{{warband}}\"?",
+    "abilities": {
+      "label": "{{label}} Abilities",
+      "universal": "Universal Abilities"
+    }
+  },
+  "warband-dialog": {
+    "title": "New Warband",
+    "form": {
+      "name": {
+        "label": "Name"
+      },
+      "faction": {
+        "label": "Faction"
+      },
+      "alliance": {
+        "label": "Grand Alliance"
+      },
+      "color": {
+        "label": "Color"
+      }
+    },
+    "action": {
+      "add": "Add Warband"
+    }
+  },
+  "warband-page": {
+    "menu": {
+      "battle": "Prepare for Battle",
+      "fighter-add": "Add Fighter",
+      "logs": "Battle Logs",
+      "abilities": "Faction Abilities"
+    },
+    "tab": {
+      "fighters": {
+        "title": "Fighters",
+        "option": {
+          "edit": "Edit",
+          "remove": "Remove",
+          "duplicate": "Duplicate"
+        }
+      },
+      "campaign": {
+        "title": "Campaign",
+        "update": "Update Campaign",
+        "form": {
+          "name": "Campaign Name",
+          "limit": "Point Limit",
+          "reputation": "Reputation",
+          "glory": "Glory Points",
+          "notes": "Notes"
+        }
+      },
+      "warband": {
+        "title": "Warband",
+        "update": "Update Warband",
+        "form": {
+          "name": "Warband Name",
+          "faction": "Faction",
+          "alliance": "Grand Alliance",
+          "color": "Color",
+          "abilities": {
+            "label": "Faction Abilities",
+            "add": "Add Ability",
+            "edit": "Edit Ability",
+            "remove": "Remove Ability",
+            "remove-question": "Are you sure you want to remove the ability called \"{{ability}}\" from your warband \"{{warband}}\"?"
+          }
+        }
+      }
+    }
+  },
+  "fighter-card": {
+    "characteristic": {
+      "no-ability": "Abilities",
+      "movement": "Movement",
+      "toughness": "Toughness",
+      "wounds": "Wounds",
+      "range": "Range",
+      "attacks": "Attacks",
+      "strength": "Strength",
+      "damage": "Damage",
+      "crit": "Crit"
+    }
+  },
+  "fighter-role": {
+    "leader": "Leader",
+    "hero": "Hero",
+    "fighter": "Fighter",
+    "thrall": "Thrall",
+    "monster": "Monster"
+  },
+  "fighter-dialog": {
+    "title": {
+      "add": "New Fighter",
+      "edit": "Edit Fighter"
+    },
+    "form": {
+      "name": { "label": "Narrative Name" },
+      "role": { "label": "Role" },
+      "points": { "label": "Points" },
+      "runemarks": { "label": "Runemarks" },
+      "type": { "label": "Type" },
+      "weapons": { "label": "Weapons" }
+    },
+    "action": {
+      "add-weapon": "Add Secondary Weapon",
+      "remove-weapon": "Remove Secondary Weapon",
+      "add": "Add Fighter",
+      "update": "Update Fighter"
+    }
+  },
+  "fighter-state": {
+    "ready": "Ready",
+    "wait": "Wait",
+    "reacted": "Reacted",
+    "activated": "Activated"
+  },
+  "ability-type": {
+    "reaction": "Reaction",
+    "single": "Single",
+    "double": "Double",
+    "triple": "Triple",
+    "quad": "Quad"
+  },
+  "ability-form": {
+    "type": "Type",
+    "title": "Title",
+    "battleground": "Battlegrounds",
+    "runemarks": "Runemarks",
+    "description": "Description"
+  },
+  "ability-dialog": {
+    "title": {
+      "add": "New Ability",
+      "edit": "Edit Ability"
+    },
+    "action": {
+      "add": "Add Ability",
+      "update": "Update Ability"
+    }
+  },
+  "battleground": {
+    "dungeon": "Dungeon",
+    "arena": "Arena",
+    "mines": "Mines",
+    "wildlands": "Wildlands",
+    "hunt": "Hunt"
+  },
+  "battle-page": {
+    "quick": "Quick Battle",
+    "menu": {
+      "warband": "Faction Abilities",
+      "fighter": "Add Fighter to Roster",
+      "begin": "Begin Battle",
+      "turn": "End Turn",
+      "end": "End Battle",
+      "abort": "Abort Battle",
+      "wild": "Add Wild Fighter"
+    },
+    "group": {
+      "dagger": "Dagger",
+      "shield": "Shield",
+      "hammer": "Hammer",
+      "wild": "Wild Fighters"
+    },
+    "battle": {
+      "turn": "Turn",
+      "victory-points": "Victory Points",
+      "remove-wild": "Remove Wild Fighter"
+    },
+    "options": {
+      "notes": "Notes"
+    }
+  },
+  "battle-service": {
+    "dialog": {
+      "remove-wild": "Are you sure you want to remove this wild fighter?",
+      "abort": "Are you sure you want to abort this battle?"
+    }
+  },
+  "battle-dialog": {
+    "title": "Prepare for Battle",
+    "running": "A previous battle has not been finished.",
+    "form": {
+      "campaign": "Campaign Battle"
+    },
+    "action": {
+      "start": "New Battle",
+      "continue": "Continue Previous Battle"
+    }
+  },
+  "battle-end-dialog": {
+    "title": "Battle Results",
+    "question": "Are you sure you want to end this battle?",
+    "form": {
+      "victory": "Claim Victory",
+      "enemy": "Opposing Warband"
+    },
+    "action": {
+      "end": "End Battle"
+    }
+  },
+  "universal-page": {
+    "title": "Universal Abilities",
+    "abilities": {
+      "add": "Add Universal Ability",
+      "export": "Export Universal Abilities",
+      "remove-question": "Are you sure you want to remove the ability called \"{{ability}}\" from your universal abilities?"
+    }
+  },
+  "log": {
+    "sentence": "On {{date}} there was a {{result}} {{campaign}}{{enemy}}.",
+    "victory": "victorius",
+    "failure": "lost",
+    "battle": "battle",
+    "campaign": "campaign battle",
+    "enemy": " against the {{enemy}}",
+    "casualities": "Casualities",
+    "label": {
+      "victory": "Victorius Battle",
+      "failure": "Lost Battle"
+    }
+  }
+}
