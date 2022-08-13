@@ -93,7 +93,7 @@
       },
       "campaign": {
         "title": "Kampány",
-        "update": "Kampány mentése",
+        "update": "Kampány frissítése",
         "form": {
           "name": "Kampány cím",
           "limit": "Pont limit",
@@ -104,7 +104,7 @@
       },
       "warband": {
         "title": "Csapat",
-        "update": "Csapat mentése",
+        "update": "Csapat frissítése",
         "form": {
           "name": "Csapatnév",
           "faction": "Frakció",
@@ -151,7 +151,7 @@
       "role": { "label": "Szerep" },
       "points": { "label": "Pontérték" },
       "runemarks": { "label": "Rúnák" },
-      "type": { "label": "Typus" },
+      "type": { "label": "Típus" },
       "weapons": { "label": "Fegyverek" }
     },
     "action": {
@@ -168,7 +168,7 @@
     "activated": "Aktivált"
   },
   "ability-type": {
-    "reaction": "Reagció",
+    "reaction": "Reakció",
     "single": "Szimpla",
     "double": "Dupla",
     "triple": "Tripla",
@@ -254,6 +254,10 @@
   },
   "universal-page": {
     "title": "Egyetemes képességek",
+    "menu": {
+      "abilities-export": "Egyetemes képességek exportálása",
+      "abilities-import": "Egyetemes képességek importálása"
+    },
     "abilities": {
       "add": "Egyetemes képesség hozzáadása",
       "export": "Egyetemes képesség exportálása",

@@ -144,3 +144,11 @@ h2 {
   max-width: $max-width;
   min-height: 48px;
 }
+
+.actions {
+  &.wild {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
