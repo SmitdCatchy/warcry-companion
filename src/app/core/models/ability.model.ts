@@ -6,5 +6,5 @@ export interface Ability {
   runemarks: string[];
   title: string;
   description: string;
-  dependencies: Battleground[];
+  restrictions: Battleground[];
 }

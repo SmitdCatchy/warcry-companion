@@ -1,0 +1,39 @@
+<h2>{{'battle-dialog.title' | translate}}</h2>
+<div class="dialog-content">
+  <form [formGroup]="battleForm">
+    <mat-form-field appearance="fill">
+      <mat-label>{{'ability-form.battleground' | translate}}</mat-label>
+      <mat-select formControlName="features" multiple>
+        <mat-option *ngFor="let battleground of battlegroundList" [value]="battleground">
+          {{'battleground.' + battleground | translate}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-slide-toggle formControlName="campaign"  *ngIf="warband">
+      {{'battle-dialog.form.campaign' | translate}}
+    </mat-slide-toggle>
+  </form>
+  <form [formGroup]="warbandForm" *ngIf="!warband">
+    <div class="color-picker">
+      <mat-form-field appearance="fill">
+        <mat-label>{{'warband-page.tab.warband.form.color' | translate}}</mat-label>
+        <mat-select formControlName="color">
+          <mat-option *ngFor="let color of colorList" [value]="color.value">{{'color.' + color.key | translate}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="color-sample" [ngStyle]="{'background-color': selectedColor}"></div>
+    </div>
+  </form>
+  <ng-container  *ngIf="runningBattle">
+    <p>{{'battle-dialog.running' | translate}}</p>
+    <button mat-flat-button color="accent" (click)="acceptDialog(false)"
+      [disabled]="battleForm.invalid">{{'battle-dialog.action.continue'  | translate}}</button>
+  </ng-container>
+
+</div>
+<div class="actions">
+  <button mat-flat-button [color]="runningBattle ? 'warn' : 'accent'" (click)="acceptDialog()"
+    [disabled]="battleForm.invalid">{{'battle-dialog.action.start'  | translate}}</button>
+  <button mat-flat-button (click)="closeDialog()">{{'common.back' | translate}}</button>
+</div>

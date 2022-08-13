@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AbilityType } from 'src/app/core/enums/ability-type.enum';
 import { Ability } from 'src/app/core/models/ability.model';
 
@@ -7,8 +7,9 @@ import { Ability } from 'src/app/core/models/ability.model';
   templateUrl: './ability-card.component.html',
   styleUrls: ['./ability-card.component.scss']
 })
-export class AbilityCardComponent implements OnInit {
+export class AbilityCardComponent {
   @Input() ability: Ability;
+  @Input() showRunemarks: boolean;
 
   constructor() {
     this.ability = {
@@ -16,11 +17,9 @@ export class AbilityCardComponent implements OnInit {
       runemarks: [],
       title: 'unset',
       description: 'error unset ability',
-      dependencies: []
-    }
-  }
-
-  ngOnInit(): void {
+      restrictions: []
+    };
+    this.showRunemarks = false;
   }
 
 }

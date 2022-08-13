@@ -1,5 +1,146 @@
+@import 'globals';
 
-smitd-header h2 {
-  margin: 0;
-  font-weight: bold;
+@include header;
+
+h2 {
+  span {
+    font-size: 14px;
+  }
+}
+
+.prepare,
+.battle {
+  display: block;
+  padding: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  height: calc(100vh - 120px);
+  overflow: auto;
+  max-width: $max-width;
+
+  & > * {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  mat-expansion-panel {
+    mat-expansion-panel-header {
+      padding: 0 8px;
+    }
+    margin-bottom: 1.34375em;
+  }
+}
+
+.divider {
+  &:first-of-type {
+    margin-top: 0;
+  }
+}
+
+.battle {
+  .battleframe-header {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+
+    .fighter-state {
+      position: relative;
+      mat-select {
+        visibility: hidden;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      .state {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        padding: 4px;
+        border: 2px solid;
+
+        .runemark {
+          width: 28px;
+          height: 28px;
+        }
+      }
+    }
+
+    .wound-counter {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .value {
+        position: absolute;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      button {
+        position: relative;
+      }
+    }
+  }
+}
+
+.score {
+  border-radius: 0;
+  padding: 0 8px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .stats {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+
+    h2 {
+      margin: 0 8px;
+      white-space: nowrap;
+    }
+
+    b {
+      margin-left: 8px;
+    }
+
+    .victory {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+@include fighterList;
+
+.options {
+  width: 100%;
+  & > * {
+    width: 100%;
+  }
+
+  .mat-divider {
+    border-top-color: rgba($black, 0.24);
+  }
+}
+
+.roster,
+.hammer,
+.shield,
+.dagger,
+.wild {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: $max-width;
+  min-height: 48px;
 }

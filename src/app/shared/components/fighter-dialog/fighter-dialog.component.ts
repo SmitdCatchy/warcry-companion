@@ -31,7 +31,6 @@ export class FighterDialogComponent {
       edit: boolean;
     }
   ) {
-    console.log('fighter icon', this.data.fighter.icon);
 
     this.fighterForm = new FormGroup({
       name: new FormControl(data.fighter ? data.fighter.name : '', []),
@@ -129,8 +128,6 @@ export class FighterDialogComponent {
 
   public removeRunemark(runemark: string): void {
     const runemarks = this.runemarks.value;
-    console.log('runemarks', runemarks);
-
     runemarks.splice(runemarks.indexOf(runemark), 1);
     this.runemarks.setValue(runemarks);
   }
@@ -146,12 +143,10 @@ export class FighterDialogComponent {
   }
 
   public acceptDialog(): void {
-    console.log(this.fighterForm.value);
     this.dialogRef.close(this.fighterForm.value);
   }
 
   public closeDialog(): void {
-    console.log(this.fighterForm.value);
     this.dialogRef.close(false);
   }
 }

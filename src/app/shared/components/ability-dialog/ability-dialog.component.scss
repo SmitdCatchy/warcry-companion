@@ -2,61 +2,12 @@
   max-width: 400px;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  & > * {
-    width: 100%;
-  }
+h2 {
+  padding: 0 16px;
+}
 
-  .center {
-    input {
-      font-size: 20px;
-      transform: translateY(-25%);
-    }
-  }
-
-  .quad {
-    &.closer {
-      margin-top: -12px;
-    }
-    .center {
-      input {
-        transform: translate(0);
-      }
-    }
-  }
-
-  .runemark {
-    width: 18px;
-    height: 18px;
-    margin: 4px auto;
-  }
-
-  .hint {
-    display: flex;
-    flex-direction: column;
-
-    span {
-      font-size: 12px;
-      line-height: 14px;
-      text-align: center;
-      margin-top: -1.2em;
-    }
-
-    & > * {
-      width: 100%;
-    }
-  }
-
-  .double {
-    gap: 4px;
-  }
-
-  .add-weapon, .remove-weapon {
-    margin: 16px auto 0;
-    width: min-content;
-  }
+smitd-ability-form {
+  padding: 0 16px;
 }
 
 .actions {

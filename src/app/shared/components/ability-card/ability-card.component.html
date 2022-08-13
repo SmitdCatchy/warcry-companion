@@ -4,16 +4,16 @@
     {{ability.title || 'common.unknown' | translate}}</span>
   <mat-divider></mat-divider>
 </div>
-<div class="ability-details">
+<div class="ability-details" [ngClass]="{'runemarked': showRunemarks && ability.runemarks.length}">
   <mat-divider vertical></mat-divider>
-  <div class="runemarks">
+  <div class="runemarks"  *ngIf="showRunemarks && ability.runemarks.length">
     <ng-container *ngIf="ability.runemarks as runemarks">
       <span *ngFor="let runemark of runemarks; let runemarkIndex = index">
         {{runemark}}
       </span>
     </ng-container>
   </div>
-  <mat-divider vertical></mat-divider>
+  <mat-divider vertical  *ngIf="showRunemarks && ability.runemarks.length"></mat-divider>
   <p>{{ability.description}}</p>
   <mat-divider vertical></mat-divider>
 </div>

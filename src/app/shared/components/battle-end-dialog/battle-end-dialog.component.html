@@ -1,0 +1,17 @@
+<h2>{{'battle-end-dialog.title' | translate}}</h2>
+<div class="dialog-content">
+  <p>{{'battle-end-dialog.question' | translate}}</p>
+  <form [formGroup]="resultForm">
+    <mat-slide-toggle formControlName="victory">
+      {{'battle-end-dialog.form.victory' | translate}}
+    </mat-slide-toggle>
+    <mat-form-field appearance="fill">
+      <mat-label>{{'battle-end-dialog.form.enemy' | translate}}</mat-label>
+      <input matInput formControlName="enemy">
+    </mat-form-field>
+  </form>
+</div>
+<div class="actions">
+  <button mat-flat-button color="warn" (click)="acceptDialog()">{{'battle-end-dialog.action.end'  | translate}}</button>
+  <button mat-flat-button (click)="closeDialog()">{{'common.back' | translate}}</button>
+</div>

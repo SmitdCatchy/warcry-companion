@@ -1,7 +1,7 @@
 export enum Battleground {
-  Dungeon = 'dungeon',
   Arena = 'arena',
+  Dungeon = 'dungeon',
   Mines = 'mines',
-  Wildlands = 'wildlands',
   MonsterHunt = 'hunt',
+  Wildlands = 'wildlands',
 }

@@ -1,11 +1,17 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { AbilitiesBottomSheetComponent } from 'src/app/shared/components/abilities-bottom-sheet/abilities-bottom-sheet.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { LogsBottomSheetComponent } from 'src/app/shared/components/logs-bottom-sheet/logs-bottom-sheet.component';
+import { Battleground } from '../enums/battle-ground.enum';
 import { Color } from '../enums/color.enum';
 import { LocalStorageKey } from '../enums/local-keys.enum';
+import { Ability } from '../models/ability.model';
+import { BattleLog } from '../models/battle-log.model';
 import { Fighter } from '../models/fighter.model';
 import { Warband } from '../models/warband.model';
 import { CoreService } from './core.service';
@@ -16,16 +22,22 @@ import { CoreService } from './core.service';
 export class WarbandService {
   public warbands: Warband[];
   public selectedWarbandIndex: number;
+  public universalAbilities: Ability[];
 
   constructor(
     private readonly core: CoreService,
     private readonly router: Router,
     private readonly translateService: TranslateService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly bottomSheet: MatBottomSheet
   ) {
     this.warbands = JSON.parse(
       CoreService.getLocalStorage(LocalStorageKey.Warbands, '[]')
     ) as Warband[];
+
+    this.universalAbilities = JSON.parse(
+      CoreService.getLocalStorage(LocalStorageKey.UniversalAbilities, '[]')
+    ) as Ability[];
 
     this.selectedWarbandIndex = +CoreService.getLocalStorage(
       LocalStorageKey.SelectedWarband,
@@ -65,9 +77,9 @@ export class WarbandService {
         limit: 1000,
         reputation: 2,
         glory: 0,
-        notes: '',
-        logs: []
-      }
+        notes: ''
+      },
+      logs: []
     }
   ): void {
     if (!this.checkWarband(warband)) {
@@ -110,6 +122,13 @@ export class WarbandService {
     CoreService.setLocalStorage(
       LocalStorageKey.Warbands,
       JSON.stringify(this.warbands)
+    );
+  }
+
+  private saveUniversalSettings(): void {
+    CoreService.setLocalStorage(
+      LocalStorageKey.UniversalAbilities,
+      JSON.stringify(this.universalAbilities)
     );
   }
 
@@ -165,6 +184,14 @@ export class WarbandService {
     this.saveWarbands();
   }
 
+  public pushLog(log: BattleLog): void {
+    if (!this.selectedWarband.logs) {
+      this.selectedWarband.logs = [];
+    }
+    this.selectedWarband.logs.unshift(log);
+    this.saveWarbands();
+  }
+
   public updateFighter(fighter: Fighter, index: number): void {
     this.selectedWarband.fighters[index] = fighter;
     this.saveWarbands();
@@ -197,5 +224,84 @@ export class WarbandService {
           removeCallBack();
         }
       });
+  }
+
+  public showAbilities(
+    abilities: Ability[],
+    fighter?: Fighter,
+    warband?: Warband,
+    universal: boolean = false,
+    showRunemarks: boolean = false,
+    restrictions?: Battleground[]
+  ): void {
+    const abilityGroups = [
+      {
+        label: this.translateService
+          .instant('warband-service.abilities.label', {
+            label: fighter?.type || warband?.faction || ''
+          })
+          .trim(),
+        abilities: abilities.filter((ability) => {
+          if (fighter) {
+            if (
+              !ability.runemarks.every((runemark) =>
+                fighter.runemarks.includes(runemark)
+              )
+            ) {
+              return false;
+            }
+          }
+          return true;
+        })
+      }
+    ];
+
+    if (universal) {
+      abilityGroups.push({
+        label: this.translateService.instant(
+          'warband-service.abilities.universal'
+        ),
+        abilities: this.universalAbilities.filter((ability: Ability) => {
+          if (fighter) {
+            if (
+              !ability.runemarks.every((runemark) =>
+                fighter.runemarks.includes(runemark)
+              )
+            ) {
+              return false;
+            }
+          }
+          return true;
+        })
+      });
+    }
+    this.bottomSheet.open(AbilitiesBottomSheetComponent, {
+      data: { abilityGroups, showRunemarks }
+    });
+  }
+
+  public get hasLogs(): boolean {
+    return !!this.selectedWarband.logs && this.selectedWarband.logs.length > 0;
+  }
+
+  public showLogs(): void {
+    this.bottomSheet.open(LogsBottomSheetComponent, {
+      data: { logs: this.selectedWarband.logs }
+    });
+  }
+
+  public addUniversalAbility(ability: Ability): void {
+    this.universalAbilities.push(ability);
+    this.saveUniversalSettings();
+  }
+
+  public editUniversalAbility(ability: Ability, index: number): void {
+    this.universalAbilities[index] = ability;
+    this.saveUniversalSettings();
+  }
+
+  public removeUniversalAbility(index: number): void {
+    this.universalAbilities.splice(index, 1);
+    this.saveUniversalSettings();
   }
 }

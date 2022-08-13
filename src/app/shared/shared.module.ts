@@ -14,6 +14,10 @@ import { AbilityFormComponent } from './components/ability-form/ability-form.com
 import { AbilityDialogComponent } from './components/ability-dialog/ability-dialog.component';
 import { AbilityCardComponent } from './components/ability-card/ability-card.component';
 import { IconUploaderComponent } from './components/icon-uploader/icon-uploader.component';
+import { AbilitiesBottomSheetComponent } from './components/abilities-bottom-sheet/abilities-bottom-sheet.component';
+import { BattleDialogComponent } from './components/battle-dialog/battle-dialog.component';
+import { BattleEndDialogComponent } from './components/battle-end-dialog/battle-end-dialog.component';
+import { LogsBottomSheetComponent } from './components/logs-bottom-sheet/logs-bottom-sheet.component';
 
 const declarationsAndExports = [
   HeaderComponent,
@@ -26,12 +30,15 @@ const declarationsAndExports = [
   AbilityFormComponent,
   AbilityDialogComponent,
   AbilityCardComponent,
-  IconUploaderComponent
+  IconUploaderComponent,
+  AbilitiesBottomSheetComponent,
+  BattleDialogComponent,
+  BattleEndDialogComponent
 ];
 const importsAndExports = [MaterialModule];
 
 @NgModule({
-  declarations: [...declarationsAndExports],
+  declarations: [...declarationsAndExports, LogsBottomSheetComponent],
   imports: [
     ...importsAndExports,
     CommonModule,

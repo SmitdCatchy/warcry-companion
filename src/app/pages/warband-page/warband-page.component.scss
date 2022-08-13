@@ -1,10 +1,7 @@
 @import 'dimensions';
 @import 'globals';
 
-smitd-header h2 {
-  margin: 0;
-  font-weight: bold;
-}
+@include header;
 
 @include fighterList;
 
@@ -15,11 +12,23 @@ smitd-header h2 {
   max-width: $max-width;
 
   .options {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 8px;
+    width: 100%;
+    & > * {
+      width: 100%;
+    }
+
+    .mat-divider {
+      border-top-color: rgba($black, 0.24);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
   }
 }
+
 .fighters-container,
 .campaign,
 .warband {
@@ -54,26 +63,25 @@ smitd-header h2 {
       margin-top: -18px;
     }
 
-    .ability-options {
-      display: grid;
-      grid-template-columns: min-content 1fr 1fr min-content;
-      width: 100%;
+    .ability-card {
+      position: relative;
+      margin-bottom: 24px;
 
-      & > button {
-        margin: 8px;
+      .ability-options {
+        position: absolute;
+        top: -14px;
+        right: 0;
+        display: flex;
+        justify-content: flex-end;
       }
     }
 
     mat-divider {
       width: 100%;
     }
-
-    .divider:first-of-type {
-      margin-top: -10px;
-    }
   }
   .add-ability {
-    margin: 16px auto 0;
+    margin: 0 auto;
   }
 }
 

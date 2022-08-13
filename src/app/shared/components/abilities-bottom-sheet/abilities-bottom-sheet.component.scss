@@ -1,0 +1,11 @@
+.divider {
+  margin-top: 16px;
+
+  .label {
+    font-size: 20px;
+  }
+
+  &:first-of-type {
+    margin-top: 8px;
+  }
+}

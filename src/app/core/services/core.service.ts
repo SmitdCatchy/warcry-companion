@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, filter, Observable } from 'rxjs';
+import { BehaviorSubject, filter, Observable, from } from 'rxjs';
 import { LocalStorageKey } from '../enums/local-keys.enum';
 import { Theme } from '../enums/theme.enum';
 import { Color } from '../enums/color.enum';
@@ -24,7 +24,7 @@ export class CoreService {
     this.meta.updateTag(
       { name: 'theme-color', content: this.getColor() },
       'name=theme-color'
-    )
+    );
     this.effectsEnabled =
       CoreService.getLocalStorage(LocalStorageKey.Effects, 'true') === 'true';
     this._previousTheme = this._themeSubject.value;
@@ -65,7 +65,7 @@ export class CoreService {
     this.meta.updateTag(
       { name: 'theme-color', content: color },
       'name=theme-color'
-    )
+    );
     this._colorSubject.next(color);
   }
 
@@ -79,6 +79,11 @@ export class CoreService {
 
   public static removeLocalStorage(key: string): void {
     localStorage.removeItem(key);
+  }
+
+  public static checkLocalStorageSpace(): Observable<StorageEstimate> {
+    const storageManagerOb = navigator.storage;
+    return from(navigator.storage.estimate());
   }
 
   public switchEffects(): void {

@@ -1,0 +1,8 @@
+{
+  "MD033": {
+    "allowed_elements": ["img", "h1"]
+  },
+  "MD013": {
+    "line_length": 1000
+  }
+}

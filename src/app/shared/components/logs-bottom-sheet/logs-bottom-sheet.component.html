@@ -1,0 +1,17 @@
+  <div class="log" *ngFor="let log of data.logs">
+    <div class="divider">
+      <mat-divider></mat-divider>
+      <span class="label">{{(log.victory ? 'log.label.victory' : 'log.label.failure') | translate}}</span>
+      <mat-divider></mat-divider>
+    </div>
+    <p>
+      {{ 'log.sentence' | translate: {result: ((log.victory ? 'log.victory' : 'log.failure') | translate), date: log.date, enemy: (log.enemy ?  ('log.enemy' | translate: {enemy: log.enemy}) : ''), campaign: ((log.campaign ? 'log.campaign' : 'log.battle') | translate)} }}
+    </p>
+    <ng-container *ngIf="log.casualities.length">
+      <p>{{'log.casualities' | translate}}:</p>
+      <ul class="casualities">
+        <li class="casuality" *ngFor="let casuality of log.casualities">{{casuality.name || casuality.type}}</li>
+      </ul>
+    </ng-container>
+    <mat-divider></mat-divider>
+  </div>
