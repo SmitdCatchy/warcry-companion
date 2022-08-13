@@ -14,7 +14,7 @@
   </div>
   <mat-form-field appearance="fill">
     <mat-label>{{'ability-form.battleground' | translate}}</mat-label>
-    <mat-select formControlName="dependencies" multiple>
+    <mat-select formControlName="restrictions" multiple>
       <mat-option *ngFor="let battleground of battlegroundList" [value]="battleground">
         {{'battleground.' + battleground | translate}}
       </mat-option>
@@ -30,7 +30,7 @@
         </button>
       </mat-chip>
       <input placeholder="New runemark" #runemarkInput [formControl]="runemarkCtrl" [matChipInputFor]="runemarkList"
-        (matChipInputTokenEnd)="addRunemark($event)">
+        (matChipInputTokenEnd)="addRunemark($event)"[matChipInputSeparatorKeyCodes]="separatorKeysCodes">
     </mat-chip-list>
   </mat-form-field>
 

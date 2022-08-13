@@ -61,7 +61,10 @@ $warcry-warn: createPalette($red-primary, $white, $black);
   .mat-menu-panel,
   .mat-dialog-container,
   .mat-tab-header,
-  .mat-expansion-panel {
+  .mat-expansion-panel,
+  .mat-card,
+  .mat-select-panel,
+  .mat-bottom-sheet-container {
     background-color: $color;
   }
 
@@ -116,8 +119,8 @@ body {
     filter: invert(1);
   }
 
-
   &.light {
+    color: $black;
     background-image: linear-gradient($white 40%, $blue-brightest 90%);
     @include mat.all-component-colors($light-theme);
     @include set-background-color($white, $black);

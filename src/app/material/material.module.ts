@@ -16,6 +16,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 const importsAndExports = [
   MatButtonModule,
@@ -34,7 +35,8 @@ const importsAndExports = [
   MatExpansionModule,
   MatBottomSheetModule,
   MatTooltipModule,
-  MatChipsModule
+  MatChipsModule,
+  MatSlideToggleModule
 ];
 
 @NgModule({

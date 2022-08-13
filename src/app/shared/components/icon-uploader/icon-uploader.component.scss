@@ -15,7 +15,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 4px;
   border-radius: 12px;
   width: 52px;
   height: 52px;
@@ -34,8 +33,20 @@
     position: absolute;
     top: 0;
     right: 0;
-    background-color: $red-primary;
-    color: $black;
-    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+
+    mat-icon {
+      font-size: 20px;
+      margin-top: -12px;
+    }
   }
+}
+
+canvas {
+  position: absolute;
+  pointer-events: none;
+  visibility: hidden;
+  width: 0;
+  height: 0;
 }

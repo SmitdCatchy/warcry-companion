@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './ability-dialog.component.html',
   styleUrls: ['./ability-dialog.component.scss']
 })
-export class AbilityDialogComponent implements OnInit {
+export class AbilityDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<AbilityDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -15,9 +15,6 @@ export class AbilityDialogComponent implements OnInit {
       abilityForm: FormGroup;
       edit: boolean;
     }) { }
-
-  ngOnInit(): void {
-  }
 
 
   public acceptDialog(): void {

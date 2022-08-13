@@ -1,17 +1,18 @@
 <smitd-header>
-
   <button mat-icon-button routerLink="">
     <mat-icon>chevron_left</mat-icon>
   </button>
-
   <h2>{{warband.name}}</h2>
-
   <button mat-icon-button [matMenuTriggerFor]="main">
     <mat-icon>menu</mat-icon>
   </button>
-
   <mat-menu #main="matMenu">
-    <button mat-menu-item (click)="true">{{'warband-page.menu.quick-battle' | translate}}</button>
+    <button mat-menu-item (click)="true"
+      (click)="battleService.prepareBattle(warband)">{{'warband-page.menu.battle' | translate}}</button>
+    <button mat-menu-item (click)="true"
+      (click)="warbandService.showAbilities(warband.abilities, undefined, warband, false, true)">{{'warband-page.menu.abilities' | translate}}</button>
+    <button mat-menu-item (click)="true"
+      (click)="warbandService.showLogs()" *ngIf="warbandService.hasLogs">{{'warband-page.menu.logs' | translate}}</button>
     <button mat-menu-item (click)="true" (click)="addFighter()">{{'warband-page.menu.fighter-add' | translate}}</button>
   </mat-menu>
 </smitd-header>
@@ -20,15 +21,23 @@
     <div class="fighters-container">
       <div class="fighters" cdkDropList (cdkDropListDropped)="warbandService.moveFighter($event)">
         <smitd-fighter-card [fighter]="fighter" [mode]="FighterCardMode.list"
+          (callAbilities)="warbandService.showAbilities(warband.abilities, fighter)"
           *ngFor="let fighter of warband.fighters; let index = index" cdkDrag cdkDragBoundary=".fighters">
           <div class="drag-marker" cdkDragHandle></div>
           <div class="options" options>
-            <button mat-flat-button color="accent"
-              (click)="editFighter(fighter, index)">{{'warband-page.tab.fighters.option.edit' | translate}}</button>
-            <button mat-flat-button color="accent"
-              (click)="duplicateFighter(fighter)">{{'warband-page.tab.fighters.option.duplicate' | translate}}</button>
-            <button mat-flat-button color="warn"
-              (click)="warbandService.removeFighter(index)">{{'warband-page.tab.fighters.option.remove' | translate}}</button>
+            <div class="divider">
+              <mat-divider></mat-divider>
+              <span>{{'common.options' | translate}}</span>
+              <mat-divider></mat-divider>
+            </div>
+            <div class="actions">
+              <button mat-flat-button color="accent"
+                (click)="editFighter(fighter, index)">{{'warband-page.tab.fighters.option.edit' | translate}}</button>
+              <button mat-flat-button color="accent"
+                (click)="duplicateFighter(fighter)">{{'warband-page.tab.fighters.option.duplicate' | translate}}</button>
+              <button mat-flat-button color="warn"
+                (click)="warbandService.removeFighter(index)">{{'warband-page.tab.fighters.option.remove' | translate}}</button>
+            </div>
           </div>
         </smitd-fighter-card>
       </div>
@@ -71,19 +80,19 @@
         </mat-expansion-panel-header>
         <div formArrayName="abilities" class="abilities">
           <ng-container *ngFor="let abilityForm of abilitiesList; let index = index">
-            <smitd-ability-card [ability]="abilityForm.value"></smitd-ability-card>
-            <div class="ability-options">
-              <mat-divider vertical></mat-divider>
-              <button class="remove-ability" mat-flat-button
-                (click)="editAbility(index)">{{'warband-page.tab.warband.form.abilities.edit' | translate}}</button>
-              <button class="remove-ability" mat-flat-button color="warn"
-                (click)="removeAbility(index)">{{'warband-page.tab.warband.form.abilities.remove' | translate}}</button>
-              <mat-divider vertical></mat-divider>
+            <div class="ability-card">
+              <smitd-ability-card [ability]="abilityForm.value"></smitd-ability-card>
+              <div class="ability-options">
+                <button class="remove-ability" mat-mini-fab (click)="editAbility(index)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button class="remove-ability" mat-mini-fab color="warn" (click)="removeAbility(index)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
             </div>
-            <mat-divider></mat-divider>
-            <!-- <smitd-ability-form [abilityForm]="abilityForm" [index]="index"></smitd-ability-form> -->
           </ng-container>
-          <button class="add-ability" mat-flat-button
+          <button class="add-ability" color="accent" mat-flat-button
             (click)="addNewAbility()">{{'warband-page.tab.warband.form.abilities.add' | translate}}</button>
         </div>
       </mat-expansion-panel>

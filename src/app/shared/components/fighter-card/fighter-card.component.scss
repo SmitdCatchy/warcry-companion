@@ -11,10 +11,6 @@
   border-radius: 12px !important;
   overflow: hidden;
 
-  .mat-divider {
-    border-top-color: rgba($black, 0.24);
-  }
-
   .fighter-header {
     display: flex;
     background: none;
@@ -32,22 +28,9 @@
         left: 0;
         width: 48px;
         height: 100%;
-        box-sizing: border-box;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        img {
-          display: block;
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-          border: transparent solid 4px;
-          border-top-left-radius: 12px;
-          border-bottom-left-radius: 12px;
-          box-sizing: border-box;
-        }
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
       }
     }
 
@@ -60,7 +43,6 @@
       font-weight: bold;
       font-size: 18px;
       margin: 0;
-      color: $white;
 
       p {
         margin: 0;
@@ -75,7 +57,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      color: $white;
       margin: 0;
       text-transform: uppercase;
       font-weight: bold;
@@ -184,20 +165,10 @@
   }
 
   &.mat-expanded {
-    &.iconed .fighter-icon img {
-      border-bottom-left-radius: 0;
-    }
+
     .fighter-header {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
-
-      &.iconed {
-        .fighter-icon {
-          img {
-            border-bottom-left-radius: 0;
-          }
-        }
-      }
     }
   }
 
@@ -208,66 +179,23 @@
 }
 
 .battleframe {
-  .fighter {
+  position: relative;
+  .fighter-card {
+    border-radius: 20px !important;
     .fighter-header {
       .fighter-points {
         margin: 0;
-        height: 72px;
+        height: 56px;
         width: 92px;
       }
     }
   }
+}
 
-  .battleframe-header {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    margin: 8px;
-    right: 0;
-    z-index: 1;
-    .fighter-tokens {
-      display: flex;
-      align-items: center;
-      margin: 0;
-      .status {
-        width: 60px;
-        height: 60px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        img {
-          width: 48px;
-          height: 48px;
-          margin: 0 0 2px 2px;
-        }
+.negative {
+  color: $red-dark;
+}
 
-        &::before {
-          content: '';
-          position: absolute;
-          width: 60px;
-          height: 60px;
-          background-image: url(/assets/circle_big.svg);
-          background-repeat: no-repeat;
-          background-position: center center;
-          background-size: contain;
-          filter: invert(1);
-          opacity: 0.4;
-        }
-      }
-      .wound-counter {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        .value {
-          position: absolute;
-          font-size: 24px;
-        }
-        button {
-          position: relative;
-        }
-      }
-    }
-  }
+.positive {
+  color: $green-dark;
 }

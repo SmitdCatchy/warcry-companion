@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -19,13 +19,16 @@ import { AbilityDialogComponent } from 'src/app/shared/components/ability-dialog
 import cloneDeep from 'lodash.clonedeep';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
+import { BattleService } from 'src/app/core/services/battle.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'smitd-warband-page',
   templateUrl: './warband-page.component.html',
   styleUrls: ['./warband-page.component.scss']
 })
-export class WarbandPageComponent {
+export class WarbandPageComponent implements OnDestroy {
+  private subscriptions = new Subscription();
   public Color = Color;
   public FighterCardMode = FighterCardMode;
   public colorList = Object.keys(Color).map((key) => ({
@@ -38,6 +41,7 @@ export class WarbandPageComponent {
 
   constructor(
     public readonly warbandService: WarbandService,
+    public readonly battleService: BattleService,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService
   ) {
@@ -47,7 +51,7 @@ export class WarbandPageComponent {
       alliance: new FormControl(this.warband.alliance, [Validators.required]),
       color: new FormControl(this.warband.color, [Validators.required]),
       abilities: new FormArray([]),
-      icon: new FormControl(this.warband ? this.warband.icon : undefined, []),
+      icon: new FormControl(this.warband ? this.warband.icon : undefined, [])
     });
     this.campaignForm = new FormGroup({
       name: new FormControl(this.warband.campaign.name, []),
@@ -57,6 +61,10 @@ export class WarbandPageComponent {
       notes: new FormControl(this.warband.campaign.notes, [])
     });
     this.addInitialAbilities(this.warband.abilities);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   public get selectedColor(): string {
@@ -97,47 +105,54 @@ export class WarbandPageComponent {
   }
 
   public addFighter(): void {
-    this.dialog
-      .open(FighterDialogComponent, {
-        data: {},
-        disableClose: true,
-        panelClass: ['full-screen-modal']
-      })
-      .afterClosed()
-      .subscribe((fighter) => {
-        if (fighter) {
-          this.warbandService.addFighter(fighter);
-        }
-      });
+    this.subscriptions.add(
+      this.dialog
+        .open(FighterDialogComponent, {
+          data: {},
+          disableClose: true,
+          panelClass: ['full-screen-modal']
+        })
+        .afterClosed()
+        .subscribe((fighter) => {
+          if (fighter) {
+            this.warbandService.addFighter(fighter);
+          }
+        })
+    );
   }
 
   public editFighter(fighter: Fighter, index: number): void {
-    this.dialog
-      .open(FighterDialogComponent, {
-        data: { fighter, edit: true },
-        disableClose: true
-      })
-      .afterClosed()
-      .subscribe((updated) => {
-        if (updated) {
-          this.warbandService.updateFighter(updated, index);
-        }
-      });
+    this.subscriptions.add(
+      this.dialog
+        .open(FighterDialogComponent, {
+          data: { fighter, edit: true },
+          disableClose: true,
+          panelClass: ['full-screen-modal']
+        })
+        .afterClosed()
+        .subscribe((updated) => {
+          if (updated) {
+            this.warbandService.updateFighter(updated, index);
+          }
+        })
+    );
   }
 
   public duplicateFighter(fighter: Fighter): void {
     const duplicated = { ...fighter, ...{ name: '', modifiers: [], note: '' } };
-    this.dialog
-      .open(FighterDialogComponent, {
-        data: { fighter: duplicated },
-        disableClose: true
-      })
-      .afterClosed()
-      .subscribe((fighter) => {
-        if (fighter) {
-          this.warbandService.addFighter(fighter);
-        }
-      });
+    this.subscriptions.add(
+      this.dialog
+        .open(FighterDialogComponent, {
+          data: { fighter: duplicated },
+          disableClose: true
+        })
+        .afterClosed()
+        .subscribe((fighter) => {
+          if (fighter) {
+            this.warbandService.addFighter(fighter);
+          }
+        })
+    );
   }
 
   public addAbility(ability?: Ability): FormGroup | void {
@@ -152,7 +167,7 @@ export class WarbandPageComponent {
       description: new FormControl(ability ? ability.description : '', [
         Validators.required
       ]),
-      dependencies: new FormControl(ability ? ability.dependencies : [], [])
+      restrictions: new FormControl(ability ? ability.restrictions : [], [])
     });
     this.abilities.push(abilityFormGroup);
   }
@@ -169,55 +184,64 @@ export class WarbandPageComponent {
       description: new FormControl(ability ? ability.description : '', [
         Validators.required
       ]),
-      dependencies: new FormControl(ability ? ability.dependencies : [], [])
+      restrictions: new FormControl(ability ? ability.restrictions : [], [])
     });
-    this.dialog
-      .open(AbilityDialogComponent, {
-        data: { abilityForm },
-        disableClose: true,
-        panelClass: ['full-screen-modal']
-      })
-      .afterClosed()
-      .subscribe((abilityFormValue) => {
-        if (abilityFormValue) {
-          this.abilities.push(abilityForm);
-        }
-      });
+    this.subscriptions.add(
+      this.dialog
+        .open(AbilityDialogComponent, {
+          data: { abilityForm },
+          disableClose: true,
+          panelClass: ['full-screen-modal']
+        })
+        .afterClosed()
+        .subscribe((abilityFormValue) => {
+          if (abilityFormValue) {
+            this.abilities.push(abilityForm);
+          }
+        })
+    );
   }
 
   public editAbility(index: number) {
     const abilityForm = cloneDeep(this.abilitiesList[index]);
-    this.dialog
-      .open(AbilityDialogComponent, {
-        data: { abilityForm, edit: true },
-        disableClose: true,
-        panelClass: ['full-screen-modal']
-      })
-      .afterClosed()
-      .subscribe((abilityFormValue) => {
-        if (abilityFormValue) {
-          this.abilitiesList[index].setValue(abilityFormValue);
-        }
-      });
+    this.subscriptions.add(
+      this.dialog
+        .open(AbilityDialogComponent, {
+          data: { abilityForm, edit: true },
+          disableClose: true,
+          panelClass: ['full-screen-modal']
+        })
+        .afterClosed()
+        .subscribe((abilityFormValue) => {
+          if (abilityFormValue) {
+            this.abilitiesList[index].setValue(abilityFormValue);
+          }
+        })
+    );
   }
 
   public removeAbility(index: number): void {
-    this.dialog
-      .open(ConfirmDialogComponent, {
-        data: {
-          yesColor: 'warn',
-          question: this.translateService.instant(
-            'warband-page.tab.warband.form.abilities.remove-question',
-            { ability: this.abilitiesList[index].value.title, warband: this.warbandForm.value.name }
-          )
-        }
-      })
-      .afterClosed()
-      .subscribe((decision) => {
-        if (decision) {
-          this.abilities.removeAt(index);
-        }
-      });
+    this.subscriptions.add(
+      this.dialog
+        .open(ConfirmDialogComponent, {
+          data: {
+            yesColor: 'warn',
+            question: this.translateService.instant(
+              'warband-page.tab.warband.form.abilities.remove-question',
+              {
+                ability: this.abilitiesList[index].value.title,
+                warband: this.warbandForm.value.name
+              }
+            )
+          }
+        })
+        .afterClosed()
+        .subscribe((decision) => {
+          if (decision) {
+            this.abilities.removeAt(index);
+          }
+        })
+    );
   }
 
   public addInitialAbilities(abilities: Ability[]): void {

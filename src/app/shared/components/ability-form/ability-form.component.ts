@@ -41,7 +41,6 @@ export class AbilityFormComponent {
 
   public removeRunemark(runemark: string): void {
     const runemarks = this.runemarks.value;
-    console.log('runemarks', runemarks);
 
     runemarks.splice(runemarks.indexOf(runemark), 1);
     this.runemarks.setValue(runemarks);

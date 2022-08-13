@@ -35,7 +35,7 @@
           </button>
         </mat-chip>
         <input placeholder="New runemark" #runemarkInput [formControl]="runemarkCtrl" [matChipInputFor]="runemarkList"
-          (matChipInputTokenEnd)="addRunemark($event)">
+          (matChipInputTokenEnd)="addRunemark($event)" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
       </mat-chip-list>
     </mat-form-field>
     <div class="triple">

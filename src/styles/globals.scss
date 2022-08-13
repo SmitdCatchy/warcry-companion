@@ -2,7 +2,7 @@
 @import 'dimensions';
 
 mat-dialog-container.mat-dialog-container {
-  padding: 16px;
+  padding: 16px 0;
 }
 
 .mat-menu-submenu-icon {
@@ -55,6 +55,10 @@ smitd-warband-page .mat-tab-label {
   text-transform: uppercase;
   width: 100%;
   margin: 8px 0;
+
+  span {
+    text-align: center;
+  }
 }
 
 body .mat-expansion-panel.fighter-card {
@@ -138,7 +142,7 @@ smitd-warband-page .mat-expansion-panel-body {
   }
 
   .cdk-drag-placeholder {
-    opacity: 0;
+    opacity: 0.2;
   }
 
   .cdk-drag-animating {
@@ -152,6 +156,16 @@ smitd-warband-page .mat-expansion-panel-body {
   .fighters.cdk-drop-list-dragging
     smitd-fighter-card:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@mixin header {
+  smitd-header h1,
+  smitd-header h2 {
+    margin: 0;
+    font-weight: bold;
+    white-space: nowrap;
+    margin: 0;
   }
 }
 
@@ -296,7 +310,7 @@ input[type='number'] {
       min-height: 100%;
 
       .actions {
-        margin-top: auto
+        margin-top: auto;
       }
     }
     .mat-dialog-container {
@@ -308,6 +322,31 @@ input[type='number'] {
         max-height: unset !important;
       }
     }
-
   }
+}
+
+.mat-mini-fab {
+  margin-right: 8px;
+  width: 28px;
+  height: 28px;
+
+  mat-icon {
+    font-size: 20px;
+    margin-top: -8px;
+  }
+}
+
+body mat-panel-description.mat-expansion-panel-header-description {
+  color: inherit;
+}
+
+smitd-battle-page {
+  .mat-tab-header {
+    display: none;
+  }
+}
+
+body .mat-bottom-sheet-container {
+  max-width: $max-width;
+  min-width: unset;
 }

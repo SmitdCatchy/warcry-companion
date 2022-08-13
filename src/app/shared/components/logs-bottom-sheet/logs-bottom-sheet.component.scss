@@ -1,0 +1,26 @@
+.log {
+  p {
+    margin: 8px 0 0;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 16px;
+  }
+
+  & > mat-divider {
+    margin: 12px 0;
+  }
+
+  .divider {
+    margin-top: 16px;
+
+    .label {
+      font-size: 20px;
+    }
+
+    &:first-of-type {
+      margin-top: 8px;
+    }
+  }
+}

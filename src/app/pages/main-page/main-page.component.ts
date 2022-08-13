@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { Language } from 'src/app/core/enums/language.enum';
 import { Theme } from 'src/app/core/enums/theme.enum';
 import { Warband } from 'src/app/core/models/warband.model';
@@ -14,9 +15,10 @@ import { WarbandDialogComponent } from 'src/app/shared/components/warband-dialog
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss']
 })
-export class MainPageComponent {
+export class MainPageComponent implements OnDestroy {
   public themeList = Object.values(Theme);
   public languageList = Object.values(Language);
+  private subscriptions = new Subscription();
 
   constructor(
     public readonly core: CoreService,
@@ -26,18 +28,25 @@ export class MainPageComponent {
     public readonly battleService: BattleService
   ) {}
 
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   public addWarband(): void {
-    this.dialog
-      .open(WarbandDialogComponent, {
-        data: {},
-        disableClose: true
-      })
-      .afterClosed()
-      .subscribe((warband) => {
-        if (warband) {
-          this.warbandService.addWarband(warband);
-        }
-      });
+    this.subscriptions.add(
+      this.dialog
+        .open(WarbandDialogComponent, {
+          data: {},
+          disableClose: true,
+          panelClass: ['full-screen-modal']
+        })
+        .afterClosed()
+        .subscribe((warband) => {
+          if (warband) {
+            this.warbandService.addWarband(warband);
+          }
+        })
+    );
   }
 
   public exportWarband(warband: Warband): void {
@@ -71,19 +80,22 @@ export class MainPageComponent {
         reader.addEventListener('load', () => {
           const warband = JSON.parse((reader as any).result) as Warband;
           if (this.warbandService.checkWarband(warband, false)) {
-            this.dialog
-              .open(WarbandDialogComponent, {
-                data: {
-                  warband: warband
-                },
-                disableClose: true
-              })
-              .afterClosed()
-              .subscribe((newWarband) => {
-                if (newWarband) {
-                  this.warbandService.addWarband(newWarband);
-                }
-              });
+            this.subscriptions.add(
+              this.dialog
+                .open(WarbandDialogComponent, {
+                  data: {
+                    warband: warband
+                  },
+                  disableClose: true,
+                  panelClass: ['full-screen-modal']
+                })
+                .afterClosed()
+                .subscribe((newWarband) => {
+                  if (newWarband) {
+                    this.warbandService.addWarband(newWarband);
+                  }
+                })
+            );
           } else {
             this.warbandService.addWarband(warband);
           }

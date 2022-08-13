@@ -1,6 +1,9 @@
 <input type="file" name="somename" size="chars" #fileInput (change)="iconUpload($event)">
+<canvas #canvas width="72" height="72"></canvas>
 <div class="canvas" warbandColor [warbandColorAsync]="core.color" [warbandColorOpaque]="false">
   <img (click)="fileInput.click()" [src]="iconValue" alt="icon" *ngIf="iconValue">
   <mat-icon (click)="fileInput.click()" *ngIf="!iconValue">upload</mat-icon>
-  <mat-icon matRipple class="remove" color="warn" (click)="removeIcon()" *ngIf="iconValue">close</mat-icon>
+  <button class="remove" mat-mini-fab color="warn" *ngIf="iconValue" (click)="removeIcon()">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>
