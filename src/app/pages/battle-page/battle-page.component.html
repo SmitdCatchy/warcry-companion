@@ -11,7 +11,7 @@
   </button>
 
   <mat-menu #main="matMenu">
-    <button mat-menu-item
+    <button mat-menu-item *ngIf="warband.abilities.length"
       (click)="warbandService.showAbilities(warband.abilities, undefined, warband, false, true)">{{'battle-page.menu.warband' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster"
       (click)="battleService.beginBattle()">{{'battle-page.menu.begin' | translate}}</button>
@@ -316,7 +316,7 @@
               <span>{{'common.options' | translate}}</span>
               <mat-divider></mat-divider>
             </div>
-            <div class="actions">
+            <div class="actions wild">
               <button mat-flat-button color="warn"
                 (click)="battleService.removeWildFighter(index)">{{'battle-page.battle.remove-wild' | translate}}</button>
             </div>

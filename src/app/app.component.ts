@@ -6,6 +6,7 @@ import { Theme } from './core/enums/theme.enum';
 import { CoreService } from './core/services/core.service';
 import { Slider } from './app-routing.animation';
 import { Color } from './core/enums/color.enum';
+import { TranslationService } from './core/services/translation.service';
 @Component({
   selector: 'smitd-root',
   templateUrl: './app.component.html',
@@ -14,7 +15,7 @@ import { Color } from './core/enums/color.enum';
 })
 export class AppComponent {
   public particlesOptions: any;
-  constructor(public readonly core: CoreService) {
+  constructor(public readonly core: CoreService, private readonly translationService: TranslationService) {
     this.particlesOptions = {
       fpsLimit: 120,
       particles: {

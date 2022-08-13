@@ -144,9 +144,7 @@ export class UniversalSettingsPageComponent implements OnDestroy {
   }
 
   public exportAbilities(): void {
-    const filename = `${this.translateService.instant(
-      'universal-page.abilities.export'
-    )}.json`;
+    const filename = `universal-abilities.json`;
     const jsonStr = JSON.stringify(this.universalAbilities);
     const element = document.createElement('a');
     element.setAttribute(

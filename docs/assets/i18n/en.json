@@ -254,6 +254,10 @@
   },
   "universal-page": {
     "title": "Universal Abilities",
+    "menu": {
+      "abilities-export": "Export Universal Abilities",
+      "abilities-import": "Import Universal Abilities"
+    },
     "abilities": {
       "add": "Add Universal Ability",
       "export": "Export Universal Abilities",
