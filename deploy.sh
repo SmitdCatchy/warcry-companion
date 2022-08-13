@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 if [ -d "./docs" ]; then rm -Rf ./docs; fi
 mkdir "./docs"
-cp ./dist/* ./docs
+cp -R ./dist/* ./docs
 echo "---
 permalink: /404.html
 ---

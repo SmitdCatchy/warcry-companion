@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1660352974667,
+  "timestamp": 1660354282169,
   "index": "/warcry-companion/index.html",
   "assetGroups": [
     {
@@ -79,12 +79,12 @@
     "/warcry-companion/assets/runemarks/characteristic-strength.svg": "2e9996693a6757a03c8564e491e000b6e865bf4c",
     "/warcry-companion/assets/runemarks/characteristic-toughness.svg": "ac8be6d79c630c237da2598e069b558e175c288f",
     "/warcry-companion/assets/runemarks/characteristic-wounds.svg": "65dc2d5226066fa8d5c46fe4532f93d7782c591d",
-    "/warcry-companion/assets/runemarks/fighter-state-activated.svg": "6644655684055638f1cd72eb419654f763e9cddf",
-    "/warcry-companion/assets/runemarks/fighter-state-dead.svg": "e0a5e4732c39b850c1f5adcfc5b01fa75edef322",
-    "/warcry-companion/assets/runemarks/fighter-state-reacted.svg": "2ce0e45f8584ddc05fbf45bd04eb462a362ca220",
-    "/warcry-companion/assets/runemarks/fighter-state-ready-alt.svg": "0e9f876c1c1cdfdc8834f1ef52bc47e1909b5651",
-    "/warcry-companion/assets/runemarks/fighter-state-ready.svg": "1b747be0fa3b4e03824848c634869a2b9bf85d24",
-    "/warcry-companion/assets/runemarks/fighter-state-wait.svg": "0941d69cdde615b3bd2e8b8285c9330324fbde19",
+    "/warcry-companion/assets/runemarks/fighter-state-activated.svg": "54cff6bd8b65088031bf526e71fb77d8a2496a11",
+    "/warcry-companion/assets/runemarks/fighter-state-dead.svg": "7823b1c382d448d6cf8fc8d31b4ea01393b16dba",
+    "/warcry-companion/assets/runemarks/fighter-state-reacted.svg": "755e316c02a10db81099fe490736d65dfb0fb419",
+    "/warcry-companion/assets/runemarks/fighter-state-ready-alt.svg": "63ba18b2d2f451bfff63579adcf5a868c8cb01fb",
+    "/warcry-companion/assets/runemarks/fighter-state-ready.svg": "f5f7d225bc5708d36f9ae1a2cbd9925589df5ae7",
+    "/warcry-companion/assets/runemarks/fighter-state-wait.svg": "ec1f10dabe7329a3f8c97320b23edcc5bc3a1383",
     "/warcry-companion/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
     "/warcry-companion/index.html": "4285e8a50b9512e7d2585416770973c6d68d475b",
     "/warcry-companion/main.fb2e9d3e1c6eabd2.js": "a2266b6fad55d5c5c83b4f0f2b40f1957e47a8aa",

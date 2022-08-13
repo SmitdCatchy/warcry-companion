@@ -1,0 +1,276 @@
+{
+  "lang": "EN",
+  "title": "Warcry Companion",
+  "language": {
+    "en": "English",
+    "hu": "Magyar"
+  },
+  "color": {
+    "blue": "Rend Kék",
+    "green": "Pusztítás Zöld",
+    "grey": "Független Szürke",
+    "orange": "Vadvidéh Narancs",
+    "purple": "Halál Lile",
+    "red": "Káosz Vörös"
+  },
+  "theme": {
+    "light": "Világos téma (Kísérleti)",
+    "dark": "Sötét téma"
+  },
+  "common": {
+    "yes": "Igen",
+    "no": "Nem",
+    "ok": "Rendben",
+    "back": "Vissza",
+    "unaligned": "Független",
+    "unknown": "Ismeretlen",
+    "pts": "PTS",
+    "options": "Opciók"
+  },
+  "main-page": {
+    "menu": {
+      "quick-battle": "Gyors csata",
+      "warband-create": "Csapat létrehozása",
+      "warband-import": "Csapat importálása",
+      "universal-settings": "Egyetemes képességek",
+      "settings": "Beállítások",
+      "toggle-effects": "Effektusok kapcsolása",
+      "select-theme": "Témaválasztás",
+      "language-selection": "Nyelvválasztás",
+      "language-add": "Nyelv hozzáadása",
+      "github": "Támogatás a GitHub-on"
+    },
+    "warband-options": {
+      "select": "Select Warband",
+      "remove": "Remove Warband",
+      "export": "Export Warband"
+    }
+  },
+  "warband-service": {
+    "warband-exists": "Már van egy \"{{warband}}\" elnevezésű csapatod.",
+    "warband-remove": "Biztosan ki szeretnéd törölni a \"{{warband}}\" elnevezésű csapatod?",
+    "fighter-remove": "Biztosan el akarod távolítani a \"{{fighter}}\" elnevezésű harcosod a \"{{warband}}\" nevű csapatodból?",
+    "abilities": {
+      "label": "{{label}} Képességek",
+      "universal": "Egyetemes Képességek"
+    }
+  },
+  "warband-dialog": {
+    "title": "Új csapat",
+    "form": {
+      "name": {
+        "label": "Csapatnév"
+      },
+      "faction": {
+        "label": "Frakció"
+      },
+      "alliance": {
+        "label": "Fő szövetség"
+      },
+      "color": {
+        "label": "Szín"
+      }
+    },
+    "action": {
+      "add": "Csapat létrehozása"
+    }
+  },
+  "warband-page": {
+    "menu": {
+      "battle": "Felkészülés egy csatára",
+      "fighter-add": "Harcos hozzáadása",
+      "logs": "Csata feljegyzések",
+      "abilities": "Frakció képességek"
+    },
+    "tab": {
+      "fighters": {
+        "title": "Harcosok",
+        "option": {
+          "edit": "Szerkesztés",
+          "remove": "Törlés",
+          "duplicate": "Másolás"
+        }
+      },
+      "campaign": {
+        "title": "Kampány",
+        "update": "Kampány mentése",
+        "form": {
+          "name": "Kampány cím",
+          "limit": "Pont limit",
+          "reputation": "Hírnév",
+          "glory": "Dicsőség pont",
+          "notes": "Feljegyzések"
+        }
+      },
+      "warband": {
+        "title": "Csapat",
+        "update": "Csapat mentése",
+        "form": {
+          "name": "Csapatnév",
+          "faction": "Frakció",
+          "alliance": "Fő szövetség",
+          "color": "Szín",
+          "abilities": {
+            "label": "Frakció képességek",
+            "add": "Képesség hozzáadása",
+            "edit": "Képesség szerkesztése",
+            "remove": "Képesség törlése",
+            "remove-question": "Biztosan el akarod távolítani a \"{{ability}}\" elnevezésű képességet a \"{{warband}}\" nevű csapatodból?"
+          }
+        }
+      }
+    }
+  },
+  "fighter-card": {
+    "characteristic": {
+      "no-ability": "Képességek",
+      "movement": "Mozgás",
+      "toughness": "Keménység",
+      "wounds": "Életerő",
+      "range": "Távolság",
+      "attacks": "Támadások",
+      "strength": "Erő",
+      "damage": "Sebzés",
+      "crit": "Kritikus sebzés"
+    }
+  },
+  "fighter-role": {
+    "leader": "Vezető",
+    "hero": "Hős",
+    "fighter": "Harcos",
+    "thrall": "Szolga",
+    "monster": "Szörny"
+  },
+  "fighter-dialog": {
+    "title": {
+      "add": "Új harcos",
+      "edit": "Harcos szerkesztése"
+    },
+    "form": {
+      "name": { "label": "Elnevezés" },
+      "role": { "label": "Szerep" },
+      "points": { "label": "Pontérték" },
+      "runemarks": { "label": "Rúnák" },
+      "type": { "label": "Typus" },
+      "weapons": { "label": "Fegyverek" }
+    },
+    "action": {
+      "add-weapon": "Másodlagos fegyver hozzáadása",
+      "remove-weapon": "Másodlagos fegyver törlése",
+      "add": "Harcos hozzáadása",
+      "update": "Harcos frissítése"
+    }
+  },
+  "fighter-state": {
+    "ready": "Készen áll",
+    "wait": "Várakozott",
+    "reacted": "Reagált",
+    "activated": "Aktivált"
+  },
+  "ability-type": {
+    "reaction": "Reagció",
+    "single": "Szimpla",
+    "double": "Dupla",
+    "triple": "Tripla",
+    "quad": "Kvadrupla"
+  },
+  "ability-form": {
+    "type": "Típus",
+    "title": "Megnevezés",
+    "battleground": "Csataterek",
+    "runemarks": "Rúnák",
+    "description": "Leírás"
+  },
+  "ability-dialog": {
+    "title": {
+      "add": "Új képesség",
+      "edit": "Képesség szerkesztése"
+    },
+    "action": {
+      "add": "Képesség hozzáadása",
+      "update": "Képesség frissítése"
+    }
+  },
+  "battleground": {
+    "dungeon": "Kazamata",
+    "arena": "Aréna",
+    "mines": "Bányák",
+    "wildlands": "Vadvidék",
+    "hunt": "Vadászat"
+  },
+  "battle-page": {
+    "quick": "Gyors csata",
+    "menu": {
+      "warband": "Frakció képességek",
+      "fighter": "Harcos hozzáadása",
+      "begin": "Csata megkezdése",
+      "turn": "Kör vége",
+      "end": "Csata vége",
+      "abort": "Csata elvetése",
+      "wild": "Vad hozzáadása"
+    },
+    "group": {
+      "dagger": "Tőr",
+      "shield": "Pajzs",
+      "hammer": "Kalapács",
+      "wild": "Vadak"
+    },
+    "battle": {
+      "turn": "Kör",
+      "victory-points": "Győzelem pontok",
+      "remove-wild": "Vad eltávolítása"
+    },
+    "options": {
+      "notes": "Feljegyzések"
+    }
+  },
+  "battle-service": {
+    "dialog": {
+      "remove-wild": "Biztosan el akarod távolítani a vadat?",
+      "abort": "Biztosan el akarod vetni a csatát?"
+    }
+  },
+  "battle-dialog": {
+    "title": "Felkészülés a csatára",
+    "running": "Egy korábbi csata nem ért véget.",
+    "form": {
+      "campaign": "Kampány csata"
+    },
+    "action": {
+      "start": "Új csata",
+      "continue": "Korábbi csata folytatása"
+    }
+  },
+  "battle-end-dialog": {
+    "title": "Csata eredmények",
+    "question": "Biztosan befejezed a csatát?",
+    "form": {
+      "victory": "Győzelem megszerzése",
+      "enemy": "Ellenséges csapat"
+    },
+    "action": {
+      "end": "Csata vége"
+    }
+  },
+  "universal-page": {
+    "title": "Egyetemes képességek",
+    "abilities": {
+      "add": "Egyetemes képesség hozzáadása",
+      "export": "Egyetemes képesség exportálása",
+      "remove-question": "Biztosan el akarod távolítani \"{{ability}}\" nevű egyetemes képességet?"
+    }
+  },
+  "log": {
+    "sentence": "{{date}} dátumon volt egy {{result}} {{campaign}}{{enemy}}.",
+    "victory": "Győztes",
+    "failure": "vesztett",
+    "battle": "csata",
+    "campaign": "kampány csata",
+    "enemy": "  {{enemy}} ellen",
+    "casualities": "Áldozatok",
+    "label": {
+      "victory": "Győztes ssata",
+      "failure": "Vesztes csata"
+    }
+  }
+}
