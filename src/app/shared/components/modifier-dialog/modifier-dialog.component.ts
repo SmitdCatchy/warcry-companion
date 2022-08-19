@@ -1,0 +1,63 @@
+import { Component, Inject } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ModifierType } from 'src/app/core/enums/modifier-type.enum';
+import { Modifier } from 'src/app/core/models/modifier.model';
+
+@Component({
+  selector: 'smitd-modifier-dialog',
+  templateUrl: './modifier-dialog.component.html',
+  styleUrls: ['./modifier-dialog.component.scss']
+})
+export class ModifierDialogComponent {
+  public modifierForm: FormGroup;
+  public ModifierTypeList = Object.values(ModifierType);
+
+  constructor(
+    public dialogRef: MatDialogRef<ModifierDialogComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      modifier: Modifier;
+      edit: boolean;
+    }
+  ) {
+    this.modifierForm = new FormGroup({
+      name: new FormControl(data.modifier ? data.modifier.name : '', [Validators.required]),
+      type: new FormControl(data.modifier ? data.modifier.type : ModifierType.Artefact, [Validators.required]),
+      description: new FormControl(data.modifier ? data.modifier.description : '', [Validators.required]),
+      modify: new FormGroup({
+        weapon: new FormGroup({
+          ranged: new FormControl(data.modifier ? data.modifier.modify.weapon.ranged : false, [Validators.required]),
+          attacks: new FormControl(data.modifier ? data.modifier.modify.weapon.attacks : 0, [Validators.required]),
+          strength: new FormControl(data.modifier ? data.modifier.modify.weapon.strength : 0, [Validators.required]),
+          damage: new FormControl(data.modifier ? data.modifier.modify.weapon.damage : 0, [Validators.required]),
+          crit: new FormControl(data.modifier ? data.modifier.modify.weapon.crit : 0, [Validators.required])
+        }),
+        movement: new FormControl(data.modifier ? data.modifier.modify.movement : 0, [Validators.required]),
+        toughness: new FormControl(data.modifier ? data.modifier.modify.toughness : 0, [Validators.required]),
+        wounds: new FormControl(data.modifier ? data.modifier.modify.wounds : 0, [Validators.required])
+      })
+    });
+  }
+
+  public get modify(): FormGroup {
+    return this.modifierForm.get('modify') as FormGroup;
+  }
+
+  public get weapon(): FormGroup {
+    return this.modify.get('weapon') as FormGroup;
+  }
+
+  public acceptDialog(): void {
+    this.dialogRef.close(this.modifierForm.value);
+  }
+
+  public closeDialog(): void {
+    this.dialogRef.close(false);
+  }
+}

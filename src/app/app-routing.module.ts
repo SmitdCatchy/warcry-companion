@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BattlePageComponent } from './pages/battle-page/battle-page.component';
+import { BattlegroundsPageComponent } from './pages/battlegrounds-page/battlegrounds-page.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
-import { UniversalSettingsPageComponent } from './pages/universal-settings-page/universal-settings-page.component';
 import { WarbandPageComponent } from './pages/warband-page/warband-page.component';
 
 const routes: Routes = [
@@ -17,9 +17,9 @@ const routes: Routes = [
     data: { animation: 'warband' }
   },
   {
-    path: 'universal',
-    component: UniversalSettingsPageComponent,
-    data: { animation: 'universal' }
+    path: 'battlegrounds',
+    component: BattlegroundsPageComponent,
+    data: { animation: 'battlegrounds' }
   },
   {
     path: 'battle',

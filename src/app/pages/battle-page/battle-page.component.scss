@@ -31,9 +31,11 @@ h2 {
   }
 }
 
-.divider {
-  &:first-of-type {
-    margin-top: 0;
+.prepare {
+  & > .boundary > .divider {
+    &:first-of-type {
+      margin-top: 0;
+    }
   }
 }
 
@@ -87,6 +89,12 @@ h2 {
       }
     }
   }
+
+  & > .divider {
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
 }
 
 .score {
@@ -130,6 +138,35 @@ h2 {
 
   .mat-divider {
     border-top-color: rgba($black, 0.24);
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  button {
+    margin-bottom: 12px;
+  }
+
+  .renowns {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    .renown {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      padding: 4px;
+      border: 2px solid;
+
+      .runemark {
+        width: 28px;
+        height: 28px;
+      }
+    }
   }
 }
 

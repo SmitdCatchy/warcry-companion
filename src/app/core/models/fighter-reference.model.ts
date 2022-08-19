@@ -20,5 +20,7 @@ export interface FighterReference {
   };
   artefacts: Modifier[];
   injuries: Modifier[];
+  availableRenown?: boolean[];
   trait?: Modifier;
+  carryingTreasure?: boolean;
 }

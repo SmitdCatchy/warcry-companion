@@ -18,6 +18,9 @@ import { AbilitiesBottomSheetComponent } from './components/abilities-bottom-she
 import { BattleDialogComponent } from './components/battle-dialog/battle-dialog.component';
 import { BattleEndDialogComponent } from './components/battle-end-dialog/battle-end-dialog.component';
 import { LogsBottomSheetComponent } from './components/logs-bottom-sheet/logs-bottom-sheet.component';
+import { ModifierCardComponent } from './components/modifier-card/modifier-card.component';
+import { ModifierDialogComponent } from './components/modifier-dialog/modifier-dialog.component';
+import { DividerExpansionComponent } from './components/divider-expansion/divider-expansion.component';
 
 const declarationsAndExports = [
   HeaderComponent,
@@ -33,12 +36,16 @@ const declarationsAndExports = [
   IconUploaderComponent,
   AbilitiesBottomSheetComponent,
   BattleDialogComponent,
-  BattleEndDialogComponent
+  BattleEndDialogComponent,
+  LogsBottomSheetComponent,
+  ModifierCardComponent,
+  ModifierDialogComponent,
+  DividerExpansionComponent
 ];
 const importsAndExports = [MaterialModule];
 
 @NgModule({
-  declarations: [...declarationsAndExports, LogsBottomSheetComponent],
+  declarations: [...declarationsAndExports],
   imports: [
     ...importsAndExports,
     CommonModule,

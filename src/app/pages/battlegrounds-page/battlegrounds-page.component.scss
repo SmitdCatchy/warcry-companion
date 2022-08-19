@@ -1,0 +1,66 @@
+@import 'dimensions';
+@import 'globals';
+
+@include header;
+
+.glass {
+  padding: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  height: calc(100vh - 80px);
+  overflow: auto;
+  max-width: $max-width;
+  margin: 0 auto;
+}
+
+.abilities-container {
+  color: inherit;
+  margin-bottom: 12px;
+  width: 100%;
+
+  & > * {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  form {
+    & > * {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  .abilities {
+    width: 100%;
+
+    & > * {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .ability-card {
+      position: relative;
+      margin-bottom: 12px;
+
+      .ability-options {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+
+    mat-divider {
+      width: 100%;
+    }
+  }
+
+  .add-ability {
+    margin: 0 auto;
+  }
+}

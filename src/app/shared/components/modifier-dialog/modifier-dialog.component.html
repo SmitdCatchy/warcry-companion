@@ -1,0 +1,109 @@
+<h2>{{(data.edit ? 'modifier-dialog.title.edit' : 'modifier-dialog.title.add') | translate}}</h2>
+<div class="dialog-content">
+  <form [formGroup]="modifierForm">
+    <div class="double right">
+      <mat-form-field appearance="fill">
+        <mat-label>{{'modifier-dialog.form.type.label' | translate}}</mat-label>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let type of ModifierTypeList" [value]="type">{{'modifier-type.' + type | translate}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'modifier-dialog.form.name.label' | translate}}</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>{{'modifier-dialog.form.description.label' | translate}}</mat-label>
+      <textarea matInput formControlName="description" [rows]="4"></textarea>
+    </mat-form-field>
+  </form>
+  <div class="divider">
+    <mat-divider></mat-divider>
+    <span>{{'modifier-dialog.form.characteristics' | translate}}</span>
+    <mat-divider></mat-divider>
+  </div>
+  <form [formGroup]="modify" class="triple">
+    <div class="hint">
+      <mat-form-field appearance="fill" class="center">
+        <input matInput type="number" formControlName="movement">
+        <img matPrefix class="runemark invert" src="assets/runemarks/characteristic-movement.svg"
+          [alt]="'fighter-card.characteristic.movement' | translate">
+      </mat-form-field>
+      <span>{{'fighter-card.characteristic.movement' | translate}}</span>
+    </div>
+    <div class="hint">
+      <mat-form-field appearance="fill" class="center">
+        <input matInput type="number" formControlName="toughness">
+        <img matPrefix class="runemark invert" src="assets/runemarks/characteristic-toughness.svg"
+          [alt]="'fighter-card.characteristic.toughness' | translate">
+      </mat-form-field>
+      <span>{{'fighter-card.characteristic.toughness' | translate}}</span>
+    </div>
+    <div class="hint">
+      <mat-form-field appearance="fill" class="center">
+        <input matInput type="number" formControlName="wounds">
+        <img matPrefix class="runemark invert" src="assets/runemarks/characteristic-wounds.svg"
+          [alt]="'fighter-card.characteristic.wounds' | translate">
+      </mat-form-field>
+      <span>{{'fighter-card.characteristic.wounds' | translate}}</span>
+    </div>
+  </form>
+  <div class="divider">
+    <mat-divider></mat-divider>
+    <span>{{'modifier-dialog.form.attack' | translate}}</span>
+    <mat-divider></mat-divider>
+  </div>
+  <form [formGroup]="weapon">
+    <div class="quad ranged">
+      <img class="runemark invert" src="assets/runemarks/characteristic-range.svg"
+        [alt]="'fighter-card.characteristic.range' | translate">
+      <img class="runemark invert" src="assets/runemarks/characteristic-attacks.svg"
+        [alt]="'fighter-card.characteristic.attacks' | translate">
+      <img class="runemark invert" src="assets/runemarks/characteristic-strength.svg"
+        [alt]="'fighter-card.characteristic.strength' | translate">
+      <img class="runemark invert" src="assets/runemarks/characteristic-damage.svg"
+        [alt]="'fighter-card.characteristic.damage' | translate">
+    </div>
+      <div class="quad ranged">
+        <div class="slide-container">
+          <mat-slide-toggle formControlName="ranged">
+          </mat-slide-toggle>
+        </div>
+        <mat-form-field appearance="fill" class="center">
+          <input matInput type="number" formControlName="attacks">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="center">
+          <input matInput type="number" formControlName="strength">
+        </mat-form-field>
+        <div class="double">
+          <mat-form-field appearance="fill" class="center">
+            <input matInput type="number" formControlName="damage">
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="center">
+            <input matInput type="number" formControlName="crit">
+          </mat-form-field>
+        </div>
+      </div>
+    <div class="quad ranged">
+      <div class="hint">
+        <span>{{'modifier-dialog.form.ranged' | translate}}</span>
+      </div>
+      <div class="hint">
+        <span>{{'fighter-card.characteristic.attacks' | translate}}</span>
+      </div>
+      <div class="hint">
+        <span>{{'fighter-card.characteristic.strength' | translate}}</span>
+      </div>
+      <div class="hint">
+        <span>{{'fighter-card.characteristic.damage' | translate}}</span>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="actions">
+  <button mat-flat-button color="accent" (click)="acceptDialog()"
+    [disabled]="modifierForm.invalid">{{(data.edit ? 'modifier-dialog.action.update' : 'modifier-dialog.action.add')  | translate}}</button>
+  <button mat-flat-button (click)="closeDialog()">{{'common.back' | translate}}</button>
+</div>

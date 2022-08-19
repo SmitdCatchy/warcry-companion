@@ -1,6 +1,7 @@
 import { FighterRole } from '../enums/fighter-role.enum';
-import { FighterState } from '../enums/fighter-state.enum';
+import { Ability } from './ability.model';
 import { Modifier } from './modifier.model';
+import { MonsterStat } from './monster-stat.model';
 import { Weapon } from './weapon.model';
 
 export interface Fighter {
@@ -14,6 +15,9 @@ export interface Fighter {
   points: number;
   modifiers: Modifier[];
   name?: string;
-  note?: string;
+  notes?: string;
+  renown?: number;
   icon?: string;
+  monsterStatTable?: MonsterStat[];
+  abilities: Ability[];
 }

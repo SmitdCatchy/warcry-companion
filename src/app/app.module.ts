@@ -15,7 +15,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { WarbandPageComponent } from './pages/warband-page/warband-page.component';
 import { BattlePageComponent } from './pages/battle-page/battle-page.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { UniversalSettingsPageComponent } from './pages/universal-settings-page/universal-settings-page.component';
+import { BattlegroundsPageComponent } from './pages/battlegrounds-page/battlegrounds-page.component';
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -27,7 +27,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     MainPageComponent,
     WarbandPageComponent,
     BattlePageComponent,
-    UniversalSettingsPageComponent
+    BattlegroundsPageComponent
   ],
   imports: [
     BrowserModule,

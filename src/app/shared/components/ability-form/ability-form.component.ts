@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, Input } from '@angular/core';
+import { COMMA, ENTER, PERIOD } from '@angular/cdk/keycodes';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { AbilityType } from 'src/app/core/enums/ability-type.enum';
-import { Battleground } from 'src/app/core/enums/battle-ground.enum';
+import { WarbandService } from 'src/app/core/services/warband.service';
+import { Battleground } from 'src/app/core/models/battleground.model';
 
 @Component({
   selector: 'smitd-ability-form',
@@ -12,12 +13,11 @@ import { Battleground } from 'src/app/core/enums/battle-ground.enum';
 export class AbilityFormComponent {
   @Input() abilityForm: FormGroup;
   @Input() index: number;
-  public separatorKeysCodes: number[] = [ENTER, COMMA];
+  public separatorKeysCodes: number[] = [ENTER, COMMA, PERIOD];
   public runemarkCtrl = new FormControl('');
   public AbilityTypeList = Object.values(AbilityType);
-  public battlegroundList = Object.values(Battleground);
 
-  constructor() {
+  constructor(private warbandService: WarbandService) {
     this.abilityForm = new FormGroup({});
     this.index = -1;
   }

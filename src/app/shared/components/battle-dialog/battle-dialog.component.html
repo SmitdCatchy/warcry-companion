@@ -1,11 +1,11 @@
 <h2>{{'battle-dialog.title' | translate}}</h2>
 <div class="dialog-content">
   <form [formGroup]="battleForm">
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" *ngIf="battlegroundList.length">
       <mat-label>{{'ability-form.battleground' | translate}}</mat-label>
-      <mat-select formControlName="features" multiple>
+      <mat-select formControlName="battlegrounds" multiple>
         <mat-option *ngFor="let battleground of battlegroundList" [value]="battleground">
-          {{'battleground.' + battleground | translate}}
+          {{battleground.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
