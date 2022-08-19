@@ -3,7 +3,7 @@
   "title": "Warcry Companion",
   "language": {
     "en": "English",
-    "hu": "Hungarian"
+    "hu": "Magyar"
   },
   "color": {
     "blue": "Order Blue",
@@ -32,7 +32,7 @@
       "quick-battle": "Quick Battle",
       "warband-create": "Create Warband",
       "warband-import": "Import Warband",
-      "universal-settings": "Universal Abilities",
+      "battlegrounds": "Battlegrounds",
       "settings": "Settings",
       "toggle-effects": "Toggle Effects",
       "select-theme": "Select Theme",
@@ -48,8 +48,8 @@
   },
   "warband-service": {
     "warband-exists": "You already have a warband called \"{{warband}}\".",
-    "warband-remove": "Are you sure you want to remove your warband called \"{{warband}}\"?",
-    "fighter-remove": "Are you sure you want to remove your fighter called \"{{fighter}}\" from your warband \"{{warband}}\"?",
+    "warband-remove": "Are you sure you want to remove your warband called {{warband}}?",
+    "fighter-remove": "Are you sure you want to remove your fighter called \"{{fighter}}\" from your warband {{warband}}?",
     "abilities": {
       "label": "{{label}} Abilities",
       "universal": "Universal Abilities"
@@ -89,17 +89,42 @@
           "edit": "Edit",
           "remove": "Remove",
           "duplicate": "Duplicate"
+        },
+        "form": {
+          "narrative": {
+            "label": "Campaign",
+            "name": "Name",
+            "notes": "Notes",
+            "renown": "Renown"
+          },
+          "abilities": {
+            "label": "Abilities",
+            "add": "Add Ability",
+            "edit": "Edit Ability",
+            "remove": "Remove Ability",
+            "remove-question": "Are you sure you want to remove the ability called \"{{ability}}\" from {{fighter}}?"
+          },
+          "modifiers": {
+            "label": "Modifiers",
+            "add": "Add Modifier",
+            "edit": "Edit Modifier",
+            "remove": "Remove Modifier",
+            "remove-question": "Are you sure you want to remove the modifier called \"{{modifier}}\" from {{fighter}}?"
+          }
         }
       },
       "campaign": {
         "title": "Campaign",
         "update": "Update Campaign",
         "form": {
-          "name": "Campaign Name",
+          "name": "Quest Name",
           "limit": "Point Limit",
           "reputation": "Reputation",
           "glory": "Glory Points",
-          "notes": "Notes"
+          "notes": "Notes",
+          "progress": "Progress",
+          "encampment": "Encampment",
+          "encampment-state": "Encampment State"
         }
       },
       "warband": {
@@ -115,7 +140,7 @@
             "add": "Add Ability",
             "edit": "Edit Ability",
             "remove": "Remove Ability",
-            "remove-question": "Are you sure you want to remove the ability called \"{{ability}}\" from your warband \"{{warband}}\"?"
+            "remove-question": "Are you sure you want to remove the ability called \"{{ability}}\" from your warband {{warband}}?"
           }
         }
       }
@@ -131,7 +156,8 @@
       "attacks": "Attacks",
       "strength": "Strength",
       "damage": "Damage",
-      "crit": "Crit"
+      "crit": "Crit",
+      "min-health": "Minimum Health"
     }
   },
   "fighter-role": {
@@ -152,11 +178,14 @@
       "points": { "label": "Points" },
       "runemarks": { "label": "Runemarks" },
       "type": { "label": "Type" },
-      "weapons": { "label": "Weapons" }
+      "weapons": { "label": "Weapons" },
+      "monster-stats": { "label": "Damage Table" }
     },
     "action": {
       "add-weapon": "Add Secondary Weapon",
       "remove-weapon": "Remove Secondary Weapon",
+      "add-monster-stat": "Add Damage Table Row",
+      "remove-monster-stat": "Remove Damage Table Row",
       "add": "Add Fighter",
       "update": "Update Fighter"
     }
@@ -209,7 +238,14 @@
       "abort": "Abort Battle",
       "wild": "Add Wild Fighter"
     },
+    "groups": "Assign Group",
+    "modifiers": "Modifiers",
+    "artefacts": "Artefacts",
+    "injuries": "injuries",
+    "trait": "Trait",
+    "renown": "Renown",
     "group": {
+      "roster": "Roster",
       "dagger": "Dagger",
       "shield": "Shield",
       "hammer": "Hammer",
@@ -221,13 +257,16 @@
       "remove-wild": "Remove Wild Fighter"
     },
     "options": {
-      "notes": "Notes"
+      "notes": "Notes",
+      "treasure-carry": "Carry Treasure",
+      "treasure-drop": "Drop Treasure"
     }
   },
   "battle-service": {
     "dialog": {
       "remove-wild": "Are you sure you want to remove this wild fighter?",
-      "abort": "Are you sure you want to abort this battle?"
+      "abort": "Are you sure you want to abort this battle?",
+      "ready": "Are you sure you want to end this turn, there are still fighters witing for activation?"
     }
   },
   "battle-dialog": {
@@ -252,17 +291,32 @@
       "end": "End Battle"
     }
   },
-  "universal-page": {
-    "title": "Universal Abilities",
-    "menu": {
-      "abilities-export": "Export Universal Abilities",
-      "abilities-import": "Import Universal Abilities"
+  "modifier-dialog": {
+    "title": {
+      "add": "New Modifier",
+      "edit": "Edit Modifier"
     },
-    "abilities": {
-      "add": "Add Universal Ability",
-      "export": "Export Universal Abilities",
-      "remove-question": "Are you sure you want to remove the ability called \"{{ability}}\" from your universal abilities?"
+    "form": {
+      "name": { "label": "Name" },
+      "type": { "label": "Type" },
+      "description": { "label": "Description" },
+      "characteristics": "Characteristics",
+      "attack": "Attack",
+      "ranged": "Ranged"
+    },
+    "action": {
+      "add-weapon": "Add Secondary Weapon",
+      "remove-weapon": "Remove Secondary Weapon",
+      "add-monster-stat": "Add Damage Table Row",
+      "remove-monster-stat": "Remove Damage Table Row",
+      "add": "Add Modifier",
+      "update": "Update Modifier"
     }
+  },
+  "modifier-type": {
+    "artefact": "Artefact",
+    "injury": "Injury",
+    "trait": "Trait"
   },
   "log": {
     "sentence": "On {{date}} there was a {{result}} {{campaign}}{{enemy}}.",
@@ -275,6 +329,42 @@
     "label": {
       "victory": "Victorius Battle",
       "failure": "Lost Battle"
+    }
+  },
+  "encampment-state": {
+    "secure": "Secure",
+    "threatened": "Threatened",
+    "compromised": "Compromised"
+  },
+  "battlegrounds-page": {
+    "title": "Battlegrounds",
+    "menu": {
+      "export": "Export Battlegrounds",
+      "import": "Import Battlegrounds",
+      "battlegrounds": {
+        "select": "Select Battleground",
+        "add": "Add Battleground",
+        "universal": "Universal Abilities"
+      }
+    },
+    "form": {
+      "name": "Battleground Name"
+    },
+    "dialog": {
+      "battleground": {
+        "remove": "Are you sure you want to remove your battleground called \"{{battleground}}\"?"
+      }
+    },
+    "battleground": {
+      "add": "Add Battleground",
+      "new": "Battleground",
+      "update": "Update Battleground",
+      "remove": "Remove Battleground",
+      "export": "Export Battleground",
+      "remove-question": "Are you sure you want to remove the battleground called \"{{battleground}}\"?"
+    },
+    "abilities": {
+      "remove": "Are you sure you want to remove the ability called \"{{ability}}\" from {{battleground}}?"
     }
   }
 }
