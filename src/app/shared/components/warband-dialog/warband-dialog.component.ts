@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Color } from 'src/app/core/enums/color.enum';
+import { EncampmentState } from 'src/app/core/enums/encampment-state.enum';
 import { Warband } from 'src/app/core/models/warband.model';
 import { WarbandService } from 'src/app/core/services/warband.service';
 
@@ -48,7 +49,10 @@ export class WarbandDialogComponent {
               limit: 1000,
               reputation: 2,
               glory: 0,
-              notes: ''
+              progress: 0,
+              notes: '',
+              encampment: '',
+              encampmentState: EncampmentState.Secure
             }
       ),
       icon: new FormControl(data.warband ? data.warband.icon : undefined, []),

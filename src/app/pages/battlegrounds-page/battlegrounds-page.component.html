@@ -1,0 +1,65 @@
+<smitd-header>
+
+  <button mat-icon-button routerLink="">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+
+  <h2 *ngIf="universal.value">{{'battlegrounds-page.menu.battlegrounds.universal' | translate}}</h2>
+  <h2 *ngIf="!universal.value">{{battlegroundsService.battlegrounds[selectedBattlegroundIndex].name}}
+  </h2>
+
+  <button mat-icon-button [matMenuTriggerFor]="battlegroundSelection">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #battlegroundSelection="matMenu">
+    <button mat-menu-item
+      [matMenuTriggerFor]="settings">{{'battlegrounds-page.menu.battlegrounds.select' | translate}}</button>
+    <button mat-menu-item (click)="importBattlegrounds()">{{'battlegrounds-page.menu.import' | translate}}</button>
+    <button mat-menu-item (click)="exportBattlegrounds()">{{'battlegrounds-page.menu.export' | translate}}</button>
+  </mat-menu>
+
+  <mat-menu #settings="matMenu">
+    <ng-container *ngFor="let battleground of battlegroundsService.battlegrounds; let index = index">
+      <button mat-menu-item
+        (click)="selectBattleground(index)">{{battleground.universal ? ('battlegrounds-page.menu.battlegrounds.universal' | translate) : battleground.name}}</button>
+    </ng-container>
+    <button mat-menu-item
+      (click)="addNewBattleground()">{{'battlegrounds-page.menu.battlegrounds.add' | translate}}</button>
+  </mat-menu>
+</smitd-header>
+
+<div class="glass">
+  <div class="abilities-container">
+    <form [formGroup]="battlegroundForm">
+      <mat-form-field appearance="fill" *ngIf="!universal.value">
+        <mat-label>{{'battlegrounds-page.form.name' | translate}}</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <div formArrayName="abilities" class="abilities" *ngIf="abilitiesList.length">
+        <ng-container *ngFor="let abilityForm of abilitiesList; let index = index">
+          <div class="ability-card">
+            <smitd-ability-card [ability]="abilityForm.value" [darkBorders]="false" [showRunemarks]="true">
+            </smitd-ability-card>
+            <div class="ability-options">
+              <button class="remove-ability" mat-mini-fab (click)="editAbility(index)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button class="remove-ability" mat-mini-fab color="warn" (click)="removeAbility(index)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </form>
+    <button class="add-ability" color="accent" mat-flat-button
+      (click)="addNewAbility()">{{'warband-page.tab.warband.form.abilities.add' | translate}}</button>
+  </div>
+  <div class="double">
+    <button mat-flat-button color="accent" [disabled]="battlegroundForm.invalid || battlegroundForm.untouched"
+      (click)="updateBattleground()">{{'battlegrounds-page.battleground.update' | translate}}</button>
+    <button mat-flat-button color="warn" [disabled]="universal.value"
+      (click)="removeBattleground()">{{'battlegrounds-page.battleground.remove' | translate}}</button>
+  </div>
+</div>

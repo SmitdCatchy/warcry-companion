@@ -10,16 +10,17 @@ import { Ability } from 'src/app/core/models/ability.model';
 export class AbilityCardComponent {
   @Input() ability: Ability;
   @Input() showRunemarks: boolean;
+  @Input() darkBorders: boolean;
 
   constructor() {
     this.ability = {
       type: AbilityType.Single,
       runemarks: [],
       title: 'unset',
-      description: 'error unset ability',
-      restrictions: []
+      description: 'error unset ability'
     };
     this.showRunemarks = false;
+    this.darkBorders = true;
   }
 
 }

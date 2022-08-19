@@ -25,6 +25,15 @@ form {
     &.closer {
       margin-top: -12px;
     }
+    &.monster {
+      grid-template-columns: 1fr 1fr 1fr 40px;
+
+      .action {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
     .center {
       input {
         transform: translate(0);

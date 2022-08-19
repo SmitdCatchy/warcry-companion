@@ -1,0 +1,33 @@
+@import 'colors';
+
+:host {
+  display: block;
+  width: 100%;
+
+  .mat-divider {
+    border-color: rgba($black, 0.24);
+  }
+}
+
+.modifier-details {
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  align-items: center;
+  margin-top: -18px;
+
+
+  mat-divider {
+    height: 100%;
+  }
+
+  p {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 16px;
+    padding: 24px 16px 16px;
+    height: 100%;
+    box-sizing: border-box;
+    text-align: left;
+  }
+}

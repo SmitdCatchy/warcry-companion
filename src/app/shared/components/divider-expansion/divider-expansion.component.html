@@ -1,0 +1,16 @@
+<div class="expansion-container">
+  <mat-expansion-panel class="divider-expansion" hideToggle [(expanded)]="expanded">
+    <mat-expansion-panel-header matRipple>
+      <div class="divider">
+        <mat-icon>{{expanded ? 'expand_less' : 'expand_more'}}</mat-icon>
+        <mat-divider [ngClass]="{'dark-borders': darkBorders}"></mat-divider>
+        <ng-content select="[dividerLabel]"></ng-content>
+        <mat-divider [ngClass]="{'dark-borders': darkBorders}"></mat-divider>
+        <mat-icon>{{expanded ? 'expand_less' : 'expand_more'}}</mat-icon>
+      </div>
+    </mat-expansion-panel-header>
+    <ng-container>
+      <ng-content select="[expansionContent]"></ng-content>
+    </ng-container>
+  </mat-expansion-panel>
+</div>

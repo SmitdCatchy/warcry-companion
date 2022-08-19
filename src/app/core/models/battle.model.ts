@@ -1,5 +1,5 @@
-import { Battleground } from '../enums/battle-ground.enum';
 import { BattleState } from '../enums/battle-state.enum';
+import { Battleground } from './battleground.model';
 import { FighterReference } from './fighter-reference.model';
 import { Warband } from './warband.model';
 
@@ -14,6 +14,6 @@ export interface Battle {
   turn: number;
   victoryPoints: number;
   groupless?: boolean;
-  campaign?: boolean;
-  features?: Battleground[];
+  campaign: boolean;
+  battlegrounds?: Battleground[];
 }

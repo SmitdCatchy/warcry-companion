@@ -35,7 +35,7 @@
           </button>
         </mat-chip>
         <input placeholder="New runemark" #runemarkInput [formControl]="runemarkCtrl" [matChipInputFor]="runemarkList"
-          (matChipInputTokenEnd)="addRunemark($event)" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+          (matChipInputTokenEnd)="addRunemark($event)" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
       </mat-chip-list>
     </mat-form-field>
     <div class="triple">
@@ -117,9 +117,64 @@
       </div>
     </ng-container>
     <button class="add-weapon" mat-flat-button (click)="addWeapon()"
-      *ngIf="weapons.length < 2">{{'fighter-dialog.action.add-weapon' | translate}}</button>
+      *ngIf="weapons.length < 2 && role.value !== FighterRole.Monster">{{'fighter-dialog.action.add-weapon' | translate}}</button>
     <button class="remove-weapon" mat-flat-button color="warn" (click)="removeWeapon(1)"
       *ngIf="weapons.length === 2">{{'fighter-dialog.action.remove-weapon' | translate}}</button>
+    <ng-container *ngIf="role.value === FighterRole.Monster">
+      <div class="divider">
+        <mat-divider></mat-divider>
+        <span>{{'fighter-dialog.form.monster-stats.label' | translate}}</span>
+        <mat-divider></mat-divider>
+      </div>
+      <ng-container formArrayName="monsterStatTable">
+        <div class="quad monster">
+          <img class="runemark invert" src="assets/runemarks/characteristic-wounds.svg"
+            [alt]="'fighter-card.characteristic.min-health' | translate">
+          <img class="runemark invert" src="assets/runemarks/characteristic-movement.svg"
+            [alt]="'fighter-card.characteristic.damage' | translate">
+          <img class="runemark invert" src="assets/runemarks/characteristic-damage.svg"
+            [alt]="'fighter-card.characteristic.damage' | translate">
+          <div></div>
+        </div>
+        <ng-container *ngFor="let monsterStatForm of monsterStats.controls; let index = index">
+          <div class="quad monster" [ngClass]="{'closer': index > 0}" [formGroupName]="index">
+            <mat-form-field appearance="fill" class="center">
+              <input matInput maxlength="5" formControlName="minHealth">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="center">
+              <input matInput type="number" formControlName="movement">
+            </mat-form-field>
+            <div class="double">
+              <mat-form-field appearance="fill" class="center">
+                <input matInput type="number" formControlName="damage">
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="center">
+                <input matInput type="number" formControlName="crit">
+              </mat-form-field>
+            </div>
+            <button class="remove-ability" mat-mini-fab color="warn" [disabled]="monsterStats.controls.length < 2" (click)="removeMonsterStat(index)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </ng-container>
+        <div class="quad monster">
+          <div class="hint">
+            <span>{{'fighter-card.characteristic.min-health' | translate}}</span>
+          </div>
+          <div class="hint">
+            <span>{{'fighter-card.characteristic.movement' | translate}}</span>
+          </div>
+          <div class="hint">
+            <span>{{'fighter-card.characteristic.damage' | translate}}</span>
+          </div>
+          <div class="hint">
+          </div>
+        </div>
+      </ng-container>
+      <button class="add-weapon" mat-flat-button
+        (click)="addMonsterStat()">{{'fighter-dialog.action.add-monster-stat' | translate}}</button>
+    </ng-container>
+
   </form>
 </div>
 <div class="actions">

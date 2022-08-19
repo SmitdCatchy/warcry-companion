@@ -16,11 +16,14 @@ import { FighterDialogComponent } from 'src/app/shared/components/fighter-dialog
 import { Ability } from 'src/app/core/models/ability.model';
 import { AbilityType } from 'src/app/core/enums/ability-type.enum';
 import { AbilityDialogComponent } from 'src/app/shared/components/ability-dialog/ability-dialog.component';
-import cloneDeep from 'lodash.clonedeep';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { BattleService } from 'src/app/core/services/battle.service';
 import { Subscription } from 'rxjs';
+import { FighterRole } from 'src/app/core/enums/fighter-role.enum';
+import { ModifierDialogComponent } from 'src/app/shared/components/modifier-dialog/modifier-dialog.component';
+import { Modifier } from 'src/app/core/models/modifier.model';
+import { EncampmentState } from 'src/app/core/enums/encampment-state.enum';
 
 @Component({
   selector: 'smitd-warband-page',
@@ -31,10 +34,13 @@ export class WarbandPageComponent implements OnDestroy {
   private subscriptions = new Subscription();
   public Color = Color;
   public FighterCardMode = FighterCardMode;
+  public FighterRole = FighterRole;
   public colorList = Object.keys(Color).map((key) => ({
     key,
     value: Color[key as keyof typeof Color]
   }));
+  public EncampmentState = EncampmentState;
+  public encampmentStateList = Object.values(EncampmentState);
 
   public warbandForm: FormGroup;
   public campaignForm: FormGroup;
@@ -58,7 +64,13 @@ export class WarbandPageComponent implements OnDestroy {
       limit: new FormControl(this.warband.campaign.limit, []),
       reputation: new FormControl(this.warband.campaign.reputation, []),
       glory: new FormControl(this.warband.campaign.glory, []),
-      notes: new FormControl(this.warband.campaign.notes, [])
+      progress: new FormControl(this.warband.campaign.progress, []),
+      notes: new FormControl(this.warband.campaign.notes, []),
+      encampment: new FormControl(this.warband.campaign.encampment, []),
+      encampmentState: new FormControl(
+        this.warband.campaign.encampmentState,
+        []
+      )
     });
     this.addInitialAbilities(this.warband.abilities);
   }
@@ -132,10 +144,153 @@ export class WarbandPageComponent implements OnDestroy {
         .afterClosed()
         .subscribe((updated) => {
           if (updated) {
-            this.warbandService.updateFighter(updated, index);
+            this.updateFighter(updated, index);
           }
         })
     );
+  }
+
+  public addFighterModifier(fighter: Fighter, index: number): void {
+    this.subscriptions.add(
+      this.dialog
+        .open(ModifierDialogComponent, {
+          data: {},
+          disableClose: true,
+          panelClass: ['full-screen-modal']
+        })
+        .afterClosed()
+        .subscribe((modifier: Modifier) => {
+          if (modifier) {
+            fighter.modifiers.push(modifier);
+            this.updateFighter(fighter, index);
+          }
+        })
+    );
+  }
+
+  public editFighterModifier(
+    fighter: Fighter,
+    index: number,
+    modifierIndex: number
+  ): void {
+    this.subscriptions.add(
+      this.dialog
+        .open(ModifierDialogComponent, {
+          data: { modifier: fighter.modifiers[modifierIndex], edit: true },
+          disableClose: true,
+          panelClass: ['full-screen-modal']
+        })
+        .afterClosed()
+        .subscribe((modifier: Modifier) => {
+          if (modifier) {
+            fighter.modifiers[modifierIndex] = modifier;
+            this.updateFighter(fighter, index);
+          }
+        })
+    );
+  }
+
+  public removeFighterModifier(
+    fighter: Fighter,
+    index: number,
+    modifierIndex: number
+  ): void {
+    this.subscriptions.add(
+      this.dialog
+        .open(ConfirmDialogComponent, {
+          data: {
+            yesColor: 'warn',
+            question: this.translateService.instant(
+              'warband-page.tab.fighters.form.modifiers.remove-question',
+              {
+                modifier: fighter.modifiers[modifierIndex].name,
+                fighter: fighter.name || fighter.type
+              }
+            )
+          }
+        })
+        .afterClosed()
+        .subscribe((decision) => {
+          if (decision) {
+            fighter.modifiers.splice(modifierIndex, 1);
+            this.updateFighter(fighter, index);
+          }
+        })
+    );
+  }
+
+  public addFighterAbility(fighter: Fighter, index: number): void {
+    this.subscriptions.add(
+      this.dialog
+        .open(AbilityDialogComponent, {
+          data: {},
+          disableClose: true,
+          panelClass: ['full-screen-modal']
+        })
+        .afterClosed()
+        .subscribe((abilityFormValue) => {
+          if (abilityFormValue) {
+            fighter.abilities ||= [];
+            fighter.abilities.push(abilityFormValue);
+            this.updateFighter(fighter, index);
+          }
+        })
+    );
+  }
+
+  public editFighterAbility(
+    fighter: Fighter,
+    index: number,
+    abilityIndex: number
+  ): void {
+    this.subscriptions.add(
+      this.dialog
+        .open(AbilityDialogComponent, {
+          data: { edit: true, ability: fighter.abilities[abilityIndex] },
+          disableClose: true,
+          panelClass: ['full-screen-modal']
+        })
+        .afterClosed()
+        .subscribe((abilityFormValue) => {
+          if (abilityFormValue) {
+            fighter.abilities[abilityIndex] = abilityFormValue;
+            this.updateFighter(fighter, index);
+          }
+        })
+    );
+  }
+
+  public removeFighterAbility(
+    fighter: Fighter,
+    index: number,
+    abilityIndex: number
+  ): void {
+    this.subscriptions.add(
+      this.dialog
+        .open(ConfirmDialogComponent, {
+          data: {
+            yesColor: 'warn',
+            question: this.translateService.instant(
+              'warband-page.tab.fighters.form.abilities.remove-question',
+              {
+                ability: fighter.abilities[abilityIndex].title,
+                fighter: fighter.name || fighter.type
+              }
+            )
+          }
+        })
+        .afterClosed()
+        .subscribe((decision) => {
+          if (decision) {
+            fighter.abilities.splice(abilityIndex, 1);
+            this.updateFighter(fighter, index);
+          }
+        })
+    );
+  }
+
+  public updateFighter(fighter: Fighter, index: number): void {
+    this.warbandService.updateFighter(fighter, index);
   }
 
   public duplicateFighter(fighter: Fighter): void {
@@ -166,48 +321,33 @@ export class WarbandPageComponent implements OnDestroy {
       ]),
       description: new FormControl(ability ? ability.description : '', [
         Validators.required
-      ]),
-      restrictions: new FormControl(ability ? ability.restrictions : [], [])
+      ])
     });
     this.abilities.push(abilityFormGroup);
   }
 
   public addNewAbility(ability?: Ability): FormGroup | void {
-    const abilityForm = new FormGroup({
-      type: new FormControl(ability ? ability.type : AbilityType.Double, [
-        Validators.required
-      ]),
-      runemarks: new FormControl(ability ? ability.runemarks : [], []),
-      title: new FormControl(ability ? ability.title : '', [
-        Validators.required
-      ]),
-      description: new FormControl(ability ? ability.description : '', [
-        Validators.required
-      ]),
-      restrictions: new FormControl(ability ? ability.restrictions : [], [])
-    });
     this.subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
-          data: { abilityForm },
+          data: { ability },
           disableClose: true,
           panelClass: ['full-screen-modal']
         })
         .afterClosed()
         .subscribe((abilityFormValue) => {
           if (abilityFormValue) {
-            this.abilities.push(abilityForm);
+            this.addAbility(abilityFormValue);
           }
         })
     );
   }
 
   public editAbility(index: number) {
-    const abilityForm = cloneDeep(this.abilitiesList[index]);
     this.subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
-          data: { abilityForm, edit: true },
+          data: { ability: this.abilitiesList[index].value, edit: true },
           disableClose: true,
           panelClass: ['full-screen-modal']
         })

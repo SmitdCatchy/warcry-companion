@@ -3,12 +3,12 @@ import { animate, group, query, style, transition, trigger } from '@angular/anim
 export const Slider = trigger('routeAnimations', [
   transition('menu => warband', slideTo('right')),
   transition('menu => battle', slideTo('right')),
-  transition('menu => universal', slideTo('right')),
+  transition('menu => battlegrounds', slideTo('right')),
   transition('warband => menu', slideTo('left')),
   transition('warband => battle', slideTo('right')),
   transition('battle => warband', slideTo('left')),
   transition('battle => menu', slideTo('left')),
-  transition('universal => menu', slideTo('left')),
+  transition('battlegrounds => menu', slideTo('left')),
 ]);
 
 function slideTo(direction: 'left' | 'right'): any {

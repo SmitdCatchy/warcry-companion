@@ -21,6 +21,7 @@ import { Location } from '@angular/common';
 import { WarbandService } from './warband.service';
 import { FighterDialogComponent } from 'src/app/shared/components/fighter-dialog/fighter-dialog.component';
 import { BattleEndDialogComponent } from 'src/app/shared/components/battle-end-dialog/battle-end-dialog.component';
+import { EncampmentState } from '../enums/encampment-state.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +81,7 @@ export class BattleService {
       .subscribe((battleConfiguration) => {
         if (battleConfiguration) {
           if (battleConfiguration.newBattle) {
+            console.log(battleConfiguration.battle);
             this.battle = battleConfiguration.battle;
             this.saveBattle();
           }
@@ -110,7 +112,10 @@ export class BattleService {
           limit: 1000,
           reputation: 2,
           glory: 0,
-          notes: ''
+          progress: 0,
+          notes: '',
+          encampment: '',
+          encampmentState: EncampmentState.Secure
         }
       },
       roster: [],
@@ -120,7 +125,8 @@ export class BattleService {
       wild: [],
       battleState: BattleState.Peace,
       turn: 1,
-      victoryPoints: 0
+      victoryPoints: 0,
+      campaign: false
     };
     this.saveBattle();
   }
@@ -140,6 +146,17 @@ export class BattleService {
         event.currentIndex
       );
     }
+    this.saveBattle();
+  }
+
+  public reassignFighter(
+    reference: FighterReference,
+    from: FighterReference[],
+    to: FighterReference[],
+    referenceIndex: number
+  ): void {
+    to.push(reference);
+    from.splice(referenceIndex, 1);
     this.saveBattle();
   }
 
@@ -211,6 +228,7 @@ export class BattleService {
     const stats = cloneDeep(fighter);
     const artefacts: Modifier[] = [];
     const injuries: Modifier[] = [];
+    const availableRenown: boolean[] = [];
     const modifiers = {
       weapons: [
         {
@@ -231,7 +249,6 @@ export class BattleService {
       wounds: 0
     };
     let trait;
-
     stats.modifiers.forEach((modifier: Modifier) => {
       switch (modifier.type) {
         case ModifierType.Artefact:
@@ -270,16 +287,32 @@ export class BattleService {
       }
     });
 
+    for (let i = 0; i < (fighter.renown || 0); i++) {
+      availableRenown.push(false);
+    }
+
     return {
       state: FighterState.Ready,
       stats,
       fighterIndex: index,
-      wounds: stats.wounds,
+      wounds: stats.wounds + modifiers.wounds,
       modifiers: modifiers,
       artefacts,
       injuries,
-      trait
+      trait,
+      availableRenown
     };
+  }
+
+  public useRenown(fighter: FighterReference, renownIndex: number): void {
+    fighter.availableRenown![renownIndex] =
+      !fighter.availableRenown![renownIndex];
+    this.saveBattle();
+  }
+
+  public toggleTreasure(fighter: FighterReference): void {
+    fighter.carryingTreasure = !fighter.carryingTreasure;
+    this.saveBattle();
   }
 
   public get allFighters(): FighterReference[] {
@@ -366,13 +399,20 @@ export class BattleService {
             }
             const date = new Date();
             this.warbandService.pushLog({
-              date: `${date.getFullYear()}.${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}.${date.getDate()}.`,
+              date: `${date.getFullYear()}.${
+                date.getMonth() + 1 < 10
+                  ? `0${date.getMonth() + 1}`
+                  : date.getMonth() + 1
+              }.${date.getDate()}.`,
               victory: result.victory,
               enemy: result.enemy,
               campaign: this.battle.campaign,
               casualities: this.allFighters
                 .filter((fighter) => fighter.state === FighterState.Dead)
-                .map((referenc) => referenc.stats)
+                .map((referenc) => ({
+                  type: referenc.stats.type,
+                  name: referenc.stats.name
+                }))
             });
             this.clearBattle();
             this.back();

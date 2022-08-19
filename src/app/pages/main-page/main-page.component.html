@@ -12,7 +12,7 @@
     <button mat-menu-item (click)="battleService.prepareBattle()">{{'main-page.menu.quick-battle' | translate}}</button>
     <button mat-menu-item (click)="addWarband()">{{'main-page.menu.warband-create' | translate}}</button>
     <button mat-menu-item (click)="importWarband()">{{'main-page.menu.warband-import' | translate}}</button>
-    <button mat-menu-item routerLink="/universal">{{'main-page.menu.universal-settings' | translate}}</button>
+    <button mat-menu-item routerLink="/battlegrounds">{{'main-page.menu.battlegrounds' | translate}}</button>
     <button mat-menu-item [matMenuTriggerFor]="settings">{{'main-page.menu.settings' | translate}}</button>
   </mat-menu>
 
@@ -64,4 +64,7 @@
       </button>
     </mat-menu>
   </div>
+
+  <button mat-flat-button color="accent" class="add" *ngIf="!warbandService.warbands.length" (click)="addWarband()">{{'main-page.menu.warband-create' | translate}}</button>
+  <button mat-flat-button color="accent" class="add" *ngIf="!warbandService.warbands.length" (click)="importWarband()">{{'main-page.menu.warband-import' | translate}}</button>
 </div>

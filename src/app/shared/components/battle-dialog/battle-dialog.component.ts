@@ -1,13 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Battleground } from 'src/app/core/enums/battle-ground.enum';
 import { BattleState } from 'src/app/core/enums/battle-state.enum';
 import { Color } from 'src/app/core/enums/color.enum';
 import { Battle } from 'src/app/core/models/battle.model';
+import { Battleground } from 'src/app/core/models/battleground.model';
 import { Fighter } from 'src/app/core/models/fighter.model';
 import { Warband } from 'src/app/core/models/warband.model';
 import { BattleService } from 'src/app/core/services/battle.service';
+import { BattlegroundsService } from 'src/app/core/services/battlegrounds.service';
 
 @Component({
   selector: 'smitd-battle-dialog',
@@ -18,8 +19,7 @@ export class BattleDialogComponent {
   public battleForm: FormGroup;
   public warbandForm: FormGroup;
   public BattleState = BattleState;
-  public Battleground = Battleground;
-  public battlegroundList = Object.values(Battleground);
+  public battlegroundList: Battleground[];
   public colorList = Object.keys(Color).map((key) => ({
     key,
     value: Color[key as keyof typeof Color]
@@ -31,7 +31,8 @@ export class BattleDialogComponent {
     public data: {
       battle: Battle;
       warband: Warband;
-    }
+    },
+    private battlegroundService: BattlegroundsService
   ) {
     this.warbandForm = new FormGroup({
       name: new FormControl(
@@ -79,8 +80,9 @@ export class BattleDialogComponent {
       victoryPoints: new FormControl(0),
       groupless: new FormControl(false),
       campaign: new FormControl(false),
-      features: new FormControl([])
+      battlegrounds: new FormControl([])
     });
+    this.battlegroundList = this.battlegroundService.battlegrounds.slice(1);
   }
 
   public get runningBattle(): boolean {
@@ -116,7 +118,11 @@ export class BattleDialogComponent {
       newBattle,
       battle: {
         ...this.battleForm.value,
-        warband: this.warbandForm.value
+        warband: this.warbandForm.value,
+        battlegrounds: [
+          this.battlegroundService.universalAbilities,
+          ...this.battleForm.value.battlegrounds
+        ]
       }
     });
   }

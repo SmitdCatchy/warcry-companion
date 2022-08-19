@@ -126,6 +126,24 @@ body .mat-expansion-panel.fighter-card {
   }
 }
 
+body .mat-expansion-panel.divider-expansion {
+  background-color: transparent;
+
+  .mat-expansion-indicator::after {
+    color: inherit;
+  }
+
+  .mat-expansion-panel-header {
+    background: transparent;
+    padding: 0;
+  }
+
+  .mat-expansion-panel-body {
+    background: transparent;
+    padding: 0;
+  }
+}
+
 smitd-warband-page .mat-expansion-panel-body {
   padding: 0 8px 8px;
 }
@@ -325,7 +343,7 @@ input[type='number'] {
   }
 }
 
-.mat-mini-fab {
+smitd-warband-page .mat-mini-fab, smitd-battlegrounds-page .mat-mini-fab {
   margin-right: 8px;
   width: 28px;
   height: 28px;
@@ -349,4 +367,8 @@ smitd-battle-page {
 body .mat-bottom-sheet-container {
   max-width: $max-width;
   min-width: unset;
+}
+
+smitd-divider-expansion .mat-expansion-panel-body {
+  margin: 8px 0 0;
 }

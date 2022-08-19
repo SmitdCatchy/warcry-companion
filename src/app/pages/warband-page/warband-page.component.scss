@@ -26,6 +26,42 @@
       grid-template-columns: 1fr 1fr 1fr;
       gap: 8px;
     }
+
+    .narrative {
+      & > * {
+        width: 100%;
+      }
+    }
+  }
+
+  .modifiers,
+  .abilities {
+    .modifier-card,
+    .ability-card {
+      position: relative;
+      margin-bottom: 12px;
+
+      .modifier-options,
+      .ability-options {
+        position: absolute;
+        top: -4px;
+        right: 0;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+
+    & > button {
+      width: 100%;
+    }
+  }
+
+  .add {
+    width: 100%;
+    padding: 8px 8px 8px 16px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
   }
 }
 
@@ -66,6 +102,7 @@
     .ability-card {
       position: relative;
       margin-bottom: 24px;
+      width: 100%;
 
       .ability-options {
         position: absolute;
@@ -90,4 +127,8 @@
 .mat-expansion-panel-header.mat-expanded:focus,
 .mat-expansion-panel-header.mat-expanded:hover {
   background: none;
+}
+
+.double.encampment, .double.renown {
+  grid-template-columns: 2fr 1fr;
 }

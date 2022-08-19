@@ -2,49 +2,48 @@
   <div class="battleframe-header" *ngIf="mode === 'battle'">
     <ng-content select="[battleframeHeader]"></ng-content>
   </div>
-  <mat-expansion-panel class="fighter-card" hideToggle>
-    <mat-expansion-panel-header matRipple class="fighter-header" warbandColor [warbandColorAsync]="core.color" [warbandColorImportant]="deadColor" [warbandColorOpaque]="true"
-    [ngClass]="{'iconed': fighter.icon}">
-    <div class="fighter-icon" warbandColor [warbandColorAsync]="core.color"
-      [ngStyle]="{'background-image': 'url(' + iconSrc + ')'}" [warbandColorOpaque]="false"
-      *ngIf="fighter.icon as iconSrc">
-    </div>
-    <mat-panel-title class="fighter-name"
-      [ngClass]="{'long': (fighter.name ? fighter.name.length : fighter.type.length) > 24}">
-      <p>
-        {{fighter.name ? fighter.name : fighter.type}} <span
-          *ngIf="fighter.role === FighterRole.Leader && !fighter.name">[{{'fighter-role.leader' | translate}}]</span>
-      </p>
-      <span *ngIf="fighter.name">
-        {{fighter.type}} <span
-          *ngIf="fighter.role === FighterRole.Leader">[{{'fighter-role.leader' | translate}}]</span>
-      </span>
-    </mat-panel-title>
-    <mat-panel-description class="fighter-points">
-      <ng-content select="[cdkDragHandle]">
-      </ng-content>
-      <ng-container *ngIf="mode !== 'battle'">
-        {{fighter.points}} <span>{{'common.pts' | translate}}</span>
-      </ng-container>
-    </mat-panel-description>
-  </mat-expansion-panel-header>
-
-
+  <mat-expansion-panel class="fighter-card" hideToggle [disabled]="dead" [expanded]="dead ? false : expanded"
+    (expandedChange)="expanded = !expanded" #fighterExpansion>
+    <mat-expansion-panel-header matRipple class="fighter-header" warbandColor [warbandColorAsync]="core.color"
+      [warbandColorImportant]="deadColor" [warbandColorOpaque]="true" [ngClass]="{'iconed': fighter.icon}">
+      <div class="fighter-icon" warbandColor [warbandColorAsync]="core.color"
+        [ngStyle]="{'background-image': 'url(' + iconSrc + ')'}" [warbandColorOpaque]="false"
+        *ngIf="fighter.icon as iconSrc">
+      </div>
+      <mat-panel-title class="fighter-name"
+        [ngClass]="{'long': (fighter.name ? fighter.name.length : fighter.type.length) > 24}">
+        <p>
+          {{fighter.name ? fighter.name : fighter.type}} <span
+            *ngIf="fighter.role === FighterRole.Leader && !fighter.name">[{{'fighter-role.leader' | translate}}]</span>
+        </p>
+        <span *ngIf="fighter.name">
+          {{fighter.type}} <span
+            *ngIf="fighter.role === FighterRole.Leader">[{{'fighter-role.leader' | translate}}]</span>
+        </span>
+      </mat-panel-title>
+      <mat-panel-description class="fighter-points">
+        <ng-content select="[cdkDragHandle]">
+        </ng-content>
+        <ng-container *ngIf="mode !== 'battle'">
+          {{fighter.points}} <span>{{'common.pts' | translate}}</span>
+        </ng-container>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
     <div class="fighter-details">
       <div class="fighter-characteristics">
         <div class="left">
           <div class="fighter-stats">
             <div class="stat"><img src="assets/runemarks/characteristic-movement.svg"
                 [alt]="'fighter-card.characteristic.movement' | translate" class="runemark"><span
-                [ngClass]="{'positive': fighterReference.modifiers.movement > 0, 'negative': fighterReference.modifiers.movement < 0 }">{{fighter.movement + fighterReference.modifiers.movement}}</span>
+                [ngClass]="{'positive': getModifier('movement') > 0, 'negative':  getModifier('movement') < 0 }">{{ getModified('movement')}}</span>
             </div>
             <div class="stat"><img src="assets/runemarks/characteristic-toughness.svg"
                 [alt]="'fighter-card.characteristic.toughness' | translate" class="runemark"><span
-                [ngClass]="{'positive': fighterReference.modifiers.toughness > 0, 'negative': fighterReference.modifiers.toughness < 0 }">{{fighter.toughness + fighterReference.modifiers.toughness}}</span>
+                [ngClass]="{'positive': getModifier('toughness') > 0, 'negative': getModifier('toughness') < 0 }">{{getModified('toughness')}}</span>
             </div>
             <div class="stat"><img src="assets/runemarks/characteristic-wounds.svg"
                 [alt]="'fighter-card.characteristic.wounds' | translate" class="runemark"><span
-                [ngClass]="{'positive': fighterReference.modifiers.wounds > 0, 'negative': fighterReference.modifiers.wounds < 0 }">{{fighter.wounds  + fighterReference.modifiers.wounds}}</span>
+                [ngClass]="{'positive': getModifier('wounds') > 0, 'negative': getModifier('wounds') < 0 }">{{getModified('wounds')}}</span>
             </div>
           </div>
           <div class="fighter-runemarks" matRipple (click)="callAbilities.emit()">
@@ -65,24 +64,24 @@
             <span [ngClass]="{'last-row': index === fighter.weapons.length - 1}">{{weapon.range}}</span>
             <span [ngClass]="{
               'last-row': index === fighter.weapons.length - 1,
-              'positive': fighterReference.modifiers.weapons[index].attacks > 0,
-              'negative': fighterReference.modifiers.weapons[index].attacks < 0
-            }">{{weapon.attacks + fighterReference.modifiers.weapons[index].attacks}}</span>
+              'positive': getModifier('weapon', 'attacks', index) > 0,
+              'negative': getModifier('weapon', 'attacks', index) < 0
+            }">{{getModified('weapon', 'attacks', index)}}</span>
             <span [ngClass]="{
               'last-row': index === fighter.weapons.length - 1,
-              'positive': fighterReference.modifiers.weapons[index].strength > 0,
-              'negative': fighterReference.modifiers.weapons[index].strength < 0
-            }">{{weapon.strength + fighterReference.modifiers.weapons[index].strength}}</span>
+              'positive': getModifier('weapon', 'strength', index) > 0,
+              'negative': getModifier('weapon', 'strength', index) < 0
+            }">{{getModified('weapon', 'strength', index)}}</span>
             <span [ngClass]="{'last-row': index === fighter.weapons.length - 1}">
               <span [ngClass]="{
-              'positive': fighterReference.modifiers.weapons[index].damage > 0,
-              'negative': fighterReference.modifiers.weapons[index].damage < 0
-            }">{{weapon.damage + fighterReference.modifiers.weapons[index].damage}}</span>
+              'positive': getModifier('weapon', 'damage', index) > 0,
+              'negative': getModifier('weapon', 'damage', index) < 0
+            }">{{getModified('weapon', 'damage', index)}}</span>
               /
               <span [ngClass]="{
-              'positive': fighterReference.modifiers.weapons[index].crit > 0,
-              'negative': fighterReference.modifiers.weapons[index].crit < 0
-            }">{{weapon.crit + fighterReference.modifiers.weapons[index].crit}}</span>
+              'positive': getModifier('weapon', 'crit', index) > 0,
+              'negative': getModifier('weapon', 'crit', index) < 0
+            }">{{getModified('weapon', 'crit', index)}}</span>
             </span>
           </ng-container>
         </div>

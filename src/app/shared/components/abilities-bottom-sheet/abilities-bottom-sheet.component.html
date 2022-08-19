@@ -5,6 +5,6 @@
       <span class="label" *ngIf="abilityGroup.label as label">{{label}}</span>
       <mat-divider></mat-divider>
     </div>
-    <smitd-ability-card [ability]="ability" [showRunemarks]="data.showRunemarks" *ngFor="let ability of abilityGroup.abilities"></smitd-ability-card>
+    <smitd-ability-card [ability]="ability" [showRunemarks]="data.showRunemarks" [darkBorders]="false" *ngFor="let ability of abilityGroup.abilities"></smitd-ability-card>
   </ng-container>
 </ng-container>
