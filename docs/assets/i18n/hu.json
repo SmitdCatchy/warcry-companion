@@ -32,7 +32,7 @@
       "quick-battle": "Gyors csata",
       "warband-create": "Csapat létrehozása",
       "warband-import": "Csapat importálása",
-      "universal-settings": "Egyetemes képességek",
+      "battlegrounds": "Csataterek",
       "settings": "Beállítások",
       "toggle-effects": "Effektusok kapcsolása",
       "select-theme": "Témaválasztás",
@@ -48,8 +48,8 @@
   },
   "warband-service": {
     "warband-exists": "Már van egy \"{{warband}}\" elnevezésű csapatod.",
-    "warband-remove": "Biztosan ki szeretnéd törölni a \"{{warband}}\" elnevezésű csapatod?",
-    "fighter-remove": "Biztosan el akarod távolítani a \"{{fighter}}\" elnevezésű harcosod a \"{{warband}}\" nevű csapatodból?",
+    "warband-remove": "Biztosan ki szeretnéd törölni a/az \"{{warband}}\" elnevezésű csapatod?",
+    "fighter-remove": "Biztosan el akarod távolítani a/az \"{{fighter}}\" elnevezésű harcosod a/az \"{{warband}}\" nevű csapatodból?",
     "abilities": {
       "label": "{{label}} Képességek",
       "universal": "Egyetemes Képességek"
@@ -89,6 +89,28 @@
           "edit": "Szerkesztés",
           "remove": "Törlés",
           "duplicate": "Másolás"
+        },
+        "form": {
+          "narrative": {
+            "label": "Kampány",
+            "name": "Név",
+            "notes": "Feljegyzések",
+            "renown": "Hírnév"
+          },
+          "abilities": {
+            "label": "Képességek",
+            "add": "Képesség hozzáadása",
+            "edit": "Képesség szerkesztése",
+            "remove": "Képesség törlése",
+            "remove-question": "Biztosan el akarod távolítani a/az \"{{ability}}\" elnevezésű képességet a/az {{fighter}} nevű harcostól?"
+          },
+          "modifiers": {
+            "label": "Módosítók",
+            "add": "Módosító hozzáadása",
+            "edit": "Módosító szerkesztése",
+            "remove": "Módosító törlése",
+            "remove-question": "Biztosan el akarod távolítani a/az \"{{modifier}}\" elnevezésű módosítót a/az {{fighter}} nevű harcostól?"
+          }
         }
       },
       "campaign": {
@@ -99,7 +121,10 @@
           "limit": "Pont limit",
           "reputation": "Hírnév",
           "glory": "Dicsőség pont",
-          "notes": "Feljegyzések"
+          "notes": "Feljegyzések",
+          "progress": "Haladás",
+          "encampment": "Táborhely",
+          "encampment-state": "Táborhely állapota"
         }
       },
       "warband": {
@@ -115,7 +140,7 @@
             "add": "Képesség hozzáadása",
             "edit": "Képesség szerkesztése",
             "remove": "Képesség törlése",
-            "remove-question": "Biztosan el akarod távolítani a \"{{ability}}\" elnevezésű képességet a \"{{warband}}\" nevű csapatodból?"
+            "remove-question": "Biztosan el akarod távolítani a/az \"{{ability}}\" elnevezésű képességet a/az \"{{warband}}\" nevű csapatodból?"
           }
         }
       }
@@ -131,7 +156,8 @@
       "attacks": "Támadások",
       "strength": "Erő",
       "damage": "Sebzés",
-      "crit": "Kritikus sebzés"
+      "crit": "Kritikus sebzés",
+      "min-health": "Minimum élet"
     }
   },
   "fighter-role": {
@@ -152,11 +178,14 @@
       "points": { "label": "Pontérték" },
       "runemarks": { "label": "Rúnák" },
       "type": { "label": "Típus" },
-      "weapons": { "label": "Fegyverek" }
+      "weapons": { "label": "Fegyverek" },
+      "monster-stats": { "label": "Sebződés tábla" }
     },
     "action": {
       "add-weapon": "Másodlagos fegyver hozzáadása",
       "remove-weapon": "Másodlagos fegyver törlése",
+      "add-monster-stat": "Új sor hozzáadása",
+      "remove-monster-stat": "Sor törlése",
       "add": "Harcos hozzáadása",
       "update": "Harcos frissítése"
     }
@@ -191,13 +220,6 @@
       "update": "Képesség frissítése"
     }
   },
-  "battleground": {
-    "dungeon": "Kazamata",
-    "arena": "Aréna",
-    "mines": "Bányák",
-    "wildlands": "Vadvidék",
-    "hunt": "Vadászat"
-  },
   "battle-page": {
     "quick": "Gyors csata",
     "menu": {
@@ -209,7 +231,14 @@
       "abort": "Csata elvetése",
       "wild": "Vad hozzáadása"
     },
+    "groups": "Csapathoz rendelés",
+    "modifiers": "Módosítók",
+    "artefacts": "Tárgyak",
+    "injuries": "Sérülések",
+    "trait": "Jellemvonás",
+    "renown": "Hírnév",
     "group": {
+      "roster": "Választható harcosok",
       "dagger": "Tőr",
       "shield": "Pajzs",
       "hammer": "Kalapács",
@@ -221,13 +250,16 @@
       "remove-wild": "Vad eltávolítása"
     },
     "options": {
-      "notes": "Feljegyzések"
+      "notes": "Feljegyzések",
+      "treasure-carry": "Kincs hordozása",
+      "treasure-drop": "Kincs eldobása"
     }
   },
   "battle-service": {
     "dialog": {
       "remove-wild": "Biztosan el akarod távolítani a vadat?",
-      "abort": "Biztosan el akarod vetni a csatát?"
+      "abort": "Biztosan el akarod vetni a csatát?",
+      "ready": "Még vannak aktiválható harcosaid, biztosan be akarod fejezni a kört?"
     }
   },
   "battle-dialog": {
@@ -252,17 +284,28 @@
       "end": "Csata vége"
     }
   },
-  "universal-page": {
-    "title": "Egyetemes képességek",
-    "menu": {
-      "abilities-export": "Egyetemes képességek exportálása",
-      "abilities-import": "Egyetemes képességek importálása"
+  "modifier-dialog": {
+    "title": {
+      "add": "Új Módosító",
+      "edit": "Módosító szerkesztése"
     },
-    "abilities": {
-      "add": "Egyetemes képesség hozzáadása",
-      "export": "Egyetemes képesség exportálása",
-      "remove-question": "Biztosan el akarod távolítani \"{{ability}}\" nevű egyetemes képességet?"
+    "form": {
+      "name": { "label": "Név" },
+      "type": { "label": "Típus" },
+      "description": { "label": "Leírás" },
+      "characteristics": "Karakterisztikák",
+      "attack": "Támadás",
+      "ranged": "Távolsági"
+    },
+    "action": {
+      "add": "Módosító hozzáadása",
+      "update": "Módosító frissítése"
     }
+  },
+  "modifier-type": {
+    "artefact": "Tárgy",
+    "injury": "Sérülés",
+    "trait": "Jellemvonás"
   },
   "log": {
     "sentence": "{{date}} dátumon volt egy {{result}} {{campaign}}{{enemy}}.",
@@ -270,11 +313,46 @@
     "failure": "vesztett",
     "battle": "csata",
     "campaign": "kampány csata",
-    "enemy": "  {{enemy}} ellen",
+    "enemy": " {{enemy}} ellen",
     "casualities": "Áldozatok",
     "label": {
       "victory": "Győztes ssata",
       "failure": "Vesztes csata"
+    }
+  },
+  "encampment-state": {
+    "secure": "Biztonságos",
+    "threatened": "Fenyegetett",
+    "compromised": "Veszéjes"
+  },
+  "battlegrounds-page": {
+    "title": "Gyataterek",
+    "menu": {
+      "export": "Csataterek exportálása",
+      "import": "Csataterek importálása",
+      "battlegrounds": {
+        "select": "Csatatér kiválasztása",
+        "add": "Csatatér hozzáadása",
+        "universal": "Egyetemes Képességek"
+      }
+    },
+    "form": {
+      "name": "Csatatér elnevezése"
+    },
+    "dialog": {
+      "battleground": {
+        "remove": "Biztosan ki szeretnéd törölni a/az \"{{battleground}}\" elnevezésű csatateret?"
+      }
+    },
+    "battleground": {
+      "add": "Csatatér hozzáadása",
+      "new": "Csatatér",
+      "update": "Csatatér frissítése",
+      "remove": "Csatatér törlése",
+      "export": "Csatatér expotálása"
+    },
+    "abilities": {
+      "remove": "Biztosan el akarod távolítani a/az \"{{ability}}\" elnevezésű képességet a/az {{battleground}} nevű csatateredből?"
     }
   }
 }
