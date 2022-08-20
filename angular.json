@@ -42,7 +42,10 @@
             },
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json",
-            "baseHref": "/warcry-companion/"
+            "baseHref": "/warcry-companion/",
+            "allowedCommonJsDependencies": [
+              "lodash.clonedeep"
+           ]
           },
           "configurations": {
             "production": {

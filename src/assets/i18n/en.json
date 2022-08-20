@@ -220,13 +220,6 @@
       "update": "Update Ability"
     }
   },
-  "battleground": {
-    "dungeon": "Dungeon",
-    "arena": "Arena",
-    "mines": "Mines",
-    "wildlands": "Wildlands",
-    "hunt": "Hunt"
-  },
   "battle-page": {
     "quick": "Quick Battle",
     "menu": {
@@ -241,7 +234,7 @@
     "groups": "Assign Group",
     "modifiers": "Modifiers",
     "artefacts": "Artefacts",
-    "injuries": "injuries",
+    "injuries": "Injuries",
     "trait": "Trait",
     "renown": "Renown",
     "group": {
@@ -305,10 +298,6 @@
       "ranged": "Ranged"
     },
     "action": {
-      "add-weapon": "Add Secondary Weapon",
-      "remove-weapon": "Remove Secondary Weapon",
-      "add-monster-stat": "Add Damage Table Row",
-      "remove-monster-stat": "Remove Damage Table Row",
       "add": "Add Modifier",
       "update": "Update Modifier"
     }
@@ -360,8 +349,7 @@
       "new": "Battleground",
       "update": "Update Battleground",
       "remove": "Remove Battleground",
-      "export": "Export Battleground",
-      "remove-question": "Are you sure you want to remove the battleground called \"{{battleground}}\"?"
+      "export": "Export Battleground"
     },
     "abilities": {
       "remove": "Are you sure you want to remove the ability called \"{{ability}}\" from {{battleground}}?"
