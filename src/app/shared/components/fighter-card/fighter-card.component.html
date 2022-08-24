@@ -1,10 +1,10 @@
 <div class="battle-frame" [ngClass]="{'battleframe': mode === 'battle'}">
-  <div class="battleframe-header" *ngIf="mode === 'battle'">
+  <div class="battleframe-header" [ngStyle]="{'height': battleFrameHeight}" *ngIf="mode === 'battle'">
     <ng-content select="[battleframeHeader]"></ng-content>
   </div>
   <mat-expansion-panel class="fighter-card" hideToggle [disabled]="dead" [expanded]="dead ? false : expanded"
     (expandedChange)="expanded = !expanded" #fighterExpansion>
-    <mat-expansion-panel-header matRipple class="fighter-header" warbandColor [warbandColorAsync]="core.color"
+    <mat-expansion-panel-header matRipple #fighterExpansionHeader class="fighter-header" warbandColor [warbandColorAsync]="core.color"
       [warbandColorImportant]="deadColor" [warbandColorOpaque]="true" [ngClass]="{'iconed': fighter.icon}">
       <div class="fighter-icon" warbandColor [warbandColorAsync]="core.color"
         [ngStyle]="{'background-image': 'url(' + iconSrc + ')'}" [warbandColorOpaque]="false"
@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="fighter-runemarks" matRipple (click)="callAbilities.emit()">
-            <span>{{fighter.runemarks. join(', ')}}</span>
+            <span *ngFor="let runemark of fighter.runemarks">{{runemark}}</span>
             <span *ngIf="fighter.runemarks.length === 0">{{'fighter-card.characteristic.no-ability' | translate}}</span>
           </div>
         </div>

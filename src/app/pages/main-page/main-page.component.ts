@@ -18,7 +18,7 @@ import { WarbandDialogComponent } from 'src/app/shared/components/warband-dialog
 export class MainPageComponent implements OnDestroy {
   public themeList = Object.values(Theme);
   public languageList = Object.values(Language);
-  private subscriptions = new Subscription();
+  private _subscriptions = new Subscription();
 
   constructor(
     public readonly core: CoreService,
@@ -29,11 +29,11 @@ export class MainPageComponent implements OnDestroy {
   ) {}
 
   public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this._subscriptions.unsubscribe();
   }
 
   public addWarband(): void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(WarbandDialogComponent, {
           data: {},
@@ -80,7 +80,7 @@ export class MainPageComponent implements OnDestroy {
         reader.addEventListener('load', () => {
           const warband = JSON.parse((reader as any).result) as Warband;
           if (this.warbandService.checkWarband(warband, false)) {
-            this.subscriptions.add(
+            this._subscriptions.add(
               this.dialog
                 .open(WarbandDialogComponent, {
                   data: {

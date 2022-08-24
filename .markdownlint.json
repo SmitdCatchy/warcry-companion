@@ -4,5 +4,6 @@
   },
   "MD013": {
     "line_length": 1000
-  }
+  },
+  "no-duplicate-heading": false
 }

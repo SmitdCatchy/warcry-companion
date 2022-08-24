@@ -15,7 +15,7 @@ import { WarbandService } from 'src/app/core/services/warband.service';
   selector: 'smitd-battle-page',
   templateUrl: './battle-page.component.html',
   styleUrls: ['./battle-page.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BattlePageComponent {
   public FighterCardMode = FighterCardMode;

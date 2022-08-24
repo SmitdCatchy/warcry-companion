@@ -7,4 +7,5 @@ export enum LocalStorageKey {
   SelectedWarband = 'smitd.warcry-companion.selected-warband',
   Battlegrounds = 'smitd.warcry-companion.battlegrounds',
   Battle = 'smitd.warcry-companion.battle',
+  FighterStore = 'smitd.warcry-companion.fighter-store',
 }

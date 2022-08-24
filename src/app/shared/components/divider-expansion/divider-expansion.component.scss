@@ -6,28 +6,33 @@
   margin: 12px 0;
   color: $black;
 
-  .divider {
-    grid-template-columns: min-content 1fr min-content 1fr min-content;
-    font-size: 14px;
-    margin: 0;
+  .expansion-container {
+    .divider-expansion {
+      .divider {
+        grid-template-columns: min-content 1fr min-content 1fr min-content;
+        font-size: 14px;
+        margin: 0;
+      }
+      &.mat-expansion-panel {
+        color: $black;
+        box-shadow: none;
+      }
+      .mat-expansion-panel-header {
+        height: unset;
+        border-radius: 4px;
+        background-color: rgba($black, 0.1);
+      }
+      .mat-expansion-panel:not(.mat-expanded):not([aria-disabled='true'])
+        .mat-expansion-panel-header:hover {
+        background: none;
+      }
+      .mat-divider.dark-borders {
+        border-color: rgba($black, 0.24);
+      }
+    }
+
+    mat-divider {
+      border-width: 2px;
+    }
   }
-
-  .mat-expansion-panel {
-    color: $black;
-    box-shadow: none;
-  }
-
-  .mat-expansion-panel-header {
-    height: unset
-  }
-
-  .mat-expansion-panel:not(.mat-expanded):not([aria-disabled='true'])
-    .mat-expansion-panel-header:hover {
-    background: none;
-  }
-}
-
-
-.mat-divider.dark-borders {
-  border-color: rgba($black, 0.24);
 }

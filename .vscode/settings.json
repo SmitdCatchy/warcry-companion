@@ -2,7 +2,8 @@
   "search.exclude": {
     "**/node_modules": true,
     "**/dist": true,
-    "**/docs": true
+    "**/docs": true,
+    "package-lock.json": true
   },
   "files.exclude": {
     "**/dist": true,

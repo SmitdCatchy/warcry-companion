@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -12,18 +12,25 @@ import { FighterRole } from 'src/app/core/enums/fighter-role.enum';
 import { Fighter } from 'src/app/core/models/fighter.model';
 import { Weapon } from 'src/app/core/models/weapon.model';
 import { MonsterStat } from 'src/app/core/models/monster-stat.model';
+import { FighterStoreService } from 'src/app/core/services/fighter-store.service';
+import { Subscription } from 'rxjs';
+import { FighterStoreDialogComponent } from '../fighter-store-dialog/fighter-store-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import cloneDeep from 'lodash.clonedeep';
 
 @Component({
   selector: 'smitd-fighter-dialog',
   templateUrl: './fighter-dialog.component.html',
   styleUrls: ['./fighter-dialog.component.scss']
 })
-export class FighterDialogComponent {
+export class FighterDialogComponent implements OnDestroy {
   public fighterForm: FormGroup;
   public separatorKeysCodes: number[] = [ENTER, COMMA, PERIOD];
   public runemarkCtrl = new FormControl('');
   public fighterRoleList = Object.values(FighterRole);
   public FighterRole = FighterRole;
+  public existsInStore: boolean;
+  private _subscriptions: Subscription = new Subscription();
 
   constructor(
     public dialogRef: MatDialogRef<FighterDialogComponent>,
@@ -31,53 +38,69 @@ export class FighterDialogComponent {
     public data: {
       fighter: Fighter;
       edit: boolean;
-    }
+      storeDialog: boolean;
+    },
+    public readonly fighterStore: FighterStoreService,
+    private readonly dialog: MatDialog
   ) {
+    const fighterCopy = data.fighter ? cloneDeep(data.fighter) : undefined;
     this.fighterForm = new FormGroup({
-      name: new FormControl(data.fighter ? data.fighter.name : '', []),
+      name: new FormControl(fighterCopy ? fighterCopy.name : '', []),
       role: new FormControl(
-        data.fighter ? data.fighter.role : FighterRole.Fighter,
+        fighterCopy ? fighterCopy.role : FighterRole.Fighter,
         [Validators.required]
       ),
-      type: new FormControl(data.fighter ? data.fighter.type : '', [
+      type: new FormControl(fighterCopy ? fighterCopy.type : '', [
         Validators.required
       ]),
       movement: new FormControl(
-        data.fighter ? data.fighter.movement : undefined,
-        [Validators.required, Validators.min(1)]
+        fighterCopy ? fighterCopy.movement : undefined,
+        [Validators.required, Validators.min(1), Validators.max(99)]
       ),
       toughness: new FormControl(
-        data.fighter ? data.fighter.toughness : undefined,
-        [Validators.required, Validators.min(1)]
+        fighterCopy ? fighterCopy.toughness : undefined,
+        [Validators.required, Validators.min(1), Validators.max(99)]
       ),
-      wounds: new FormControl(data.fighter ? data.fighter.wounds : undefined, [
+      wounds: new FormControl(fighterCopy ? fighterCopy.wounds : undefined, [
         Validators.required,
-        Validators.min(1)
+        Validators.min(1),
+        Validators.max(99)
       ]),
-      runemarks: new FormControl(
-        data.fighter ? data.fighter.runemarks : [],
-        []
-      ),
+      runemarks: new FormControl(fighterCopy ? fighterCopy.runemarks : [], []),
       weapons: new FormArray([], []),
       monsterStatTable: new FormArray([], []),
-      points: new FormControl(data.fighter ? data.fighter.points : undefined, [
-        Validators.required
+      points: new FormControl(fighterCopy ? fighterCopy.points : undefined, [
+        Validators.required,
+        Validators.min(1),
+        Validators.max(999)
       ]),
-      modifiers: new FormControl(
-        data.fighter ? data.fighter.modifiers : [],
-        []
-      ),
-      notes: new FormControl(data.fighter ? data.fighter.notes : '', []),
-      renown: new FormControl(data.fighter ? data.fighter.renown : 0, []),
-      icon: new FormControl(data.fighter ? data.fighter.icon : undefined, [])
+      modifiers: new FormControl(fighterCopy ? fighterCopy.modifiers : [], []),
+      notes: new FormControl(fighterCopy ? fighterCopy.notes : '', []),
+      renown: new FormControl(fighterCopy ? fighterCopy.renown : 0, []),
+      icon: new FormControl(fighterCopy ? fighterCopy.icon : undefined, []),
+      abilities: new FormControl(fighterCopy ? fighterCopy.modifiers : [], [])
     });
     if (data.fighter) {
       this.addInitialWeapons(data.fighter.weapons);
       this.addInitialMonsterStats(data.fighter.monsterStatTable || []);
+      this.existsInStore = this.fighterStore.checkFighter(data.fighter, false);
     } else {
       this.addWeapon();
       this.addMonsterStat();
+      this.existsInStore = false;
     }
+    this._subscriptions.add(
+      this.type.valueChanges.subscribe(() => {
+        this.existsInStore = this.fighterStore.checkFighter(
+          this.fighterForm.value,
+          false
+        );
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this._subscriptions.unsubscribe();
   }
 
   public get weapons(): FormArray {
@@ -100,26 +123,35 @@ export class FighterDialogComponent {
     return this.fighterForm.get('role') as AbstractControl;
   }
 
+  public get type(): AbstractControl {
+    return this.fighterForm.get('type') as AbstractControl;
+  }
+
   public addWeapon(weapon?: Weapon): FormGroup | void {
     const weaponFromGroup = new FormGroup({
       range: new FormControl(weapon ? weapon.range : undefined, [
-        Validators.required
+        Validators.required,
+        Validators.pattern(/^[1-9]+[0-9]*(-[1-9]+[0-9]*)*$/)
       ]),
       attacks: new FormControl(weapon ? weapon.attacks : undefined, [
         Validators.required,
-        Validators.min(1)
+        Validators.min(1),
+        Validators.max(99)
       ]),
       strength: new FormControl(weapon ? weapon.strength : undefined, [
         Validators.required,
-        Validators.min(1)
+        Validators.min(1),
+        Validators.max(99)
       ]),
       damage: new FormControl(weapon ? weapon.damage : undefined, [
         Validators.required,
-        Validators.min(1)
+        Validators.min(1),
+        Validators.max(99)
       ]),
       crit: new FormControl(weapon ? weapon.crit : undefined, [
         Validators.required,
-        Validators.min(1)
+        Validators.min(1),
+        Validators.max(99)
       ])
     });
     this.weapons.push(weaponFromGroup);
@@ -195,7 +227,14 @@ export class FighterDialogComponent {
   }
 
   public acceptDialog(): void {
-    const fighter = this.fighterForm.value as Fighter;
+    const fighter = cloneDeep(this.fighterForm.value as Fighter);
+    if (
+      this.data.storeDialog &&
+      !this.data.edit &&
+      this.fighterStore.checkFighter(fighter)
+    ) {
+      return;
+    }
     if (fighter.role !== FighterRole.Monster) {
       fighter.monsterStatTable = undefined;
     }
@@ -204,5 +243,65 @@ export class FighterDialogComponent {
 
   public closeDialog(): void {
     this.dialogRef.close(false);
+  }
+
+  public storeFighter(): void {
+    this.fighterStore.storeFighter(this.cleanFighter(this.fighterForm.value));
+    this.existsInStore = true;
+  }
+
+  public updateFighter(): void {
+    this.fighterStore.updateFighter(this.cleanFighter(this.fighterForm.value));
+    this.existsInStore = true;
+  }
+
+  public discardFighter(): void {
+    this.fighterStore.discardFighter(
+      this.fighterStore.getFighterStoreIndex(this.fighterForm.value),
+      () => {
+        this.existsInStore = false;
+      }
+    );
+  }
+
+  public cleanFighter(original: Fighter): Fighter {
+    const fighter = cloneDeep(original);
+    return {
+      role: fighter.role,
+      type: fighter.type,
+      movement: fighter.movement,
+      toughness: fighter.toughness,
+      wounds: fighter.wounds,
+      runemarks: fighter.runemarks,
+      weapons: fighter.weapons,
+      points: fighter.points,
+      modifiers: [],
+      abilities: []
+    };
+  }
+
+  public loadFighter(): void {
+    this._subscriptions.add(
+      this.dialog
+        .open(FighterStoreDialogComponent)
+        .afterClosed()
+        .subscribe((fighter: Fighter) => {
+          if (fighter.runemarks) {
+            while (this.weapons.length) {
+              this.weapons.removeAt(0);
+            }
+            this.addInitialWeapons(fighter.weapons);
+            while (this.monsterStats.length) {
+              this.monsterStats.removeAt(0);
+            }
+            this.addInitialMonsterStats(fighter.monsterStatTable || []);
+            this.fighterForm.setValue({
+              ...this.fighterForm.value,
+              ...fighter
+            });
+            this.existsInStore = true;
+          }
+        })
+    );
   }
 }

@@ -1,0 +1,25 @@
+<h2>{{'fighter-store-dialog.title' | translate}}</h2>
+<div class="dialog-content">
+  <form [formGroup]="storeForm">
+    <mat-form-field appearance="fill">
+      <mat-label>{{'fighter-store-dialog.fighter' | translate}}</mat-label>
+      <mat-select formControlName="fighter">
+        <mat-form-field appearance="fill">
+          <mat-label>{{'fighter-store-dialog.filter' | translate}}</mat-label>
+          <input matInput #filterExpression>
+        </mat-form-field>
+        <div *ngFor="let fighter of fighterStore.store">
+          <mat-option *ngIf="fighter.type.includes(filterExpression.value)" [value]="fighter">
+            {{fighter.type}}
+          </mat-option>
+        </div>
+        <mat-option (click)="filterExpression.value = ''">{{'fighter-store-dialog.clear' | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div class="actions">
+  <button mat-flat-button color="accent" (click)="acceptDialog()"
+    [disabled]="storeForm.invalid">{{'fighter-store-dialog.load'  | translate}}</button>
+  <button mat-flat-button (click)="closeDialog()">{{'common.back' | translate}}</button>
+</div>

@@ -4,6 +4,9 @@ export interface Modifier {
   name: string;
   type: ModifierType;
   description: string;
+  usable?: boolean;
+  used?: boolean;
+  attribute?: string;
   modify: {
     weapon: {
       ranged: boolean;

@@ -1,12 +1,23 @@
-<div class="divider">
+<div class="divider" [ngClass]="{'edit': edit}">
   <mat-divider></mat-divider>
-  <span>[{{'modifier-type.' + modifier.type  | translate}}]
-    {{modifier.name || 'common.unknown' | translate}}</span>
+  <span>
+    {{modifier.name || 'common.unknown' | translate}}
+  </span>
   <mat-divider></mat-divider>
 </div>
 <div class="modifier-details">
   <mat-divider vertical></mat-divider>
-  <p>{{modifier.description}}</p>
+  <div class="column">
+    <span>
+      [<ng-container *ngIf="modifier.attribute">{{modifier.attribute}}</ng-container>
+      {{'modifier-type.' + modifier.type  | translate}}]
+    </span>
+    <p>{{modifier.description}}</p>
+    <div class="useage" (click)="useModifier()" *ngIf="showUsage && modifier.usable">
+      <img [src]="'assets/runemarks/fighter-state-' + (modifier.used ? 'activated' : 'ready') + '.svg'"
+        [alt]="'battle-page.renown' | translate" class="runemark">
+    </div>
+  </div>
   <mat-divider vertical></mat-divider>
 </div>
 <mat-divider></mat-divider>

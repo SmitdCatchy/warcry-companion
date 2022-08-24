@@ -1,2 +1,22 @@
-$max-width: 720px;
-$breakpoint-xs: 420px;
+$laptop: 1440px;
+$tablet: 768px;
+$mobile: 425px;
+$mobile-small: 360px;
+
+@mixin laptop {
+  @media screen and (min-width: 769px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (min-width: 426px) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media screen and (min-width: 361px) {
+    @content;
+  }
+}

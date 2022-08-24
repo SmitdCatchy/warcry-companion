@@ -65,7 +65,8 @@ $warcry-warn-bright: createPalette($red-bright, $white, $black);
   .mat-expansion-panel,
   .mat-card,
   .mat-select-panel,
-  .mat-bottom-sheet-container {
+  .mat-bottom-sheet-container,
+  .mat-chip.mat-standard-chip {
     background-color: $color;
   }
 

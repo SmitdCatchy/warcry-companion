@@ -33,6 +33,7 @@
       "warband-create": "Csapat létrehozása",
       "warband-import": "Csapat importálása",
       "battlegrounds": "Csataterek",
+      "fighter-store": "Harcos tár",
       "settings": "Beállítások",
       "toggle-effects": "Effektusok kapcsolása",
       "select-theme": "Témaválasztás",
@@ -117,14 +118,16 @@
         "title": "Kampány",
         "update": "Kampány frissítése",
         "form": {
-          "name": "Kampány cím",
+          "name": "Kampány",
           "limit": "Pont limit",
           "reputation": "Hírnév",
           "glory": "Dicsőség pont",
           "notes": "Feljegyzések",
-          "progress": "Haladás",
+          "progress": "Kampány haladás",
           "encampment": "Táborhely",
-          "encampment-state": "Táborhely állapota"
+          "encampment-state": "Táborhely állapota",
+          "quest": "Küldetés",
+          "quest-progress": "Küldetés haladás"
         }
       },
       "warband": {
@@ -187,7 +190,12 @@
       "add-monster-stat": "Új sor hozzáadása",
       "remove-monster-stat": "Sor törlése",
       "add": "Harcos hozzáadása",
-      "update": "Harcos frissítése"
+      "update": "Harcos frissítése",
+      "store": "Harcos tár",
+      "save": "Harcos elmentése a tárba",
+      "store-update": "Harcos frissítése a tárban",
+      "load": "Harcos betöltése a tárból",
+      "discard": "Harcos törlése a tárból"
     }
   },
   "fighter-state": {
@@ -292,6 +300,8 @@
     "form": {
       "name": { "label": "Név" },
       "type": { "label": "Típus" },
+      "usable": { "label": "Használható" },
+      "attribute": { "label": "Tulajdonság" },
       "description": { "label": "Leírás" },
       "characteristics": "Karakterisztikák",
       "attack": "Támadás",
@@ -354,5 +364,24 @@
     "abilities": {
       "remove": "Biztosan el akarod távolítani a/az \"{{ability}}\" elnevezésű képességet a/az {{battleground}} nevű csatateredből?"
     }
+  },
+  "battlegrounds-service": {
+    "exists": "Már van egy \"{{battleground}}\" elnevezésű csatatered."
+  },
+  "fighter-store-page": {
+    "title": "Harcos tár",
+    "menu": {
+      "fighter-add": "Harcos hozzáadása a tárhoz",
+      "import": "Harcosok importálása",
+      "export": "Harcosok exportálása"
+    },
+    "option": {
+      "edit": "Harcos szerkesztése",
+      "remove": "RemoHarcos törlése"
+    }
+  },
+  "fighter-store-service": {
+    "remove": "Biztosan el akarod távolítani a/az \"{{fighter}}\" elnevezésű harcosod a Harcos tárból?",
+    "exists": "Már van egy \"{{battleground}}\" típusú harcosod a Harcos tárban."
   }
 }

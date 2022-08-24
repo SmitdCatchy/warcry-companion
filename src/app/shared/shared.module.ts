@@ -21,6 +21,7 @@ import { LogsBottomSheetComponent } from './components/logs-bottom-sheet/logs-bo
 import { ModifierCardComponent } from './components/modifier-card/modifier-card.component';
 import { ModifierDialogComponent } from './components/modifier-dialog/modifier-dialog.component';
 import { DividerExpansionComponent } from './components/divider-expansion/divider-expansion.component';
+import { FighterStoreDialogComponent } from './components/fighter-store-dialog/fighter-store-dialog.component';
 
 const declarationsAndExports = [
   HeaderComponent,
@@ -40,7 +41,8 @@ const declarationsAndExports = [
   LogsBottomSheetComponent,
   ModifierCardComponent,
   ModifierDialogComponent,
-  DividerExpansionComponent
+  DividerExpansionComponent,
+  FighterStoreDialogComponent
 ];
 const importsAndExports = [MaterialModule];
 

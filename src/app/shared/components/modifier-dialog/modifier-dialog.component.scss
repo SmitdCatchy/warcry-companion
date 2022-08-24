@@ -1,6 +1,7 @@
 .dialog-content {
   max-width: 400px;
   padding: 0 16px;
+  margin: 0 auto;
 }
 
 h2 {
@@ -55,7 +56,7 @@ form {
 
     &.right {
       grid-template-columns: 1fr 2fr;
-      align-items: end;
+      align-items: baseline;
     }
   }
 }
@@ -68,6 +69,8 @@ form {
 
 .slide-container {
   margin: 8px auto;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .actions {

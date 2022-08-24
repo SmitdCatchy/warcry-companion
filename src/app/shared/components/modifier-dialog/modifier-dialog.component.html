@@ -11,7 +11,18 @@
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>{{'modifier-dialog.form.name.label' | translate}}</mat-label>
-        <input matInput formControlName="name">
+        <input matInput formControlName="name" maxlength="50">
+      </mat-form-field>
+    </div>
+    <div class="double right">
+      <div class="slide-container">
+        <mat-slide-toggle formControlName="usable">
+          {{'modifier-dialog.form.usable.label' | translate}}
+        </mat-slide-toggle>
+      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'modifier-dialog.form.attribute.label' | translate}}</mat-label>
+        <input matInput formControlName="attribute" maxlength="25">
       </mat-form-field>
     </div>
     <mat-form-field appearance="fill">

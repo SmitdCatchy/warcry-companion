@@ -1,13 +1,17 @@
 <h2>{{(data.edit ? 'fighter-dialog.title.edit' : 'fighter-dialog.title.add') | translate}}</h2>
 <div class="dialog-content">
   <form [formGroup]="fighterForm">
-    <div class="double icon">
+    <div class="double icon" *ngIf="!data.storeDialog">
       <smitd-icon-uploader [iconValue]="icon.value" (iconValueChange)="iconValueChange($event)"></smitd-icon-uploader>
       <mat-form-field appearance="fill">
         <mat-label>{{'fighter-dialog.form.name.label' | translate}}</mat-label>
-        <input matInput formControlName="name">
+        <input matInput formControlName="name" maxlength="100">
       </mat-form-field>
     </div>
+    <mat-form-field appearance="fill">
+      <mat-label>{{'fighter-dialog.form.type.label' | translate}}</mat-label>
+      <input matInput formControlName="type" maxlength="100">
+    </mat-form-field>
     <div class="double">
       <mat-form-field appearance="fill">
         <mat-label>{{'fighter-dialog.form.role.label' | translate}}</mat-label>
@@ -22,20 +26,17 @@
       </mat-form-field>
     </div>
     <mat-form-field appearance="fill">
-      <mat-label>{{'fighter-dialog.form.type.label' | translate}}</mat-label>
-      <input matInput formControlName="type">
-    </mat-form-field>
-    <mat-form-field appearance="fill">
       <mat-label>{{'fighter-dialog.form.runemarks.label' | translate}}</mat-label>
       <mat-chip-list #runemarkList aria-label="Fruit selection">
         <mat-chip *ngFor="let runemark of runemarks.value" (removed)="removeRunemark(runemark)">
-          {{runemark}}
+          <span>{{runemark}}</span>
           <button matChipRemove>
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
         <input placeholder="New runemark" #runemarkInput [formControl]="runemarkCtrl" [matChipInputFor]="runemarkList"
-          (matChipInputTokenEnd)="addRunemark($event)" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
+          (matChipInputTokenEnd)="addRunemark($event)" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="true">
       </mat-chip-list>
     </mat-form-field>
     <div class="triple">
@@ -83,7 +84,7 @@
       <ng-container *ngFor="let weaponForm of weapons.controls; let index = index">
         <div class="quad" [ngClass]="{'closer': index > 0}" [formGroupName]="index">
           <mat-form-field appearance="fill" class="center">
-            <input matInput maxlength="5" formControlName="range">
+            <input matInput maxlength="4" formControlName="range">
           </mat-form-field>
           <mat-form-field appearance="fill" class="center">
             <input matInput type="number" formControlName="attacks">
@@ -152,7 +153,8 @@
                 <input matInput type="number" formControlName="crit">
               </mat-form-field>
             </div>
-            <button class="remove-ability" mat-mini-fab color="warn" [disabled]="monsterStats.controls.length < 2" (click)="removeMonsterStat(index)">
+            <button class="remove-ability" mat-mini-fab color="warn" [disabled]="monsterStats.controls.length < 2"
+              (click)="removeMonsterStat(index)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
@@ -180,5 +182,17 @@
 <div class="actions">
   <button mat-flat-button color="accent" (click)="acceptDialog()"
     [disabled]="fighterForm.invalid">{{(data.edit ? 'fighter-dialog.action.update' : 'fighter-dialog.action.add')  | translate}}</button>
+  <button mat-flat-button [matMenuTriggerFor]="store"
+    *ngIf="!data.storeDialog">{{'fighter-dialog.action.store' | translate}}</button>
+  <mat-menu #store="matMenu">
+    <button mat-menu-item (click)="loadFighter()"
+      *ngIf="fighterStore.store.length">{{ 'fighter-dialog.action.load' | translate}}</button>
+    <button mat-menu-item (click)=" storeFighter()" [disabled]="fighterForm.invalid"
+      *ngIf="!existsInStore">{{ 'fighter-dialog.action.save' | translate}}</button>
+    <button mat-menu-item (click)="updateFighter()" [disabled]="fighterForm.invalid"
+      *ngIf="existsInStore">{{ 'fighter-dialog.action.store-update' | translate}}</button>
+    <button mat-menu-item (click)="discardFighter()"
+      *ngIf="existsInStore">{{ 'fighter-dialog.action.discard' | translate}}</button>
+  </mat-menu>
   <button mat-flat-button (click)="closeDialog()">{{'common.back' | translate}}</button>
 </div>

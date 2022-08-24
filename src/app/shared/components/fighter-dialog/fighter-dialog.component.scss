@@ -1,5 +1,6 @@
 .dialog-content {
   max-width: 400px;
+  margin: 0 auto;
 }
 
 h2 {
@@ -77,6 +78,7 @@ form {
 .actions {
   display: flex;
   justify-content: space-evenly;
-  grid-gap: 24px;
+  grid-gap: 16px;
   margin-top: 16px;
+  padding: 0 16px;
 }

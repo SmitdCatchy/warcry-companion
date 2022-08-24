@@ -11,6 +11,7 @@ export class AbilityCardComponent {
   @Input() ability: Ability;
   @Input() showRunemarks: boolean;
   @Input() darkBorders: boolean;
+  @Input() edit: boolean;
 
   constructor() {
     this.ability = {
@@ -21,6 +22,7 @@ export class AbilityCardComponent {
     };
     this.showRunemarks = false;
     this.darkBorders = true;
+    this.edit = false;
   }
 
 }

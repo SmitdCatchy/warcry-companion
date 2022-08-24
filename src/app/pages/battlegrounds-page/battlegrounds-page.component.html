@@ -29,37 +29,41 @@
   </mat-menu>
 </smitd-header>
 
-<div class="glass">
-  <div class="abilities-container">
-    <form [formGroup]="battlegroundForm">
-      <mat-form-field appearance="fill" *ngIf="!universal.value">
-        <mat-label>{{'battlegrounds-page.form.name' | translate}}</mat-label>
-        <input matInput formControlName="name">
-      </mat-form-field>
-      <div formArrayName="abilities" class="abilities" *ngIf="abilitiesList.length">
-        <ng-container *ngFor="let abilityForm of abilitiesList; let index = index">
-          <div class="ability-card">
-            <smitd-ability-card [ability]="abilityForm.value" [darkBorders]="false" [showRunemarks]="true">
-            </smitd-ability-card>
-            <div class="ability-options">
-              <button class="remove-ability" mat-mini-fab (click)="editAbility(index)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button class="remove-ability" mat-mini-fab color="warn" (click)="removeAbility(index)">
-                <mat-icon>delete</mat-icon>
-              </button>
+<div class="scroll-container">
+  <div class="glass">
+    <div class="abilities-container">
+      <form [formGroup]="battlegroundForm">
+        <mat-form-field appearance="fill" *ngIf="!universal.value">
+          <mat-label>{{'battlegrounds-page.form.name' | translate}}</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <div formArrayName="abilities" class="abilities" *ngIf="abilitiesList.length">
+          <ng-container *ngFor="let abilityForm of abilitiesList; let index = index">
+            <div class="ability-card">
+              <smitd-ability-card [ability]="abilityForm.value" [darkBorders]="false" [showRunemarks]="true" [edit]="true">
+              </smitd-ability-card>
+              <div class="ability-options">
+                <div class="button-wrapper">
+                  <button class="edit-ability" mat-mini-fab (click)="editAbility(index)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </div>
+                <div class="button-wrapper">
+                  <button class="remove-ability" mat-mini-fab color="warn" (click)="removeAbility(index)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </ng-container>
-      </div>
-    </form>
-    <button class="add-ability" color="accent" mat-flat-button
-      (click)="addNewAbility()">{{'warband-page.tab.warband.form.abilities.add' | translate}}</button>
-  </div>
-  <div class="double">
-    <button mat-flat-button color="accent" [disabled]="battlegroundForm.invalid || battlegroundForm.untouched"
-      (click)="updateBattleground()">{{'battlegrounds-page.battleground.update' | translate}}</button>
-    <button mat-flat-button color="warn" [disabled]="universal.value"
-      (click)="removeBattleground()">{{'battlegrounds-page.battleground.remove' | translate}}</button>
+          </ng-container>
+        </div>
+      </form>
+    </div>
+    <div class="double">
+      <button class="add-ability" color="accent" mat-flat-button
+        (click)="addNewAbility()">{{'warband-page.tab.warband.form.abilities.add' | translate}}</button>
+      <button mat-flat-button color="warn" [disabled]="universal.value"
+        (click)="removeBattleground()">{{'battlegrounds-page.battleground.remove' | translate}}</button>
+    </div>
   </div>
 </div>

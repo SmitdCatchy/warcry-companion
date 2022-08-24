@@ -3,6 +3,10 @@
 :host {
   display: block;
   width: 100%;
+
+  mat-divider {
+    border-width: 2px;
+  }
 }
 
 .ability-details {

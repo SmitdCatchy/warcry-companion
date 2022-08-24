@@ -9,4 +9,6 @@ export interface Campaign {
   encampment: string;
   encampmentState: EncampmentState;
   notes: string;
+  quest: string;
+  questProgress: number;
 }
