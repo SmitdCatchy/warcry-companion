@@ -49,14 +49,22 @@ smitd-warband-page .mat-tab-label {
 
 .divider {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(12px, 1fr) auto minmax(12px, 1fr);
   align-items: center;
   grid-gap: 8px;
   text-transform: uppercase;
   width: 100%;
   margin: 8px 0;
+  overflow: hidden;
+  white-space: nowrap;
+
+  &.edit {
+    grid-template-columns: minmax(12px, 1fr) auto minmax(78px, 1fr);
+  }
 
   span {
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-align: center;
   }
 }
@@ -129,7 +137,7 @@ body .mat-expansion-panel.fighter-card {
 body .mat-expansion-panel.divider-expansion {
   background-color: transparent;
 
-  .mat-expansion-indicator::after {
+  .mat-expansion-attribute::after {
     color: inherit;
   }
 
@@ -278,13 +286,18 @@ input:-internal-autofill-selected {
 }
 
 .runemark {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
+
+  @include mobile {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .dialog-content {
   max-height: 70vh;
-  max-width: $max-width;
+  max-width: $tablet;
   overflow: auto;
 }
 
@@ -317,7 +330,7 @@ input[type='number'] {
 }
 
 .full-screen-modal {
-  @media screen and (max-width: $breakpoint-xs) {
+  @media screen and (max-width: $mobile) {
     max-width: unset !important;
     width: 100%;
     height: calc(100% - 80px);
@@ -343,7 +356,8 @@ input[type='number'] {
   }
 }
 
-smitd-warband-page .mat-mini-fab, smitd-battlegrounds-page .mat-mini-fab {
+smitd-warband-page .mat-mini-fab,
+smitd-battlegrounds-page .mat-mini-fab {
   margin-right: 8px;
   width: 28px;
   height: 28px;
@@ -365,10 +379,59 @@ smitd-battle-page {
 }
 
 body .mat-bottom-sheet-container {
-  max-width: $max-width;
+  max-width: $tablet;
   min-width: unset;
 }
 
 smitd-divider-expansion .mat-expansion-panel-body {
   margin: 8px 0 0;
+}
+
+.mat-select-panel {
+  mat-form-field {
+    width: 100%;
+    margin-bottom: -1.34375em;
+  }
+}
+
+body .mat-chip.mat-standard-chip {
+  span {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 220px;
+  }
+}
+
+body .mat-button-base {
+  display: inline-flex;
+  justify-content: center;
+}
+
+.button-wrapper {
+  border: solid 2px #4C4A4A;
+  border-radius: 50%;
+  margin-right: 8px;
+  width: 28px;
+  height: 28px;
+
+  button {
+    margin: 0;
+    box-shadow: none !important;
+  }
+
+  &.dark {
+    border-color: #9d9b9b;
+  }
+}
+
+.scroll-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  overflow: overlay;
+}
+
+.divider mat-divider {
+  border-width: 2px;
 }

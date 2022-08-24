@@ -3,6 +3,9 @@ import { LocalStorageKey } from '../enums/local-keys.enum';
 import { Battleground } from '../models/battleground.model';
 import { CoreService } from './core.service';
 import { Ability } from '../models/ability.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,10 @@ import { Ability } from '../models/ability.model';
 export class BattlegroundsService {
   private _battlegrounds: Battleground[];
 
-  constructor() {
+  constructor(
+    private readonly dialog: MatDialog,
+    private readonly translateService: TranslateService
+  ) {
     this._battlegrounds = JSON.parse(
       CoreService.getLocalStorage(
         LocalStorageKey.Battlegrounds,
@@ -35,8 +41,17 @@ export class BattlegroundsService {
   }
 
   public addBattleground(battleground: Battleground): void {
-    if(this.battlegrounds.findIndex(check => check.name === battleground.name) > -1) {
-      // err
+    if (this.battlegrounds.findIndex(check => check.name === battleground.name) > -1) {
+      this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          confirmation: true,
+          noLabel: 'common.ok',
+          question: this.translateService.instant(
+            'battlegrounds-service.exists',
+            { battleground: battleground.name }
+          )
+        }
+      });
     } else {
       this._battlegrounds.push(battleground);
       this.saveBattlegrounds();
@@ -47,6 +62,18 @@ export class BattlegroundsService {
     battlegroundIndex: number,
     battleground: Battleground
   ): void {
+    if (!battleground.universal && this.battlegrounds.findIndex((check, index) => index !== battlegroundIndex && check.name === battleground.name) > -1) {
+      this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          confirmation: true,
+          noLabel: 'common.ok',
+          question: this.translateService.instant(
+            'battlegrounds-service.exists',
+            { battleground: battleground.name }
+          )
+        }
+      });
+    }
     this._battlegrounds[battlegroundIndex] = battleground;
     this.saveBattlegrounds();
   }

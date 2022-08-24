@@ -8,15 +8,18 @@ h2 {
   }
 }
 
+.scroll-container {
+  height: calc(100vh - 120px);
+}
 .prepare,
 .battle {
   display: block;
   padding: 12px;
+  margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
-  height: calc(100vh - 120px);
-  overflow: auto;
-  max-width: $max-width;
+  min-height: calc(100vh - 120px);
+  max-width: $tablet;
 
   & > * {
     width: 100%;
@@ -43,9 +46,6 @@ h2 {
   .battleframe-header {
     display: flex;
     align-items: center;
-    position: absolute;
-    right: 0;
-    z-index: 1;
 
     .fighter-state {
       position: relative;
@@ -178,7 +178,7 @@ h2 {
   display: block;
   width: 100%;
   box-sizing: border-box;
-  max-width: $max-width;
+  max-width: $tablet;
   min-height: 48px;
 }
 

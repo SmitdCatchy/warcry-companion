@@ -10,7 +10,7 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, filter, debounceTime } from 'rxjs';
 import { Ability } from 'src/app/core/models/ability.model';
 import { AbilityType } from 'src/app/core/enums/ability-type.enum';
 import { AbilityDialogComponent } from 'src/app/shared/components/ability-dialog/ability-dialog.component';
@@ -22,7 +22,7 @@ import { Battleground } from 'src/app/core/models/battleground.model';
   styleUrls: ['./battlegrounds-page.component.scss']
 })
 export class BattlegroundsPageComponent implements OnDestroy {
-  private subscriptions = new Subscription();
+  private _subscriptions = new Subscription();
   public battlegroundForm: FormGroup;
   public selectedBattlegroundIndex: number;
 
@@ -45,10 +45,18 @@ export class BattlegroundsPageComponent implements OnDestroy {
       this.battlegroundsService.universalAbilities.abilities
     );
     this.battlegroundForm.markAsUntouched();
+    this._subscriptions.add(
+      this.battlegroundForm.valueChanges.pipe(
+        filter(() => this.battlegroundForm.valid),
+        debounceTime(400)
+      ).subscribe(() => {
+        this.updateBattleground();
+      })
+    );
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this._subscriptions.unsubscribe();
   }
 
   public get abilities(): FormArray {
@@ -108,7 +116,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
   }
 
   public removeBattleground(): void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(ConfirmDialogComponent, {
           data: {
@@ -154,7 +162,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
   }
 
   public addNewAbility(ability?: Ability): FormGroup | void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
           data: { ability },
@@ -172,7 +180,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
   }
 
   public editAbility(index: number) {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
           data: { ability: this.abilitiesList[index].value, edit: true },
@@ -190,7 +198,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
   }
 
   public removeAbility(index: number): void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(ConfirmDialogComponent, {
           data: {
@@ -236,7 +244,6 @@ export class BattlegroundsPageComponent implements OnDestroy {
           const battlegrounds = JSON.parse(
             (reader as any).result
           ) as Battleground[];
-          console.log(battlegrounds);
           battlegrounds.forEach((battleground) => {
             if (battleground.universal) {
               this.battlegroundsService.editBattleground(0, battleground);

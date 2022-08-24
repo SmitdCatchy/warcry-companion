@@ -1,4 +1,4 @@
-<div class="divider">
+<div class="divider" [ngClass]="{'edit': edit}">
   <mat-divider  [ngClass]="{'dark-borders': darkBorders}"></mat-divider>
   <span>[{{'ability-type.' + ability.type  | translate}}]
     {{ability.title || 'common.unknown' | translate}}</span>

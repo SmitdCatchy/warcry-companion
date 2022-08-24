@@ -1,20 +1,29 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ElementRef,
+  AfterViewInit,
+  ViewChild
+} from '@angular/core';
 import { Color } from 'src/app/core/enums/color.enum';
 import { FighterCardMode } from 'src/app/core/enums/fighter-card-mode.enum';
 import { FighterRole } from 'src/app/core/enums/fighter-role.enum';
 import { FighterState } from 'src/app/core/enums/fighter-state.enum';
-import { FighterReference } from 'src/app/core/models/fighter-reference.model';
-import { Fighter } from 'src/app/core/models/fighter.model';
 import { CoreService } from 'src/app/core/services/core.service';
 import { Observable } from 'rxjs';
 import { MonsterStat } from 'src/app/core/models/monster-stat.model';
+import { MatExpansionPanelHeader } from '@angular/material/expansion';
+import { Fighter } from 'src/app/core/models/fighter.model';
+import { FighterReference } from 'src/app/core/models/fighter-reference.model';
 
 @Component({
   selector: 'smitd-fighter-card',
   templateUrl: './fighter-card.component.html',
   styleUrls: ['./fighter-card.component.scss']
 })
-export class FighterCardComponent {
+export class FighterCardComponent implements AfterViewInit {
   @Input('fighter') fighter: Fighter;
   @Input('fighterReference') fighterReference?: FighterReference;
   @Input('mode') mode: string;
@@ -26,8 +35,13 @@ export class FighterCardComponent {
   @Output() callAbilities: EventEmitter<null>;
   @Output() woundChange: EventEmitter<number>;
   public expanded: boolean;
+  public battleFrameHeight: string;
+  @ViewChild('fighterExpansionHeader')
+  fighterExpansionHeader!: MatExpansionPanelHeader;
 
-  constructor(public readonly core: CoreService) {
+  constructor(
+    public readonly core: CoreService,
+  ) {
     this.fighter = {
       role: FighterRole.Thrall,
       type: 'Error Thrall',
@@ -56,6 +70,14 @@ export class FighterCardComponent {
     this.callAbilities = new EventEmitter();
     this.woundChange = new EventEmitter();
     this.expanded = false;
+    this.battleFrameHeight = '80px';
+  }
+
+  ngAfterViewInit(): void {
+    // this.changeDetectorRef.detectChanges();
+    // setTimeout(() => {
+    //   this.setBattleFrameHeight(this.fighterExpansionHeader);
+    // }, 0);
   }
 
   public get headerColor(): Observable<any> {
@@ -169,25 +191,29 @@ export class FighterCardComponent {
       case 'weapon':
         switch (secondary) {
           case 'damage':
-            return monsterTable[monsterStatIndex][
-              secondary
-            ];
+            return monsterTable[monsterStatIndex][secondary];
           case 'crit':
-            return monsterTable[monsterStatIndex][
-              secondary
-            ];
+            return monsterTable[monsterStatIndex][secondary];
           default:
             return (this.fighter.weapons[0] as any)[secondary];
         }
       default:
         switch (stat) {
           case 'movement':
-            return (monsterTable as any)[monsterStatIndex][
-              stat
-            ];
+            return (monsterTable as any)[monsterStatIndex][stat];
           default:
             return (this.fighter as any)[stat];
         }
     }
+  }
+
+  public setBattleFrameHeight(header: MatExpansionPanelHeader): void {
+    console.log(
+      ((header as any)._element as ElementRef).nativeElement.clientHeight
+    );
+
+    this.battleFrameHeight = `${
+      ((header as any)._element as ElementRef).nativeElement.clientHeight
+    }px`;
   }
 }

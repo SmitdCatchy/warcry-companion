@@ -16,7 +16,9 @@
     <mat-label>{{'ability-form.runemarks' | translate}}</mat-label>
     <mat-chip-list #runemarkList>
       <mat-chip *ngFor="let runemark of runemarks.value" (removed)="removeRunemark(runemark)">
-        {{runemark}}
+        <span>
+          {{runemark}}
+        </span>
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button>

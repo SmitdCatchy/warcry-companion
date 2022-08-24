@@ -19,7 +19,7 @@ import { AbilityDialogComponent } from 'src/app/shared/components/ability-dialog
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { BattleService } from 'src/app/core/services/battle.service';
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime, filter } from 'rxjs';
 import { FighterRole } from 'src/app/core/enums/fighter-role.enum';
 import { ModifierDialogComponent } from 'src/app/shared/components/modifier-dialog/modifier-dialog.component';
 import { Modifier } from 'src/app/core/models/modifier.model';
@@ -31,7 +31,7 @@ import { EncampmentState } from 'src/app/core/enums/encampment-state.enum';
   styleUrls: ['./warband-page.component.scss']
 })
 export class WarbandPageComponent implements OnDestroy {
-  private subscriptions = new Subscription();
+  private _subscriptions = new Subscription();
   public Color = Color;
   public FighterCardMode = FighterCardMode;
   public FighterRole = FighterRole;
@@ -61,22 +61,50 @@ export class WarbandPageComponent implements OnDestroy {
     });
     this.campaignForm = new FormGroup({
       name: new FormControl(this.warband.campaign.name, []),
-      limit: new FormControl(this.warband.campaign.limit, []),
-      reputation: new FormControl(this.warband.campaign.reputation, []),
-      glory: new FormControl(this.warband.campaign.glory, []),
-      progress: new FormControl(this.warband.campaign.progress, []),
+      limit: new FormControl(this.warband.campaign.limit, [
+        Validators.min(900),
+        Validators.max(2000)
+      ]),
+      reputation: new FormControl(this.warband.campaign.reputation, [
+        Validators.min(0)
+      ]),
+      glory: new FormControl(this.warband.campaign.glory, [Validators.min(0)]),
+      progress: new FormControl(this.warband.campaign.progress, [
+        Validators.min(0)
+      ]),
       notes: new FormControl(this.warband.campaign.notes, []),
       encampment: new FormControl(this.warband.campaign.encampment, []),
       encampmentState: new FormControl(
         this.warband.campaign.encampmentState,
         []
-      )
+      ),
+      quest: new FormControl(this.warband.campaign.quest, []),
+      questProgress: new FormControl(this.warband.campaign.questProgress, [
+        Validators.min(0)
+      ])
     });
     this.addInitialAbilities(this.warband.abilities);
+
+    this._subscriptions.add(
+      this.warbandForm.valueChanges
+        .pipe(
+          filter(() => this.warbandForm.valid),
+          debounceTime(400)
+        )
+        .subscribe(() => this.updateWarband())
+    );
+    this._subscriptions.add(
+      this.campaignForm.valueChanges
+        .pipe(
+          filter(() => this.campaignForm.valid),
+          debounceTime(400)
+        )
+        .subscribe(() => this.updateCampaign())
+    );
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this._subscriptions.unsubscribe();
   }
 
   public get selectedColor(): string {
@@ -117,7 +145,7 @@ export class WarbandPageComponent implements OnDestroy {
   }
 
   public addFighter(): void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(FighterDialogComponent, {
           data: {},
@@ -134,7 +162,7 @@ export class WarbandPageComponent implements OnDestroy {
   }
 
   public editFighter(fighter: Fighter, index: number): void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(FighterDialogComponent, {
           data: { fighter, edit: true },
@@ -151,7 +179,7 @@ export class WarbandPageComponent implements OnDestroy {
   }
 
   public addFighterModifier(fighter: Fighter, index: number): void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(ModifierDialogComponent, {
           data: {},
@@ -173,7 +201,7 @@ export class WarbandPageComponent implements OnDestroy {
     index: number,
     modifierIndex: number
   ): void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(ModifierDialogComponent, {
           data: { modifier: fighter.modifiers[modifierIndex], edit: true },
@@ -195,7 +223,7 @@ export class WarbandPageComponent implements OnDestroy {
     index: number,
     modifierIndex: number
   ): void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(ConfirmDialogComponent, {
           data: {
@@ -220,7 +248,7 @@ export class WarbandPageComponent implements OnDestroy {
   }
 
   public addFighterAbility(fighter: Fighter, index: number): void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
           data: {},
@@ -243,7 +271,7 @@ export class WarbandPageComponent implements OnDestroy {
     index: number,
     abilityIndex: number
   ): void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
           data: { edit: true, ability: fighter.abilities[abilityIndex] },
@@ -265,7 +293,7 @@ export class WarbandPageComponent implements OnDestroy {
     index: number,
     abilityIndex: number
   ): void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(ConfirmDialogComponent, {
           data: {
@@ -295,11 +323,12 @@ export class WarbandPageComponent implements OnDestroy {
 
   public duplicateFighter(fighter: Fighter): void {
     const duplicated = { ...fighter, ...{ name: '', modifiers: [], note: '' } };
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(FighterDialogComponent, {
           data: { fighter: duplicated },
-          disableClose: true
+          disableClose: true,
+          panelClass: ['full-screen-modal']
         })
         .afterClosed()
         .subscribe((fighter) => {
@@ -327,7 +356,7 @@ export class WarbandPageComponent implements OnDestroy {
   }
 
   public addNewAbility(ability?: Ability): FormGroup | void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
           data: { ability },
@@ -344,7 +373,7 @@ export class WarbandPageComponent implements OnDestroy {
   }
 
   public editAbility(index: number) {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
           data: { ability: this.abilitiesList[index].value, edit: true },
@@ -361,7 +390,7 @@ export class WarbandPageComponent implements OnDestroy {
   }
 
   public removeAbility(index: number): void {
-    this.subscriptions.add(
+    this._subscriptions.add(
       this.dialog
         .open(ConfirmDialogComponent, {
           data: {

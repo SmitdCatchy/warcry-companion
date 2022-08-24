@@ -9,6 +9,8 @@ import { Modifier } from 'src/app/core/models/modifier.model';
 })
 export class ModifierCardComponent {
   @Input() modifier: Modifier;
+  @Input() showUsage: boolean;
+  @Input() edit: boolean;
 
   constructor() {
     this.modifier = {
@@ -26,7 +28,13 @@ export class ModifierCardComponent {
           damage: 0,
           crit: 0
         }
-      }
+      },
     };
+    this.showUsage = false;
+    this.edit = false;
+  }
+
+  public useModifier(): void {
+    this.modifier.used = ! this.modifier.used;
   }
 }

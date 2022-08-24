@@ -6,6 +6,7 @@ export interface FighterReference {
   fighterIndex: number;
   stats: Fighter;
   wounds: number;
+  inititalWounds: number;
   state: FighterState;
   modifiers: {
     weapons: {
@@ -21,6 +22,6 @@ export interface FighterReference {
   artefacts: Modifier[];
   injuries: Modifier[];
   availableRenown?: boolean[];
-  trait?: Modifier;
+  traits: Modifier[];
   carryingTreasure?: boolean;
 }

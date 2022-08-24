@@ -30,6 +30,9 @@ export class ModifierDialogComponent {
       name: new FormControl(data.modifier ? data.modifier.name : '', [Validators.required]),
       type: new FormControl(data.modifier ? data.modifier.type : ModifierType.Artefact, [Validators.required]),
       description: new FormControl(data.modifier ? data.modifier.description : '', [Validators.required]),
+      usable: new FormControl(data.modifier ? data.modifier.description : false, [Validators.required]),
+      used: new FormControl(false, [Validators.required]),
+      attribute: new FormControl(data.modifier ? data.modifier.attribute : '', []),
       modify: new FormGroup({
         weapon: new FormGroup({
           ranged: new FormControl(data.modifier ? data.modifier.modify.weapon.ranged : false, [Validators.required]),

@@ -1,0 +1,41 @@
+<smitd-header>
+  <button mat-icon-button routerLink="">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+
+  <h2>{{'fighter-store-page.title' | translate}}</h2>
+
+  <button mat-icon-button [matMenuTriggerFor]="battlegroundSelection">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #battlegroundSelection="matMenu">
+    <button mat-menu-item (click)="addFighter()">{{'fighter-store-page.menu.fighter-add' | translate}}</button>
+    <button mat-menu-item (click)="importFighterStore()">{{'fighter-store-page.menu.import' | translate}}</button>
+    <button mat-menu-item (click)="exportFighterStore()">{{'fighter-store-page.menu.export' | translate}}</button>
+  </mat-menu>
+</smitd-header>
+<div class="scroll-container">
+  <div class="fighters-container">
+    <div class="fighters">
+      <smitd-fighter-card [fighter]="fighter" [mode]="FighterCardMode.list"
+        *ngFor="let fighter of fighterStore.store; let index = index">
+        <div class="options" options>
+          <div class="divider">
+            <mat-divider></mat-divider>
+            <span>{{'common.options' | translate}}</span>
+            <mat-divider></mat-divider>
+          </div>
+          <div class="actions">
+            <button mat-flat-button color="accent"
+              (click)="editFighter(fighter, index)">{{'fighter-store-page.option.edit' | translate}}</button>
+            <button mat-flat-button color="warn"
+              (click)="fighterStore.discardFighter(index)">{{'fighter-store-page.option.remove' | translate}}</button>
+          </div>
+        </div>
+      </smitd-fighter-card>
+      <button mat-flat-button color="accent" class="add" *ngIf="!fighterStore.store.length"
+        (click)="addFighter()">{{'fighter-store-page.menu.fighter-add' | translate}}</button>
+    </div>
+  </div>
+</div>

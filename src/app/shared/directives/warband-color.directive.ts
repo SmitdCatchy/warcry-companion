@@ -19,7 +19,7 @@ export class WarbandColorDirective implements OnInit, OnDestroy {
   }
   private importantColor?: Color | string;
   private syncColor: Color | string;
-  private subscriptions = new Subscription();
+  private _subscriptions = new Subscription();
 
   constructor(private element: ElementRef) {
     this.color = Color.grey;
@@ -29,7 +29,7 @@ export class WarbandColorDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.colorAsync) {
-      this.subscriptions.add(
+      this._subscriptions.add(
         this.colorAsync.subscribe((color) => {
           this.syncColor = color;
           if (!this.importantColor) {
@@ -43,7 +43,7 @@ export class WarbandColorDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this._subscriptions.unsubscribe();
   }
 
   private setBackgroundColor(color: Color | string): void {

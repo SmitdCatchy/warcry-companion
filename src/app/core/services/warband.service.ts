@@ -77,7 +77,9 @@ export class WarbandService {
         progress: 0,
         notes: '',
         encampment: '',
-        encampmentState: EncampmentState.Secure
+        encampmentState: EncampmentState.Secure,
+        quest: '',
+        questProgress: 0
       },
       logs: []
     }
@@ -142,11 +144,10 @@ export class WarbandService {
           )
         }
       });
-    } else {
-      this.core.setColor(warband.color);
-      this.warbands[this.selectedWarbandIndex] = warband;
-      this.saveWarbands();
     }
+    this.core.setColor(warband.color);
+    this.warbands[this.selectedWarbandIndex] = warband;
+    this.saveWarbands();
   }
 
   public selectWarband(index: number): void {
@@ -261,7 +262,9 @@ export class WarbandService {
       battlegrounds.forEach((battleground) => {
         abilityGroups.push({
           label: battleground.universal
-            ? this.translateService.instant('warband-service.abilities.universal')
+            ? this.translateService.instant(
+                'warband-service.abilities.universal'
+              )
             : this.translateService.instant('warband-service.abilities.label', {
                 label: battleground.name || ''
               }),

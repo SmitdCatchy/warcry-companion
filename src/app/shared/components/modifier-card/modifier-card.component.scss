@@ -4,8 +4,9 @@
   display: block;
   width: 100%;
 
-  .mat-divider {
+  mat-divider {
     border-color: rgba($black, 0.24);
+    border-width: 2px;
   }
 }
 
@@ -15,9 +16,25 @@
   align-items: center;
   margin-top: -18px;
 
-
   mat-divider {
     height: 100%;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  span {
+    padding: 16px 16px 0;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80%;
   }
 
   p {
@@ -25,9 +42,24 @@
     align-items: center;
     margin: 0;
     padding: 16px;
-    padding: 24px 16px 16px;
+    padding: 8px 16px 16px;
     height: 100%;
     box-sizing: border-box;
     text-align: left;
+  }
+
+  .useage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    padding: 4px;
+    border: 2px solid;
+    margin-bottom: 16px;
+
+    .runemark {
+      width: 28px;
+      height: 28px;
+    }
   }
 }

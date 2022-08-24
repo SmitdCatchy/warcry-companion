@@ -81,7 +81,6 @@ export class BattleService {
       .subscribe((battleConfiguration) => {
         if (battleConfiguration) {
           if (battleConfiguration.newBattle) {
-            console.log(battleConfiguration.battle);
             this.battle = battleConfiguration.battle;
             this.saveBattle();
           }
@@ -115,7 +114,9 @@ export class BattleService {
           progress: 0,
           notes: '',
           encampment: '',
-          encampmentState: EncampmentState.Secure
+          encampmentState: EncampmentState.Secure,
+          quest: '',
+          questProgress: 0
         }
       },
       roster: [],
@@ -248,14 +249,14 @@ export class BattleService {
       toughness: 0,
       wounds: 0
     };
-    let trait;
+    let traits: Modifier[] = [];
     stats.modifiers.forEach((modifier: Modifier) => {
       switch (modifier.type) {
         case ModifierType.Artefact:
           artefacts.push(modifier);
           break;
         case ModifierType.Trait:
-          trait = modifier;
+          traits.push(modifier);
           break;
         case ModifierType.Injury:
           injuries.push(modifier);
@@ -296,10 +297,11 @@ export class BattleService {
       stats,
       fighterIndex: index,
       wounds: stats.wounds + modifiers.wounds,
+      inititalWounds: stats.wounds + modifiers.wounds,
       modifiers: modifiers,
       artefacts,
       injuries,
-      trait,
+      traits,
       availableRenown
     };
   }

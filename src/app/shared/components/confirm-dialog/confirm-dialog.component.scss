@@ -1,5 +1,8 @@
+@import 'dimensions';
+
 p {
   margin: 0 16px;
+  max-width: $mobile-small;
 }
 
 .actions {
