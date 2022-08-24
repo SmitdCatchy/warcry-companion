@@ -31,6 +31,10 @@ const routes: Routes = [
     path: 'fighter-store',
     component: FighterStorePageComponent,
     data: { animation: 'fighter-store' }
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];
 
