@@ -60,6 +60,9 @@
       <button mat-menu-item (click)="exportWarband(warband)">
         <span>{{'main-page.warband-options.export' | translate}}</span>
       </button>
+      <button mat-menu-item (click)="duplicateWarband(warband)">
+        <span>{{'main-page.warband-options.duplicate' | translate}}</span>
+      </button>
       <button mat-menu-item (click)="warbandService.removeWarband(index)">
         <span>{{'main-page.warband-options.remove' | translate}}</span>
       </button>

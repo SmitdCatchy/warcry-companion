@@ -34,7 +34,7 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
-### 1.1.0
+### 1.1.0 - 2022.08.25
 
 #### Features
 
@@ -43,13 +43,17 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
   - on the Fighter Store screen you can create/edit/remove fighter types separately from warbands in/from the Fighter Store.
   - you can load/store/update/remove fighter types in the Fighter add/edit dialog by pressing on the Fighter Store button and selecting the desired option.
 
+- Warbands:
+  - on the Main screen in the Warband card options you can duplicate the warband.
+
 #### Fixes
 
 - Universal:
   - the app supports displays as narrow as 320px.
   - expansion panels have a more noticeable design.
+  - routing error fixed
 
-### 1.0.0 - Auric
+### 1.0.0 Auric - 2022.08.13
 
 #### Features
 

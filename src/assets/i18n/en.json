@@ -43,6 +43,7 @@
     },
     "warband-options": {
       "select": "Select Warband",
+      "duplicate": "Duplicate Warband",
       "remove": "Remove Warband",
       "export": "Export Warband"
     }

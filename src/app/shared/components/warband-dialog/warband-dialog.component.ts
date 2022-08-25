@@ -5,6 +5,7 @@ import { Color } from 'src/app/core/enums/color.enum';
 import { EncampmentState } from 'src/app/core/enums/encampment-state.enum';
 import { Warband } from 'src/app/core/models/warband.model';
 import { WarbandService } from 'src/app/core/services/warband.service';
+import cloneDeep from 'lodash.clonedeep';
 
 @Component({
   selector: 'smitd-warband-dialog',
@@ -26,24 +27,25 @@ export class WarbandDialogComponent {
     },
     private readonly warbandService: WarbandService
   ) {
+    const warband = cloneDeep(data.warband)
     this.warbandForm = new FormGroup({
-      name: new FormControl(data.warband ? data.warband.name : '', [
+      name: new FormControl(warband ? warband.name : '', [
         Validators.required
       ]),
-      faction: new FormControl(data.warband ? data.warband.faction : '', [
+      faction: new FormControl(warband ? warband.faction : '', [
         Validators.required
       ]),
-      alliance: new FormControl(data.warband ? data.warband.alliance : '', [
+      alliance: new FormControl(warband ? warband.alliance : '', [
         Validators.required
       ]),
-      color: new FormControl(data.warband ? data.warband.color : Color.grey, [
+      color: new FormControl(warband ? warband.color : Color.grey, [
         Validators.required
       ]),
-      fighters: new FormControl(data.warband ? data.warband.fighters : []),
-      abilities: new FormControl(data.warband ? data.warband.abilities : []),
+      fighters: new FormControl(warband ? warband.fighters : []),
+      abilities: new FormControl(warband ? warband.abilities : []),
       campaign: new FormControl(
-        data.warband
-          ? data.warband.campaign
+        warband
+          ? warband.campaign
           : {
               name: '',
               limit: 1000,
@@ -55,7 +57,7 @@ export class WarbandDialogComponent {
               encampmentState: EncampmentState.Secure
             }
       ),
-      icon: new FormControl(data.warband ? data.warband.icon : undefined, []),
+      icon: new FormControl(warband ? warband.icon : undefined, []),
     });
   }
 
