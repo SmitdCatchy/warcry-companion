@@ -49,6 +49,23 @@ export class MainPageComponent implements OnDestroy {
     );
   }
 
+  public duplicateWarband(warband: Warband): void {
+    this._subscriptions.add(
+      this.dialog
+        .open(WarbandDialogComponent, {
+          data: { warband },
+          disableClose: true,
+          panelClass: ['full-screen-modal']
+        })
+        .afterClosed()
+        .subscribe((warband) => {
+          if (warband) {
+            this.warbandService.addWarband(warband);
+          }
+        })
+    );
+  }
+
   public exportWarband(warband: Warband): void {
     const filename = `${warband.name
       .toLocaleLowerCase()

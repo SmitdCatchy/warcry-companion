@@ -42,9 +42,10 @@
       "github": "Támogatás a GitHub-on"
     },
     "warband-options": {
-      "select": "Select Warband",
-      "remove": "Remove Warband",
-      "export": "Export Warband"
+      "select": "Csapat kiválasztása",
+      "duplicate": "Csapat másolása",
+      "remove": "Csapat törlése",
+      "export": "Csapat exportálása"
     }
   },
   "warband-service": {
