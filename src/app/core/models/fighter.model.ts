@@ -20,4 +20,5 @@ export interface Fighter {
   icon?: string;
   monsterStatTable?: MonsterStat[];
   abilities: Ability[];
+  faction?: string;
 }

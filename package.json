@@ -10,7 +10,7 @@
     "deploy": "ng build && sh ./deploy.sh"
   },
   "private": true,
-  "restrictions": {
+  "dependencies": {
     "@angular/animations": "^14.1.0",
     "@angular/cdk": "^14.1.0",
     "@angular/common": "^14.1.0",
@@ -32,7 +32,7 @@
     "tsparticles-engine": "^2.1.4",
     "zone.js": "~0.11.4"
   },
-  "devrestrictions": {
+  "devDependencies": {
     "@angular-devkit/build-angular": "^14.1.0",
     "@angular/cli": "^14.1.0",
     "@angular/compiler-cli": "^14.1.0",

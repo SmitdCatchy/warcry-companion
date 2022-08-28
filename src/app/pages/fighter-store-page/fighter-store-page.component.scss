@@ -1,10 +1,15 @@
 @import 'dimensions';
 @import 'globals';
+@import 'colors';
 
 @include header;
 
 
 @include fighterList;
+
+.divider:first-of-type {
+  margin-top: 0;
+}
 
 .fighters {
   display: block;

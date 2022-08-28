@@ -41,7 +41,13 @@ export class BattlegroundsService {
   }
 
   public addBattleground(battleground: Battleground): void {
-    if (this.battlegrounds.findIndex(check => check.name === battleground.name) > -1) {
+    if (battleground.universal) {
+      this._battlegrounds[0] = battleground;
+    } else if (
+      this.battlegrounds.findIndex(
+        (check) => check.name === battleground.name
+      ) > -1
+    ) {
       this.dialog.open(ConfirmDialogComponent, {
         data: {
           confirmation: true,
@@ -50,7 +56,8 @@ export class BattlegroundsService {
             'battlegrounds-service.exists',
             { battleground: battleground.name }
           )
-        }
+        },
+        closeOnNavigation: false
       });
     } else {
       this._battlegrounds.push(battleground);
@@ -62,7 +69,13 @@ export class BattlegroundsService {
     battlegroundIndex: number,
     battleground: Battleground
   ): void {
-    if (!battleground.universal && this.battlegrounds.findIndex((check, index) => index !== battlegroundIndex && check.name === battleground.name) > -1) {
+    if (
+      !battleground.universal &&
+      this.battlegrounds.findIndex(
+        (check, index) =>
+          index !== battlegroundIndex && check.name === battleground.name
+      ) > -1
+    ) {
       this.dialog.open(ConfirmDialogComponent, {
         data: {
           confirmation: true,
@@ -71,11 +84,13 @@ export class BattlegroundsService {
             'battlegrounds-service.exists',
             { battleground: battleground.name }
           )
-        }
+        },
+        closeOnNavigation: false
       });
+    } else {
+      this._battlegrounds[battlegroundIndex] = battleground;
+      this.saveBattlegrounds();
     }
-    this._battlegrounds[battlegroundIndex] = battleground;
-    this.saveBattlegrounds();
   }
 
   public removeBattleground(battlegroundIndex: number): void {

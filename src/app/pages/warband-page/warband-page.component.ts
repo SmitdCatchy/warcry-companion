@@ -24,6 +24,9 @@ import { FighterRole } from 'src/app/core/enums/fighter-role.enum';
 import { ModifierDialogComponent } from 'src/app/shared/components/modifier-dialog/modifier-dialog.component';
 import { Modifier } from 'src/app/core/models/modifier.model';
 import { EncampmentState } from 'src/app/core/enums/encampment-state.enum';
+import { NavigationEnd, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'smitd-warband-page',
@@ -49,8 +52,12 @@ export class WarbandPageComponent implements OnDestroy {
     public readonly warbandService: WarbandService,
     public readonly battleService: BattleService,
     private readonly dialog: MatDialog,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly router: Router,
   ) {
+    if(!this.warband) {
+      this.router.navigateByUrl('/');
+    }
     this.warbandForm = new FormGroup({
       name: new FormControl(this.warband.name, [Validators.required]),
       faction: new FormControl(this.warband.faction, [Validators.required]),
@@ -148,9 +155,10 @@ export class WarbandPageComponent implements OnDestroy {
     this._subscriptions.add(
       this.dialog
         .open(FighterDialogComponent, {
-          data: {},
+          data: { warband: this.warband },
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((fighter) => {
@@ -165,9 +173,10 @@ export class WarbandPageComponent implements OnDestroy {
     this._subscriptions.add(
       this.dialog
         .open(FighterDialogComponent, {
-          data: { fighter, edit: true },
+          data: { fighter, edit: true, warband: this.warband },
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((updated) => {
@@ -184,7 +193,8 @@ export class WarbandPageComponent implements OnDestroy {
         .open(ModifierDialogComponent, {
           data: {},
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((modifier: Modifier) => {
@@ -204,9 +214,13 @@ export class WarbandPageComponent implements OnDestroy {
     this._subscriptions.add(
       this.dialog
         .open(ModifierDialogComponent, {
-          data: { modifier: fighter.modifiers[modifierIndex], edit: true },
+          data: {
+            modifier: fighter.modifiers[modifierIndex],
+            edit: true
+          },
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((modifier: Modifier) => {
@@ -235,7 +249,8 @@ export class WarbandPageComponent implements OnDestroy {
                 fighter: fighter.name || fighter.type
               }
             )
-          }
+          },
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((decision) => {
@@ -253,7 +268,8 @@ export class WarbandPageComponent implements OnDestroy {
         .open(AbilityDialogComponent, {
           data: {},
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((abilityFormValue) => {
@@ -276,7 +292,8 @@ export class WarbandPageComponent implements OnDestroy {
         .open(AbilityDialogComponent, {
           data: { edit: true, ability: fighter.abilities[abilityIndex] },
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((abilityFormValue) => {
@@ -305,7 +322,8 @@ export class WarbandPageComponent implements OnDestroy {
                 fighter: fighter.name || fighter.type
               }
             )
-          }
+          },
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((decision) => {
@@ -326,9 +344,10 @@ export class WarbandPageComponent implements OnDestroy {
     this._subscriptions.add(
       this.dialog
         .open(FighterDialogComponent, {
-          data: { fighter: duplicated },
+          data: { fighter: duplicated, warband: this.warband },
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((fighter) => {
@@ -361,7 +380,8 @@ export class WarbandPageComponent implements OnDestroy {
         .open(AbilityDialogComponent, {
           data: { ability },
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((abilityFormValue) => {
@@ -378,7 +398,8 @@ export class WarbandPageComponent implements OnDestroy {
         .open(AbilityDialogComponent, {
           data: { ability: this.abilitiesList[index].value, edit: true },
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((abilityFormValue) => {
@@ -402,7 +423,8 @@ export class WarbandPageComponent implements OnDestroy {
                 warband: this.warbandForm.value.name
               }
             )
-          }
+          },
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((decision) => {

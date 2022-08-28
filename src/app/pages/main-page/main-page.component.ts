@@ -38,7 +38,8 @@ export class MainPageComponent implements OnDestroy {
         .open(WarbandDialogComponent, {
           data: {},
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((warband) => {
@@ -55,7 +56,8 @@ export class MainPageComponent implements OnDestroy {
         .open(WarbandDialogComponent, {
           data: { warband },
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((warband) => {
@@ -104,7 +106,8 @@ export class MainPageComponent implements OnDestroy {
                     warband: warband
                   },
                   disableClose: true,
-                  panelClass: ['full-screen-modal']
+                  panelClass: ['full-screen-modal'],
+                  closeOnNavigation: false
                 })
                 .afterClosed()
                 .subscribe((newWarband) => {

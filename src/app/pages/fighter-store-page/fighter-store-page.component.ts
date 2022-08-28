@@ -30,7 +30,8 @@ export class FighterStorePageComponent implements OnDestroy {
         .open(FighterDialogComponent, {
           data: { storeDialog: true },
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((fighter) => {
@@ -41,18 +42,37 @@ export class FighterStorePageComponent implements OnDestroy {
     );
   }
 
-  public editFighter(fighter: Fighter, index: number): void {
+  public duplicateFighter(fighter: Fighter): void {
+    this._subscriptions.add(
+      this.dialog
+        .open(FighterDialogComponent, {
+          data: { storeDialog: true, fighter },
+          disableClose: true,
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
+        })
+        .afterClosed()
+        .subscribe((fighter) => {
+          if (fighter) {
+            this.fighterStore.storeFighter(fighter);
+          }
+        })
+    );
+  }
+
+  public editFighter(fighter: Fighter): void {
     this._subscriptions.add(
       this.dialog
         .open(FighterDialogComponent, {
           data: { fighter, storeDialog: true, edit: true },
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((updated) => {
           if (updated) {
-            this.fighterStore.updateFighter(updated, index);
+            this.fighterStore.updateFighter(updated);
           }
         })
     );

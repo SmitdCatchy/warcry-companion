@@ -130,7 +130,8 @@ export class BattlegroundsPageComponent implements OnDestroy {
                   ].name
               }
             )
-          }
+          },
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((decision) => {
@@ -167,7 +168,8 @@ export class BattlegroundsPageComponent implements OnDestroy {
         .open(AbilityDialogComponent, {
           data: { ability },
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((abilityFormValue) => {
@@ -185,7 +187,8 @@ export class BattlegroundsPageComponent implements OnDestroy {
         .open(AbilityDialogComponent, {
           data: { ability: this.abilitiesList[index].value, edit: true },
           disableClose: true,
-          panelClass: ['full-screen-modal']
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((abilityFormValue) => {
@@ -214,7 +217,8 @@ export class BattlegroundsPageComponent implements OnDestroy {
                   : this.battlegroundForm.value.name
               }
             )
-          }
+          },
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((decision) => {

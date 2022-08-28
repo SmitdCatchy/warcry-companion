@@ -12,6 +12,10 @@
       <mat-label>{{'fighter-dialog.form.type.label' | translate}}</mat-label>
       <input matInput formControlName="type" maxlength="100">
     </mat-form-field>
+    <mat-form-field appearance="fill"  *ngIf="data.storeDialog">
+      <mat-label>{{'fighter-dialog.form.faction.label' | translate}}</mat-label>
+      <input matInput formControlName="faction" maxlength="100">
+    </mat-form-field>
     <div class="double">
       <mat-form-field appearance="fill">
         <mat-label>{{'fighter-dialog.form.role.label' | translate}}</mat-label>

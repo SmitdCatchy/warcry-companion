@@ -17,25 +17,34 @@
 </smitd-header>
 <div class="scroll-container">
   <div class="fighters-container">
-    <div class="fighters">
-      <smitd-fighter-card [fighter]="fighter" [mode]="FighterCardMode.list"
-        *ngFor="let fighter of fighterStore.store; let index = index">
-        <div class="options" options>
-          <div class="divider">
-            <mat-divider></mat-divider>
-            <span>{{'common.options' | translate}}</span>
-            <mat-divider></mat-divider>
+    <div class="faction" *ngFor="let faction of fighterStore.factions">
+      <div class="divider">
+        <mat-divider></mat-divider>
+        <span class="label">{{faction.name}}</span>
+        <mat-divider></mat-divider>
+      </div>
+      <div class="fighters">
+        <smitd-fighter-card [fighter]="fighter" [mode]="FighterCardMode.list"
+          *ngFor="let fighter of faction.fighterTypes; let index = index">
+          <div class="options" options>
+            <div class="divider">
+              <mat-divider></mat-divider>
+              <span>{{'common.options' | translate}}</span>
+              <mat-divider></mat-divider>
+            </div>
+            <div class="triple">
+              <button mat-flat-button color="accent"
+                (click)="editFighter(fighter)">{{'fighter-store-page.option.edit' | translate}}</button>
+              <button mat-flat-button color="accent"
+                (click)="duplicateFighter(fighter)">{{'fighter-store-page.option.duplicate' | translate}}</button>
+              <button mat-flat-button color="warn"
+                (click)="fighterStore.discardFighter(fighter)">{{'fighter-store-page.option.remove' | translate}}</button>
+            </div>
           </div>
-          <div class="actions">
-            <button mat-flat-button color="accent"
-              (click)="editFighter(fighter, index)">{{'fighter-store-page.option.edit' | translate}}</button>
-            <button mat-flat-button color="warn"
-              (click)="fighterStore.discardFighter(index)">{{'fighter-store-page.option.remove' | translate}}</button>
-          </div>
-        </div>
-      </smitd-fighter-card>
-      <button mat-flat-button color="accent" class="add" *ngIf="!fighterStore.store.length"
-        (click)="addFighter()">{{'fighter-store-page.menu.fighter-add' | translate}}</button>
+        </smitd-fighter-card>
+      </div>
     </div>
+    <button mat-flat-button color="accent" class="add" *ngIf="!fighterStore.factions.length"
+      (click)="addFighter()">{{'fighter-store-page.menu.fighter-add' | translate}}</button>
   </div>
 </div>

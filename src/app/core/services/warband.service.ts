@@ -55,7 +55,8 @@ export class WarbandService {
             'warband-service.warband-exists',
             { warband: warband.name }
           )
-        }
+        },
+        closeOnNavigation: false
       });
     }
     return check;
@@ -103,7 +104,8 @@ export class WarbandService {
             'warband-service.warband-remove',
             { warband: this.warbands[index].name }
           )
-        }
+        },
+        closeOnNavigation: false
       })
       .afterClosed()
       .subscribe((decision) => {
@@ -142,7 +144,8 @@ export class WarbandService {
             'warband-service.warband-exists',
             { warband: warband.name }
           )
-        }
+        },
+        closeOnNavigation: false
       });
     }
     this.core.setColor(warband.color);
@@ -208,7 +211,8 @@ export class WarbandService {
                 this.selectedWarband.fighters[index].type
             }
           )
-        }
+        },
+        closeOnNavigation: false
       })
       .afterClosed()
       .subscribe((decision) => {
@@ -291,7 +295,8 @@ export class WarbandService {
       0
     ) {
       this.bottomSheet.open(AbilitiesBottomSheetComponent, {
-        data: { abilityGroups, showRunemarks }
+        data: { abilityGroups, showRunemarks },
+        closeOnNavigation: false
       });
     }
   }

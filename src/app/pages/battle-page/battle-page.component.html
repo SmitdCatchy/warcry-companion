@@ -86,7 +86,7 @@
                     (click)="battleService.reassignFighter(fighter, battleService.battle.dagger, battleService.battle.roster, index)">{{'battle-page.group.roster' | translate}}</button>
                 </div>
                 <smitd-divider-expansion
-                  *ngIf="battleService.battle.campaign && fighter.stats.role !== FighterRole.Monster && (fighter.artefacts.length || fighter.injuries.length || fighter.traits)">
+                  *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
                   <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
                   <div class="modifiers" expansionContent>
                     <ng-container *ngFor="let modifier of fighter.artefacts">
@@ -133,7 +133,7 @@
                     (click)="battleService.reassignFighter(fighter, battleService.battle.shield, battleService.battle.roster, index)">{{'battle-page.group.roster' | translate}}</button>
                 </div>
                 <smitd-divider-expansion
-                  *ngIf="battleService.battle.campaign && fighter.stats.role !== FighterRole.Monster && (fighter.artefacts.length || fighter.injuries.length || fighter.traits)">
+                  *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
                   <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
                   <div class="modifiers" expansionContent>
                     <ng-container *ngFor="let modifier of fighter.artefacts">
@@ -180,7 +180,7 @@
                     (click)="battleService.reassignFighter(fighter, battleService.battle.hammer, battleService.battle.roster, index)">{{'battle-page.group.roster' | translate}}</button>
                 </div>
                 <smitd-divider-expansion
-                  *ngIf="battleService.battle.campaign && fighter.stats.role !== FighterRole.Monster && (fighter.artefacts.length || fighter.injuries.length || fighter.traits)">
+                  *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
                   <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
                   <div class="modifiers" expansionContent>
                     <ng-container *ngFor="let modifier of fighter.artefacts">
@@ -227,7 +227,7 @@
                     (click)="battleService.reassignFighter(fighter, battleService.battle.roster, battleService.battle.hammer, index)">{{'battle-page.group.hammer' | translate}}</button>
                 </div>
                 <smitd-divider-expansion
-                  *ngIf="battleService.battle.campaign && fighter.stats.role !== FighterRole.Monster && (fighter.artefacts.length || fighter.injuries.length || fighter.traits)">
+                  *ngIf="battleService.battle.campaign&& (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
                   <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
                   <div class="modifiers" expansionContent>
                     <ng-container *ngFor="let modifier of fighter.artefacts">
@@ -277,7 +277,7 @@
                 </ng-container>
               </div>
               <smitd-divider-expansion
-                *ngIf="battleService.battle.campaign && fighter.stats.role !== FighterRole.Monster && (fighter.artefacts.length || fighter.injuries.length || fighter.traits)">
+                *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
                 <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
                 <div class="modifiers" expansionContent>
                   <ng-container *ngFor="let modifier of fighter.artefacts">
@@ -294,7 +294,7 @@
               <smitd-divider-expansion>
                 <span dividerLabel>{{'common.options' | translate}}</span>
                 <div class="options" expansionContent>
-                  <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'"
+                  <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'" *ngIf="fighter.stats.role !== FighterRole.Monster && fighter.stats.role !== FighterRole.Beast"
                     (click)="battleService.toggleTreasure(fighter)">{{('battle-page.options.' + (fighter.carryingTreasure ? 'treasure-drop' : 'treasure-carry')) | translate}}</button>
                   <mat-form-field appearance="fill">
                     <mat-label>{{'battle-page.options.notes' | translate}}</mat-label>
@@ -360,7 +360,7 @@
                 </ng-container>
               </div>
               <smitd-divider-expansion
-                *ngIf="battleService.battle.campaign && fighter.stats.role !== FighterRole.Monster && (fighter.artefacts.length || fighter.injuries.length || fighter.traits)">
+                *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
                 <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
                 <div class="modifiers" expansionContent>
                   <ng-container *ngFor="let modifier of fighter.artefacts">
@@ -377,7 +377,7 @@
               <smitd-divider-expansion>
                 <span dividerLabel>{{'common.options' | translate}}</span>
                 <div class="options" expansionContent>
-                  <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'"
+                  <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'" *ngIf="fighter.stats.role !== FighterRole.Monster && fighter.stats.role !== FighterRole.Beast"
                     (click)="battleService.toggleTreasure(fighter)">{{('battle-page.options.' + (fighter.carryingTreasure ? 'treasure-drop' : 'treasure-carry')) | translate}}</button>
                   <mat-form-field appearance="fill">
                     <mat-label>{{'battle-page.options.notes' | translate}}</mat-label>
@@ -443,7 +443,7 @@
                 </ng-container>
               </div>
               <smitd-divider-expansion
-                *ngIf="battleService.battle.campaign && fighter.stats.role !== FighterRole.Monster && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
+                *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
                 <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
                 <div class="modifiers" expansionContent>
                   <ng-container *ngFor="let modifier of fighter.artefacts">
@@ -460,7 +460,7 @@
               <smitd-divider-expansion>
                 <span dividerLabel>{{'common.options' | translate}}</span>
                 <div class="options" expansionContent>
-                  <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'"
+                  <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'" *ngIf="fighter.stats.role !== FighterRole.Monster && fighter.stats.role !== FighterRole.Beast"
                     (click)="battleService.toggleTreasure(fighter)">{{('battle-page.options.' + (fighter.carryingTreasure ? 'treasure-drop' : 'treasure-carry')) | translate}}</button>
                   <mat-form-field appearance="fill">
                     <mat-label>{{'battle-page.options.notes' | translate}}</mat-label>
@@ -517,7 +517,7 @@
                 <span>{{'common.options' | translate}}</span>
                 <mat-divider></mat-divider>
               </div>
-              <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'"
+              <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'" *ngIf="fighter.stats.role !== FighterRole.Monster && fighter.stats.role !== FighterRole.Beast"
                 (click)="battleService.toggleTreasure(fighter)">{{('battle-page.options.' + (fighter.carryingTreasure ? 'treasure-drop' : 'treasure-carry')) | translate}}</button>
               <mat-form-field appearance="fill">
                 <mat-label>{{'battle-page.options.notes' | translate}}</mat-label>

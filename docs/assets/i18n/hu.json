@@ -169,7 +169,8 @@
     "hero": "Hős",
     "fighter": "Harcos",
     "thrall": "Szolga",
-    "monster": "Szörny"
+    "monster": "Szörny",
+    "beast": "Beastia"
   },
   "fighter-dialog": {
     "title": {
@@ -283,10 +284,10 @@
     }
   },
   "battle-end-dialog": {
-    "title": "Csata eredmények",
+    "title": "Csata vefejezése",
     "question": "Biztosan befejezed a csatát?",
     "form": {
-      "victory": "Győzelem megszerzése",
+      "outcome": "Csata ereménye",
       "enemy": "Ellenséges csapat"
     },
     "action": {
@@ -320,15 +321,17 @@
   },
   "log": {
     "sentence": "{{date}} dátumon volt egy {{result}} {{campaign}}{{enemy}}.",
-    "victory": "Győztes",
-    "failure": "vesztett",
+    "victory": "győztes",
+    "defeat": "elvesztett",
+    "tie": "döntetlen",
     "battle": "csata",
     "campaign": "kampány csata",
     "enemy": " {{enemy}} ellen",
     "casualities": "Áldozatok",
     "label": {
       "victory": "Győztes ssata",
-      "failure": "Vesztes csata"
+      "defeat": "Vesztes csata",
+      "tie": "Döntetlen csata"
     }
   },
   "encampment-state": {
@@ -377,12 +380,19 @@
       "export": "Harcosok exportálása"
     },
     "option": {
-      "edit": "Harcos szerkesztése",
-      "remove": "RemoHarcos törlése"
+      "edit": "Szerkesztése",
+      "duplicate": "Másolás",
+      "remove": "Törlés"
     }
   },
   "fighter-store-service": {
     "remove": "Biztosan el akarod távolítani a/az \"{{fighter}}\" elnevezésű harcosod a Harcos tárból?",
     "exists": "Már van egy \"{{battleground}}\" típusú harcosod a Harcos tárban."
+  },
+  "fighter-store-dialog": {
+    "title": "Harcos tár",
+    "fighter": "Harcos típus",
+    "filter": "Típus szerinti szűrés",
+    "load": "Harcos típus betöltése"
   }
 }

@@ -1,5 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  AbstractControl,
+  Validators
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Battle } from 'src/app/core/models/battle.model';
 
@@ -16,19 +21,19 @@ export class BattleEndDialogComponent {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       battle: Battle;
-    }) {
-      this.resultForm = new FormGroup({
-        victory: new FormControl(false),
-        enemy: new FormControl(undefined),
-      });
     }
+  ) {
+    this.resultForm = new FormGroup({
+      outcome: new FormControl(null, [Validators.required]),
+      enemy: new FormControl(undefined)
+    });
+  }
 
-    public acceptDialog(): void {
-      this.dialogRef.close(this.resultForm.value);
-    }
+  public acceptDialog(): void {
+    this.dialogRef.close(this.resultForm.value);
+  }
 
-    public closeDialog(): void {
-      this.dialogRef.close(false);
-    }
-
+  public closeDialog(): void {
+    this.dialogRef.close(false);
+  }
 }

@@ -8,11 +8,13 @@
           <mat-label>{{'fighter-store-dialog.filter' | translate}}</mat-label>
           <input matInput #filterExpression>
         </mat-form-field>
-        <div *ngFor="let fighter of fighterStore.store">
-          <mat-option *ngIf="fighter.type.includes(filterExpression.value)" [value]="fighter">
-            {{fighter.type}}
-          </mat-option>
-        </div>
+        <mat-optgroup *ngFor="let faction of fighterStore.factions" [label]="faction.name">
+          <ng-container *ngFor="let fighter of faction.fighterTypes">
+            <mat-option *ngIf="fighter.type.toLowerCase().includes(filterExpression.value.toLowerCase())" [value]="fighter">
+              {{fighter.type}}
+            </mat-option>
+          </ng-container>
+        </mat-optgroup>
         <mat-option (click)="filterExpression.value = ''">{{'fighter-store-dialog.clear' | translate}}</mat-option>
       </mat-select>
     </mat-form-field>
