@@ -75,7 +75,8 @@ export class BattleService {
         data: {
           battle: this.battle,
           warband: cloneDeep(warband)
-        }
+        },
+        closeOnNavigation: false
       })
       .afterClosed()
       .subscribe((battleConfiguration) => {
@@ -166,7 +167,8 @@ export class BattleService {
       .open(FighterDialogComponent, {
         data: {},
         disableClose: true,
-        panelClass: ['full-screen-modal']
+        panelClass: ['full-screen-modal'],
+        closeOnNavigation: false
       })
       .afterClosed()
       .subscribe((fighter: Fighter) => {
@@ -187,7 +189,8 @@ export class BattleService {
       .open(FighterDialogComponent, {
         data: {},
         disableClose: true,
-        panelClass: ['full-screen-modal']
+        panelClass: ['full-screen-modal'],
+        closeOnNavigation: false
       })
       .afterClosed()
       .subscribe((fighter: Fighter) => {
@@ -211,7 +214,8 @@ export class BattleService {
           question: this.translateService.instant(
             'battle-service.dialog.remove-wild'
           )
-        }
+        },
+        closeOnNavigation: false
       })
       .afterClosed()
       .subscribe((decision) => {
@@ -351,7 +355,8 @@ export class BattleService {
             question: this.translateService.instant(
               'battle-service.dialog.ready'
             )
-          }
+          },
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((decision) => {
@@ -374,7 +379,8 @@ export class BattleService {
         data: {
           yesColor: 'warn',
           question: this.translateService.instant('battle-service.dialog.abort')
-        }
+        },
+        closeOnNavigation: false
       })
       .afterClosed()
       .subscribe((decision) => {
@@ -391,7 +397,8 @@ export class BattleService {
         .open(BattleEndDialogComponent, {
           data: {
             battle: this.battle
-          }
+          },
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((result) => {
@@ -406,7 +413,7 @@ export class BattleService {
                   ? `0${date.getMonth() + 1}`
                   : date.getMonth() + 1
               }.${date.getDate()}.`,
-              victory: result.victory,
+              outcome: result.outcome,
               enemy: result.enemy,
               campaign: this.battle.campaign,
               casualities: this.allFighters
@@ -426,7 +433,8 @@ export class BattleService {
           data: {
             question: 'battle-end-dialog.question',
             yesColor: 'warn'
-          }
+          },
+          closeOnNavigation: false
         })
         .afterClosed()
         .subscribe((result) => {

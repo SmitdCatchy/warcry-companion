@@ -11,7 +11,7 @@ export class AbilitiesBottomSheetComponent {
   constructor(
     @Inject(MAT_BOTTOM_SHEET_DATA)
     public data: {
-      abilityGroups: {label: string, abilities: Ability[]}[];
+      abilityGroups: { label: string; abilities: Ability[] }[];
       showRunemarks: boolean;
     }
   ) {}

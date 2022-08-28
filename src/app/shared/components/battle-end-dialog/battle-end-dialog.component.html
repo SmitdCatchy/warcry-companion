@@ -2,9 +2,14 @@
 <div class="dialog-content">
   <p>{{'battle-end-dialog.question' | translate}}</p>
   <form [formGroup]="resultForm">
-    <mat-slide-toggle formControlName="victory">
-      {{'battle-end-dialog.form.victory' | translate}}
-    </mat-slide-toggle>
+    <mat-form-field appearance="fill">
+      <mat-label>{{'battle-end-dialog.form.outcome' | translate}}</mat-label>
+      <mat-select formControlName="outcome">
+        <mat-option value="victory">{{'log.label.victory' | translate}}</mat-option>
+        <mat-option value="defeat">{{'log.label.defeat' | translate}}</mat-option>
+        <mat-option value="tie">{{'log.label.tie' | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>{{'battle-end-dialog.form.enemy' | translate}}</mat-label>
       <input matInput formControlName="enemy">
@@ -12,6 +17,6 @@
   </form>
 </div>
 <div class="actions">
-  <button mat-flat-button color="warn" (click)="acceptDialog()">{{'battle-end-dialog.action.end'  | translate}}</button>
+  <button mat-flat-button color="warn" (click)="acceptDialog()" [disabled]="resultForm.invalid">{{'battle-end-dialog.action.end'  | translate}}</button>
   <button mat-flat-button (click)="closeDialog()">{{'common.back' | translate}}</button>
 </div>

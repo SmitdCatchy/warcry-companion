@@ -17,6 +17,8 @@ import { Subscription } from 'rxjs';
 import { FighterStoreDialogComponent } from '../fighter-store-dialog/fighter-store-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import cloneDeep from 'lodash.clonedeep';
+import { Warband } from 'src/app/core/models/warband.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'smitd-fighter-dialog',
@@ -37,11 +39,13 @@ export class FighterDialogComponent implements OnDestroy {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       fighter: Fighter;
+      warband: Warband;
       edit: boolean;
       storeDialog: boolean;
     },
     public readonly fighterStore: FighterStoreService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly translateService: TranslateService
   ) {
     const fighterCopy = data.fighter ? cloneDeep(data.fighter) : undefined;
     this.fighterForm = new FormGroup({
@@ -78,8 +82,20 @@ export class FighterDialogComponent implements OnDestroy {
       notes: new FormControl(fighterCopy ? fighterCopy.notes : '', []),
       renown: new FormControl(fighterCopy ? fighterCopy.renown : 0, []),
       icon: new FormControl(fighterCopy ? fighterCopy.icon : undefined, []),
-      abilities: new FormControl(fighterCopy ? fighterCopy.modifiers : [], [])
+      abilities: new FormControl(fighterCopy ? fighterCopy.modifiers : [], []),
+      faction: new FormControl(
+        data.warband
+          ? data.warband.faction
+          : fighterCopy
+          ? fighterCopy.faction
+          : this.translateService.instant('common.unaligned'),
+        data.storeDialog ? [Validators.required] : []
+      )
     });
+    if (data.storeDialog && data.edit) {
+      this.type.disable();
+      this.faction.disable();
+    }
     if (data.fighter) {
       this.addInitialWeapons(data.fighter.weapons);
       this.addInitialMonsterStats(data.fighter.monsterStatTable || []);
@@ -89,12 +105,96 @@ export class FighterDialogComponent implements OnDestroy {
       this.addMonsterStat();
       this.existsInStore = false;
     }
+    if (!data.storeDialog) {
+      this._subscriptions.add(
+        this.type.valueChanges.subscribe(() => {
+          this.existsInStore = this.fighterStore.checkFighter(
+            this.fighterForm.value,
+            false
+          );
+        })
+      );
+    }
     this._subscriptions.add(
-      this.type.valueChanges.subscribe(() => {
-        this.existsInStore = this.fighterStore.checkFighter(
-          this.fighterForm.value,
-          false
-        );
+      this.role.valueChanges.subscribe((role) => {
+        const runemarksSet = new Set(this.runemarks.value);
+        switch (role) {
+          case FighterRole.Leader:
+            runemarksSet.add(
+              this.translateService.instant('fighter-role.hero')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.monster')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.thrall')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.beast')
+            );
+            this.runemarks.setValue([...runemarksSet]);
+            break;
+          case FighterRole.Hero:
+            runemarksSet.add(
+              this.translateService.instant('fighter-role.hero')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.monster')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.thrall')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.beast')
+            );
+            this.runemarks.setValue([...runemarksSet]);
+            break;
+          case FighterRole.Monster:
+            runemarksSet.add(
+              this.translateService.instant('fighter-role.monster')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.hero')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.thrall')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.beast')
+            );
+            this.runemarks.setValue([...runemarksSet]);
+            break;
+          case FighterRole.Thrall:
+            runemarksSet.add(
+              this.translateService.instant('fighter-role.thrall')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.hero')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.monster')
+            );
+            this.runemarks.setValue([...runemarksSet]);
+            break;
+          case FighterRole.Beast:
+            runemarksSet.add(
+              this.translateService.instant('fighter-role.beast')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.hero')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.monster')
+            );
+            runemarksSet.delete(
+              this.translateService.instant('fighter-role.thrall')
+            );
+            this.runemarks.setValue([...runemarksSet]);
+            break;
+
+          default:
+            break;
+        }
       })
     );
   }
@@ -125,6 +225,10 @@ export class FighterDialogComponent implements OnDestroy {
 
   public get type(): AbstractControl {
     return this.fighterForm.get('type') as AbstractControl;
+  }
+
+  public get faction(): AbstractControl {
+    return this.fighterForm.get('faction') as AbstractControl;
   }
 
   public addWeapon(weapon?: Weapon): FormGroup | void {
@@ -227,6 +331,8 @@ export class FighterDialogComponent implements OnDestroy {
   }
 
   public acceptDialog(): void {
+    this.type.enable();
+    this.faction.enable();
     const fighter = cloneDeep(this.fighterForm.value as Fighter);
     if (
       this.data.storeDialog &&
@@ -256,12 +362,9 @@ export class FighterDialogComponent implements OnDestroy {
   }
 
   public discardFighter(): void {
-    this.fighterStore.discardFighter(
-      this.fighterStore.getFighterStoreIndex(this.fighterForm.value),
-      () => {
-        this.existsInStore = false;
-      }
-    );
+    this.fighterStore.discardFighter(this.fighterForm.value, () => {
+      this.existsInStore = false;
+    });
   }
 
   public cleanFighter(original: Fighter): Fighter {
@@ -275,6 +378,7 @@ export class FighterDialogComponent implements OnDestroy {
       runemarks: fighter.runemarks,
       weapons: fighter.weapons,
       points: fighter.points,
+      faction: fighter.faction,
       modifiers: [],
       abilities: []
     };

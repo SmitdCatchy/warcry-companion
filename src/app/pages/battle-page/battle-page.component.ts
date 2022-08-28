@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
-import { Component, ChangeDetectionStrategy  } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Router } from '@angular/router';
 import { BattleState } from 'src/app/core/enums/battle-state.enum';
 import { FighterCardMode } from 'src/app/core/enums/fighter-card-mode.enum';
 import { FighterRole } from 'src/app/core/enums/fighter-role.enum';
@@ -27,8 +28,13 @@ export class BattlePageComponent {
     public readonly battleService: BattleService,
     public readonly warbandService: WarbandService,
     public readonly battlegroundService: BattlegroundsService,
-    private location: Location
-  ) {}
+    private location: Location,
+    private readonly router: Router
+  ) {
+    if (this.battle.battleState === BattleState.Peace) {
+      this.router.navigateByUrl('/');
+    }
+  }
 
   public get battle(): Battle {
     return this.battleService.battle;

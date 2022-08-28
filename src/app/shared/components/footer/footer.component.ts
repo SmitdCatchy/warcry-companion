@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {
-  public version = '1.1.0 - Auric';
+  public version = '1.2.0 - Auric';
   public year = new Date().getFullYear();
   constructor(public core: CoreService) {}
 }

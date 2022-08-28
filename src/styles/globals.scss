@@ -192,6 +192,8 @@ smitd-warband-page .mat-expansion-panel-body {
     font-weight: bold;
     white-space: nowrap;
     margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 

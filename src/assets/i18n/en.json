@@ -169,7 +169,8 @@
     "hero": "Hero",
     "fighter": "Fighter",
     "thrall": "Thrall",
-    "monster": "Monster"
+    "monster": "Monster",
+    "beast": "Beast"
   },
   "fighter-dialog": {
     "title": {
@@ -283,10 +284,10 @@
     }
   },
   "battle-end-dialog": {
-    "title": "Battle Results",
+    "title": "Ending Battle",
     "question": "Are you sure you want to end this battle?",
     "form": {
-      "victory": "Claim Victory",
+      "outcome": "Battle Outcome",
       "enemy": "Opposing Warband"
     },
     "action": {
@@ -321,14 +322,16 @@
   "log": {
     "sentence": "On {{date}} there was a {{result}} {{campaign}}{{enemy}}.",
     "victory": "victorius",
-    "failure": "lost",
+    "defeat": "lost",
+    "tie": "tied",
     "battle": "battle",
     "campaign": "campaign battle",
     "enemy": " against the {{enemy}}",
     "casualities": "Casualities",
     "label": {
       "victory": "Victorius Battle",
-      "failure": "Lost Battle"
+      "defeat": "Lost Battle",
+      "tie": "Tied Battle"
     }
   },
   "encampment-state": {
@@ -377,12 +380,19 @@
       "export": "Export Fighters"
     },
     "option": {
-      "edit": "Edit Fighter",
-      "remove": "Remove Fighter"
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "remove": "Remove"
     }
   },
   "fighter-store-service": {
     "remove": "Are you sure you want to remove your fighter called \"{{fighter}}\" from the Fighter Store?",
     "exists": "You already have a fighter with the type \"{{fighter}}\" in the Fighter Store."
+  },
+  "fighter-store-dialog": {
+    "title": "Fighter Store",
+    "fighter": "Fighter type",
+    "filter": "Filter ny type",
+    "load": "Load Fighter Type"
   }
 }

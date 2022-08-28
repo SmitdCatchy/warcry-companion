@@ -208,10 +208,6 @@ export class FighterCardComponent implements AfterViewInit {
   }
 
   public setBattleFrameHeight(header: MatExpansionPanelHeader): void {
-    console.log(
-      ((header as any)._element as ElementRef).nativeElement.clientHeight
-    );
-
     this.battleFrameHeight = `${
       ((header as any)._element as ElementRef).nativeElement.clientHeight
     }px`;

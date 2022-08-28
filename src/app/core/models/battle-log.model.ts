@@ -1,5 +1,5 @@
 export interface BattleLog {
-  victory: boolean;
+  outcome: string;
   casualities: {
     type: string;
     name?: string;

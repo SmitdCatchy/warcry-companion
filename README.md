@@ -34,9 +34,40 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 1.2.0 - 2022.08.28
+
+<details>
+  <summary>Features</summary>
+
+- added a new fighter type: Beast.
+
+- in the Fighter dialog selecting a fighter role adds default runemarks based on the role.
+
+- the Fighter Store scrren and Fighter Load dialog has factions.
+
+- there is a tie option for the battle end result.
+
+- fighters with the Beast and Monster roles no longer have the Carry treasure option pn the Battle Page during the battle phase.
+
+- fighters with the Monster role can have modifiers.
+
+</details>
+
+<details>
+  <summary>Fixes</summary>
+
+- navigating back from a dialog will close the dialog instead of navigating back to the previous screen.
+
+- the uploaded icons are a bit bigger.
+
+- too long faction names are truncated in the screen title.
+
+</details>
+
 ### 1.1.0 - 2022.08.25
 
-#### Features
+<details>
+  <summary>Features</summary>
 
 - Fighter Store:
   - you can navigate to the Battlegrounds screen from the Main screen by pressing the Fighter Store option in the menu.
@@ -46,16 +77,22 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 - Warbands:
   - on the Main screen in the Warband card options you can duplicate the warband.
 
-#### Fixes
+</details>
+
+<details>
+  <summary>Fixes</summary>
 
 - Universal:
   - the app supports displays as narrow as 320px.
   - expansion panels have a more noticeable design.
   - routing error fixed
 
+</details>
+
 ### 1.0.0 Auric - 2022.08.13
 
-#### Features
+<details>
+  <summary>Features</summary>
 
 - Warband dialog:  
   - on the Main screen:
@@ -222,3 +259,5 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
     - select the application theme.
     - choose the application language.
     - navigate to the GitHub page of the project.
+
+</details>
