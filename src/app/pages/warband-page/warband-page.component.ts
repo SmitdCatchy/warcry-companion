@@ -24,9 +24,7 @@ import { FighterRole } from 'src/app/core/enums/fighter-role.enum';
 import { ModifierDialogComponent } from 'src/app/shared/components/modifier-dialog/modifier-dialog.component';
 import { Modifier } from 'src/app/core/models/modifier.model';
 import { EncampmentState } from 'src/app/core/enums/encampment-state.enum';
-import { NavigationEnd, Router } from '@angular/router';
-import { Location } from '@angular/common';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'smitd-warband-page',
@@ -53,9 +51,9 @@ export class WarbandPageComponent implements OnDestroy {
     public readonly battleService: BattleService,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService,
-    private readonly router: Router,
+    private readonly router: Router
   ) {
-    if(!this.warband) {
+    if (!this.warband) {
       this.router.navigateByUrl('/');
     }
     this.warbandForm = new FormGroup({
@@ -276,6 +274,7 @@ export class WarbandPageComponent implements OnDestroy {
           if (abilityFormValue) {
             fighter.abilities ||= [];
             fighter.abilities.push(abilityFormValue);
+            fighter.abilities = WarbandService.sortAbilities(fighter.abilities);
             this.updateFighter(fighter, index);
           }
         })
@@ -299,6 +298,7 @@ export class WarbandPageComponent implements OnDestroy {
         .subscribe((abilityFormValue) => {
           if (abilityFormValue) {
             fighter.abilities[abilityIndex] = abilityFormValue;
+            fighter.abilities = WarbandService.sortAbilities(fighter.abilities);
             this.updateFighter(fighter, index);
           }
         })
@@ -358,12 +358,16 @@ export class WarbandPageComponent implements OnDestroy {
     );
   }
 
-  public addAbility(ability?: Ability): FormGroup | void {
+  public addAbility(ability?: Ability, sort: boolean = true): FormGroup | void {
     const abilityFormGroup = new FormGroup({
       type: new FormControl(ability ? ability.type : AbilityType.Double, [
         Validators.required
       ]),
       runemarks: new FormControl(ability ? ability.runemarks : [], []),
+      prohibitiveRunemarks: new FormControl(
+        ability ? ability.prohibitiveRunemarks : [],
+        []
+      ),
       title: new FormControl(ability ? ability.title : '', [
         Validators.required
       ]),
@@ -372,6 +376,11 @@ export class WarbandPageComponent implements OnDestroy {
       ])
     });
     this.abilities.push(abilityFormGroup);
+    if (sort) {
+      const abilities = this.abilities.value as Ability[];
+      this.abilities.clear();
+      this.addInitialAbilities(WarbandService.sortAbilities(abilities));
+    }
   }
 
   public addNewAbility(ability?: Ability): FormGroup | void {
@@ -405,6 +414,9 @@ export class WarbandPageComponent implements OnDestroy {
         .subscribe((abilityFormValue) => {
           if (abilityFormValue) {
             this.abilitiesList[index].setValue(abilityFormValue);
+            const abilities = this.abilities.value as Ability[];
+            this.abilities.clear();
+            this.addInitialAbilities(WarbandService.sortAbilities(abilities));
           }
         })
     );
@@ -437,7 +449,7 @@ export class WarbandPageComponent implements OnDestroy {
 
   public addInitialAbilities(abilities: Ability[]): void {
     abilities.forEach((ability) => {
-      this.addAbility(ability);
+      this.addAbility(ability, false);
     });
   }
 }

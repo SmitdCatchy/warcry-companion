@@ -23,8 +23,23 @@
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-chip>
-      <input placeholder="New runemark" #runemarkInput [formControl]="runemarkCtrl" [matChipInputFor]="runemarkList"
+      <input [placeholder]="'ability-form.placeholder' | translate" #runemarkInput [formControl]="runemarkCtrl" [matChipInputFor]="runemarkList"
         (matChipInputTokenEnd)="addRunemark($event)"[matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
+    </mat-chip-list>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>{{'ability-form.prohibitive' | translate}}</mat-label>
+    <mat-chip-list #prohibitiveRunemarksList>
+      <mat-chip *ngFor="let runemark of prohibitiveRunemarks.value" (removed)="removeProhibitiveRunemarks(runemark)">
+        <span>
+          {{runemark}}
+        </span>
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input [placeholder]="'ability-form.placeholder' | translate" #prohibitiveRunemarkInput [formControl]="prohibitiveRunemarksCtrl" [matChipInputFor]="prohibitiveRunemarksList"
+        (matChipInputTokenEnd)="addProhibitiveRunemarks($event)"[matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
     </mat-chip-list>
   </mat-form-field>
 

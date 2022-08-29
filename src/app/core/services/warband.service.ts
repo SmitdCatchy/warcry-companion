@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AbilitiesBottomSheetComponent } from 'src/app/shared/components/abilities-bottom-sheet/abilities-bottom-sheet.component';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { LogsBottomSheetComponent } from 'src/app/shared/components/logs-bottom-sheet/logs-bottom-sheet.component';
+import { AbilityType } from '../enums/ability-type.enum';
 import { Color } from '../enums/color.enum';
 import { EncampmentState } from '../enums/encampment-state.enum';
 import { FighterRole } from '../enums/fighter-role.enum';
@@ -255,7 +256,13 @@ export class WarbandService {
           .trim(),
         abilities: abilities.filter((ability) => {
           if (fighter) {
-            return this.checkRunemarks(fighter.runemarks, ability.runemarks);
+            return (
+              this.checkRunemarks(fighter.runemarks, ability.runemarks) &&
+              !this.checkProhibitiveRunemarks(
+                fighter.runemarks,
+                ability.prohibitiveRunemarks || []
+              )
+            );
           }
           return true;
         })
@@ -280,7 +287,13 @@ export class WarbandService {
               return false;
             }
             if (fighter) {
-              return this.checkRunemarks(fighter.runemarks, ability.runemarks);
+              return (
+                this.checkRunemarks(fighter.runemarks, ability.runemarks) &&
+                !this.checkProhibitiveRunemarks(
+                  fighter.runemarks,
+                  ability.prohibitiveRunemarks || []
+                )
+              );
             }
             return true;
           })
@@ -305,6 +318,15 @@ export class WarbandService {
     return required.every((runemark) => obtained.includes(runemark));
   }
 
+  public checkProhibitiveRunemarks(
+    obtained: string[],
+    prohibitive: string[]
+  ): boolean {
+    return (
+      prohibitive.findIndex((runemark) => obtained.includes(runemark)) > -1
+    );
+  }
+
   public get hasLogs(): boolean {
     return !!this.selectedWarband.logs && this.selectedWarband.logs.length > 0;
   }
@@ -313,5 +335,41 @@ export class WarbandService {
     this.bottomSheet.open(LogsBottomSheetComponent, {
       data: { logs: this.selectedWarband.logs }
     });
+  }
+
+  public static sortAbilities(abilities: Ability[]): Ability[] {
+    abilities = abilities.sort(
+      (a, b) => {
+        if (this.abilityTypeIndex(a.type) < this.abilityTypeIndex(b.type)) {
+          return -1;
+        } else if (
+          this.abilityTypeIndex(a.type) > this.abilityTypeIndex(b.type)
+        ) {
+          return 1;
+        } else if (a.title.toLocaleLowerCase().trim() < b.title.toLocaleLowerCase().trim()) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }
+    );
+    return abilities
+  }
+
+  private static abilityTypeIndex(type: AbilityType): number {
+    switch (type) {
+      case AbilityType.Reaction:
+        return 0;
+      case AbilityType.Single:
+        return 1;
+      case AbilityType.Double:
+        return 2;
+      case AbilityType.Triple:
+        return 3;
+      case AbilityType.Quad:
+        return 4;
+      default:
+        return 5;
+    }
   }
 }

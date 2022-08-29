@@ -3,6 +3,7 @@ export enum FighterRole {
   Leader = 'leader',
   Hero = 'hero',
   Beast = 'beast',
+  Ally = 'ally',
   Thrall = 'thrall',
   Monster = 'monster',
 }

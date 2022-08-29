@@ -15,6 +15,7 @@ import { Ability } from 'src/app/core/models/ability.model';
 import { AbilityType } from 'src/app/core/enums/ability-type.enum';
 import { AbilityDialogComponent } from 'src/app/shared/components/ability-dialog/ability-dialog.component';
 import { Battleground } from 'src/app/core/models/battleground.model';
+import { WarbandService } from 'src/app/core/services/warband.service';
 
 @Component({
   selector: 'smitd-battlegrounds-page',
@@ -46,12 +47,14 @@ export class BattlegroundsPageComponent implements OnDestroy {
     );
     this.battlegroundForm.markAsUntouched();
     this._subscriptions.add(
-      this.battlegroundForm.valueChanges.pipe(
-        filter(() => this.battlegroundForm.valid),
-        debounceTime(400)
-      ).subscribe(() => {
-        this.updateBattleground();
-      })
+      this.battlegroundForm.valueChanges
+        .pipe(
+          filter(() => this.battlegroundForm.valid),
+          debounceTime(400)
+        )
+        .subscribe(() => {
+          this.updateBattleground();
+        })
     );
   }
 
@@ -145,12 +148,16 @@ export class BattlegroundsPageComponent implements OnDestroy {
     );
   }
 
-  public addAbility(ability?: Ability): FormGroup | void {
+  public addAbility(ability?: Ability, sort: boolean = true): FormGroup | void {
     const abilityFormGroup = new FormGroup({
       type: new FormControl(ability ? ability.type : AbilityType.Double, [
         Validators.required
       ]),
       runemarks: new FormControl(ability ? ability.runemarks : [], []),
+      prohibitiveRunemarks: new FormControl(
+        ability ? ability.prohibitiveRunemarks : [],
+        []
+      ),
       title: new FormControl(ability ? ability.title : '', [
         Validators.required
       ]),
@@ -160,6 +167,11 @@ export class BattlegroundsPageComponent implements OnDestroy {
     });
     this.abilities.push(abilityFormGroup);
     this.battlegroundForm.markAsTouched();
+    if (sort) {
+      const abilities = this.abilities.value as Ability[];
+      this.abilities.clear();
+      this.addInitialAbilities(WarbandService.sortAbilities(abilities));
+    }
   }
 
   public addNewAbility(ability?: Ability): FormGroup | void {
@@ -195,6 +207,9 @@ export class BattlegroundsPageComponent implements OnDestroy {
           if (abilityFormValue) {
             this.abilitiesList[index].setValue(abilityFormValue);
             this.battlegroundForm.markAsTouched();
+            const abilities = this.abilities.value as Ability[];
+            this.abilities.clear();
+            this.addInitialAbilities(WarbandService.sortAbilities(abilities));
           }
         })
     );
@@ -232,7 +247,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
 
   public addInitialAbilities(abilities: Ability[]): void {
     abilities.forEach((ability) => {
-      this.addAbility(ability);
+      this.addAbility(ability, false);
     });
   }
 

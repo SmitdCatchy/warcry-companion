@@ -14,11 +14,11 @@ export interface Fighter {
   weapons: Weapon[];
   points: number;
   modifiers: Modifier[];
+  abilities: Ability[];
   name?: string;
   notes?: string;
   renown?: number;
   icon?: string;
   monsterStatTable?: MonsterStat[];
-  abilities: Ability[];
   faction?: string;
 }

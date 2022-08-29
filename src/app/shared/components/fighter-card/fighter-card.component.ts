@@ -4,7 +4,6 @@ import {
   Input,
   Output,
   ElementRef,
-  AfterViewInit,
   ViewChild
 } from '@angular/core';
 import { Color } from 'src/app/core/enums/color.enum';
@@ -23,7 +22,7 @@ import { FighterReference } from 'src/app/core/models/fighter-reference.model';
   templateUrl: './fighter-card.component.html',
   styleUrls: ['./fighter-card.component.scss']
 })
-export class FighterCardComponent implements AfterViewInit {
+export class FighterCardComponent {
   @Input('fighter') fighter: Fighter;
   @Input('fighterReference') fighterReference?: FighterReference;
   @Input('mode') mode: string;
@@ -39,9 +38,7 @@ export class FighterCardComponent implements AfterViewInit {
   @ViewChild('fighterExpansionHeader')
   fighterExpansionHeader!: MatExpansionPanelHeader;
 
-  constructor(
-    public readonly core: CoreService,
-  ) {
+  constructor(public readonly core: CoreService) {
     this.fighter = {
       role: FighterRole.Thrall,
       type: 'Error Thrall',
@@ -71,13 +68,6 @@ export class FighterCardComponent implements AfterViewInit {
     this.woundChange = new EventEmitter();
     this.expanded = false;
     this.battleFrameHeight = '80px';
-  }
-
-  ngAfterViewInit(): void {
-    // this.changeDetectorRef.detectChanges();
-    // setTimeout(() => {
-    //   this.setBattleFrameHeight(this.fighterExpansionHeader);
-    // }, 0);
   }
 
   public get headerColor(): Observable<any> {
@@ -174,7 +164,24 @@ export class FighterCardComponent implements AfterViewInit {
   }
 
   public getMonsterStat(stat: string, secondary: string = ''): number {
-    const monsterTable: MonsterStat[] = this.fighter.monsterStatTable || [];
+    const monsterTable: MonsterStat[] = this.fighter.monsterStatTable!;
+    if (this.mode !== 'battle') {
+      switch (stat) {
+        case 'weapon':
+          switch (secondary) {
+            case 'damage':
+              return monsterTable[0][secondary];
+            case 'crit':
+              return monsterTable[0][secondary];
+            default:
+              return (this.fighter.weapons[0] as any)[secondary];
+          }
+        case 'movement':
+          return (monsterTable as any)[0][stat];
+        default:
+          return (this.fighter as any)[stat];
+      }
+    }
     const monsterStatIndex = monsterTable?.findIndex(
       (stats) => stats.minHealth <= (this.fighterReference?.wounds || 0)
     );

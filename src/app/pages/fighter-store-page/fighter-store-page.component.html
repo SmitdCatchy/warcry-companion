@@ -32,6 +32,32 @@
               <span>{{'common.options' | translate}}</span>
               <mat-divider></mat-divider>
             </div>
+            <smitd-divider-expansion *ngIf="fighter.role === FighterRole.Ally || fighter.role === FighterRole.Monster || fighter.role === FighterRole.Thrall">
+              <span dividerLabel>{{'warband-page.tab.fighters.form.abilities.label' | translate}}</span>
+              <div class="abilities" expansionContent>
+                <ng-container *ngFor="let ability of fighter.abilities; let abilityIndex = index">
+                  <div class="ability-card">
+                    <smitd-ability-card [ability]="ability" [edit]="true"></smitd-ability-card>
+                    <div class="ability-options">
+                      <div class="button-wrapper dark">
+                        <button class="remove-ability" mat-mini-fab
+                          (click)="editFighterAbility(fighter, index, abilityIndex)">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                      </div>
+                      <div class="button-wrapper dark">
+                        <button class="remove-ability" mat-mini-fab color="warn"
+                          (click)="removeFighterAbility(fighter, index, abilityIndex)">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <button class="add-ability" color="accent" mat-flat-button
+                  (click)="addFighterAbility(fighter, index)">{{'warband-page.tab.fighters.form.abilities.add' | translate}}</button>
+              </div>
+            </smitd-divider-expansion>
             <div class="triple">
               <button mat-flat-button color="accent"
                 (click)="editFighter(fighter)">{{'fighter-store-page.option.edit' | translate}}</button>

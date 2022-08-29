@@ -34,21 +34,35 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 1.2.1 - 2022.08.28
+
+<details>
+  <summary>Features</summary>
+
+- add fighter type: Ally.
+- add prohibitive runemark form field in ability dialog.
+- sort abilities by type and name.
+
+</details>
+
+<details>
+  <summary>Fixes</summary>
+
+- allies and thralls can have abilities.
+- always show best monster stats if not in battle.
+
+</details>
+
 ### 1.2.0 - 2022.08.28
 
 <details>
   <summary>Features</summary>
 
 - added a new fighter type: Beast.
-
 - in the Fighter dialog selecting a fighter role adds default runemarks based on the role.
-
 - the Fighter Store scrren and Fighter Load dialog has factions.
-
 - there is a tie option for the battle end result.
-
 - fighters with the Beast and Monster roles no longer have the Carry treasure option pn the Battle Page during the battle phase.
-
 - fighters with the Monster role can have modifiers.
 
 </details>
@@ -57,9 +71,7 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
   <summary>Fixes</summary>
 
 - navigating back from a dialog will close the dialog instead of navigating back to the previous screen.
-
 - the uploaded icons are a bit bigger.
-
 - too long faction names are truncated in the screen title.
 
 </details>

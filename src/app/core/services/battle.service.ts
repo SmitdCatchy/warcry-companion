@@ -266,7 +266,7 @@ export class BattleService {
           injuries.push(modifier);
           break;
         default:
-          console.error('UNKONWN MODIFIER');
+          console.error('UNKONWN MODIFIER', modifier);
           return;
       }
       const modification = modifier.modify;

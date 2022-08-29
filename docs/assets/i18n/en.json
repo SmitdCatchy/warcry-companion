@@ -168,6 +168,7 @@
     "leader": "Leader",
     "hero": "Hero",
     "fighter": "Fighter",
+    "ally": "Ally",
     "thrall": "Thrall",
     "monster": "Monster",
     "beast": "Beast"
@@ -218,6 +219,8 @@
     "title": "Name",
     "battleground": "Battlegrounds",
     "runemarks": "Runemarks",
+    "prohibitive": "Prohibitive Runemarks",
+    "placeholder": "New Runemark",
     "description": "Description"
   },
   "ability-dialog": {

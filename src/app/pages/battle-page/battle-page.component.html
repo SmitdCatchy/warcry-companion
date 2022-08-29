@@ -53,7 +53,7 @@
 </mat-card>
 <mat-tab-group color="primary" mat-stretch-tabs dynamicHeight [selectedIndex]="battle.battleState">
   <mat-tab>
-    <div class="scroll-container">
+    <div class="scroll-container" *ngIf="battle.battleState === 0">
       <div class="prepare">
         <div class="boundary">
           <div class="divider">
@@ -249,7 +249,7 @@
     </div>
   </mat-tab>
   <mat-tab>
-    <div class="scroll-container">
+    <div class="scroll-container" *ngIf="battle.battleState === 1">
       <div class="battle">
         <div class="divider"
           *ngIf="battleService.battle.dagger.length && (battleService.battle.hammer.length || battleService.battle.shield.length ||battleService.battle.wild.length)">
