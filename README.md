@@ -34,6 +34,15 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 1.2.2 - 2022.08.9
+
+<details>
+  <summary>Fixes</summary>
+
+- fighters with the Monster role can have modifiers.
+
+</details>
+
 ### 1.2.1 - 2022.08.28
 
 <details>
@@ -60,7 +69,7 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 - added a new fighter type: Beast.
 - in the Fighter dialog selecting a fighter role adds default runemarks based on the role.
-- the Fighter Store scrren and Fighter Load dialog has factions.
+- the Fighter Store screen and Fighter Load dialog has factions.
 - there is a tie option for the battle end result.
 - fighters with the Beast and Monster roles no longer have the Carry treasure option pn the Battle Page during the battle phase.
 - fighters with the Monster role can have modifiers.
