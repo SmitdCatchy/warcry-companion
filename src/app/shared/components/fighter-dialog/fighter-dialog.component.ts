@@ -82,7 +82,7 @@ export class FighterDialogComponent implements OnDestroy {
       notes: new FormControl(fighterCopy ? fighterCopy.notes : '', []),
       renown: new FormControl(fighterCopy ? fighterCopy.renown : 0, []),
       icon: new FormControl(fighterCopy ? fighterCopy.icon : undefined, []),
-      abilities: new FormControl(fighterCopy ? fighterCopy.modifiers : [], []),
+      abilities: new FormControl(fighterCopy ? fighterCopy.abilities : [], []),
       faction: new FormControl(
         data.warband
           ? data.warband.faction
@@ -117,84 +117,7 @@ export class FighterDialogComponent implements OnDestroy {
     }
     this._subscriptions.add(
       this.role.valueChanges.subscribe((role) => {
-        const runemarksSet = new Set(this.runemarks.value);
-        switch (role) {
-          case FighterRole.Leader:
-            runemarksSet.add(
-              this.translateService.instant('fighter-role.hero')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.monster')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.thrall')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.beast')
-            );
-            this.runemarks.setValue([...runemarksSet]);
-            break;
-          case FighterRole.Hero:
-            runemarksSet.add(
-              this.translateService.instant('fighter-role.hero')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.monster')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.thrall')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.beast')
-            );
-            this.runemarks.setValue([...runemarksSet]);
-            break;
-          case FighterRole.Monster:
-            runemarksSet.add(
-              this.translateService.instant('fighter-role.monster')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.hero')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.thrall')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.beast')
-            );
-            this.runemarks.setValue([...runemarksSet]);
-            break;
-          case FighterRole.Thrall:
-            runemarksSet.add(
-              this.translateService.instant('fighter-role.thrall')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.hero')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.monster')
-            );
-            this.runemarks.setValue([...runemarksSet]);
-            break;
-          case FighterRole.Beast:
-            runemarksSet.add(
-              this.translateService.instant('fighter-role.beast')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.hero')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.monster')
-            );
-            runemarksSet.delete(
-              this.translateService.instant('fighter-role.thrall')
-            );
-            this.runemarks.setValue([...runemarksSet]);
-            break;
-
-          default:
-            break;
-        }
+        this.setRoleRunemarks(role);
       })
     );
   }
@@ -229,6 +152,10 @@ export class FighterDialogComponent implements OnDestroy {
 
   public get faction(): AbstractControl {
     return this.fighterForm.get('faction') as AbstractControl;
+  }
+
+  public get abilities(): AbstractControl {
+    return this.fighterForm.get('abilities') as AbstractControl;
   }
 
   public addWeapon(weapon?: Weapon): FormGroup | void {
@@ -380,7 +307,8 @@ export class FighterDialogComponent implements OnDestroy {
       points: fighter.points,
       faction: fighter.faction,
       modifiers: [],
-      abilities: []
+      abilities: fighter.abilities,
+      monsterStatTable: fighter.monsterStatTable
     };
   }
 
@@ -391,21 +319,49 @@ export class FighterDialogComponent implements OnDestroy {
         .afterClosed()
         .subscribe((fighter: Fighter) => {
           if (fighter.runemarks) {
-            while (this.weapons.length) {
-              this.weapons.removeAt(0);
-            }
+            this.weapons.clear()
             this.addInitialWeapons(fighter.weapons);
-            while (this.monsterStats.length) {
-              this.monsterStats.removeAt(0);
-            }
+            this.monsterStats.clear();
             this.addInitialMonsterStats(fighter.monsterStatTable || []);
             this.fighterForm.setValue({
               ...this.fighterForm.value,
               ...fighter
             });
+            console.log('Loaded', this.fighterForm.value);
             this.existsInStore = true;
           }
         })
     );
+  }
+
+  private setRoleRunemarks(role: FighterRole): void {
+    const runemarksSet = new Set(this.runemarks.value);
+    switch (role) {
+      case FighterRole.Thrall:
+        runemarksSet.add(this.translateService.instant('fighter-role.thrall'));
+        runemarksSet.delete(this.translateService.instant('fighter-role.hero'));
+        runemarksSet.delete(
+          this.translateService.instant('fighter-role.monster')
+        );
+        runemarksSet.delete(this.translateService.instant('fighter-role.ally'));
+        this.runemarks.setValue([...runemarksSet]);
+        break;
+      default:
+        this.fighterRoleList.forEach((role) => {
+          runemarksSet.delete(
+            this.translateService.instant(`fighter-role.${role}`)
+          );
+        });
+        runemarksSet.add(this.translateService.instant(`fighter-role.${role}`));
+        if (
+          role !== FighterRole.Ally &&
+          role !== FighterRole.Monster
+        ) {
+          this.abilities.setValue([]);
+        }
+        this.runemarks.setValue([...runemarksSet]);
+        break;
+    }
+    this.runemarks.setValue;
   }
 }

@@ -15,6 +15,7 @@ export class AbilityFormComponent {
   @Input() index: number;
   public separatorKeysCodes: number[] = [ENTER, COMMA, PERIOD];
   public runemarkCtrl = new FormControl('');
+  public prohibitiveRunemarksCtrl = new FormControl('');
   public AbilityTypeList = Object.values(AbilityType);
 
   constructor(private warbandService: WarbandService) {
@@ -24,6 +25,10 @@ export class AbilityFormComponent {
 
   public get runemarks(): AbstractControl {
     return this.abilityForm.get('runemarks') as AbstractControl;
+  }
+
+  public get prohibitiveRunemarks(): AbstractControl {
+    return this.abilityForm.get('prohibitiveRunemarks') as AbstractControl;
   }
 
   public addRunemark(event: any): void {
@@ -44,5 +49,25 @@ export class AbilityFormComponent {
 
     runemarks.splice(runemarks.indexOf(runemark), 1);
     this.runemarks.setValue(runemarks);
+  }
+
+  public addProhibitiveRunemarks(event: any): void {
+    const value = (event.value || '').trim();
+    const runemarks = this.prohibitiveRunemarks.value;
+
+    if (value) {
+      runemarks.push(value);
+    }
+
+    event.chipInput!.clear();
+    this.prohibitiveRunemarksCtrl.setValue(null);
+    this.prohibitiveRunemarks.setValue(runemarks);
+  }
+
+  public removeProhibitiveRunemarks(runemark: string): void {
+    const runemarks = this.prohibitiveRunemarks.value;
+
+    runemarks.splice(runemarks.indexOf(runemark), 1);
+    this.prohibitiveRunemarks.setValue(runemarks);
   }
 }

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CoreService } from 'src/app/core/services/core.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'smitd-footer',
@@ -9,7 +8,7 @@ import { environment } from 'src/environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {
-  public version = '1.2.0 - Auric';
+  public version = '1.2.1 - Auric';
   public year = new Date().getFullYear();
   constructor(public core: CoreService) {}
 }

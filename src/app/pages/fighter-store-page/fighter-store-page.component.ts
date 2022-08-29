@@ -5,6 +5,11 @@ import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { FighterDialogComponent } from 'src/app/shared/components/fighter-dialog/fighter-dialog.component';
 import { Fighter } from 'src/app/core/models/fighter.model';
+import { FighterRole } from 'src/app/core/enums/fighter-role.enum';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { AbilityDialogComponent } from 'src/app/shared/components/ability-dialog/ability-dialog.component';
+import { WarbandService } from 'src/app/core/services/warband.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'smitd-fighter-store-page',
@@ -14,10 +19,12 @@ import { Fighter } from 'src/app/core/models/fighter.model';
 export class FighterStorePageComponent implements OnDestroy {
   public FighterCardMode = FighterCardMode;
   private _subscriptions = new Subscription();
+  public FighterRole = FighterRole;
 
   constructor(
     public readonly fighterStore: FighterStoreService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly translateService: TranslateService
   ) {}
 
   ngOnDestroy(): void {
@@ -112,5 +119,80 @@ export class FighterStorePageComponent implements OnDestroy {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+  }
+
+  public addFighterAbility(fighter: Fighter, index: number): void {
+    this._subscriptions.add(
+      this.dialog
+        .open(AbilityDialogComponent, {
+          data: {},
+          disableClose: true,
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
+        })
+        .afterClosed()
+        .subscribe((abilityFormValue) => {
+          if (abilityFormValue) {
+            fighter.abilities ||= [];
+            fighter.abilities.push(abilityFormValue);
+            fighter.abilities = WarbandService.sortAbilities(fighter.abilities);
+            this.fighterStore.updateFighter(fighter);
+          }
+        })
+    );
+  }
+
+  public editFighterAbility(
+    fighter: Fighter,
+    index: number,
+    abilityIndex: number
+  ): void {
+    this._subscriptions.add(
+      this.dialog
+        .open(AbilityDialogComponent, {
+          data: { edit: true, ability: fighter.abilities[abilityIndex] },
+          disableClose: true,
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
+        })
+        .afterClosed()
+        .subscribe((abilityFormValue) => {
+          if (abilityFormValue) {
+            fighter.abilities[abilityIndex] = abilityFormValue;
+            fighter.abilities = WarbandService.sortAbilities(fighter.abilities);
+            this.fighterStore.updateFighter(fighter);
+          }
+        })
+    );
+  }
+
+  public removeFighterAbility(
+    fighter: Fighter,
+    index: number,
+    abilityIndex: number
+  ): void {
+    this._subscriptions.add(
+      this.dialog
+        .open(ConfirmDialogComponent, {
+          data: {
+            yesColor: 'warn',
+            question: this.translateService.instant(
+              'warband-page.tab.fighters.form.abilities.remove-question',
+              {
+                ability: fighter.abilities[abilityIndex].title,
+                fighter: fighter.name || fighter.type
+              }
+            )
+          },
+          closeOnNavigation: false
+        })
+        .afterClosed()
+        .subscribe((decision) => {
+          if (decision) {
+            fighter.abilities.splice(abilityIndex, 1);
+            this.fighterStore.updateFighter(fighter);
+          }
+        })
+    );
   }
 }

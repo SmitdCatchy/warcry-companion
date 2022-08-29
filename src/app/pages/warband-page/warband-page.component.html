@@ -77,7 +77,7 @@
                     (click)="addFighterModifier(fighter, index)">{{'warband-page.tab.fighters.form.modifiers.add' | translate}}</button>
                 </div>
               </smitd-divider-expansion>
-              <smitd-divider-expansion *ngIf="fighter.role === FighterRole.Monster">
+              <smitd-divider-expansion *ngIf="fighter.role === FighterRole.Ally || fighter.role === FighterRole.Monster || fighter.role === FighterRole.Thrall">
                 <span dividerLabel>{{'warband-page.tab.fighters.form.abilities.label' | translate}}</span>
                 <div class="abilities" expansionContent>
                   <ng-container *ngFor="let ability of fighter.abilities; let abilityIndex = index">

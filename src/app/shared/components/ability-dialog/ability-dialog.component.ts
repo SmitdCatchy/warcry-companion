@@ -23,6 +23,7 @@ export class AbilityDialogComponent {
           Validators.required
         ]),
         runemarks: new FormControl(data.ability ? data.ability.runemarks : [], []),
+        prohibitiveRunemarks: new FormControl(data.ability ? data.ability.prohibitiveRunemarks || [] : [], []),
         title: new FormControl(data.ability ? data.ability.title : '', [
           Validators.required
         ]),
