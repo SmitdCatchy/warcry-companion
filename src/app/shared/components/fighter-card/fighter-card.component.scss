@@ -82,24 +82,22 @@
     color: $black;
 
     .fighter-characteristics {
-      display: flex;
-      justify-content: space-evenly;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 34px auto;
+      column-gap: 8px;
       width: 100%;
-      max-width: 500px;
-
-      .left {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        max-width: 50%;
-      }
+      max-width: $mobile;
+      min-height: unset;
+      overflow: hidden;
 
       .fighter-stats {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
 
         .stat {
           display: flex;
-          justify-content: space-between;
+          justify-content: space-evenly;
           align-items: center;
           font-size: 14px;
           font-weight: bold;
@@ -123,7 +121,6 @@
       .fighter-runemarks {
         flex-grow: 1;
         cursor: pointer;
-        margin-top: 4px;
         justify-content: center;
         align-items: center;
         font-size: 14px;
@@ -136,6 +133,7 @@
         overflow: hidden;
         display: flex;
         flex-wrap: wrap;
+        min-height: 56px;
 
         span {
           display: block;
@@ -154,22 +152,21 @@
         }
       }
 
+      .fighter-weapon-header,
       .fighter-weapons {
         display: grid;
-        grid-template-columns: max-content max-content max-content max-content;
-        margin-left: 4px;
-        height: min-content;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        height: 100%;
 
         & > * {
-          display: block;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           padding: 4px;
           font-weight: bold;
           border-right: solid 2px $black;
           border-bottom: solid 2px $black;
-          flex-shrink: 0;
           min-width: 24px;
-          text-align: center;
-          height: 20px;
           font-size: 14px;
 
           &:nth-of-type(4n) {
@@ -264,9 +261,7 @@
           font-size: 18px;
         }
         .fighter-weapons {
-          margin-left: 8px;
           & > * {
-            height: 24px;
             font-size: 18px;
           }
         }

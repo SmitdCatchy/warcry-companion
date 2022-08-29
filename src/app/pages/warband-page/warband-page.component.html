@@ -51,7 +51,7 @@
                   </mat-form-field>
                 </div>
               </smitd-divider-expansion>
-              <smitd-divider-expansion *ngIf="fighter.role !== FighterRole.Monster">
+              <smitd-divider-expansion>
                 <span dividerLabel>{{'warband-page.tab.fighters.form.modifiers.label' | translate}}</span>
                 <div class="modifiers" expansionContent>
                   <ng-container *ngFor="let modifier of fighter.modifiers; let modifierIndex = index">

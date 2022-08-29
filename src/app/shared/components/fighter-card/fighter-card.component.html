@@ -4,8 +4,9 @@
   </div>
   <mat-expansion-panel class="fighter-card" hideToggle [disabled]="dead" [expanded]="dead ? false : expanded"
     (expandedChange)="expanded = !expanded" #fighterExpansion>
-    <mat-expansion-panel-header matRipple #fighterExpansionHeader class="fighter-header" warbandColor [warbandColorAsync]="core.color"
-      [warbandColorImportant]="deadColor" [warbandColorOpaque]="true" [ngClass]="{'iconed': fighter.icon}">
+    <mat-expansion-panel-header matRipple #fighterExpansionHeader class="fighter-header" warbandColor
+      [warbandColorAsync]="core.color" [warbandColorImportant]="deadColor" [warbandColorOpaque]="true"
+      [ngClass]="{'iconed': fighter.icon}">
       <div class="fighter-icon" warbandColor [warbandColorAsync]="core.color"
         [ngStyle]="{'background-image': 'url(' + iconSrc + ')'}" [warbandColorOpaque]="false"
         *ngIf="fighter.icon as iconSrc">
@@ -31,27 +32,22 @@
     </mat-expansion-panel-header>
     <div class="fighter-details">
       <div class="fighter-characteristics">
-        <div class="left">
-          <div class="fighter-stats">
-            <div class="stat"><img src="assets/runemarks/characteristic-movement.svg"
-                [alt]="'fighter-card.characteristic.movement' | translate" class="runemark"><span
-                [ngClass]="{'positive': getModifier('movement') > 0, 'negative':  getModifier('movement') < 0 }">{{ getModified('movement')}}</span>
-            </div>
-            <div class="stat"><img src="assets/runemarks/characteristic-toughness.svg"
-                [alt]="'fighter-card.characteristic.toughness' | translate" class="runemark"><span
-                [ngClass]="{'positive': getModifier('toughness') > 0, 'negative': getModifier('toughness') < 0 }">{{getModified('toughness')}}</span>
-            </div>
-            <div class="stat"><img src="assets/runemarks/characteristic-wounds.svg"
-                [alt]="'fighter-card.characteristic.wounds' | translate" class="runemark"><span
-                [ngClass]="{'positive': getModifier('wounds') > 0, 'negative': getModifier('wounds') < 0 }">{{getModified('wounds')}}</span>
-            </div>
+        <div class="fighter-stats">
+          <div class="stat"><img src="assets/runemarks/characteristic-movement.svg"
+              [alt]="'fighter-card.characteristic.movement' | translate" class="runemark"><span
+              [ngClass]="{'positive': getModifier('movement') > 0, 'negative':  getModifier('movement') < 0 }">{{ getModified('movement')}}</span>
           </div>
-          <div class="fighter-runemarks" matRipple (click)="callAbilities.emit()">
-            <span *ngFor="let runemark of fighter.runemarks">{{runemark}}</span>
-            <span *ngIf="fighter.runemarks.length === 0">{{'fighter-card.characteristic.no-ability' | translate}}</span>
+          <div class="stat"><img src="assets/runemarks/characteristic-toughness.svg"
+              [alt]="'fighter-card.characteristic.toughness' | translate" class="runemark"><span
+              [ngClass]="{'positive': getModifier('toughness') > 0, 'negative': getModifier('toughness') < 0 }">{{getModified('toughness')}}</span>
+          </div>
+          <div class="stat"><img src="assets/runemarks/characteristic-wounds.svg"
+              [alt]="'fighter-card.characteristic.wounds' | translate" class="runemark"><span
+              [ngClass]="{'positive': getModifier('wounds') > 0, 'negative': getModifier('wounds') < 0 }">{{getModified('wounds')}}</span>
           </div>
         </div>
-        <div class="fighter-weapons">
+
+        <div class="fighter-weapon-header">
           <div><img src="assets/runemarks/characteristic-range.svg"
               [alt]="'fighter-card.characteristic.range' | translate" class="runemark"></div>
           <div><img src="assets/runemarks/characteristic-attacks.svg"
@@ -60,6 +56,12 @@
               [alt]="'fighter-card.characteristic.strength' | translate" class="runemark"></div>
           <div><img src="assets/runemarks/characteristic-damage.svg"
               [alt]="'fighter-card.characteristic.damage' | translate" class="runemark"></div>
+        </div>
+        <div class="fighter-runemarks" matRipple (click)="callAbilities.emit()">
+          <span *ngFor="let runemark of fighter.runemarks">{{runemark}}</span>
+          <span *ngIf="fighter.runemarks.length === 0">{{'fighter-card.characteristic.no-ability' | translate}}</span>
+        </div>
+        <div class="fighter-weapons">
           <ng-container *ngFor="let weapon of fighter.weapons; let index = index">
             <span [ngClass]="{'last-row': index === fighter.weapons.length - 1}">{{weapon.range}}</span>
             <span [ngClass]="{
