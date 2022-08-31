@@ -14,12 +14,12 @@
 
   <mat-menu #battlegroundSelection="matMenu">
     <button mat-menu-item
-      [matMenuTriggerFor]="settings">{{'battlegrounds-page.menu.battlegrounds.select' | translate}}</button>
+      [matMenuTriggerFor]="battlegrounsSelection">{{'battlegrounds-page.menu.battlegrounds.select' | translate}}</button>
     <button mat-menu-item (click)="importBattlegrounds()">{{'battlegrounds-page.menu.import' | translate}}</button>
     <button mat-menu-item (click)="exportBattlegrounds()">{{'battlegrounds-page.menu.export' | translate}}</button>
   </mat-menu>
 
-  <mat-menu #settings="matMenu">
+  <mat-menu #battlegrounsSelection="matMenu">
     <ng-container *ngFor="let battleground of battlegroundsService.battlegrounds; let index = index">
       <button mat-menu-item
         (click)="selectBattleground(index)">{{battleground.universal ? ('battlegrounds-page.menu.battlegrounds.universal' | translate) : battleground.name}}</button>
@@ -40,7 +40,8 @@
         <div formArrayName="abilities" class="abilities" *ngIf="abilitiesList.length">
           <ng-container *ngFor="let abilityForm of abilitiesList; let index = index">
             <div class="ability-card">
-              <smitd-ability-card [ability]="abilityForm.value" [darkBorders]="false" [showRunemarks]="true" [edit]="true">
+              <smitd-ability-card [ability]="abilityForm.value" [darkBorders]="false" [showRunemarks]="true"
+                [edit]="true">
               </smitd-ability-card>
               <div class="ability-options">
                 <div class="button-wrapper">
@@ -66,4 +67,22 @@
         (click)="removeBattleground()">{{'battlegrounds-page.battleground.remove' | translate}}</button>
     </div>
   </div>
+</div>
+
+<div class="fabs">
+  <button mat-raised-button routerLink="">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button mat-raised-button [disabled]="universal.value" (click)="removeBattleground()">
+    <mat-icon>wrong_location</mat-icon>
+  </button>
+  <button mat-raised-button (click)="addNewAbility()">
+    <mat-icon>add_comment</mat-icon>
+  </button>
+  <button mat-raised-button (click)="addNewBattleground()">
+    <mat-icon>add_location_alt</mat-icon>
+  </button>
+  <button mat-raised-button [matMenuTriggerFor]="battlegrounsSelection">
+    <mat-icon>explore</mat-icon>
+  </button>
 </div>

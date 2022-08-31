@@ -15,6 +15,7 @@
     <button mat-menu-item routerLink="/battlegrounds">{{'main-page.menu.battlegrounds' | translate}}</button>
     <button mat-menu-item routerLink="/fighter-store">{{'main-page.menu.fighter-store' | translate}}</button>
     <button mat-menu-item [matMenuTriggerFor]="settings">{{'main-page.menu.settings' | translate}}</button>
+    <a mat-menu-item href="">2.0.0 - Berzerker</a>
   </mat-menu>
 
   <mat-menu #settings="matMenu">
@@ -71,4 +72,22 @@
 
   <button mat-flat-button color="accent" class="add" *ngIf="!warbandService.warbands.length" (click)="addWarband()">{{'main-page.menu.warband-create' | translate}}</button>
   <button mat-flat-button color="accent" class="add" *ngIf="!warbandService.warbands.length" (click)="importWarband()">{{'main-page.menu.warband-import' | translate}}</button>
+</div>
+
+<div class="fabs">
+  <a mat-raised-button href="https://github.com/SmitdCatchy/warcry-companion#-warcry-companion" target="_blank">
+    <mat-icon>info</mat-icon>
+  </a>
+  <button mat-raised-button routerLink="/battlegrounds">
+    <mat-icon>explore</mat-icon>
+  </button>
+  <button mat-raised-button (click)="addWarband()">
+    <mat-icon>group_add</mat-icon>
+  </button>
+  <button mat-raised-button routerLink="/fighter-store">
+    <mat-icon>groups_3</mat-icon>
+  </button>
+  <button mat-raised-button (click)="battleService.prepareBattle()">
+    <mat-icon svgIcon="swords"></mat-icon>
+  </button>
 </div>

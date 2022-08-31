@@ -1,5 +1,11 @@
 <p>{{data.question | translate}}</p>
+
+<ul *ngIf="data.list as list">
+  <li *ngFor="let item of list">{{item}}</li>
+</ul>
 <div class="actions">
-  <button mat-flat-button [color]="data.yesColor ? data.yesColor : 'accent'" (click)="acceptDialog()" *ngIf="!data.confirmation">{{(data.yesLabel ? data.yesLabel : 'common.yes') | translate}}</button>
-  <button mat-flat-button [color]="data.noColor ? data.noColor : 'none'" (click)="closeDialog()">{{(data.noLabel ? data.noLabel : 'common.no') | translate}}</button>
+  <button mat-flat-button [color]="data.yesColor ? data.yesColor : 'accent'" (click)="acceptDialog()"
+    *ngIf="!data.confirmation">{{(data.yesLabel ? data.yesLabel : 'common.yes') | translate}}</button>
+  <button mat-flat-button [color]="data.noColor ? data.noColor : 'none'"
+    (click)="closeDialog()">{{(data.noLabel ? data.noLabel : 'common.no') | translate}}</button>
 </div>

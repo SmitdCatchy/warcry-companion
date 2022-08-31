@@ -8,15 +8,16 @@ import { MatDividerModule } from '@angular/material/divider';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const importsAndExports = [
   MatButtonModule,
@@ -36,7 +37,8 @@ const importsAndExports = [
   MatBottomSheetModule,
   MatTooltipModule,
   MatChipsModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatSnackBarModule
 ];
 
 @NgModule({

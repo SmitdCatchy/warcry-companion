@@ -1,7 +1,7 @@
 <h2>{{'warband-dialog.title' | translate}}</h2>
 <form [formGroup]="warbandForm">
   <div class="double icon">
-    <smitd-icon-uploader [iconValue]="icon.value" (iconValueChange)="iconValueChange($event)"></smitd-icon-uploader>
+    <smitd-icon-uploader [iconValue]="icon.value" (iconValueChange)="iconValueChange($event)" [selectedColor]="selectedColor"></smitd-icon-uploader>
     <mat-form-field appearance="fill">
       <mat-label>{{'warband-dialog.form.name.label' | translate}}</mat-label>
       <input matInput formControlName="name">
@@ -18,11 +18,11 @@
   <div class="color-picker">
     <mat-form-field appearance="fill">
       <mat-label>{{'warband-dialog.form.color.label' | translate}}</mat-label>
-      <mat-select formControlName="color">
+      <mat-select formControlName="color" #colorSelect>
         <mat-option *ngFor="let color of colorList" [value]="color.value">{{'color.' + color.key | translate}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <div class="color-sample" [ngStyle]="{'background-color': selectedColor}"></div>
+    <div class="color-sample" (click)="colorSelect.open()" [ngStyle]="{'background-color': selectedColor}"></div>
   </div>
 </form>
 <div class="actions">

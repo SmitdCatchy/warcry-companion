@@ -1,18 +1,26 @@
 @import 'dimensions';
 @import 'globals';
 
+:host {
+  display: block;
+  height: inherit;
+}
+
 @include header;
 
 .scroll-container {
-  height: calc(100vh - 80px);
+  height: calc(100% - 60px);
 
+  @include laptop{
+    height: calc(100% - 40px);
+  }
 }
 
 .glass {
   padding: 12px;
   width: 100%;
   box-sizing: border-box;
-  min-height: calc(100vh - 80px);
+  min-height: 100%;
   overflow: auto;
   max-width: $tablet;
   margin: 0 auto;

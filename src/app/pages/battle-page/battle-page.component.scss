@@ -1,5 +1,10 @@
 @import 'globals';
 
+:host {
+  display: block;
+  height: inherit;
+}
+
 @include header;
 
 h2 {
@@ -9,17 +14,23 @@ h2 {
 }
 
 .scroll-container {
-  height: calc(100vh - 120px);
+  height: calc(100% - 100px);
+  box-sizing: border-box;
+  position: relative;
+
+  @include laptop{
+    height: calc(100% - 80px);
+  }
 }
+
 .prepare,
 .battle {
   display: block;
-  padding: 12px;
+  padding: 8px 12px 12px;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
-  min-height: calc(100vh - 120px);
-  max-width: $tablet;
+
 
   & > * {
     width: 100%;
@@ -35,7 +46,7 @@ h2 {
 }
 
 .prepare {
-  & > .boundary > .divider {
+  & > .divider {
     &:first-of-type {
       margin-top: 0;
     }
@@ -46,6 +57,7 @@ h2 {
   .battleframe-header {
     display: flex;
     align-items: center;
+    color: $white;
 
     .fighter-state {
       position: relative;
@@ -116,10 +128,6 @@ h2 {
       white-space: nowrap;
     }
 
-    b {
-      margin-left: 8px;
-    }
-
     .victory {
       display: flex;
       justify-content: center;
@@ -180,6 +188,7 @@ h2 {
   box-sizing: border-box;
   max-width: $tablet;
   min-height: 48px;
+  margin: 0 auto;
 }
 
 .actions {
@@ -187,5 +196,59 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+
+.grid-item {
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  min-width: 0;
+}
+
+@include tablet {
+  .prepare,
+  .battle {
+    padding: 8px 24px 24px;
+  }
+}
+
+@include custom(780px) {
+  .battle {
+    .fighters-list {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      max-width: unset;
+
+      smitd-fighter-card {
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
+@include custom(1164px) {
+  .prepare {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 24px;
+    min-width: 0;
+    min-height: 0;
+
+    .grid-item {
+      max-width: 100%;
+      margin: 0;
+
+      .fighters-list {
+        box-sizing: border-box;
+        padding-bottom: 48px;
+      }
+    }
+
+    .roster-container,
+    .wild-container {
+      grid-column-start: 2;
+      grid-column-end: 3;
+    }
   }
 }

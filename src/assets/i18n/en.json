@@ -258,7 +258,7 @@
       "wild": "Wild Fighters"
     },
     "battle": {
-      "turn": "Turn",
+      "turn": "Turn {{turn}}",
       "victory-points": "Victory Points",
       "remove-wild": "Remove Wild Fighter"
     },
@@ -272,7 +272,7 @@
     "dialog": {
       "remove-wild": "Are you sure you want to remove this wild fighter?",
       "abort": "Are you sure you want to abort this battle?",
-      "ready": "Are you sure you want to end this turn, there are still fighters witing for activation?"
+      "ready": "Are you sure you want to end this turn? The following fighters are still waiting for activation:"
     }
   },
   "battle-dialog": {
@@ -396,6 +396,7 @@
     "title": "Fighter Store",
     "fighter": "Fighter type",
     "filter": "Filter ny type",
-    "load": "Load Fighter Type"
+    "load": "Load Fighter Type",
+    "clear": "Select none"
   }
 }

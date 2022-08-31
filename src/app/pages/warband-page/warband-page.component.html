@@ -16,14 +16,121 @@
     <button mat-menu-item (click)="addFighter()">{{'warband-page.menu.fighter-add' | translate}}</button>
   </mat-menu>
 </smitd-header>
-<mat-tab-group color="primary" mat-stretch-tabs dynamicHeight>
-  <mat-tab [label]="('warband-page.tab.fighters.title' | translate) + ' [' + warband.fighters.length + '/20]'">
-    <div class="scroll-container">
+
+<div class="scroll-container">
+  <mat-tab-group color="primary" mat-stretch-tabs dynamicHeight>
+    <mat-tab [label]="('warband-page.tab.fighters.title' | translate) + ' [' + warband.fighters.length + '/20]'">
       <div class="fighters-container">
-        <div class="fighters" cdkDropList (cdkDropListDropped)="warbandService.moveFighter($event)">
+        <div class="fighters-grid" [ngClass]="{'show-items': showGridLayout}" cdkDropListGroup>
+          <div class="fighters-grid-item" cdkDropList (cdkDropListDropped)="dropListDropped()"
+            (cdkDropListEntered)="cdkDropListEntered($event)">
+          </div>
+          <div class="fighters-grid-item" cdkDropList *ngFor="let fighter of warband.fighters; let index = index"
+            (cdkDropListDropped)="dropListDropped()" (cdkDropListEntered)="cdkDropListEntered($event)">
+            <smitd-fighter-card [fighter]="fighter" [mode]="FighterCardMode.list" [campaign]="true"
+              (callAbilities)="warbandService.showAbilities(warband.abilities, fighter)" cdkDrag
+              (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded($event)" cdkDragBoundary=".scroll-container">
+              <div class="drag-marker" cdkDragHandle></div>
+              <div class="options" options>
+                <smitd-divider-expansion>
+                  <span dividerLabel>{{'warband-page.tab.fighters.form.narrative.label' | translate}}</span>
+                  <div class="narrative" expansionContent>
+                    <div class="double renown">
+                      <mat-form-field appearance="fill">
+                        <mat-label>{{'warband-page.tab.fighters.form.narrative.name' | translate}}</mat-label>
+                        <input matInput [(ngModel)]="fighter.name" (ngModelChange)="updateFighter(fighter, index)">
+                      </mat-form-field>
+                      <mat-form-field appearance="fill">
+                        <mat-label>{{'warband-page.tab.fighters.form.narrative.renown' | translate}}</mat-label>
+                        <mat-select [(ngModel)]="fighter.renown" (ngModelChange)="updateFighter(fighter, index)">
+                          <mat-option [value]="0">{{0}}</mat-option>
+                          <mat-option [value]="1">{{1}}</mat-option>
+                          <mat-option [value]="2">{{2}}</mat-option>
+                          <mat-option [value]="3">{{3}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <mat-form-field appearance="fill">
+                      <mat-label>{{'warband-page.tab.fighters.form.narrative.notes' | translate}}</mat-label>
+                      <textarea matInput [rows]="4" [(ngModel)]="fighter.notes"
+                        (ngModelChange)="updateFighter(fighter, index)"></textarea>
+                    </mat-form-field>
+                  </div>
+                </smitd-divider-expansion>
+                <smitd-divider-expansion>
+                  <span dividerLabel>{{'warband-page.tab.fighters.form.modifiers.label' | translate}}</span>
+                  <div class="modifiers" expansionContent>
+                    <ng-container *ngFor="let modifier of fighter.modifiers; let modifierIndex = index">
+                      <div class="modifier-card">
+                        <smitd-modifier-card [modifier]="modifier" [edit]="true"></smitd-modifier-card>
+                        <div class="modifier-options">
+                          <div class="button-wrapper dark">
+                            <button class="remove-modifier" mat-mini-fab
+                              (click)="editFighterModifier(fighter, index, modifierIndex)">
+                              <mat-icon>edit</mat-icon>
+                            </button>
+                          </div>
+                          <div class="button-wrapper dark">
+                            <button class="remove-modifier" mat-mini-fab color="warn"
+                              (click)="removeFighterModifier(fighter, index, modifierIndex)">
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                    <button class="add-ability" color="accent" mat-flat-button
+                      (click)="addFighterModifier(fighter, index)">{{'warband-page.tab.fighters.form.modifiers.add' | translate}}</button>
+                  </div>
+                </smitd-divider-expansion>
+                <smitd-divider-expansion
+                  *ngIf="fighter.role === FighterRole.Ally || fighter.role === FighterRole.Monster || fighter.role === FighterRole.Thrall">
+                  <span dividerLabel>{{'warband-page.tab.fighters.form.abilities.label' | translate}}</span>
+                  <div class="abilities" expansionContent>
+                    <ng-container *ngFor="let ability of fighter.abilities; let abilityIndex = index">
+                      <div class="ability-card">
+                        <smitd-ability-card [ability]="ability" [edit]="true"></smitd-ability-card>
+                        <div class="ability-options">
+                          <div class="button-wrapper dark">
+                            <button class="remove-ability" mat-mini-fab
+                              (click)="editFighterAbility(fighter, index, abilityIndex)">
+                              <mat-icon>edit</mat-icon>
+                            </button>
+                          </div>
+                          <div class="button-wrapper dark">
+                            <button class="remove-ability" mat-mini-fab color="warn"
+                              (click)="removeFighterAbility(fighter, index, abilityIndex)">
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                    <button class="add-ability" color="accent" mat-flat-button
+                      (click)="addFighterAbility(fighter, index)">{{'warband-page.tab.fighters.form.abilities.add' | translate}}</button>
+                  </div>
+                </smitd-divider-expansion>
+                <div class="divider">
+                  <mat-divider></mat-divider>
+                  <span>{{'common.options' | translate}}</span>
+                  <mat-divider></mat-divider>
+                </div>
+                <div class="actions">
+                  <button mat-flat-button color="accent"
+                    (click)="editFighter(fighter, index)">{{'warband-page.tab.fighters.option.edit' | translate}}</button>
+                  <button mat-flat-button color="accent"
+                    (click)="duplicateFighter(fighter)">{{'warband-page.tab.fighters.option.duplicate' | translate}}</button>
+                  <button mat-flat-button color="warn"
+                    (click)="warbandService.removeFighter(index)">{{'warband-page.tab.fighters.option.remove' | translate}}</button>
+                </div>
+              </div>
+            </smitd-fighter-card>
+          </div>
+        </div>
+        <div class="fighters-list" cdkDropList (cdkDropListDropped)="warbandService.moveFighter($event)">
           <smitd-fighter-card [fighter]="fighter" [mode]="FighterCardMode.list" [campaign]="true"
             (callAbilities)="warbandService.showAbilities(warband.abilities, fighter)"
-            *ngFor="let fighter of warband.fighters; let index = index" cdkDrag cdkDragBoundary=".fighters">
+            *ngFor="let fighter of warband.fighters; let index = index" cdkDrag cdkDragBoundary=".scroll-container">
             <div class="drag-marker" cdkDragHandle></div>
             <div class="options" options>
               <smitd-divider-expansion>
@@ -77,7 +184,8 @@
                     (click)="addFighterModifier(fighter, index)">{{'warband-page.tab.fighters.form.modifiers.add' | translate}}</button>
                 </div>
               </smitd-divider-expansion>
-              <smitd-divider-expansion *ngIf="fighter.role === FighterRole.Ally || fighter.role === FighterRole.Monster || fighter.role === FighterRole.Thrall">
+              <smitd-divider-expansion
+                *ngIf="fighter.role === FighterRole.Ally || fighter.role === FighterRole.Monster || fighter.role === FighterRole.Thrall">
                 <span dividerLabel>{{'warband-page.tab.fighters.form.abilities.label' | translate}}</span>
                 <div class="abilities" expansionContent>
                   <ng-container *ngFor="let ability of fighter.abilities; let abilityIndex = index">
@@ -122,10 +230,8 @@
         <button mat-flat-button color="accent" class="add" *ngIf="!warbandService.selectedWarband.fighters.length"
           (click)="addFighter()">{{'warband-page.menu.fighter-add' | translate}}</button>
       </div>
-    </div>
-  </mat-tab>
-  <mat-tab [label]="'warband-page.tab.warband.title' | translate">
-    <div class="scroll-container">
+    </mat-tab>
+    <mat-tab [label]="'warband-page.tab.warband.title' | translate">
       <form class="warband glass" [formGroup]="warbandForm">
         <div class="double icon">
           <smitd-icon-uploader [iconValue]="icon.value" (iconValueChange)="iconValueChange($event)">
@@ -148,12 +254,12 @@
         <div class="color-picker">
           <mat-form-field appearance="fill">
             <mat-label>{{'warband-page.tab.warband.form.color' | translate}}</mat-label>
-            <mat-select formControlName="color">
+            <mat-select formControlName="color" #colorSelect>
               <mat-option *ngFor="let color of colorList" [value]="color.value">{{'color.' + color.key | translate}}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <div class="color-sample" [ngStyle]="{'background-color': selectedColor}"></div>
+          <div class="color-sample" (click)="colorSelect.open()" [ngStyle]="{'background-color': selectedColor}"></div>
         </div>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -164,7 +270,8 @@
           <div formArrayName="abilities" class="abilities">
             <ng-container *ngFor="let abilityForm of abilitiesList; let index = index">
               <div class="ability-card">
-                <smitd-ability-card [ability]="abilityForm.value" [darkBorders]="false"  [edit]="true"></smitd-ability-card>
+                <smitd-ability-card [ability]="abilityForm.value" [darkBorders]="false" [edit]="true">
+                </smitd-ability-card>
                 <div class="ability-options">
                   <div class="button-wrapper">
                     <button class="remove-ability" mat-mini-fab (click)="editAbility(index)">
@@ -184,10 +291,8 @@
           </div>
         </mat-expansion-panel>
       </form>
-    </div>
-  </mat-tab>
-  <mat-tab [label]="'warband-page.tab.campaign.title' | translate">
-    <div class="scroll-container">
+    </mat-tab>
+    <mat-tab [label]="'warband-page.tab.campaign.title' | translate">
       <form class="campaign glass" [formGroup]="campaignForm">
         <div class="triple name">
           <mat-form-field class="center" appearance="fill">
@@ -242,6 +347,18 @@
           <textarea matInput formControlName="notes" [rows]="6"></textarea>
         </mat-form-field>
       </form>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<div class="fabs">
+  <button mat-raised-button routerLink="">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button mat-raised-button (click)="addFighter()">
+    <mat-icon>person_add</mat-icon>
+  </button>
+  <button mat-raised-button (click)="battleService.prepareBattle(warband)">
+    <mat-icon svgIcon="swords"></mat-icon>
+  </button>
+</div>

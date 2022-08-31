@@ -157,13 +157,32 @@ smitd-warband-page .mat-expansion-panel-body {
 }
 
 @mixin fighterList {
-  .fighters {
+  .fighters-list {
     smitd-fighter-card {
-      margin: 12px 0;
+      margin: 12px auto;
+      max-width: 540px;
 
       &:first-of-type {
         margin-top: 0;
       }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .fighters-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+
+    smitd-fighter-card {
+      margin: 0 auto;
+    }
+
+    .fighter-header .mat-ripple-element {
+      display: none;
     }
   }
 
@@ -179,7 +198,9 @@ smitd-warband-page .mat-expansion-panel-body {
     border: none;
   }
 
-  .fighters.cdk-drop-list-dragging
+  .fighters-list.cdk-drop-list-dragging
+    smitd-fighter-card:not(.cdk-drag-placeholder),
+  .fighters-grid.cdk-drop-list-dragging
     smitd-fighter-card:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
@@ -224,6 +245,7 @@ input:-internal-autofill-selected {
   gap: 16px;
 
   .color-sample {
+    cursor: pointer;
     width: 40px;
     height: 40px;
     box-sizing: border-box;
@@ -412,7 +434,7 @@ body .mat-button-base {
 }
 
 .button-wrapper {
-  border: solid 2px #4C4A4A;
+  border: solid 2px #4c4a4a;
   border-radius: 50%;
   margin-right: 8px;
   width: 28px;
@@ -437,4 +459,52 @@ body .mat-button-base {
 
 .divider mat-divider {
   border-width: 2px;
+}
+
+.fabs {
+  position: fixed;
+  z-index: 1000;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  .mat-raised-button {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    border-radius: 0;
+    font-size: 18px;
+    line-height: 18px;
+    flex: 1;
+    position: relative;
+
+    &:hover,
+    &:active {
+      z-index: 1;
+    }
+  }
+
+  .mat-fab {
+    display: none;
+  }
+
+  @include laptop {
+    display: none;
+  }
+}
+
+.mat-snack-bar-container {
+  box-shadow: 0 0 10vh 20vh rgba($black, 0.4) !important;
+  margin-top: calc(50vh - 48px) !important;
+  pointer-events: none;
+
+  .mat-simple-snackbar {
+    font-size: 24px;
+    font-weight: bold;
+    justify-content: center;
+  }
 }

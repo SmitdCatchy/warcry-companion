@@ -280,12 +280,6 @@ export class WarbandService {
                 label: battleground.name || ''
               }),
           abilities: battleground.abilities.filter((ability: Ability) => {
-            if (
-              fighter?.role === FighterRole.Monster &&
-              !ability.runemarks.length
-            ) {
-              return false;
-            }
             if (fighter) {
               return (
                 this.checkRunemarks(fighter.runemarks, ability.runemarks) &&

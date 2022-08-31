@@ -3,7 +3,8 @@ import { BehaviorSubject, filter, Observable, from } from 'rxjs';
 import { LocalStorageKey } from '../enums/local-keys.enum';
 import { Theme } from '../enums/theme.enum';
 import { Color } from '../enums/color.enum';
-import { Meta } from '@angular/platform-browser';
+import { DomSanitizer, Meta } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material/icon';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,11 @@ export class CoreService {
   private _previousTheme: Theme;
   public effectsEnabled: boolean;
 
-  constructor(private meta: Meta) {
+  constructor(
+    private readonly meta: Meta,
+    private readonly matIconRegistry: MatIconRegistry,
+    private readonly domSanitizer: DomSanitizer
+  ) {
     this._themeSubject = new BehaviorSubject<Theme>(
       CoreService.getLocalStorage(LocalStorageKey.Theme, Theme.Dark) as Theme
     );
@@ -35,6 +40,12 @@ export class CoreService {
         document.body.classList.toggle(this._previousTheme);
         document.body.classList.toggle(theme);
       });
+    this.matIconRegistry.addSvgIcon(
+      'swords',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        '/warcry-companion/assets/mat-icons/swords.svg'
+      )
+    );
   }
 
   public get theme(): Observable<Theme> {
