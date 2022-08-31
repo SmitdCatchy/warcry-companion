@@ -3,6 +3,12 @@ $tablet: 768px;
 $mobile: 425px;
 $mobile-small: 360px;
 
+@mixin desktop {
+  @media screen and (min-width: 1441px) {
+    @content;
+  }
+}
+
 @mixin laptop {
   @media screen and (min-width: 769px) {
     @content;
@@ -17,6 +23,12 @@ $mobile-small: 360px;
 
 @mixin mobile {
   @media screen and (min-width: 361px) {
+    @content;
+  }
+}
+
+@mixin custom($width) {
+  @media screen and (min-width: $width) {
     @content;
   }
 }

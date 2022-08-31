@@ -23,7 +23,7 @@
         <span class="label">{{faction.name}}</span>
         <mat-divider></mat-divider>
       </div>
-      <div class="fighters">
+      <div class="fighters-list">
         <smitd-fighter-card [fighter]="fighter" [mode]="FighterCardMode.list"
           *ngFor="let fighter of faction.fighterTypes; let index = index">
           <div class="options" options>
@@ -73,4 +73,13 @@
     <button mat-flat-button color="accent" class="add" *ngIf="!fighterStore.factions.length"
       (click)="addFighter()">{{'fighter-store-page.menu.fighter-add' | translate}}</button>
   </div>
+</div>
+
+<div class="fabs">
+  <button mat-raised-button routerLink="">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button mat-raised-button (click)="addFighter()">
+    <mat-icon>person_add</mat-icon>
+  </button>
 </div>

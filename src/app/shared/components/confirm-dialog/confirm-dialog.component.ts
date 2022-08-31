@@ -17,6 +17,7 @@ export class ConfirmDialogComponent {
       yesColor?: string;
       noColor?: string;
       confirmation?: boolean;
+      list?: string[]
     }
   ) {}
 

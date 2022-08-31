@@ -17,12 +17,12 @@
     <div class="color-picker">
       <mat-form-field appearance="fill">
         <mat-label>{{'warband-page.tab.warband.form.color' | translate}}</mat-label>
-        <mat-select formControlName="color">
+        <mat-select formControlName="color" #colorSelect>
           <mat-option *ngFor="let color of colorList" [value]="color.value">{{'color.' + color.key | translate}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="color-sample" [ngStyle]="{'background-color': selectedColor}"></div>
+      <div class="color-sample" (click)="colorSelect.open()" [ngStyle]="{'background-color': selectedColor}"></div>
     </div>
   </form>
   <ng-container  *ngIf="runningBattle">

@@ -16,6 +16,7 @@ import { CoreService } from 'src/app/core/services/core.service';
 export class IconUploaderComponent {
   @Output() iconValueChange: EventEmitter<string>;
   @Input() iconValue: string | undefined;
+  @Input() selectedColor: string | undefined;
 
   @ViewChild('canvas') canvasRef!: ElementRef;
 

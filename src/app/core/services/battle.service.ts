@@ -22,6 +22,7 @@ import { WarbandService } from './warband.service';
 import { FighterDialogComponent } from 'src/app/shared/components/fighter-dialog/fighter-dialog.component';
 import { BattleEndDialogComponent } from 'src/app/shared/components/battle-end-dialog/battle-end-dialog.component';
 import { EncampmentState } from '../enums/encampment-state.enum';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,7 @@ export class BattleService {
     private readonly router: Router,
     private readonly translateService: TranslateService,
     private readonly dialog: MatDialog,
+    private readonly popup: MatSnackBar,
     private location: Location
   ) {
     this.battle = JSON.parse(
@@ -76,6 +78,7 @@ export class BattleService {
           battle: this.battle,
           warband: cloneDeep(warband)
         },
+        panelClass: ['full-screen-modal'],
         closeOnNavigation: false
       })
       .afterClosed()
@@ -162,7 +165,7 @@ export class BattleService {
     this.saveBattle();
   }
 
-  public addFighter(): void {
+  public addFighter(cb: () => any = () => {}): void {
     this.dialog
       .open(FighterDialogComponent, {
         data: {},
@@ -180,11 +183,12 @@ export class BattleService {
             )
           );
           this.saveBattle();
+          cb();
         }
       });
   }
 
-  public addWildFighter(): void {
+  public addWildFighter(cb: () => any = () => {}): void {
     this.dialog
       .open(FighterDialogComponent, {
         data: {},
@@ -202,6 +206,7 @@ export class BattleService {
             )
           );
           this.saveBattle();
+          cb();
         }
       });
   }
@@ -337,23 +342,25 @@ export class BattleService {
     });
   }
 
-  public checkForReadyFighters(): boolean {
-    return (
-      this.allFighters.findIndex(
-        (fighter) =>
-          fighter.state !== FighterState.Activated &&
-          fighter.state !== FighterState.Dead
-      ) > -1
+  public checkForReadyFighters(): FighterReference[] {
+    return this.allFighters.filter(
+      (fighter) =>
+        fighter.state !== FighterState.Activated &&
+        fighter.state !== FighterState.Dead
     );
   }
 
-  public endTurn(): void {
-    if (this.checkForReadyFighters()) {
+  public endTurn(cb: () => any = () => {}): void {
+    const readyFighters = this.checkForReadyFighters();
+    if (readyFighters.length) {
       this.dialog
         .open(ConfirmDialogComponent, {
           data: {
             question: this.translateService.instant(
               'battle-service.dialog.ready'
+            ),
+            list: readyFighters.map(
+              (fighter) => fighter.stats.name || fighter.stats.type
             )
           },
           closeOnNavigation: false
@@ -364,13 +371,29 @@ export class BattleService {
             this.readyFighters();
             this.battle.turn++;
             this.saveBattle();
+            this.turnEndPopup();
+            cb();
           }
         });
     } else {
       this.readyFighters();
       this.battle.turn++;
       this.saveBattle();
+      this.turnEndPopup();
+      cb();
     }
+  }
+
+  private turnEndPopup(): void {
+    this.popup.open(
+      `${this.translateService.instant('battle-page.battle.turn', {turn: this.battle.turn})}`,
+      undefined,
+      {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 1000
+      }
+    );
   }
 
   public abortBattle(): void {

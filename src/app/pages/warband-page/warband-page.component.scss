@@ -1,13 +1,26 @@
 @import 'dimensions';
 @import 'globals';
 
+:host {
+  display: block;
+  height: inherit;
+}
+
 @include header;
 
 @include fighterList;
 
-.fighters {
+.scroll-container {
+  height: calc(100% - 60px);
+
+  @include laptop{
+    height: calc(100% - 40px);
+  }
+}
+
+.fighters-list {
   display: block;
-  width: 100%;
+  width: min-content;
   min-height: 100%;
   box-sizing: border-box;
 
@@ -40,6 +53,13 @@
     font-size: 18px;
     font-weight: bold;
   }
+}
+
+.fighters-grid {
+  visibility: hidden;
+  position: absolute;
+  left: -200%;
+  pointer-events: none;
 }
 
 .options {
@@ -95,10 +115,6 @@
   }
 }
 
-.scroll-container {
-  height: calc(100vh - 121px);
-}
-
 .fighters-container,
 .campaign,
 .warband {
@@ -107,7 +123,7 @@
   width: 100%;
   box-sizing: border-box;
   height: auto;
-  min-height: calc(100vh - 121px);
+  min-height: 100%;
   max-width: $tablet;
   margin: 0 auto;
 
@@ -175,11 +191,37 @@
   }
 }
 
+@include custom(780px) {
+  .fighters-container,
+  .campaign,
+  .warband {
+    max-width: unset;
+    padding: 12px 24px;
+  }
 
-@include mobile {
-  .grid-container {
-    .fighters.grid {
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  .fighters-list {
+    display: none;
+  }
+
+  .fighters-grid {
+    display: grid;
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    visibility: visible;
+    position: relative;
+    pointer-events: all;
+    left: unset;
+
+    .fighters-grid-item {
+      transition: all 0.2s ease-out;
+    }
+
+    &.show-items {
+      grid-template-rows: repeat(10, 1fr);
+      .fighters-grid-item {
+        border-radius: 12px;
+      }
     }
   }
 }

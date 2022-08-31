@@ -5,6 +5,10 @@ p {
   max-width: $mobile-small;
 }
 
+ul {
+  margin-top: 4px;
+}
+
 .actions {
   display: flex;
   justify-content: space-evenly;

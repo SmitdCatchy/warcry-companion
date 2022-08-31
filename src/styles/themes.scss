@@ -66,7 +66,9 @@ $warcry-warn-bright: createPalette($red-bright, $white, $black);
   .mat-card,
   .mat-select-panel,
   .mat-bottom-sheet-container,
-  .mat-chip.mat-standard-chip {
+  .mat-chip.mat-standard-chip,
+  .mat-snack-bar-container,
+  .mat-simple-snackbar {
     background-color: $color;
   }
 
@@ -107,10 +109,12 @@ $material-shadow: 0px 1px 1px -2px rgba($black, 0.4),
   0px 1px 1px 0px rgba($black, 0.4), 0px 1px 4px 0px rgba($black, 0.4),
   0px -1px 1px 0px rgba($black, 0.4);
 
-body, html {
+body,
+html {
   margin: 0;
   width: 100vw;
   height: 100vh;
+  height: -webkit-fill-available;
   overflow: hidden;
 
   color: $white;
@@ -123,11 +127,18 @@ body, html {
   .color-sample {
     border-color: $grey-light;
   }
-  .glass {
-    background-color: rgba($white, 0.1);
-  }
   .invert {
     filter: invert(1);
+  }
+  .glass,
+  .show-items .fighters-grid-item {
+    background-color: rgba($white, 0.1);
+  }
+  .fabs {
+    background-color: $grey-dark;
+  }
+  .mat-simple-snackbar {
+    color: $white;
   }
 
   &.light {
@@ -141,11 +152,18 @@ body, html {
     .color-sample {
       border-color: $grey-dark;
     }
-    .glass {
-      background-color: rgba($black, 0.2);
-    }
     .invert {
       filter: invert(0);
+    }
+    .glass,
+    .show-items .fighters-grid-item {
+      background-color: rgba($black, 0.2);
+    }
+    .fabs {
+      background-color: $grey-light;
+    }
+    .mat-simple-snackbar {
+      color: $black;
     }
   }
 }

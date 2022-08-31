@@ -327,7 +327,6 @@ export class FighterDialogComponent implements OnDestroy {
               ...this.fighterForm.value,
               ...fighter
             });
-            console.log('Loaded', this.fighterForm.value);
             this.existsInStore = true;
           }
         })

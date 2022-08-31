@@ -2,20 +2,46 @@
 @import 'globals';
 @import 'colors';
 
+:host {
+  display: block;
+  height: inherit;
+}
+
 @include header;
 
+.scroll-container {
+  height: calc(100% - 60px);
 
-@include fighterList;
+  @include laptop{
+    height: calc(100% - 40px);
+  }
+}
 
 .divider:first-of-type {
   margin-top: 0;
 }
 
-.fighters {
-  display: block;
-  width: 100%;
+.fighters-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-width: 100%;
   box-sizing: border-box;
   max-width: $tablet;
+  margin-bottom: 12px;
+
+  smitd-fighter-card {
+    width: 100%;
+    max-width: 540px;
+    margin: 6px;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
 
   .options {
     width: 100%;
@@ -65,18 +91,13 @@
   }
 }
 
-.scroll-container {
-  height: calc(100vh - 80px);
-}
-
 .fighters-container {
   display: block;
   padding: 12px;
   width: 100%;
   box-sizing: border-box;
-  min-height: calc(100vh - 80px);
+  min-height: 100%;
   overflow: auto;
-  max-width: $tablet;
   margin: 0 auto;
 
   & > * {
@@ -89,5 +110,22 @@
       padding: 0 8px;
     }
     margin-bottom: 1.34375em;
+  }
+}
+
+@include tablet {
+  .fighters-container {
+    padding: 12px 24px;
+  }
+  .fighters-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 12px;
+
+    smitd-fighter-card {
+      width: 100%;
+      max-width: 540px;
+      margin: 0 auto;
+    }
   }
 }

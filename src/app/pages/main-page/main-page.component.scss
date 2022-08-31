@@ -6,6 +6,7 @@
   align-items: center;
   flex-direction: column;
   box-sizing: border-box;
+  height: inherit;
 }
 
 @include header;
@@ -15,7 +16,7 @@
   width: calc(100% - 24px);
   max-width: $tablet;
   box-sizing: border-box;
-  min-height: calc(100vh - 104px);
+  min-height: calc(100% - 64px);
 
   .warband {
     display: flex;
@@ -27,6 +28,7 @@
     border-radius: 12px;
     overflow: hidden;
     box-sizing: border-box;
+    color: $white;
 
     box-shadow: 0 0 10px black;
 

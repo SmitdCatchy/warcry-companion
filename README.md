@@ -34,7 +34,28 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
-### 1.2.2 - 2022.08.9
+### 2.0.0 Berzerker - 2022.09.09
+
+<details>
+  <summary>Features</summary>
+
+- added grid views of the fighter lists on all the screens on medium to large devices.
+- added button bar of important functions instead of footer on small screen devices.
+- end turn dialog now lists the not fully activated fighters.
+- added a new turn popup.
+- relocated version into main screen menu.
+
+</details>
+
+<details>
+  <summary>Fixes</summary>
+
+- monsters can use universal reactions.
+- viewport height on mobile devices (the footer was not visible).
+
+</details>
+
+### 1.2.2 - 2022.08.29
 
 <details>
   <summary>Fixes</summary>
@@ -48,8 +69,8 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 <details>
   <summary>Features</summary>
 
-- add fighter type: Ally.
-- add prohibitive runemark form field in ability dialog.
+- added a new fighter type: Ally.
+- added prohibitive runemark form field in ability dialog.
 - sort abilities by type and name.
 
 </details>
