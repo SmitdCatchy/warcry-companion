@@ -2,6 +2,8 @@
 
 This project was created to give an easy to use companion application to play Warcry. I hope it will be your go to warband manager and will be an invaluable asset during games to keep track of the fighters and winning conditions.
 
+You can access the application on [this link](https://smitdcatchy.github.io/warcry-companion/).
+
 ## Ideas and Features
 
 If you have ideas of features that would improve the application do not keep it in!
