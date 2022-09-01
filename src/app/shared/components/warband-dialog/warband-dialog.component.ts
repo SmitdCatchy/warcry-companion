@@ -48,10 +48,12 @@ export class WarbandDialogComponent {
           ? warband.campaign
           : {
               name: '',
+              quest: '',
               limit: 1000,
               reputation: 2,
               glory: 0,
               progress: 0,
+              questProgress: 0,
               notes: '',
               encampment: '',
               encampmentState: EncampmentState.Secure

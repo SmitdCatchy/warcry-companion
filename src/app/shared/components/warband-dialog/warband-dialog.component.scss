@@ -1,26 +1,7 @@
-h2 {
-  padding: 0 16px;
-}
-
-form {
-  padding: 0 16px;
-
-  & > * {
-    width: 100%;
-  }
-
-  .hint {
-    margin-top: -1.2em;
-    font-size: 12px;
-    line-height: 14px;
-    text-align: left;
-    white-space: pre-line;
-  }
-}
-
-.actions {
-  display: flex;
-  justify-content: space-evenly;
-  grid-gap: 24px;
-  margin-top: 16px;
+.hint {
+  margin-top: -1.2em;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: left;
+  white-space: pre-line;
 }

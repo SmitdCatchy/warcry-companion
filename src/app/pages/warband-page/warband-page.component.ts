@@ -55,18 +55,19 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
 
   public warbandForm: FormGroup;
   public campaignForm: FormGroup;
+  public activeTab: number;
 
   constructor(
     public readonly warbandService: WarbandService,
     public readonly battleService: BattleService,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService,
-    private readonly router: Router,
-    private viewportRuler: ViewportRuler
+    private readonly router: Router
   ) {
     if (!this.warband) {
       this.router.navigateByUrl('/');
     }
+    this.activeTab = 0;
     this.warbandForm = new FormGroup({
       name: new FormControl(this.warband.name, [Validators.required]),
       faction: new FormControl(this.warband.faction, [Validators.required]),
@@ -534,7 +535,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     const sourceElement = drag.dropContainer.element.nativeElement;
     const dropElement = drop.element.nativeElement;
 
-    if(!dropElement.parentElement) {
+    if (!dropElement.parentElement) {
       return true;
     }
 

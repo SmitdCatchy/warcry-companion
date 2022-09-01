@@ -36,13 +36,23 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 2.1.1 - 2022.09.02
+
+<details>
+  <summary>Fixes</summary>
+
+- made dialogs uniform.
+- added different button bar on warband tabs.
+
+</details>
+
 ### 2.1.0 - 2022.09.01
 
 <details>
   <summary>Features</summary>
 
-- added loading spinners to imports
-- added check for imported files
+- added loading spinners to imports.
+- added check for imported files.
 
 </details>
 
