@@ -368,15 +368,6 @@ input[type='number'] {
         margin-top: auto;
       }
     }
-    .mat-dialog-container {
-      max-width: 100vw;
-      max-height: 100vh;
-      height: 100%;
-      width: 100%;
-      .mat-dialog-content {
-        max-height: unset !important;
-      }
-    }
   }
 }
 
@@ -507,4 +498,24 @@ body .mat-button-base {
     font-weight: bold;
     justify-content: center;
   }
+}
+
+smitd-warband-page {
+  .mat-tab-group {
+    height: calc(100% - 60px);
+
+    @include laptop{
+      height: calc(100% - 40px);
+    }
+
+    .mat-tab-body-wrapper {
+      height: calc(100% - 41px);
+    }
+  }
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

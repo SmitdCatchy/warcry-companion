@@ -16,6 +16,9 @@ import { AbilityType } from 'src/app/core/enums/ability-type.enum';
 import { AbilityDialogComponent } from 'src/app/shared/components/ability-dialog/ability-dialog.component';
 import { Battleground } from 'src/app/core/models/battleground.model';
 import { WarbandService } from 'src/app/core/services/warband.service';
+import { CoreService } from 'src/app/core/services/core.service';
+
+export const battlegroundsFileType = 'battlegrounds';
 
 @Component({
   selector: 'smitd-battlegrounds-page',
@@ -30,7 +33,8 @@ export class BattlegroundsPageComponent implements OnDestroy {
   constructor(
     public readonly battlegroundsService: BattlegroundsService,
     private readonly translateService: TranslateService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly core: CoreService
   ) {
     this.battlegroundForm = new FormGroup({
       name: new FormControl(this.battlegroundsService.universalAbilities.name, [
@@ -252,35 +256,34 @@ export class BattlegroundsPageComponent implements OnDestroy {
   }
 
   public importBattlegrounds(): void {
-    const upload: HTMLInputElement = document.createElement('input');
-    upload.type = 'file';
-    upload.style.display = 'none';
-    document.body.appendChild(upload);
-    upload.addEventListener('change', () => {
-      if ((upload as any).files.length > 0) {
-        const reader: FileReader = new FileReader();
-        reader.addEventListener('load', () => {
-          const battlegrounds = JSON.parse(
-            (reader as any).result
-          ) as Battleground[];
-          battlegrounds.forEach((battleground) => {
-            if (battleground.universal) {
-              this.battlegroundsService.editBattleground(0, battleground);
-            }
-            this.addNewBattleground(battleground, false);
-          });
-          this.selectBattleground(0);
+    this.core.handleFileUpload(
+      (result) => {
+        const battlegrounds = result.battlegrounds as Battleground[];
+        battlegrounds.forEach((battleground) => {
+          this.battlegroundsService.uploadBattleground(battleground);
         });
-        reader.readAsText((upload as any).files[0]);
-      }
-    });
-    upload.click();
-    document.body.removeChild(upload);
+        this.selectBattleground(0);
+        this.dialog.open(ConfirmDialogComponent, {
+          data: {
+            confirmation: true,
+            noLabel: this.translateService.instant('common.ok'),
+            question: this.translateService.instant('import.success')
+          },
+          closeOnNavigation: false
+        });
+        this.core.stopLoader();
+      },
+      'json',
+      battlegroundsFileType
+    );
   }
 
   public exportBattlegrounds(): void {
     const filename = `battlegrounds.json`;
-    const jsonStr = JSON.stringify(this.battlegroundsService.battlegrounds);
+    const jsonStr = JSON.stringify({
+      type: 'battlegrounds',
+      battlegrounds: this.battlegroundsService.battlegrounds
+    });
     const element = document.createElement('a');
     element.setAttribute(
       'href',

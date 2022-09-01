@@ -11,11 +11,7 @@
 @include fighterList;
 
 .scroll-container {
-  height: calc(100% - 60px);
-
-  @include laptop{
-    height: calc(100% - 40px);
-  }
+  height: 100%;
 }
 
 .fighters-list {
@@ -195,8 +191,11 @@
   .fighters-container,
   .campaign,
   .warband {
-    max-width: unset;
     padding: 12px 24px;
+  }
+
+  .fighters-container {
+    max-width: unset;
   }
 
   .fighters-list {
@@ -206,7 +205,7 @@
   .fighters-grid {
     display: grid;
     width: 100%;
-    min-height: 100%;
+    min-height: 0;
     box-sizing: border-box;
     visibility: visible;
     position: relative;

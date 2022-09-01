@@ -32,38 +32,36 @@ export class IconUploaderComponent {
     return this.canvas.getContext('2d')!;
   }
 
-  public iconUpload(event: any): void {
-    const file = event.target.files[0] as File;
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-        const icon = new Image();
-        icon.onload = () => {
-          this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-          const iconSize = 84;
-          const wider = icon.width > icon.height;
-          const newWidth = wider ? icon.width / (icon.height / iconSize) : iconSize;
-          const newHeigth = wider ? iconSize : icon.height / (icon.width / iconSize);
-          this.canvas.width = newWidth;
-          this.canvas.height = newHeigth;
-          this.context.drawImage(
-            icon,
-            0,
-            0,
-            icon.width,
-            icon.height,
-            0,
-            0,
-            this.canvas.width,
-            this.canvas.height
-          );
-          const image = this.canvas.toDataURL('image/png');
-          this.iconValueChange.emit(image);
-        };
-        icon.src = fileReader.result as string;
+  public iconUpload(): void {
+
+
+    this.core.handleFileUpload((result) => {
+      const icon = new Image();
+      icon.onload = () => {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        const iconSize = 84;
+        const wider = icon.width > icon.height;
+        const newWidth = wider ? icon.width / (icon.height / iconSize) : iconSize;
+        const newHeigth = wider ? iconSize : icon.height / (icon.width / iconSize);
+        this.canvas.width = newWidth;
+        this.canvas.height = newHeigth;
+        this.context.drawImage(
+          icon,
+          0,
+          0,
+          icon.width,
+          icon.height,
+          0,
+          0,
+          this.canvas.width,
+          this.canvas.height
+        );
+        const image = this.canvas.toDataURL('image/png');
+        this.iconValueChange.emit(image);
+        this.core.stopLoader();
       };
-      fileReader.readAsDataURL(file);
-    }
+      icon.src = result;
+    }, 'image');
   }
 
   public removeIcon(): void {

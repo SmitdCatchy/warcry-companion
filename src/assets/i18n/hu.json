@@ -181,6 +181,7 @@
     "form": {
       "name": { "label": "Elnevezés" },
       "role": { "label": "Szerep" },
+      "faction": { "label": "Frakció" },
       "points": { "label": "Pontérték" },
       "runemarks": { "label": "Rúnák" },
       "type": { "label": "Típus" },
@@ -398,5 +399,11 @@
     "filter": "Típus szerinti szűrés",
     "load": "Harcos típus betöltése",
     "clear": "Mégse"
+  },
+  "import": {
+    "success": "Sikeres importálás.",
+    "failed": {
+      "type": "Az importálás meghiúsult, mert egy helytelen fájl lett kiválasztva."
+    }
   }
 }

@@ -1,7 +1,10 @@
-<div class="background" >
+<div class="background">
   <ng-particles [options]="particlesOptions" [particlesInit]="particlesInit" *ngIf="core.effectsEnabled"></ng-particles>
 </div>
 <main class="content" [@routeAnimations]="prepareRoute(outlet)">
   <router-outlet #outlet="outlet"></router-outlet>
 </main>
 <smitd-footer></smitd-footer>
+<div class="loader" *ngIf="core.loading">
+  <mat-spinner color="accent"></mat-spinner>
+</div>

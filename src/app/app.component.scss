@@ -1,9 +1,12 @@
+@import 'colors';
+
 :host {
   display: flex;
   justify-content: center;
   flex-direction: column;
   width: inherit;
   height: inherit;
+  position: relative;
 }
 
 .content {
@@ -21,4 +24,14 @@
 .background {
   position: absolute;
   z-index: -1;
+}
+
+.loader {
+  position: absolute;
+  z-index: 10000;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba($black, 0.2);
 }

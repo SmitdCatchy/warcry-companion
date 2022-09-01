@@ -1,21 +1,34 @@
 <h2>{{(data.edit ? 'fighter-dialog.title.edit' : 'fighter-dialog.title.add') | translate}}</h2>
 <div class="dialog-content">
   <form [formGroup]="fighterForm">
-    <div class="double icon" *ngIf="!data.storeDialog">
-      <smitd-icon-uploader [iconValue]="icon.value" (iconValueChange)="iconValueChange($event)"></smitd-icon-uploader>
+    <ng-container  *ngIf="!data.storeDialog">
+      <div class="double icon">
+        <smitd-icon-uploader [iconValue]="icon.value" (iconValueChange)="iconValueChange($event)"></smitd-icon-uploader>
+        <mat-form-field appearance="fill">
+          <mat-label>{{'fighter-dialog.form.name.label' | translate}}</mat-label>
+          <input matInput formControlName="name" maxlength="100">
+        </mat-form-field>
+      </div>
       <mat-form-field appearance="fill">
-        <mat-label>{{'fighter-dialog.form.name.label' | translate}}</mat-label>
-        <input matInput formControlName="name" maxlength="100">
+        <mat-label>{{'fighter-dialog.form.type.label' | translate}}</mat-label>
+        <input matInput formControlName="type" maxlength="100">
       </mat-form-field>
-    </div>
-    <mat-form-field appearance="fill">
-      <mat-label>{{'fighter-dialog.form.type.label' | translate}}</mat-label>
-      <input matInput formControlName="type" maxlength="100">
-    </mat-form-field>
-    <mat-form-field appearance="fill"  *ngIf="data.storeDialog">
-      <mat-label>{{'fighter-dialog.form.faction.label' | translate}}</mat-label>
-      <input matInput formControlName="faction" maxlength="100">
-    </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="data.storeDialog">
+
+      <div class="double icon">
+        <smitd-icon-uploader [iconValue]="icon.value" (iconValueChange)="iconValueChange($event)"></smitd-icon-uploader>
+        <mat-form-field appearance="fill">
+          <mat-label>{{'fighter-dialog.form.type.label' | translate}}</mat-label>
+          <input matInput formControlName="type" maxlength="100">
+        </mat-form-field>
+      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'fighter-dialog.form.faction.label' | translate}}</mat-label>
+        <input matInput formControlName="faction" maxlength="100">
+      </mat-form-field>
+    </ng-container>
+
     <div class="double">
       <mat-form-field appearance="fill">
         <mat-label>{{'fighter-dialog.form.role.label' | translate}}</mat-label>
