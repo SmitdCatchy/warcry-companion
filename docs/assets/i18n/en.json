@@ -181,6 +181,7 @@
     "form": {
       "name": { "label": "Narrative Name" },
       "role": { "label": "Role" },
+      "faction": { "label": "Faction" },
       "points": { "label": "Points" },
       "runemarks": { "label": "Runemarks" },
       "type": { "label": "Type" },
@@ -398,5 +399,11 @@
     "filter": "Filter ny type",
     "load": "Load Fighter Type",
     "clear": "Select none"
+  },
+  "import": {
+    "success": "The import was successful.",
+    "failed": {
+      "type": "The import failed beacuse an incorrect file was selected."
+    }
   }
 }
