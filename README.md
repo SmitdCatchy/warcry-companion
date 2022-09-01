@@ -36,7 +36,7 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
-### 2.1.1 - 2022.09.02
+### 2.1.1 - 2022.09.01
 
 <details>
   <summary>Fixes</summary>
