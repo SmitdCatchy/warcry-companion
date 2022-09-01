@@ -1,20 +1,4 @@
-.dialog-content {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-h2 {
-  padding: 0 16px;
-}
-
 form {
-  display: flex;
-  flex-direction: column;
-  padding: 0 16px;
-  & > * {
-    width: 100%;
-  }
-
   .center {
     input {
       font-size: 20px;
@@ -73,12 +57,4 @@ form {
     margin: 16px auto 0;
     width: min-content;
   }
-}
-
-.actions {
-  display: flex;
-  justify-content: space-evenly;
-  grid-gap: 16px;
-  margin-top: 16px;
-  padding: 0 16px;
 }

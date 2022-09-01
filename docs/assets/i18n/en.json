@@ -396,8 +396,8 @@
   "fighter-store-dialog": {
     "title": "Fighter Store",
     "fighter": "Fighter type",
-    "filter": "Filter ny type",
-    "load": "Load Fighter Type",
+    "filter": "Filter",
+    "load": "Load",
     "clear": "Select none"
   },
   "import": {

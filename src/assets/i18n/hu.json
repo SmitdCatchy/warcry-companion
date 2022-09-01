@@ -396,8 +396,8 @@
   "fighter-store-dialog": {
     "title": "Harcos tár",
     "fighter": "Harcos típus",
-    "filter": "Típus szerinti szűrés",
-    "load": "Harcos típus betöltése",
+    "filter": "Szűrés",
+    "load": "Betöltése",
     "clear": "Mégse"
   },
   "import": {
