@@ -34,7 +34,17 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
-### 2.0.0 Berzerker - 2022.09.09
+### 2.1.0 - 2022.09.01
+
+<details>
+  <summary>Features</summary>
+
+- added loading spinners to imports
+- added check for imported files
+
+</details>
+
+### 2.0.0 Berzerker - 2022.08.31
 
 <details>
   <summary>Features</summary>

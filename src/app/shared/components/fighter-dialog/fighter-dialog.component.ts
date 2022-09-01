@@ -308,7 +308,8 @@ export class FighterDialogComponent implements OnDestroy {
       faction: fighter.faction,
       modifiers: [],
       abilities: fighter.abilities,
-      monsterStatTable: fighter.monsterStatTable
+      monsterStatTable: fighter.monsterStatTable,
+      icon: fighter.icon
     };
   }
 

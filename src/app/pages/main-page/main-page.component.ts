@@ -1,5 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { Language } from 'src/app/core/enums/language.enum';
 import { Theme } from 'src/app/core/enums/theme.enum';
@@ -8,7 +9,10 @@ import { BattleService } from 'src/app/core/services/battle.service';
 import { CoreService } from 'src/app/core/services/core.service';
 import { TranslationService } from 'src/app/core/services/translation.service';
 import { WarbandService } from 'src/app/core/services/warband.service';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { WarbandDialogComponent } from 'src/app/shared/components/warband-dialog/warband-dialog.component';
+
+export const warbandFileType = 'warband';
 
 @Component({
   selector: 'smitd-main-page',
@@ -25,7 +29,8 @@ export class MainPageComponent implements OnDestroy {
     public readonly translationService: TranslationService,
     private readonly dialog: MatDialog,
     public readonly warbandService: WarbandService,
-    public readonly battleService: BattleService
+    public readonly battleService: BattleService,
+    private readonly translateService: TranslateService
   ) {}
 
   public ngOnDestroy(): void {
@@ -75,7 +80,7 @@ export class MainPageComponent implements OnDestroy {
       .join('')
       .split(' ')
       .join('-')}.json`;
-    const jsonStr = JSON.stringify(warband);
+    const jsonStr = JSON.stringify({ type: warbandFileType, warband });
     const element = document.createElement('a');
     element.setAttribute(
       'href',
@@ -89,41 +94,43 @@ export class MainPageComponent implements OnDestroy {
   }
 
   public importWarband(): void {
-    const upload: HTMLInputElement = document.createElement('input');
-    upload.type = 'file';
-    upload.style.display = 'none';
-    document.body.appendChild(upload);
-    upload.addEventListener('change', () => {
-      if ((upload as any).files.length > 0) {
-        const reader: FileReader = new FileReader();
-        reader.addEventListener('load', () => {
-          const warband = JSON.parse((reader as any).result) as Warband;
-          if (this.warbandService.checkWarband(warband, false)) {
-            this._subscriptions.add(
-              this.dialog
-                .open(WarbandDialogComponent, {
-                  data: {
-                    warband: warband
-                  },
-                  disableClose: true,
-                  panelClass: ['full-screen-modal'],
-                  closeOnNavigation: false
-                })
-                .afterClosed()
-                .subscribe((newWarband) => {
-                  if (newWarband) {
-                    this.warbandService.addWarband(newWarband);
-                  }
-                })
-            );
-          } else {
-            this.warbandService.addWarband(warband);
-          }
-        });
-        reader.readAsText((upload as any).files[0]);
-      }
-    });
-    upload.click();
-    document.body.removeChild(upload);
+    this.core.handleFileUpload(
+      (result) => {
+        const warband = result.warband as Warband;
+        if (this.warbandService.checkWarband(warband, false)) {
+          this._subscriptions.add(
+            this.dialog
+              .open(WarbandDialogComponent, {
+                data: {
+                  warband: warband
+                },
+                disableClose: true,
+                panelClass: ['full-screen-modal'],
+                closeOnNavigation: false
+              })
+              .afterClosed()
+              .subscribe((newWarband) => {
+                if (newWarband) {
+                  this.warbandService.addWarband(newWarband);
+                }
+              })
+          );
+          this.core.stopLoader();
+        } else {
+          this.warbandService.addWarband(warband);
+          this.dialog.open(ConfirmDialogComponent, {
+            data: {
+              confirmation: true,
+              noLabel: this.translateService.instant('common.ok'),
+              question: this.translateService.instant('import.success')
+            },
+            closeOnNavigation: false
+          });
+          this.core.stopLoader();
+        }
+      },
+      'json',
+      warbandFileType
+    );
   }
 }

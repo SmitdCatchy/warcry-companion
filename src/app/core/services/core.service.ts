@@ -5,6 +5,9 @@ import { Theme } from '../enums/theme.enum';
 import { Color } from '../enums/color.enum';
 import { DomSanitizer, Meta } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +17,14 @@ export class CoreService {
   private _colorSubject: BehaviorSubject<Color>;
   private _previousTheme: Theme;
   public effectsEnabled: boolean;
+  public _loader: boolean;
 
   constructor(
     private readonly meta: Meta,
     private readonly matIconRegistry: MatIconRegistry,
-    private readonly domSanitizer: DomSanitizer
+    private readonly domSanitizer: DomSanitizer,
+    private readonly dialog: MatDialog,
+    private readonly translateService: TranslateService
   ) {
     this._themeSubject = new BehaviorSubject<Theme>(
       CoreService.getLocalStorage(LocalStorageKey.Theme, Theme.Dark) as Theme
@@ -46,6 +52,7 @@ export class CoreService {
         '/warcry-companion/assets/mat-icons/swords.svg'
       )
     );
+    this._loader = false;
   }
 
   public get theme(): Observable<Theme> {
@@ -104,5 +111,87 @@ export class CoreService {
       `${this.effectsEnabled}`
     );
     location.reload();
+  }
+
+  public startLoader(): void {
+    this._loader = true;
+  }
+
+  public stopLoader(): void {
+    this._loader = false;
+  }
+
+  public get loading(): boolean {
+    return this._loader;
+  }
+
+  public handleFileUpload(
+    loaded: (result: any) => any = () => {},
+    type: 'json' | 'image' = 'json',
+    jsonTypeCheck?: string
+  ): void {
+    this.startLoader();
+    const upload: HTMLInputElement = document.createElement('input');
+    upload.type = 'file';
+    upload.style.display = 'none';
+    switch (type) {
+      case 'json':
+        upload.accept = 'application/json';
+        break;
+      case 'image':
+        upload.accept = 'image/*';
+        break;
+      default:
+        console.error('Incorrect upload type!');
+        break;
+    }
+
+    upload.onchange = () => {
+      const reader: FileReader = new FileReader();
+      switch (type) {
+        case 'json':
+          reader.onload = () => {
+            const result = JSON.parse((reader as any).result);
+            if (jsonTypeCheck && result.type !== jsonTypeCheck) {
+              this.dialog.open(ConfirmDialogComponent, {
+                data: {
+                  confirmation: true,
+                  noLabel: this.translateService.instant('common.ok'),
+                  question: this.translateService.instant('import.failed.type')
+                },
+                closeOnNavigation: false
+              });
+              this.stopLoader();
+              return;
+            }
+            loaded(result);
+          };
+          reader.readAsText((upload as any).files[0]);
+          break;
+        case 'image':
+          reader.onload = () => {
+            loaded((reader as any).result as string);
+          };
+          reader.readAsDataURL((upload as any).files[0]);
+          break;
+      }
+    };
+    document.body.appendChild(upload);
+    setTimeout(() => {
+      upload.click();
+      const onFocus = () => {
+        window.removeEventListener('focus', onFocus);
+        document.body.addEventListener('mousemove', onMouseMove);
+      };
+      const onMouseMove = () => {
+        document.body.removeEventListener('mousemove', onMouseMove);
+
+        if (!upload?.files?.length) {
+          document.body.removeChild(upload);
+          this.stopLoader();
+        }
+      };
+      window.addEventListener('focus', onFocus);
+    }, 0);
   }
 }

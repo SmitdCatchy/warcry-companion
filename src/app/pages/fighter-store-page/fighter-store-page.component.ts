@@ -10,6 +10,9 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog
 import { AbilityDialogComponent } from 'src/app/shared/components/ability-dialog/ability-dialog.component';
 import { WarbandService } from 'src/app/core/services/warband.service';
 import { TranslateService } from '@ngx-translate/core';
+import { CoreService } from 'src/app/core/services/core.service';
+
+export const fighterStoreFileType = 'fighterStore';
 
 @Component({
   selector: 'smitd-fighter-store-page',
@@ -24,7 +27,8 @@ export class FighterStorePageComponent implements OnDestroy {
   constructor(
     public readonly fighterStore: FighterStoreService,
     private readonly dialog: MatDialog,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly core: CoreService
   ) {}
 
   ngOnDestroy(): void {
@@ -86,29 +90,37 @@ export class FighterStorePageComponent implements OnDestroy {
   }
 
   public importFighterStore(): void {
-    const upload: HTMLInputElement = document.createElement('input');
-    upload.type = 'file';
-    upload.style.display = 'none';
-    document.body.appendChild(upload);
-    upload.addEventListener('change', () => {
-      if ((upload as any).files.length > 0) {
-        const reader: FileReader = new FileReader();
-        reader.addEventListener('load', () => {
-          const fighters = JSON.parse((reader as any).result) as Fighter[];
-          fighters.forEach((fighter) => {
+    this.core.handleFileUpload(
+      (result) => {
+        const fighters = result.fighterStore as Fighter[];
+        fighters.forEach((fighter) => {
+          if (!this.fighterStore.checkFighter(fighter, false)) {
             this.fighterStore.storeFighter(fighter, false);
-          });
+          } else {
+            this.fighterStore.updateFighter(fighter);
+          }
         });
-        reader.readAsText((upload as any).files[0]);
-      }
-    });
-    upload.click();
-    document.body.removeChild(upload);
+        this.dialog.open(ConfirmDialogComponent, {
+          data: {
+            confirmation: true,
+            noLabel: this.translateService.instant('common.ok'),
+            question: this.translateService.instant('import.success')
+          },
+          closeOnNavigation: false
+        });
+        this.core.stopLoader();
+      },
+      'json',
+      fighterStoreFileType
+    );
   }
 
   public exportFighterStore(): void {
     const filename = `fighter-store.json`;
-    const jsonStr = JSON.stringify(this.fighterStore.store);
+    const jsonStr = JSON.stringify({
+      type: 'fighterStore',
+      fighterStore: this.fighterStore.store
+    });
     const element = document.createElement('a');
     element.setAttribute(
       'href',

@@ -65,6 +65,22 @@ export class BattlegroundsService {
     }
   }
 
+  public uploadBattleground(battleground: Battleground): void {
+    if (battleground.universal) {
+      this._battlegrounds[0] = battleground;
+      return;
+    }
+    const battlegroundIndex = this.battlegrounds.findIndex(
+      (check) => check.name === battleground.name
+    );
+    if (battlegroundIndex > -1) {
+      this.editBattleground(battlegroundIndex, battleground);
+    } else {
+      this._battlegrounds.push(battleground);
+      this.saveBattlegrounds();
+    }
+  }
+
   public editBattleground(
     battlegroundIndex: number,
     battleground: Battleground
