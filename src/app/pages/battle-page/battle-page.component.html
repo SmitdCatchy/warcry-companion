@@ -1,6 +1,6 @@
 <smitd-header>
 
-  <button mat-icon-button (click)="back()">
+  <button mat-icon-button (click)="core.back()">
     <mat-icon>chevron_left</mat-icon>
   </button>
 
@@ -55,21 +55,21 @@
 <div class="scroll-container">
   <mat-tab-group color="primary" mat-stretch-tabs dynamicHeight [selectedIndex]="battle.battleState">
     <mat-tab>
-      <div class="prepare" *ngIf="battle.battleState === 0">
+      <div class="prepare" *ngIf="battle.battleState === 0"  [ngClass]="{'show-items': showGridLayout}">
         <div class="grid-item">
           <div class="divider">
             <mat-divider></mat-divider>
             <span class="label">{{'battle-page.group.dagger' | translate}}</span>
             <mat-divider></mat-divider>
           </div>
-          <div class="fighters-list dagger" cdkDropList #daggerList="cdkDropList"
+          <div class="fighters-list dagger fighters-grid-item" cdkDropList #daggerList="cdkDropList"
             [cdkDropListData]="battleService.battle.dagger"
             [cdkDropListConnectedTo]="[rosterList, hammerList, shieldList]"
             (cdkDropListDropped)="battleService.moveFighter($event)">
             <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.list"
               [campaign]="battle.campaign"
               (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
-              *ngFor="let fighter of battleService.battle.dagger; let index = index" cdkDrag cdkDragBoundary=".prepare">
+              *ngFor="let fighter of battleService.battle.dagger; let index = index" cdkDrag cdkDragBoundary=".prepare" (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()" >
               <div class="drag-marker" cdkDragHandle></div>
               <div class="options" options>
                 <div class="divider">
@@ -110,14 +110,14 @@
             <span class="label">{{'battle-page.group.shield' | translate}}</span>
             <mat-divider></mat-divider>
           </div>
-          <div class="fighters-list shield" cdkDropList #shieldList="cdkDropList"
+          <div class="fighters-list shield fighters-grid-item" cdkDropList #shieldList="cdkDropList"
             [cdkDropListData]="battleService.battle.shield"
             [cdkDropListConnectedTo]="[rosterList, hammerList, daggerList]"
             (cdkDropListDropped)="battleService.moveFighter($event)">
             <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.list"
               [campaign]="battle.campaign"
               (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
-              *ngFor="let fighter of battleService.battle.shield; let index = index" cdkDrag cdkDragBoundary=".prepare">
+              *ngFor="let fighter of battleService.battle.shield; let index = index" cdkDrag cdkDragBoundary=".prepare" (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()" >
               <div class="drag-marker" cdkDragHandle></div>
               <div class="options" options>
                 <div class="divider">
@@ -158,14 +158,14 @@
             <span class="label">{{'battle-page.group.hammer' | translate}}</span>
             <mat-divider></mat-divider>
           </div>
-          <div class="fighters-list hammer" cdkDropList #hammerList="cdkDropList"
+          <div class="fighters-list hammer fighters-grid-item" cdkDropList #hammerList="cdkDropList"
             [cdkDropListData]="battleService.battle.hammer"
             [cdkDropListConnectedTo]="[rosterList, shieldList, daggerList]"
             (cdkDropListDropped)="battleService.moveFighter($event)">
             <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.list"
               [campaign]="battle.campaign"
               (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
-              *ngFor="let fighter of battleService.battle.hammer; let index = index" cdkDrag cdkDragBoundary=".prepare">
+              *ngFor="let fighter of battleService.battle.hammer; let index = index" cdkDrag cdkDragBoundary=".prepare" (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()" >
               <div class="drag-marker" cdkDragHandle></div>
               <div class="options" options>
                 <div class="divider">
@@ -206,14 +206,14 @@
             <span class="label">{{'Roster'}}</span>
             <mat-divider></mat-divider>
           </div>
-          <div class="fighters-list roster" cdkDropList #rosterList="cdkDropList"
+          <div class="fighters-list roster fighters-grid-item" cdkDropList #rosterList="cdkDropList"
             [cdkDropListData]="battleService.battle.roster"
             [cdkDropListConnectedTo]="[hammerList, shieldList, daggerList]"
             (cdkDropListDropped)="battleService.moveFighter($event)">
             <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.list"
               [campaign]="battle.campaign"
               (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
-              *ngFor="let fighter of battleService.battle.roster; let index = index" cdkDrag cdkDragBoundary=".prepare">
+              *ngFor="let fighter of battleService.battle.roster; let index = index" cdkDrag cdkDragBoundary=".prepare" (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()" >
               <div class="drag-marker" cdkDragHandle></div>
               <div class="options" options>
                 <div class="divider">

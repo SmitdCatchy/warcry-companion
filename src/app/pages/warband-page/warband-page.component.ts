@@ -35,6 +35,7 @@ import {
   moveItemInArray
 } from '@angular/cdk/drag-drop';
 import { ViewportRuler } from '@angular/cdk/scrolling';
+import { CoreService } from 'src/app/core/services/core.service';
 
 @Component({
   selector: 'smitd-warband-page',
@@ -58,6 +59,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
   public activeTab: number;
 
   constructor(
+    public readonly core: CoreService,
     public readonly warbandService: WarbandService,
     public readonly battleService: BattleService,
     private readonly dialog: MatDialog,
@@ -464,7 +466,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
       this.addAbility(ability, false);
     });
   }
-
+ // TODO: REFACTOR
   @ViewChild(CdkDropListGroup) listGroup!: CdkDropListGroup<CdkDropList>;
   @ViewChild(CdkDropList) placeholder!: CdkDropList;
 

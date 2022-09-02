@@ -1,5 +1,5 @@
 <smitd-header>
-  <button mat-icon-button routerLink="">
+  <button mat-icon-button (click)="core.back()">
     <mat-icon>chevron_left</mat-icon>
   </button>
 
@@ -13,6 +13,7 @@
     <button mat-menu-item (click)="addFighter()">{{'fighter-store-page.menu.fighter-add' | translate}}</button>
     <button mat-menu-item (click)="importFighterStore()">{{'fighter-store-page.menu.import' | translate}}</button>
     <button mat-menu-item (click)="exportFighterStore()">{{'fighter-store-page.menu.export' | translate}}</button>
+    <button mat-menu-item (click)="updateAllFighters()">{{'fighter-store-page.menu.update' | translate}}</button>
   </mat-menu>
 </smitd-header>
 <div class="scroll-container">
@@ -24,7 +25,7 @@
         <mat-divider></mat-divider>
       </div>
       <div class="fighters-list">
-        <smitd-fighter-card [fighter]="fighter" [mode]="FighterCardMode.list"
+        <smitd-fighter-card [fighter]="fighter" [mode]="FighterCardMode.list" (callAbilities)="warbandService.showAbilities([], fighter)"
           *ngFor="let fighter of faction.fighterTypes; let index = index">
           <div class="options" options>
             <div class="divider">
@@ -32,7 +33,8 @@
               <span>{{'common.options' | translate}}</span>
               <mat-divider></mat-divider>
             </div>
-            <smitd-divider-expansion *ngIf="fighter.role === FighterRole.Ally || fighter.role === FighterRole.Monster || fighter.role === FighterRole.Thrall">
+            <smitd-divider-expansion
+              *ngIf="fighter.role === FighterRole.Ally || fighter.role === FighterRole.Monster || fighter.role === FighterRole.Thrall">
               <span dividerLabel>{{'warband-page.tab.fighters.form.abilities.label' | translate}}</span>
               <div class="abilities" expansionContent>
                 <ng-container *ngFor="let ability of fighter.abilities; let abilityIndex = index">
@@ -76,10 +78,13 @@
 </div>
 
 <div class="fabs">
-  <button mat-raised-button routerLink="">
-    <mat-icon>chevron_left</mat-icon>
+  <button mat-raised-button (click)="core.back()">
+    <mat-icon>arrow_back</mat-icon>
   </button>
   <button mat-raised-button (click)="addFighter()">
     <mat-icon>person_add</mat-icon>
+  </button>
+  <button mat-raised-button (click)="updateAllFighters()">
+    <mat-icon>social_distance</mat-icon>
   </button>
 </div>

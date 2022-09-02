@@ -10,7 +10,7 @@
 .fighter-card {
   display: block;
   box-sizing: border-box;
-  border-radius: 12px !important;
+  border-radius: 12px;
   overflow: hidden;
 
   .fighter-header {
@@ -53,10 +53,12 @@
         text-overflow: ellipsis;
         max-width: 100%;
         overflow: hidden;
+        line-height: 14px;
       }
 
       span {
         font-size: 12px;
+        line-height: 12px;
       }
     }
     .fighter-points {
@@ -217,7 +219,7 @@
     align-items: center;
   }
   .fighter-card {
-    border-radius: 20px !important;
+    border-radius: 20px;
     .fighter-header {
       .fighter-points {
         position: relative;
@@ -241,10 +243,9 @@
   .fighter-card {
     .fighter-header {
       .fighter-name {
-        font-size: 18px;
-
-        span {
-          font-size: 12px;
+        p {
+          font-size: 18px;
+          line-height: 18px;
         }
       }
       .fighter-points {

@@ -10,6 +10,7 @@
     display: none;
   }
 }
+
 .canvas {
   cursor: pointer;
   position: relative;
@@ -21,6 +22,7 @@
   height: 52px;
   box-sizing: border-box;
   overflow: hidden;
+  color: $white;
 
   img {
     display: block;

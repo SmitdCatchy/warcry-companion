@@ -14,7 +14,7 @@
     "red": "Chaos Red"
   },
   "theme": {
-    "light": "Light theme (Experimental)",
+    "light": "Light theme",
     "dark": "Dark theme"
   },
   "common": {
@@ -25,7 +25,8 @@
     "unaligned": "Unaligned",
     "unknown": "Unknown",
     "pts": "PTS",
-    "options": "Options"
+    "options": "Options",
+    "faction": "Faction"
   },
   "main-page": {
     "menu": {
@@ -102,15 +103,11 @@
           "abilities": {
             "label": "Abilities",
             "add": "Add Ability",
-            "edit": "Edit Ability",
-            "remove": "Remove Ability",
             "remove-question": "Are you sure you want to remove the ability called \"{{ability}}\" from {{fighter}}?"
           },
           "modifiers": {
             "label": "Modifiers",
             "add": "Add Modifier",
-            "edit": "Edit Modifier",
-            "remove": "Remove Modifier",
             "remove-question": "Are you sure you want to remove the modifier called \"{{modifier}}\" from {{fighter}}?"
           }
         }
@@ -142,8 +139,6 @@
           "abilities": {
             "label": "Warband Abilities",
             "add": "Add Ability",
-            "edit": "Edit Ability",
-            "remove": "Remove Ability",
             "remove-question": "Are you sure you want to remove the ability called \"{{ability}}\" from your warband {{warband}}?"
           }
         }
@@ -193,8 +188,8 @@
       "remove-weapon": "Remove Secondary Weapon",
       "add-monster-stat": "Add Damage Table Row",
       "remove-monster-stat": "Remove Damage Table Row",
-      "add": "Add Fighter",
-      "update": "Update Fighter",
+      "add": "Add",
+      "update": "Update",
       "store": "Fighter Store",
       "save": "Save Fighter to Store",
       "store-update": "Update Fighter in Store",
@@ -230,8 +225,8 @@
       "edit": "Edit Ability"
     },
     "action": {
-      "add": "Add Ability",
-      "update": "Update Ability"
+      "add": "Add",
+      "update": "Update"
     }
   },
   "battle-page": {
@@ -314,8 +309,8 @@
       "ranged": "Ranged"
     },
     "action": {
-      "add": "Add Modifier",
-      "update": "Update Modifier"
+      "add": "Add",
+      "update": "Update"
     }
   },
   "modifier-type": {
@@ -370,6 +365,7 @@
       "export": "Export Battleground"
     },
     "abilities": {
+      "add": "Add Ability",
       "remove": "Are you sure you want to remove the ability called \"{{ability}}\" from {{battleground}}?"
     }
   },
@@ -379,15 +375,17 @@
   "fighter-store-page": {
     "title": "Fighter Store",
     "menu": {
-      "fighter-add": "Add Fighter to Store",
-      "import": "Import Fighters",
-      "export": "Export Fighters"
+      "fighter-add": "Add Fighter type",
+      "import": "Import Fighter types",
+      "export": "Export Fighter types",
+      "update": "Update fighters in the Warbands"
     },
     "option": {
       "edit": "Edit",
       "duplicate": "Duplicate",
       "remove": "Remove"
-    }
+    },
+    "updated": "Successfully updated all the fighters in all the warbands."
   },
   "fighter-store-service": {
     "remove": "Are you sure you want to remove your fighter called \"{{fighter}}\" from the Fighter Store?",

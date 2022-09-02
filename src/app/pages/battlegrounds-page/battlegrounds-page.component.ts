@@ -31,10 +31,10 @@ export class BattlegroundsPageComponent implements OnDestroy {
   public selectedBattlegroundIndex: number;
 
   constructor(
+    public readonly core: CoreService,
     public readonly battlegroundsService: BattlegroundsService,
     private readonly translateService: TranslateService,
-    private readonly dialog: MatDialog,
-    private readonly core: CoreService
+    private readonly dialog: MatDialog
   ) {
     this.battlegroundForm = new FormGroup({
       name: new FormControl(this.battlegroundsService.universalAbilities.name, [

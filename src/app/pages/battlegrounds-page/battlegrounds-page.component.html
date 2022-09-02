@@ -1,6 +1,6 @@
 <smitd-header>
 
-  <button mat-icon-button routerLink="">
+  <button mat-icon-button (click)="core.back()">
     <mat-icon>chevron_left</mat-icon>
   </button>
 
@@ -62,7 +62,7 @@
     </div>
     <div class="double">
       <button class="add-ability" color="accent" mat-flat-button
-        (click)="addNewAbility()">{{'warband-page.tab.warband.form.abilities.add' | translate}}</button>
+        (click)="addNewAbility()">{{'battlegrounds-page.abilities.add' | translate}}</button>
       <button mat-flat-button color="warn" [disabled]="universal.value"
         (click)="removeBattleground()">{{'battlegrounds-page.battleground.remove' | translate}}</button>
     </div>
@@ -70,8 +70,8 @@
 </div>
 
 <div class="fabs">
-  <button mat-raised-button routerLink="">
-    <mat-icon>chevron_left</mat-icon>
+  <button mat-raised-button (click)="core.back()">
+    <mat-icon>arrow_back</mat-icon>
   </button>
   <button mat-raised-button [disabled]="universal.value" (click)="removeBattleground()">
     <mat-icon>wrong_location</mat-icon>
