@@ -36,6 +36,28 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 2.2.0 - 2022.09.03
+
+<details>
+  <summary>Features</summary>
+
+- you can update all fighters in all the warbands with all the fighter types in the Fighter Store.
+
+</details>
+
+<details>
+  <summary>Fixes</summary>
+
+- show abilities of allies, monsters and thralls on Fighter Store screen.
+- fix lineheight of names on Fighter cards.
+- removed redundant strings.
+- fix leader role removing Hero runemark and adding Leader runemark unnecessarily.
+- fix fighter role adding Fighter runemark unnecessarily.
+- fix light mode.
+- fix loading spinner on mobiles if nothing is selected.
+
+</details>
+
 ### 2.1.1 - 2022.09.01
 
 <details>

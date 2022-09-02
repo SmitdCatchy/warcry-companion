@@ -320,7 +320,7 @@ export class FighterDialogComponent implements OnDestroy {
         .afterClosed()
         .subscribe((fighter: Fighter) => {
           if (fighter.runemarks) {
-            this.weapons.clear()
+            this.weapons.clear();
             this.addInitialWeapons(fighter.weapons);
             this.monsterStats.clear();
             this.addInitialMonsterStats(fighter.monsterStatTable || []);
@@ -337,9 +337,31 @@ export class FighterDialogComponent implements OnDestroy {
   private setRoleRunemarks(role: FighterRole): void {
     const runemarksSet = new Set(this.runemarks.value);
     switch (role) {
+      case FighterRole.Fighter:
+        runemarksSet.delete(
+          this.translateService.instant('fighter-role.thrall')
+        );
+        runemarksSet.delete(this.translateService.instant('fighter-role.hero'));
+        runemarksSet.delete(
+          this.translateService.instant('fighter-role.monster')
+        );
+        runemarksSet.delete(this.translateService.instant('fighter-role.ally'));
+        this.runemarks.setValue([...runemarksSet]);
+        break;
       case FighterRole.Thrall:
         runemarksSet.add(this.translateService.instant('fighter-role.thrall'));
         runemarksSet.delete(this.translateService.instant('fighter-role.hero'));
+        runemarksSet.delete(
+          this.translateService.instant('fighter-role.monster')
+        );
+        runemarksSet.delete(this.translateService.instant('fighter-role.ally'));
+        this.runemarks.setValue([...runemarksSet]);
+        break;
+      case FighterRole.Leader:
+        runemarksSet.add(this.translateService.instant('fighter-role.hero'));
+        runemarksSet.delete(
+          this.translateService.instant('fighter-role.thrall')
+        );
         runemarksSet.delete(
           this.translateService.instant('fighter-role.monster')
         );
@@ -353,10 +375,7 @@ export class FighterDialogComponent implements OnDestroy {
           );
         });
         runemarksSet.add(this.translateService.instant(`fighter-role.${role}`));
-        if (
-          role !== FighterRole.Ally &&
-          role !== FighterRole.Monster
-        ) {
+        if (role !== FighterRole.Ally && role !== FighterRole.Monster) {
           this.abilities.setValue([]);
         }
         this.runemarks.setValue([...runemarksSet]);

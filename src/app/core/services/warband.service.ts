@@ -251,7 +251,9 @@ export class WarbandService {
       abilityGroups.push({
         label: this.translateService
           .instant('warband-service.abilities.label', {
-            label: fighter?.type || warband?.faction || ''
+            label: abilityGroups.length
+              ? warband ? warband.faction : this.translateService.instant('common.faction')
+              : fighter?.type || warband?.faction || ''
           })
           .trim(),
         abilities: abilities.filter((ability) => {
@@ -332,22 +334,22 @@ export class WarbandService {
   }
 
   public static sortAbilities(abilities: Ability[]): Ability[] {
-    abilities = abilities.sort(
-      (a, b) => {
-        if (this.abilityTypeIndex(a.type) < this.abilityTypeIndex(b.type)) {
-          return -1;
-        } else if (
-          this.abilityTypeIndex(a.type) > this.abilityTypeIndex(b.type)
-        ) {
-          return 1;
-        } else if (a.title.toLocaleLowerCase().trim() < b.title.toLocaleLowerCase().trim()) {
-          return -1;
-        } else {
-          return 1;
-        }
+    abilities = abilities.sort((a, b) => {
+      if (this.abilityTypeIndex(a.type) < this.abilityTypeIndex(b.type)) {
+        return -1;
+      } else if (
+        this.abilityTypeIndex(a.type) > this.abilityTypeIndex(b.type)
+      ) {
+        return 1;
+      } else if (
+        a.title.toLocaleLowerCase().trim() < b.title.toLocaleLowerCase().trim()
+      ) {
+        return -1;
+      } else {
+        return 1;
       }
-    );
-    return abilities
+    });
+    return abilities;
   }
 
   private static abilityTypeIndex(type: AbilityType): number {

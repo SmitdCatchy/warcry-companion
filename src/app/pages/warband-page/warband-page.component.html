@@ -1,5 +1,5 @@
 <smitd-header>
-  <button mat-icon-button routerLink="">
+  <button mat-icon-button (click)="core.back()">
     <mat-icon>chevron_left</mat-icon>
   </button>
   <h2>{{warband.name}}</h2>
@@ -28,7 +28,7 @@
           <div class="fighters-grid-item" cdkDropList *ngFor="let fighter of warband.fighters; let index = index"
             (cdkDropListDropped)="dropListDropped()" (cdkDropListEntered)="cdkDropListEntered($event)">
             <smitd-fighter-card [fighter]="fighter" [mode]="FighterCardMode.list" [campaign]="true"
-              (callAbilities)="warbandService.showAbilities(warband.abilities, fighter)" cdkDrag
+              (callAbilities)="warbandService.showAbilities(warband.abilities, fighter, warband)" cdkDrag
               (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded($event)" cdkDragBoundary=".scroll-container">
               <div class="drag-marker" cdkDragHandle></div>
               <div class="options" options>
@@ -129,7 +129,7 @@
         </div>
         <div class="fighters-list" cdkDropList (cdkDropListDropped)="warbandService.moveFighter($event)">
           <smitd-fighter-card [fighter]="fighter" [mode]="FighterCardMode.list" [campaign]="true"
-            (callAbilities)="warbandService.showAbilities(warband.abilities, fighter)"
+            (callAbilities)="warbandService.showAbilities(warband.abilities, fighter, warband)"
             *ngFor="let fighter of warband.fighters; let index = index" cdkDrag cdkDragBoundary=".scroll-container">
             <div class="drag-marker" cdkDragHandle></div>
             <div class="options" options>
@@ -356,8 +356,8 @@
 </mat-tab-group>
 
 <div class="fabs">
-  <button mat-raised-button routerLink="">
-    <mat-icon>chevron_left</mat-icon>
+  <button mat-raised-button (click)="core.back()">
+    <mat-icon>arrow_back</mat-icon>
   </button>
   <button mat-raised-button (click)="addFighter()" *ngIf="activeTab === 0">
     <mat-icon>person_add</mat-icon>

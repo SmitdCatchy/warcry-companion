@@ -8,6 +8,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,8 @@ export class CoreService {
     private readonly matIconRegistry: MatIconRegistry,
     private readonly domSanitizer: DomSanitizer,
     private readonly dialog: MatDialog,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly location: Location
   ) {
     this._themeSubject = new BehaviorSubject<Theme>(
       CoreService.getLocalStorage(LocalStorageKey.Theme, Theme.Dark) as Theme
@@ -79,7 +81,7 @@ export class CoreService {
   }
 
   public setColor(color: Color) {
-    CoreService.setLocalStorage(LocalStorageKey.Color, color);
+    CoreService.setLocalStorage(LocalStorageKey.Color, color || Color.grey);
     this.meta.updateTag(
       { name: 'theme-color', content: color },
       'name=theme-color'
@@ -181,11 +183,6 @@ export class CoreService {
       upload.click();
       const onFocus = () => {
         window.removeEventListener('focus', onFocus);
-        document.body.addEventListener('mousemove', onMouseMove);
-      };
-      const onMouseMove = () => {
-        document.body.removeEventListener('mousemove', onMouseMove);
-
         if (!upload?.files?.length) {
           document.body.removeChild(upload);
           this.stopLoader();
@@ -193,5 +190,9 @@ export class CoreService {
       };
       window.addEventListener('focus', onFocus);
     }, 0);
+  }
+
+  public back(): void {
+    this.location.back();
   }
 }

@@ -38,36 +38,44 @@ export class MainPageComponent implements OnDestroy {
   }
 
   public addWarband(): void {
+    history.pushState({ isDialog: true }, '');
     this._subscriptions.add(
       this.dialog
         .open(WarbandDialogComponent, {
           data: {},
           disableClose: true,
           panelClass: ['full-screen-modal'],
-          closeOnNavigation: false
+          closeOnNavigation: true
         })
         .afterClosed()
         .subscribe((warband) => {
           if (warband) {
             this.warbandService.addWarband(warband);
           }
+          if (history.state.isDialog) {
+            history.back();
+          }
         })
     );
   }
 
   public duplicateWarband(warband: Warband): void {
+    history.pushState({ isDialog: true }, '');
     this._subscriptions.add(
       this.dialog
         .open(WarbandDialogComponent, {
           data: { warband },
           disableClose: true,
           panelClass: ['full-screen-modal'],
-          closeOnNavigation: false
+          closeOnNavigation: true
         })
         .afterClosed()
         .subscribe((warband) => {
           if (warband) {
             this.warbandService.addWarband(warband);
+          }
+          if (history.state.isDialog) {
+            history.back();
           }
         })
     );
@@ -98,6 +106,7 @@ export class MainPageComponent implements OnDestroy {
       (result) => {
         const warband = result.warband as Warband;
         if (this.warbandService.checkWarband(warband, false)) {
+          history.pushState({ isDialog: true }, '');
           this._subscriptions.add(
             this.dialog
               .open(WarbandDialogComponent, {
@@ -106,26 +115,38 @@ export class MainPageComponent implements OnDestroy {
                 },
                 disableClose: true,
                 panelClass: ['full-screen-modal'],
-                closeOnNavigation: false
+                closeOnNavigation: true
               })
               .afterClosed()
               .subscribe((newWarband) => {
                 if (newWarband) {
                   this.warbandService.addWarband(newWarband);
                 }
+                if (history.state.isDialog) {
+                  history.back();
+                }
               })
           );
           this.core.stopLoader();
         } else {
           this.warbandService.addWarband(warband);
-          this.dialog.open(ConfirmDialogComponent, {
-            data: {
-              confirmation: true,
-              noLabel: this.translateService.instant('common.ok'),
-              question: this.translateService.instant('import.success')
-            },
-            closeOnNavigation: false
-          });
+          history.pushState({ isDialog: true }, '');
+          this._subscriptions.add(
+            this.dialog
+              .open(ConfirmDialogComponent, {
+                data: {
+                  confirmation: true,
+                  noLabel: this.translateService.instant('common.ok'),
+                  question: this.translateService.instant('import.success')
+                },
+                closeOnNavigation: true
+              })
+              .afterClosed().subscribe(() => {
+                if (history.state.isDialog) {
+                  history.back();
+                }
+              })
+          );
           this.core.stopLoader();
         }
       },

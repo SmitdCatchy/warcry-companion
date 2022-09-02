@@ -14,7 +14,7 @@
     "red": "Káosz Vörös"
   },
   "theme": {
-    "light": "Világos téma (Kísérleti)",
+    "light": "Világos téma",
     "dark": "Sötét téma"
   },
   "common": {
@@ -25,7 +25,8 @@
     "unaligned": "Független",
     "unknown": "Ismeretlen",
     "pts": "PTS",
-    "options": "Opciók"
+    "options": "Opciók",
+    "faction": "Frakció"
   },
   "main-page": {
     "menu": {
@@ -102,15 +103,11 @@
           "abilities": {
             "label": "Képességek",
             "add": "Képesség hozzáadása",
-            "edit": "Képesség szerkesztése",
-            "remove": "Képesség törlése",
             "remove-question": "Biztosan el akarod távolítani a/az \"{{ability}}\" elnevezésű képességet a/az {{fighter}} nevű harcostól?"
           },
           "modifiers": {
             "label": "Módosítók",
             "add": "Módosító hozzáadása",
-            "edit": "Módosító szerkesztése",
-            "remove": "Módosító törlése",
             "remove-question": "Biztosan el akarod távolítani a/az \"{{modifier}}\" elnevezésű módosítót a/az {{fighter}} nevű harcostól?"
           }
         }
@@ -142,8 +139,6 @@
           "abilities": {
             "label": "Frakció képességek",
             "add": "Képesség hozzáadása",
-            "edit": "Képesség szerkesztése",
-            "remove": "Képesség törlése",
             "remove-question": "Biztosan el akarod távolítani a/az \"{{ability}}\" elnevezésű képességet a/az \"{{warband}}\" nevű csapatodból?"
           }
         }
@@ -193,8 +188,8 @@
       "remove-weapon": "Másodlagos fegyver törlése",
       "add-monster-stat": "Új sor hozzáadása",
       "remove-monster-stat": "Sor törlése",
-      "add": "Harcos hozzáadása",
-      "update": "Harcos frissítése",
+      "add": "Hozzáadás",
+      "update": "Frissítés",
       "store": "Harcos tár",
       "save": "Harcos elmentése a tárba",
       "store-update": "Harcos frissítése a tárban",
@@ -219,9 +214,9 @@
     "type": "Típus",
     "title": "Megnevezés",
     "battleground": "Csataterek",
+    "runemarks": "Rúnák",
     "prohibitive": "Tiltott rúnák",
     "placeholder": "Új rúna",
-    "runemarks": "Rúnák",
     "description": "Leírás"
   },
   "ability-dialog": {
@@ -230,8 +225,8 @@
       "edit": "Képesség szerkesztése"
     },
     "action": {
-      "add": "Képesség hozzáadása",
-      "update": "Képesség frissítése"
+      "add": "Hozzáadás",
+      "update": "Frissítése"
     }
   },
   "battle-page": {
@@ -314,8 +309,8 @@
       "ranged": "Távolsági"
     },
     "action": {
-      "add": "Módosító hozzáadása",
-      "update": "Módosító frissítése"
+      "add": "Hozzáadás",
+      "update": "Frissítés"
     }
   },
   "modifier-type": {
@@ -370,6 +365,7 @@
       "export": "Csatatér expotálása"
     },
     "abilities": {
+      "add": "Képesség hozzáadása",
       "remove": "Biztosan el akarod távolítani a/az \"{{ability}}\" elnevezésű képességet a/az {{battleground}} nevű csatateredből?"
     }
   },
@@ -379,15 +375,17 @@
   "fighter-store-page": {
     "title": "Harcos tár",
     "menu": {
-      "fighter-add": "Harcos hozzáadása a tárhoz",
-      "import": "Harcosok importálása",
-      "export": "Harcosok exportálása"
+      "fighter-add": "Harcos típus hozzáadása",
+      "import": "Harcos típusok importálása",
+      "export": "Harcos típusok exportálása",
+      "update": "Csapatokban lévő harcosok frissítése"
     },
     "option": {
       "edit": "Szerkesztése",
       "duplicate": "Másolás",
       "remove": "Törlés"
-    }
+    },
+    "updated": "Sikeresen frissítetted az összes harcost mindegyik csapatodban."
   },
   "fighter-store-service": {
     "remove": "Biztosan el akarod távolítani a/az \"{{fighter}}\" elnevezésű harcosod a Harcos tárból?",

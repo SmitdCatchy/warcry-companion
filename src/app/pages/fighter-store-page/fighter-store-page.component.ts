@@ -25,10 +25,11 @@ export class FighterStorePageComponent implements OnDestroy {
   public FighterRole = FighterRole;
 
   constructor(
+    public readonly core: CoreService,
     public readonly fighterStore: FighterStoreService,
+    public readonly warbandService: WarbandService,
     private readonly dialog: MatDialog,
-    private readonly translateService: TranslateService,
-    private readonly core: CoreService
+    private readonly translateService: TranslateService
   ) {}
 
   ngOnDestroy(): void {
@@ -206,5 +207,37 @@ export class FighterStorePageComponent implements OnDestroy {
           }
         })
     );
+  }
+
+  public updateAllFighters(): void {
+    this.core.startLoader();
+    this.fighterStore.factions.forEach((faction) => {
+      this.warbandService.warbands.forEach((warband) => {
+        if (warband.faction === faction.name) {
+          faction.fighterTypes.forEach((fighterType) => {
+            warband.fighters.forEach((fighter) => {
+              if (fighterType.type === fighter.type) {
+                fighter.movement = fighterType.movement;
+                fighter.toughness = fighterType.toughness;
+                fighter.wounds = fighterType.wounds;
+                fighter.runemarks = fighterType.runemarks;
+                fighter.weapons = fighterType.weapons;
+                fighter.points = fighterType.points;
+                fighter.abilities = fighterType.abilities;
+              }
+            });
+          });
+        }
+      });
+    });
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        confirmation: true,
+        noLabel: this.translateService.instant('common.ok'),
+        question: this.translateService.instant('fighter-store-page.updated')
+      },
+      closeOnNavigation: false
+    });
+    this.core.stopLoader();
   }
 }

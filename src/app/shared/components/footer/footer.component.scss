@@ -1,5 +1,8 @@
+@import 'colors';
+
 :host {
   display: contents;
+  position: relative;
 }
 
 footer {
@@ -10,6 +13,7 @@ footer {
   justify-content: space-evenly;
   align-items: center;
   overflow: hidden;
+  color: $white;
 
   .version {
     font-size: 16px;

@@ -143,7 +143,7 @@ html {
   &.light {
     color: $black;
     background-color: $white;
-    background-image: linear-gradient($white 40%, $blue-brightest 90%);
+    background-image: linear-gradient($grey-lightest 40%, $blue-brightest 90%);
     @include mat.all-component-colors($light-theme);
     @include mat.button-color($light-theme);
     @include set-background-color($white, $black);
@@ -154,14 +154,14 @@ html {
     .invert {
       filter: invert(0);
     }
-    .glass,
     .show-items .fighters-grid-item {
       background-color: rgba($black, 0.2);
     }
     .fabs {
       background-color: $grey-light;
     }
-    .mat-simple-snackbar {
+    .mat-simple-snackbar,
+    .mat-tab-label-content {
       color: $black;
     }
   }

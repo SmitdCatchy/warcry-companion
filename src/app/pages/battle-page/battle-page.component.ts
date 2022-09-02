@@ -1,8 +1,8 @@
-import { Location } from '@angular/common';
 import {
   Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  OnInit,
   OnDestroy
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ import { Fighter } from 'src/app/core/models/fighter.model';
 import { Warband } from 'src/app/core/models/warband.model';
 import { BattleService } from 'src/app/core/services/battle.service';
 import { BattlegroundsService } from 'src/app/core/services/battlegrounds.service';
+import { CoreService } from 'src/app/core/services/core.service';
 import { WarbandService } from 'src/app/core/services/warband.service';
 
 @Component({
@@ -26,19 +27,20 @@ import { WarbandService } from 'src/app/core/services/warband.service';
   styleUrls: ['./battle-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BattlePageComponent implements OnDestroy {
+export class BattlePageComponent implements OnInit, OnDestroy {
   public FighterCardMode = FighterCardMode;
   public BattleState = BattleState;
   public FighterState = FighterState;
   public FighterRole = FighterRole;
   public beastRunemark: string;
   private _subscriptions = new Subscription();
+  public showGridLayout: boolean;
 
   constructor(
+    public readonly core: CoreService,
     public readonly battleService: BattleService,
     public readonly warbandService: WarbandService,
     public readonly battlegroundService: BattlegroundsService,
-    private location: Location,
     private readonly router: Router,
     private readonly cdr: ChangeDetectorRef,
     private readonly translateService: TranslateService
@@ -47,6 +49,10 @@ export class BattlePageComponent implements OnDestroy {
       this.router.navigateByUrl('/');
     }
     this.beastRunemark = 'beast';
+    this.showGridLayout = false;
+  }
+
+  ngOnInit(): void {
     this._subscriptions.add(
       this.translateService.get('fighter-role.beast').subscribe((beast) => {
         this.beastRunemark = beast;
@@ -113,7 +119,11 @@ export class BattlePageComponent implements OnDestroy {
     );
   }
 
-  public back(): void {
-    this.location.back();
+  public dragStarted(): void {
+    this.showGridLayout = true;
+
+  }
+  public dragEnded(): void {
+    this.showGridLayout = false;
   }
 }
