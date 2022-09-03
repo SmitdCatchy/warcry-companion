@@ -58,7 +58,6 @@ export class IconUploaderComponent {
         );
         const image = this.canvas.toDataURL('image/png');
         this.iconValueChange.emit(image);
-        this.core.stopLoader();
       };
       icon.src = result;
     }, 'image');

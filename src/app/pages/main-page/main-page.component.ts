@@ -127,7 +127,6 @@ export class MainPageComponent implements OnDestroy {
                 }
               })
           );
-          this.core.stopLoader();
         } else {
           this.warbandService.addWarband(warband);
           history.pushState({ isDialog: true }, '');
@@ -147,7 +146,6 @@ export class MainPageComponent implements OnDestroy {
                 }
               })
           );
-          this.core.stopLoader();
         }
       },
       'json',

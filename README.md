@@ -2,7 +2,8 @@
 
 This project was created to give an easy to use companion application to play Warcry. I hope it will be your go to warband manager and will be an invaluable asset during games to keep track of the fighters and winning conditions.
 
-You can access the application on [this link](https://smitdcatchy.github.io/warcry-companion/).
+You can access the application via [this link](https://smitdcatchy.github.io/warcry-companion/).
+For a guide on how to use the app click on [this link](https://github.com/SmitdCatchy/warcry-companion/blob/main/GUIDE.md#-how-to-use-the-warcry-companion).
 
 ## Ideas and Features
 
@@ -36,14 +37,21 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
-### 2.2.0 - 2022.09.03
+### 2.2.1 - 2022.09.03
+
+Feature: added a guide for the app.
 
 <details>
-  <summary>Features</summary>
+  <summary>Fixes</summary>
 
-- you can update all fighters in all the warbands with all the fighter types in the Fighter Store.
+- removed unnecessary loading spinners.
+- fixed single fighter group top spacing in the Battle phase
 
 </details>
+
+### 2.2.0 - 2022.09.03
+
+Feature: you can update all fighters in all the warbands with all the fighter types in the Fighter Store.
 
 <details>
   <summary>Fixes</summary>
@@ -101,12 +109,7 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ### 1.2.2 - 2022.08.29
 
-<details>
-  <summary>Fixes</summary>
-
-- fighters with the Monster role can have modifiers.
-
-</details>
+Fix: fighters with the Monster role can have modifiers.
 
 ### 1.2.1 - 2022.08.28
 
@@ -136,7 +139,7 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 - in the Fighter dialog selecting a fighter role adds default runemarks based on the role.
 - the Fighter Store screen and Fighter Load dialog has factions.
 - there is a tie option for the battle end result.
-- fighters with the Beast and Monster roles no longer have the Carry treasure option pn the Battle Page during the battle phase.
+- fighters with the Beast and Monster roles no longer have the Carry treasure option pn the Battle Page during the Battle phase.
 - fighters with the Monster role can have modifiers.
 
 </details>
@@ -160,8 +163,7 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
   - on the Fighter Store screen you can create/edit/remove fighter types separately from warbands in/from the Fighter Store.
   - you can load/store/update/remove fighter types in the Fighter add/edit dialog by pressing on the Fighter Store button and selecting the desired option.
 
-- Warbands:
-  - on the Main screen in the Warband card options you can duplicate the warband.
+- Warbands: on the Main screen in the Warband card options you can duplicate the warband.
 
 </details>
 

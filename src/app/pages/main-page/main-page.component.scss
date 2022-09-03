@@ -122,7 +122,8 @@
 }
 
 .cdk-drag-placeholder {
-  opacity: 0;
+  opacity: 0.5;
+  filter: grayscale(1);
 }
 
 .cdk-drag-animating {

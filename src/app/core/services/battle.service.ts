@@ -78,7 +78,7 @@ export class BattleService {
           battle: this.battle,
           warband: cloneDeep(warband)
         },
-        panelClass: ['full-screen-modal'],
+        // panelClass: ['full-screen-modal'],
         closeOnNavigation: false
       })
       .afterClosed()
@@ -211,7 +211,7 @@ export class BattleService {
       });
   }
 
-  public removeWildFighter(index: number): void {
+  public removeWildFighter(index: number, cb: () => any = () => {}): void {
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -227,6 +227,7 @@ export class BattleService {
         if (decision) {
           this.battle.wild.splice(index, 1);
           this.saveBattle();
+          cb();
         }
       });
   }

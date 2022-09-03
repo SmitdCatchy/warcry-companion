@@ -107,6 +107,12 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     });
   }
 
+  public removeWildFighter(index: number): void {
+    this.battleService.removeWildFighter(index, () => {
+      this.cdr.detectChanges();
+    });
+  }
+
   public canCarry(fighter: Fighter): boolean {
     return (
       fighter.role !== FighterRole.Monster &&
@@ -121,8 +127,8 @@ export class BattlePageComponent implements OnInit, OnDestroy {
 
   public dragStarted(): void {
     this.showGridLayout = true;
-
   }
+
   public dragEnded(): void {
     this.showGridLayout = false;
   }

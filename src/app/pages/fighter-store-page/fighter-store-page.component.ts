@@ -109,7 +109,6 @@ export class FighterStorePageComponent implements OnDestroy {
           },
           closeOnNavigation: false
         });
-        this.core.stopLoader();
       },
       'json',
       fighterStoreFileType
@@ -217,6 +216,9 @@ export class FighterStorePageComponent implements OnDestroy {
           faction.fighterTypes.forEach((fighterType) => {
             warband.fighters.forEach((fighter) => {
               if (fighterType.type === fighter.type) {
+                if(fighter.role !== FighterRole.Leader) {
+                  fighter.role = fighterType.role;
+                }
                 fighter.movement = fighterType.movement;
                 fighter.toughness = fighterType.toughness;
                 fighter.wounds = fighterType.wounds;

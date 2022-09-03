@@ -271,7 +271,6 @@ export class BattlegroundsPageComponent implements OnDestroy {
           },
           closeOnNavigation: false
         });
-        this.core.stopLoader();
       },
       'json',
       battlegroundsFileType

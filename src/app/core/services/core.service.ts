@@ -83,10 +83,10 @@ export class CoreService {
   public setColor(color: Color) {
     CoreService.setLocalStorage(LocalStorageKey.Color, color || Color.grey);
     this.meta.updateTag(
-      { name: 'theme-color', content: color },
+      { name: 'theme-color', content: color || Color.grey },
       'name=theme-color'
     );
-    this._colorSubject.next(color);
+    this._colorSubject.next(color || Color.grey);
   }
 
   public static getLocalStorage(key: string, missing: string = ''): string {
@@ -132,7 +132,6 @@ export class CoreService {
     type: 'json' | 'image' = 'json',
     jsonTypeCheck?: string
   ): void {
-    this.startLoader();
     const upload: HTMLInputElement = document.createElement('input');
     upload.type = 'file';
     upload.style.display = 'none';
@@ -163,7 +162,6 @@ export class CoreService {
                 },
                 closeOnNavigation: false
               });
-              this.stopLoader();
               return;
             }
             loaded(result);
@@ -179,17 +177,8 @@ export class CoreService {
       }
     };
     document.body.appendChild(upload);
-    setTimeout(() => {
-      upload.click();
-      const onFocus = () => {
-        window.removeEventListener('focus', onFocus);
-        if (!upload?.files?.length) {
-          document.body.removeChild(upload);
-          this.stopLoader();
-        }
-      };
-      window.addEventListener('focus', onFocus);
-    }, 0);
+
+    upload.click();
   }
 
   public back(): void {
