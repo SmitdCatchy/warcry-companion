@@ -11,7 +11,7 @@ You can access the application via [this link](https://smitdcatchy.github.io/war
   If you have already added a warband you can open the screen menu on the top right corner and select the create or import warband options.
   In the bottom action bar the button in the middle also lets you create a new warband.
   
-  ![warband screen](guide-assets/guide-image-0001.png) ![warband screen menu](guide-assets/guide-image-0001.png)
+  ![warband screen](guide-assets/guide-image-0001.png) ![warband screen menu](guide-assets/guide-image-0002.png)
 
   If you selected to create a warband the Warband dialog will show up. Now you will need to fill in the form with your warband's properties. You can also add an icon to your warband by pressing on the upload icon on the top left.
   
