@@ -26,7 +26,7 @@ h2 {
 .prepare,
 .battle {
   display: block;
-  padding: 8px 12px 12px;
+  padding: 0 12px 12px;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
@@ -54,6 +54,12 @@ h2 {
 }
 
 .battle {
+  padding-top: 8px;
+
+  &.single {
+    padding-top: 12px;
+  }
+
   .battleframe-header {
     display: flex;
     align-items: center;
@@ -207,7 +213,10 @@ h2 {
 }
 
 @include tablet {
-  .prepare,
+  .prepare{
+    padding: 0 24px 24px;
+  }
+
   .battle {
     padding: 8px 24px 24px;
   }

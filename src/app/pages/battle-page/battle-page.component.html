@@ -16,7 +16,7 @@
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster"
       (click)="battleService.beginBattle()">{{'battle-page.menu.begin' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Battle"
-      (click)="battleService.endTurn()">{{'battle-page.menu.turn' | translate}}</button>
+      (click)="endTurn()">{{'battle-page.menu.turn' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Battle"
       (click)="battleService.endBattle()">{{'battle-page.menu.end' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster"
@@ -251,7 +251,11 @@
       </div>
     </mat-tab>
     <mat-tab>
-      <div class="battle" *ngIf="battle.battleState === 1">
+      <div class="battle" *ngIf="battle.battleState === 1" [ngClass]="{'single':
+      !((battleService.battle.dagger.length && (battleService.battle.hammer.length || battleService.battle.shield.length || battleService.battle.wild.length)) ||
+      (battleService.battle.hammer.length && (battleService.battle.dagger.length || battleService.battle.shield.length || battleService.battle.wild.length)) ||
+      (battleService.battle.shield.length && (battleService.battle.hammer.length || battleService.battle.dagger.length || battleService.battle.wild.length)))
+    }">
         <div class="divider"
           *ngIf="battleService.battle.dagger.length && (battleService.battle.hammer.length || battleService.battle.shield.length ||battleService.battle.wild.length)">
           <mat-divider></mat-divider>
@@ -530,7 +534,7 @@
                     <textarea matInput [rows]="4"></textarea>
                   </mat-form-field>
                   <button mat-flat-button color="warn"
-                    (click)="battleService.removeWildFighter(index)">{{'battle-page.battle.remove-wild' | translate}}</button>
+                    (click)="removeWildFighter(index)">{{'battle-page.battle.remove-wild' | translate}}</button>
                 </div>
               </smitd-divider-expansion>
             </div>
@@ -571,7 +575,7 @@
   </mat-tab-group>
 </div>
 
-<div class="fabs">
+<div class="bottom-action-bar">
   <button mat-raised-button (click)="battleService.abortBattle()"
     *ngIf="battleService.battle.battleState === BattleState.Roster">
     <mat-icon>close</mat-icon>

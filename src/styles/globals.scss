@@ -233,7 +233,8 @@ smitd-warband-page .mat-expansion-panel-body {
   }
 
   .cdk-drag-placeholder {
-    opacity: 0.2;
+    opacity: 0.5;
+    filter: grayscale(1);
   }
 
   .cdk-drag-animating {
@@ -489,7 +490,7 @@ body .mat-button-base {
   border-width: 2px;
 }
 
-.fabs {
+.bottom-action-bar {
   position: fixed;
   z-index: 1000;
   bottom: 0;

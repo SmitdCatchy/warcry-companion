@@ -40,6 +40,7 @@
       "select-theme": "Select Theme",
       "language-selection": "Choose Language",
       "language-add": "Add my language",
+      "guide": "Guide",
       "github": "Support on GitHub"
     },
     "warband-options": {
@@ -156,7 +157,7 @@
       "strength": "Strength",
       "damage": "Damage",
       "crit": "Crit",
-      "min-health": "Minimum Health"
+      "min-health": "Minimum Wounds"
     }
   },
   "fighter-role": {

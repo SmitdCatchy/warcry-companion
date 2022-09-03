@@ -297,7 +297,7 @@ export class FighterDialogComponent implements OnDestroy {
   public cleanFighter(original: Fighter): Fighter {
     const fighter = cloneDeep(original);
     return {
-      role: fighter.role,
+      role: fighter.role === FighterRole.Leader ? FighterRole.Hero : fighter.role,
       type: fighter.type,
       movement: fighter.movement,
       toughness: fighter.toughness,
