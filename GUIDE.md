@@ -4,9 +4,11 @@ The following guides will show you step by step how to do everything in the app.
 
 You can access the application via [this link](https://smitdcatchy.github.io/warcry-companion/).
 
+---
 <details>
   <summary>Warbands Guide</summary>
 
+---
   To add a warband you should be on the Main screen. If you haven't added a warband yet there are green buttons to create and to import a warband.
   If you have already added a warband you can open the screen menu on the top right corner and select the create or import warband options.
   In the bottom action bar the button in the middle also lets you create a new warband.
@@ -27,9 +29,11 @@ You can access the application via [this link](https://smitdcatchy.github.io/war
 
 </details>
 
+---
 <details>
   <summary>Fighters Guide</summary>
 
+---
   To add a fighter to a warband you should be on the Warband screen under the Fighters tab. If you haven't added a fighter to the warband yet there is a green button to add a fighter.
   If you have already added a fighter you can open the screen menu on the top right corner and select the add fighter option.
   In the bottom action bar the button in the middle also lets you add a new fighter.
@@ -50,9 +54,11 @@ You can access the application via [this link](https://smitdcatchy.github.io/war
 
 </details>
 
+---
 <details>
   <summary>Warband Abilities Guide</summary>
 
+---
   To add a Faction ability to a warband you should be on the Warband screen under the Warband tab. Here you can edit the warband's properties as well.
   Expand the Warband abilities and press on the add ability button.
   In the bottom action bar the button in the middle also lets you add a new ability.
@@ -70,9 +76,11 @@ You can access the application via [this link](https://smitdcatchy.github.io/war
 
 </details>
 
+---
 <details>
   <summary>Narrative Play Guide</summary>
 
+---
   You can record your narrative progress on the Warband screen under the Campaign tab.
   
   ![warband screen](guide-assets/guide-image-0017.png) ![warband screen menu](guide-assets/guide-image-0018.png)
@@ -98,9 +106,11 @@ You can access the application via [this link](https://smitdcatchy.github.io/war
 
 </details>
 
+---
 <details>
   <summary>Universal Abilities and Battlegrounds Guide</summary>
 
+---
   To add a Universal ability you should be on the Battlegrounds screen. You can navigate to the Battlegrounds screen from the Main screen by pressing the Battlegrounds option in the menu or by pressing the second button from the left in the bottom action bar.
   By default the Universal Abilities are displayed on the Battlegrounds screen. To add an ability press on the add ability button or the middle button in the bottom action bar.
   
@@ -115,14 +125,17 @@ You can access the application via [this link](https://smitdcatchy.github.io/war
 
   ![universal abilities](guide-assets/guide-image-0053.png)
 
-  You can add/select battlegrounds in the open the screen menu on the top right corner and select the select battleground option or the first button from the right in the bottom action bar. In the submenu select the add battleground option to add a new battleground or select the name of a previously added battleground to display it. To remove a battleground press on the remove battleground under the battleground abilities or the second button from the left in the bottom action bar. The Universal Abilities can not be removed, only the abilities inside it.
+  You can add/select battlegrounds in the open the screen menu on the top right corner and select the select battleground option or the first button from the right in the bottom action bar. In the displayed submenu select the add battleground option to add a new battleground or select the name of a previously added battleground to display it. You can also add a battleground by pressing the second button from the right in the bottom action bar. To remove a battleground press on the remove battleground under the battleground abilities or the second button from the left in the bottom action bar. The Universal Abilities can not be removed, only the abilities inside it.
   
   ![battlegrounds screen menu](guide-assets/guide-image-0027.png) ![battlegrounds remove](guide-assets/guide-image-0028.png)
 
 </details>
 
+---
 <details>
   <summary>Battle Guide</summary>
+
+---
 
 ### Battle options
 
@@ -182,9 +195,11 @@ You can access the application via [this link](https://smitdcatchy.github.io/war
 
 </details>
 
+---
 <details>
   <summary>Fighter Store</summary>
 
+---
   You can navigate to the Fighter Store screen from the Main screen by pressing the Fighter Store option in the menu or by pressing the second button from the right in the bottom action bar. To add a fighter type to the Fighter Store in the screen menu press on the add fighter type.
   You can also add a fighter type by pressing on the Fighter Store in the Fighter dialog on other screens and press the save fighter to store.
 
@@ -200,9 +215,11 @@ You can access the application via [this link](https://smitdcatchy.github.io/war
   
 </details>
 
+---
 <details>
   <summary>Special Fighter Roles</summary>
 
+---
   A fighter with the Leader role should have the Hero runemark.
 
   A fighter with the Ally, Beast, Hero, Monster and Thrall roles should have a runemark representing their role.
@@ -214,3 +231,26 @@ You can access the application via [this link](https://smitdcatchy.github.io/war
   ![fighter with abilities](guide-assets/guide-image-0051.png) ![monster](guide-assets/guide-image-0052.png)
   
 </details>
+
+---
+<details>
+  <summary>Import and export Guide</summary>
+
+---
+  To import a warband you should be on the Main screen, open the screen menu on the top right corner and select the import warband option.
+
+  To export a warband you should be on the Main screen, open the Warband card options on the right end of the card and select the export warband option.
+
+  To import battlegrounds you should be on the Battlegrounds screen, open the screen menu on the top right corner and select the import battlegrounds option.
+
+  To export battlegrounds you should be on the Battlegrounds screen, open the screen menu on the top right corner and select the export battlegrounds option.
+
+  To import fighter types you should be on the Fighter Store screen, open the screen menu on the top right corner and select the import fighter types option.
+
+  To export fighter types you should be on the Fighter Store screen, open the screen menu on the top right corner and select the export fighter types option.
+  
+</details>
+
+---
+
+If you have any questions left follow [this link](https://github.com/SmitdCatchy/warcry-companion/discussions/categories/q-a) and start a discussion about it.
