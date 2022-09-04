@@ -1,3 +1,5 @@
+@import 'globals';
+
 :host {
   display: contents;
 }
@@ -12,4 +14,5 @@ header {
   align-items: center;
   overflow: hidden;
   color: white;
+  box-shadow: $material-shadow;
 }
