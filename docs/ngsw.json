@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1662416327671,
+  "timestamp": 1662417315566,
   "index": "/warcry-companion/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/warcry-companion/favicon.ico",
         "/warcry-companion/index.html",
-        "/warcry-companion/main.6f85682be5463d56.js",
+        "/warcry-companion/main.6bbfc036800a1861.js",
         "/warcry-companion/manifest.webmanifest",
         "/warcry-companion/polyfills.e538943a6ac4b686.js",
         "/warcry-companion/runtime.5ce28f750885b9f5.js",
@@ -96,9 +96,9 @@
     "/warcry-companion/assets/runemarks/fighter-state-ready.svg": "f5f7d225bc5708d36f9ae1a2cbd9925589df5ae7",
     "/warcry-companion/assets/runemarks/fighter-state-wait.svg": "ec1f10dabe7329a3f8c97320b23edcc5bc3a1383",
     "/warcry-companion/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/warcry-companion/index.html": "101a3fa3710983f4f8468ed0ee82c7ebd1f69f23",
-    "/warcry-companion/main.6f85682be5463d56.js": "89431198fbb95c9776bf655e6131ab276ecd5788",
-    "/warcry-companion/manifest.webmanifest": "7868763a6f0dc53148c02ce04e723a5560c86d89",
+    "/warcry-companion/index.html": "c66cc08764b70ab320efcb59356f01e436708bb6",
+    "/warcry-companion/main.6bbfc036800a1861.js": "baf782c85179925917f0c03eb67bad5321a87958",
+    "/warcry-companion/manifest.webmanifest": "deccd4abce691c5aaf74af23e874585331c96bcf",
     "/warcry-companion/polyfills.e538943a6ac4b686.js": "a45d0cb659c9114cc226ab3493826c8eb211acea",
     "/warcry-companion/runtime.5ce28f750885b9f5.js": "c4c1ecee148509636ce95c61abc870d6a59ca2cb",
     "/warcry-companion/styles.e3b83fe2620d035d.css": "dfa0cd68433096ddb058ef0d97dd1573577d31da"
