@@ -76,20 +76,14 @@ export class AppComponent implements OnDestroy {
         this.dialog
           .open(ConfirmDialogComponent, {
             data: {
-              question: this.translateService.instant(
-                'pwa.update'
-              )
+              question: this.translateService.instant('pwa.update')
             },
             closeOnNavigation: false
           })
           .afterClosed()
           .subscribe((decision) => {
             if (decision) {
-              this._subscriptions.add(
-                from(this.updates.activateUpdate()).subscribe(() =>
-                  document.location.reload()
-                )
-              );
+              document.location.reload();
             }
           });
       })

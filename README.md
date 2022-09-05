@@ -38,7 +38,11 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
-### 2.2.2 - 2022.09.03
+### 2.2.3 - 2022.09.06
+
+Fix: pwa update dialog.
+
+### 2.2.2 - 2022.09.05
 
 Feature: added pwa shorcuts and update.
 
