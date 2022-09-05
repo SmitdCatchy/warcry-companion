@@ -252,5 +252,34 @@ You can access the application via [this link](https://smitdcatchy.github.io/war
 </details>
 
 ---
+<details>
+  <summary>Install Guide</summary>
+
+---
+  If you want to install the app on your devices follow the following instructions:
+
+#### On Computer
+
+1. On your computer, open Chrome.
+2. Go to the app using [this link](https://smitdcatchy.github.io/warcry-companion/).
+3. At the top right of the address bar, click Install ![install icon](src/assets/pwa/pwa.png).
+4. Follow the onscreen instructions to install the PWA.
+
+#### On Android
+
+1. On your Android device, open Chrome.
+2. Go to the app using [this link](https://smitdcatchy.github.io/warcry-companion/).
+3. Tap Install.
+4. Follow the on-screen instructions.
+
+#### Alternative method on Android
+
+1. On your Android device, open Chrome.
+2. Go to the app using [this link](https://smitdcatchy.github.io/warcry-companion/).
+3. In the browser options menu tap on Add to Home Screen.
+  
+</details>
+
+---
 
 If you have any questions left follow [this link](https://github.com/SmitdCatchy/warcry-companion/discussions/categories/q-a) and start a discussion about it.

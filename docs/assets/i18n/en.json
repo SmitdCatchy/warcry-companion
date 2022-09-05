@@ -404,5 +404,8 @@
     "failed": {
       "type": "The import failed beacuse an incorrect file was selected."
     }
+  },
+  "pwa": {
+    "update": "There is a new available update. Do you want to apply it?"
   }
 }
