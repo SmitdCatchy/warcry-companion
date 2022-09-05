@@ -38,6 +38,10 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 2.2.2 - 2022.09.03
+
+Feature: added pwa shorcuts and update.
+
 ### 2.2.1 - 2022.09.03
 
 Feature: added a guide for the app.

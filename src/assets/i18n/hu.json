@@ -404,5 +404,8 @@
     "failed": {
       "type": "Az importálás meghiúsult, mert egy helytelen fájl lett kiválasztva."
     }
+  },
+  "pwa": {
+    "update": "Új frissítés elérhető. Szeretnéd alkalmazni?"
   }
 }
