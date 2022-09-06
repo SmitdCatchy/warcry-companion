@@ -8,7 +8,7 @@ import { Slider } from './app-routing.animation';
 import { Color } from './core/enums/color.enum';
 import { TranslationService } from './core/services/translation.service';
 import { MatDialog } from '@angular/material/dialog';
-import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { SwUpdate } from '@angular/service-worker';
 import { filter, from, Subscription } from 'rxjs';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -74,8 +74,7 @@ export class AppComponent implements OnDestroy {
     this._subscriptions.add(
       this.updates.versionUpdates
         .pipe(filter((event) => event.type === 'VERSION_READY'))
-        .subscribe((event) => {
-          console.log('event', event);
+        .subscribe(() => {
           this.dialog
             .open(ConfirmDialogComponent, {
               data: {
@@ -88,7 +87,6 @@ export class AppComponent implements OnDestroy {
               if (decision) {
                 this._subscriptions.add(
                   from(this.updates.activateUpdate()).subscribe((update) => {
-                    console.log('update',update);
                     document.location.reload();
                   })
                 );
