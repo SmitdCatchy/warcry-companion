@@ -8,8 +8,8 @@ import { Slider } from './app-routing.animation';
 import { Color } from './core/enums/color.enum';
 import { TranslationService } from './core/services/translation.service';
 import { MatDialog } from '@angular/material/dialog';
-import { SwUpdate } from '@angular/service-worker';
-import { from, Subscription } from 'rxjs';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { filter, from, Subscription } from 'rxjs';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
@@ -72,21 +72,29 @@ export class AppComponent implements OnDestroy {
       }
     };
     this._subscriptions.add(
-      this.updates.versionUpdates.subscribe((event) => {
-        this.dialog
-          .open(ConfirmDialogComponent, {
-            data: {
-              question: this.translateService.instant('pwa.update')
-            },
-            closeOnNavigation: false
-          })
-          .afterClosed()
-          .subscribe((decision) => {
-            if (decision) {
-              document.location.reload();
-            }
-          });
-      })
+      this.updates.versionUpdates
+        .pipe(filter((event) => event.type === 'VERSION_READY'))
+        .subscribe((event) => {
+          console.log('event', event);
+          this.dialog
+            .open(ConfirmDialogComponent, {
+              data: {
+                question: this.translateService.instant('pwa.update')
+              },
+              closeOnNavigation: false
+            })
+            .afterClosed()
+            .subscribe((decision) => {
+              if (decision) {
+                this._subscriptions.add(
+                  from(this.updates.activateUpdate()).subscribe((update) => {
+                    console.log('update',update);
+                    document.location.reload();
+                  })
+                );
+              }
+            });
+        })
     );
   }
 
