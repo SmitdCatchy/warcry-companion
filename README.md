@@ -1,6 +1,6 @@
 <h1><img align="center" src="https://smitdcatchy.github.io/warcry-companion/assets/icons/icon-72x72.png"> Warcry Companion</h1>
 
-This project was created to give an easy to use companion application to play Warcry. I hope it will be your go to warband manager and will be an invaluable asset during games to keep track of the fighters and winning conditions.
+This project was created to give an easy to use companion application to play Warcry. I hope it will be your go to warband manager and will be an invaluable asset during games to keep track of the fighters and win conditions.
 
 You can access the application via [this link](https://smitdcatchy.github.io/warcry-companion/).
 
@@ -8,21 +8,21 @@ For a guide on how to use the app click on [this link](https://github.com/SmitdC
 
 ## Ideas and Features
 
-If you have ideas of features that would improve the application do not keep it in!
+If you have any ideas of features that could improve the application feel free to share!
 
 Discuss it with other users following [this link](https://github.com/SmitdCatchy/warcry-companion/discussions), or if you are pretty sure that your idea is solid you can create a request on [this link](https://github.com/SmitdCatchy/warcry-companion/issues/new) and create a new issue with your feature as the title and with the "feature request" label selected on the right. Please describe the feature as detailed as you can in the comment section.
 
-It is one of the main principles that the application does not contain any assets that could cause copyright infringement so please do not create any requests about adding runemark icons or default rules and keywords.
+One of the main principles of this project is for the application to avoid containing any assets that could cause copyright infringement. So please do not create any requests about adding runemark icons or default rules and keywords.
 
 ## Language support
 
-If your language is not supported do not worry. You can help to add it to the list of supported languages by the application!
+If your language is not supported do not worry. You can help to add it to the list of supported languages!
 
 Simply click on [this link](https://github.com/SmitdCatchy/warcry-companion/issues/new) and create a new issue with your language as the title and with the "language" label selected on the right. After that you will be contacted with the required steps to add your language to this application.
 
 ## Bugs
 
-If you managed to find a bug please create a bug ticket on [this link](https://github.com/SmitdCatchy/warcry-companion/issues/new) and create a new issue with a short description as the title and with the "bug" label selected on the right. Please describe the bug as detailed as you can in the comment section.
+If you happen to find a bug please create a bug ticket on [this link](https://github.com/SmitdCatchy/warcry-companion/issues/new) and create a new issue with a short description as the title and with the "bug" label selected on the right. Please describe the bug as detailed as you can in the comment section.
 
 ## Development server
 
@@ -37,6 +37,24 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 Run `ng deploy` to build the project and create the `docs/` directory that is the release directory for GitHub Pages.
 
 ## Versions
+
+### 2.2.4 - 2022.09.07
+
+<details>
+  <summary>Features</summary>
+
+- updated the guide.
+- fighter groups are displayed as columns on wide screens.
+
+</details
+
+<details>
+  <summary>Fixes</summary>
+
+- navigating back from an initially loaded screen will always go to Main screen.
+- renown no longer visible during non campaign battles.
+
+</details
 
 ### 2.2.3 - 2022.09.06
 
@@ -54,7 +72,7 @@ Feature: added a guide for the app.
   <summary>Fixes</summary>
 
 - removed unnecessary loading spinners.
-- fixed single fighter group top spacing in the Battle phase
+- fixed single fighter group top spacing in the Battle phase.
 
 </details>
 

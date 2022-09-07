@@ -18,7 +18,7 @@ h2 {
   box-sizing: border-box;
   position: relative;
 
-  @include laptop{
+  @include laptop {
     height: calc(100% - 80px);
   }
 }
@@ -30,7 +30,6 @@ h2 {
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
-
 
   & > * {
     width: 100%;
@@ -213,12 +212,12 @@ h2 {
 }
 
 @include tablet {
-  .prepare{
+  .prepare {
     padding: 0 24px 24px;
   }
 
   .battle {
-    padding: 8px 24px 24px;
+    padding: 0 24px 24px;
   }
 }
 
@@ -237,8 +236,9 @@ h2 {
   }
 }
 
-@include custom(1164px) {
-  .prepare {
+@include custom(1152px) {
+  .prepare,
+  .battle {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     column-gap: 24px;
@@ -258,6 +258,16 @@ h2 {
     .wild-container {
       grid-column-start: 2;
       grid-column-end: 3;
+    }
+  }
+
+  .battle {
+    .wild-container {
+      grid-column-start: 1;
+      grid-column-end: 4;
+      .fighters-list {
+        column-gap: 24px;
+      }
     }
   }
 }

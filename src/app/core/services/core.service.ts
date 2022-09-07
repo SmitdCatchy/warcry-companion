@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { Location } from '@angular/common';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,8 @@ export class CoreService {
     private readonly domSanitizer: DomSanitizer,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService,
-    private readonly location: Location
+    private readonly location: Location,
+    private readonly router: Router
   ) {
     this._themeSubject = new BehaviorSubject<Theme>(
       CoreService.getLocalStorage(LocalStorageKey.Theme, Theme.Dark) as Theme
@@ -182,6 +184,10 @@ export class CoreService {
   }
 
   public back(): void {
-    this.location.back();
+    if (history.state.navigationId < 2) {
+      this.router.navigateByUrl('/');
+    } else {
+      this.location.back();
+    }
   }
 }

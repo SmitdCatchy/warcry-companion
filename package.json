@@ -1,6 +1,6 @@
 {
   "name": "warcry-companion",
-  "version": "0.0.0",
+  "version": "2.2.4",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
