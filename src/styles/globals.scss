@@ -544,6 +544,9 @@ body .mat-button-base {
     font-size: 24px;
     font-weight: bold;
     justify-content: center;
+    span {
+      white-space: nowrap;
+    }
   }
 }
 

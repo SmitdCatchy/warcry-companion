@@ -38,6 +38,10 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 2.2.5 - 2022.09.08
+
+Fix: handle webkit style errors.
+
 ### 2.2.4 - 2022.09.07
 
 <details>
