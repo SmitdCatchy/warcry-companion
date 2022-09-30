@@ -25,7 +25,7 @@
       <div class="color-sample" (click)="colorSelect.open()" [ngStyle]="{'background-color': selectedColor}"></div>
     </div>
   </form>
-  <ng-container  *ngIf="runningBattle">
+  <ng-container *ngIf="runningBattle">
     <p>{{'battle-dialog.running' | translate}}</p>
     <button mat-flat-button color="accent" (click)="acceptDialog(false)"
       [disabled]="battleForm.invalid">{{'battle-dialog.action.continue'  | translate}}</button>

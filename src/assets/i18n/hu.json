@@ -231,7 +231,7 @@
     }
   },
   "battle-page": {
-    "quick": "Gyors csata",
+    "quick": "Gyors csapat",
     "menu": {
       "warband": "Frakció képességek",
       "fighter": "Harcos hozzáadása",
@@ -239,7 +239,11 @@
       "turn": "Kör vége",
       "end": "Csata vége",
       "abort": "Csata elvetése",
-      "wild": "Vad hozzáadása"
+      "wild": "Vad hozzáadása",
+      "multiplayer": "Online Csaták",
+      "connect": "Csatlakozás egy csatához",
+      "disconnect": "Csata elhagyása",
+      "token": "Csata kód másolása"
     },
     "groups": "Csapathoz rendelés",
     "modifiers": "Módosítók",
@@ -269,6 +273,7 @@
     "dialog": {
       "remove-wild": "Biztosan el akarod távolítani a vadat?",
       "abort": "Biztosan el akarod vetni a csatát?",
+      "begin": "Biztosan készen állsz a csatára? Nem érted el a pont limitet {{size}}/{{limit}}.",
       "ready": "Biztosan be akarod fejezni a kört? Az alábbi harcosaidat még aktiválhatnád:"
     }
   },
@@ -276,7 +281,8 @@
     "title": "Felkészülés a csatára",
     "running": "Egy korábbi csata nem ért véget.",
     "form": {
-      "campaign": "Kampány csata"
+      "campaign": "Kampány csata",
+      "multiplayer": "Online csata"
     },
     "action": {
       "start": "Új csata",
@@ -407,5 +413,31 @@
   },
   "pwa": {
     "update": "Új frissítés elérhető. Szeretnéd alkalmazni?"
+  },
+  "multiplayer": {
+    "action": {
+      "token": "Csata kód kimásolva.."
+    },
+    "warbands": "Csapatok",
+    "dialog": {
+      "peer-joined": "{{peer}} csatlakozott a csatához.",
+      "peer-disconnected": "{{peer}} elhagyta a csatát.",
+      "disconnected": "Elhagytad a csatát.",
+      "joined": "Csatlakoztál a csatához {{peer}} ellen."
+    },
+    "error": {
+      "unable": "A csatához nem lehet csatlakozni."
+    }
+  },
+  "connect-dialog": {
+    "title": "Csatlakozás csatához",
+    "form": {
+      "session-token": {
+        "label": "Csata kód"
+      }
+    },
+    "action": {
+      "join": "Csatlakozás"
+    }
   }
 }

@@ -135,6 +135,11 @@ html {
   }
   .bottom-action-bar {
     background-color: $grey-dark;
+
+    .mat-raised-button.mat-button-disabled {
+      background-color: $grey;
+      color: $grey-light;
+    }
   }
   .mat-simple-snackbar {
     color: $white;
@@ -159,6 +164,10 @@ html {
     }
     .bottom-action-bar {
       background-color: $grey-light;
+      .mat-raised-button.mat-button-disabled {
+        background-color: $grey-light;
+        color: $grey;
+      }
     }
     .mat-simple-snackbar,
     .mat-tab-label-content {

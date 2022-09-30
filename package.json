@@ -1,6 +1,6 @@
 {
   "name": "warcry-companion",
-  "version": "2.2.4",
+  "version": "3.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -28,6 +28,7 @@
     "@ngx-translate/http-loader": "^7.0.0",
     "lodash.clonedeep": "^4.5.0",
     "ng-particles": "^3.1.4",
+    "peerjs": "^1.4.7",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "tsparticles": "^2.1.4",

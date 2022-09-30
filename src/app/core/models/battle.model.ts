@@ -13,7 +13,7 @@ export interface Battle {
   battleState: BattleState;
   turn: number;
   victoryPoints: number;
-  groupless?: boolean;
+  multiplayer?: boolean;
   campaign: boolean;
   battlegrounds?: Battleground[];
 }

@@ -181,6 +181,10 @@ h2 {
       }
     }
   }
+
+  textarea {
+    color: $black !important;
+  }
 }
 
 .roster,
@@ -209,6 +213,47 @@ h2 {
   display: grid;
   grid-template-rows: min-content 1fr;
   min-width: 0;
+}
+
+h3 {
+  padding: 0 16px;
+  text-align: center;
+  margin: 0;
+}
+
+.peer {
+  min-height: 48px;
+  padding: 0 8px 0 16px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+
+  .warband-name {
+    margin-right: 12px;
+  }
+
+  &.iconed {
+    padding-left: 60px;
+    position: relative;
+
+    .warband-icon {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 48px;
+      height: 100%;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+  }
+
+  mat-icon {
+    flex-shrink: 0;
+  }
 }
 
 @include tablet {

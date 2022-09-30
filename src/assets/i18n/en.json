@@ -231,7 +231,7 @@
     }
   },
   "battle-page": {
-    "quick": "Quick Battle",
+    "quick": "Quick Warband",
     "menu": {
       "warband": "Warband Abilities",
       "fighter": "Add Fighter to Roster",
@@ -239,7 +239,11 @@
       "turn": "End Turn",
       "end": "End Battle",
       "abort": "Abort Battle",
-      "wild": "Add Wild Fighter"
+      "wild": "Add Wild Fighter",
+      "multiplayer": "Online Battles",
+      "connect": "Join a Running Battle",
+      "disconnect": "Leave the Running Battle",
+      "token": "Copy Battle Token"
     },
     "groups": "Assign Group",
     "modifiers": "Modifiers",
@@ -269,6 +273,7 @@
     "dialog": {
       "remove-wild": "Are you sure you want to remove this wild fighter?",
       "abort": "Are you sure you want to abort this battle?",
+      "begin": "Are you sure you are ready for the battle? You have not reached the point limit {{size}}/{{limit}}.",
       "ready": "Are you sure you want to end this turn? The following fighters are still waiting for activation:"
     }
   },
@@ -276,7 +281,8 @@
     "title": "Prepare for Battle",
     "running": "A previous battle has not been finished.",
     "form": {
-      "campaign": "Campaign Battle"
+      "campaign": "Campaign Battle",
+      "multiplayer": "Online Battle"
     },
     "action": {
       "start": "New Battle",
@@ -326,7 +332,7 @@
     "tie": "tied",
     "battle": "battle",
     "campaign": "campaign battle",
-    "enemy": " against the {{enemy}}",
+    "enemy": " against {{enemy}}",
     "casualities": "Casualities",
     "label": {
       "victory": "Victorius Battle",
@@ -407,5 +413,31 @@
   },
   "pwa": {
     "update": "There is a new available update. Do you want to apply it?"
+  },
+  "multiplayer": {
+    "action": {
+      "token": "Copied Battle Token."
+    },
+    "warbands": "Warbands",
+    "dialog": {
+      "peer-joined": "{{peer}} joined the battle.",
+      "peer-disconnected": "{{peer}} left the battle.",
+      "disconnected": "You left battle.",
+      "joined": "You joined the battle against {{peer}}."
+    },
+    "error": {
+      "unable": "Unable to join the battle."
+    }
+  },
+  "connect-dialog": {
+    "title": "Join Battle",
+    "form": {
+      "session-token": {
+        "label": "Battle Token"
+      }
+    },
+    "action": {
+      "join": "Join"
+    }
   }
 }

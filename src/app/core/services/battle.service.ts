@@ -23,12 +23,14 @@ import { FighterDialogComponent } from 'src/app/shared/components/fighter-dialog
 import { BattleEndDialogComponent } from 'src/app/shared/components/battle-end-dialog/battle-end-dialog.component';
 import { EncampmentState } from '../enums/encampment-state.enum';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BattleService {
   public battle: Battle;
+  public battleSubject: Subject<any>;
 
   constructor(
     private readonly core: CoreService,
@@ -69,6 +71,7 @@ export class BattleService {
         })
       )
     );
+    this.battleSubject = new Subject();
   }
 
   public prepareBattle(warband?: Warband): void {
@@ -88,8 +91,8 @@ export class BattleService {
             this.battle = battleConfiguration.battle;
             this.saveBattle();
           }
-          this.router.navigate(['battle']);
           this.core.setColor(this.battle.warband.color);
+          this.router.navigate(['battle']);
         }
       });
   }
@@ -104,7 +107,7 @@ export class BattleService {
   public clearBattle(): void {
     this.battle = {
       warband: {
-        name: 'battle-page.quick',
+        name: this.translateService.instant('battle-page.quick'),
         faction: '',
         alliance: '',
         color: Color.grey,
@@ -199,16 +202,26 @@ export class BattleService {
       .afterClosed()
       .subscribe((fighter: Fighter) => {
         if (fighter) {
-          this.battle.wild.push(
-            BattleService.createFighterReference(
-              fighter,
-              this.battle.wild.length
-            )
+          const wildFighter = BattleService.createFighterReference(
+            fighter,
+            this.battle.wild.length
           );
-          this.saveBattle();
-          cb();
+          this.addWildFighterEffect(wildFighter, cb);
+          this.battleSubject.next({
+            changed: 'wild-fighter',
+            wildFighter
+          });
         }
       });
+  }
+
+  public addWildFighterEffect(
+    wildFighter: FighterReference,
+    cb: () => any = () => {}
+  ): void {
+    this.battle.wild.push(wildFighter);
+    this.saveBattle();
+    cb();
   }
 
   public removeWildFighter(index: number, cb: () => any = () => {}): void {
@@ -225,11 +238,22 @@ export class BattleService {
       .afterClosed()
       .subscribe((decision) => {
         if (decision) {
-          this.battle.wild.splice(index, 1);
-          this.saveBattle();
-          cb();
+          this.removeWildFighterEffect(index, cb);
+          this.battleSubject.next({
+            changed: 'wild-fighter-remove',
+            wildFighter: index
+          });
         }
       });
+  }
+
+  public removeWildFighterEffect(
+    index: number,
+    cb: () => any = () => {}
+  ): void {
+    this.battle.wild.splice(index, 1);
+    this.saveBattle();
+    cb();
   }
 
   public static createFighterReference(
@@ -316,15 +340,27 @@ export class BattleService {
     };
   }
 
-  public useRenown(fighter: FighterReference, renownIndex: number): void {
+  public useRenown(fighter: FighterReference, renownIndex: number, group: string, index: number): void {
     fighter.availableRenown![renownIndex] =
       !fighter.availableRenown![renownIndex];
     this.saveBattle();
+    this.battleSubject.next({
+      changed: 'fighter',
+      fighter,
+      group,
+      index
+    });
   }
 
-  public toggleTreasure(fighter: FighterReference): void {
+  public toggleTreasure(fighter: FighterReference, group: string, index: number): void {
     fighter.carryingTreasure = !fighter.carryingTreasure;
     this.saveBattle();
+    this.battleSubject.next({
+      changed: 'fighter',
+      fighter,
+      group,
+      index
+    });
   }
 
   public get allFighters(): FighterReference[] {
@@ -369,30 +405,39 @@ export class BattleService {
         .afterClosed()
         .subscribe((decision) => {
           if (decision) {
-            this.readyFighters();
-            this.battle.turn++;
-            this.saveBattle();
-            this.turnEndPopup();
-            cb();
+            this.endTurnEffect(cb());
+            this.battleSubject.next({
+              changed: 'end-turn'
+            });
           }
         });
     } else {
-      this.readyFighters();
-      this.battle.turn++;
-      this.saveBattle();
-      this.turnEndPopup();
-      cb();
+      this.endTurnEffect(cb());
+      this.battleSubject.next({
+        changed: 'end-turn'
+      });
     }
+  }
+
+  public endTurnEffect(cb: () => any = () => {}): void {
+    this.readyFighters();
+    this.battle.turn++;
+    this.saveBattle();
+    this.turnEndPopup();
+    cb();
   }
 
   private turnEndPopup(): void {
     this.popup.open(
-      `${this.translateService.instant('battle-page.battle.turn', {turn: this.battle.turn})}`,
+      `${this.translateService.instant('battle-page.battle.turn', {
+        turn: this.battle.turn
+      })}`,
       undefined,
       {
         horizontalPosition: 'center',
         verticalPosition: 'top',
-        duration: 1000
+        duration: 1000,
+        panelClass: 'turn-counter-snackbar'
       }
     );
   }
@@ -483,7 +528,34 @@ export class BattleService {
   }
 
   public beginBattle(): void {
-    this.battle.battleState = BattleState.Battle;
-    this.saveBattle();
+    if (this.warbandSize < this.battle.warband.campaign.limit) {
+      this.dialog
+        .open(ConfirmDialogComponent, {
+          data: {
+            question: this.translateService.instant(
+              'battle-service.dialog.begin',
+              {
+                limit: this.battle.warband.campaign.limit,
+                size: this.warbandSize
+              }
+            ),
+            yesColor: 'accent'
+          },
+          closeOnNavigation: false
+        })
+        .afterClosed()
+        .subscribe((result) => {
+          if (result) {
+            this.battle.battleState = BattleState.Battle;
+            this.saveBattle();
+            this.battleSubject.next({
+              changed: 'begin'
+            });
+          }
+        });
+    } else {
+      this.battle.battleState = BattleState.Battle;
+      this.saveBattle();
+    }
   }
 }

@@ -22,6 +22,7 @@ import { ModifierCardComponent } from './components/modifier-card/modifier-card.
 import { ModifierDialogComponent } from './components/modifier-dialog/modifier-dialog.component';
 import { DividerExpansionComponent } from './components/divider-expansion/divider-expansion.component';
 import { FighterStoreDialogComponent } from './components/fighter-store-dialog/fighter-store-dialog.component';
+import { ConnectDialogComponent } from './components/connect-dialog/connect-dialog.component';
 
 const declarationsAndExports = [
   HeaderComponent,
@@ -42,7 +43,8 @@ const declarationsAndExports = [
   ModifierCardComponent,
   ModifierDialogComponent,
   DividerExpansionComponent,
-  FighterStoreDialogComponent
+  FighterStoreDialogComponent,
+  ConnectDialogComponent
 ];
 const importsAndExports = [MaterialModule];
 

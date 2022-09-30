@@ -281,5 +281,20 @@ You can access the application via [this link](https://smitdcatchy.github.io/war
 </details>
 
 ---
+<details>
+  <summary>Online Battles</summary>
+
+---
+  To host an online battle you should be on the Battle screen in the Battle phase, open the screen menu at the top right corner, select the online battles submenu or the second button from the right on the bottom action bar and select the copy battle token option. Share this token with your opponents.
+
+  To join an online battle you should be on the Battle screen in the Battle phase, open the screen menu at the top right corner, select the online battles submenu or the second button from the right on the bottom action bar and select the join a running battle option. If you select to join a running battle the Join Battle dialog will show up. Now you will need to fill in the form with your opponent's Battle token and press join.
+
+  To check other warbands in the online battle you should be on the Battle screen in the Battle phase and hosting or joined an online battle, open the screen menu at the top right corner, select the online battles submenu or the second button from the right on the bottom action bar and select the desired warband.
+
+  To leave an online battle you should be on the Battle screen in the Battle phase and hosting or joined an online battle, open the screen menu at the top right corner, select the online battles submenu or the second button from the right on the bottom action bar and select leave the running battle option.
+
+</details>
+
+---
 
 If you have any questions left follow [this link](https://github.com/SmitdCatchy/warcry-companion/discussions/categories/q-a) and start a discussion about it.

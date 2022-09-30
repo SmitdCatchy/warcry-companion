@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { BattleState } from 'src/app/core/enums/battle-state.enum';
 import { Color } from 'src/app/core/enums/color.enum';
 import { Battle } from 'src/app/core/models/battle.model';
@@ -32,17 +33,21 @@ export class BattleDialogComponent {
       battle: Battle;
       warband: Warband;
     },
-    private battlegroundService: BattlegroundsService
+    private battlegroundService: BattlegroundsService,
+    private readonly translateService: TranslateService
   ) {
     this.warbandForm = new FormGroup({
       name: new FormControl(
-        this.data.warband ? this.data.warband.name : 'battle-page.quick'
+        this.data.warband ? this.data.warband.name : this.translateService.instant('battle-page.quick')
       ),
       alliance: new FormControl(
         this.data.warband ? this.data.warband.alliance : ''
       ),
+      icon: new FormControl(
+        this.data.warband ? this.data.warband.icon : ''
+      ),
       faction: new FormControl(
-        this.data.warband ? this.data.warband.faction : 'common.unaligned'
+        this.data.warband ? this.data.warband.faction : this.translateService.instant('common.unaligned')
       ),
       fighters: new FormControl(
         this.data.warband ? this.data.warband.fighters : []
@@ -63,7 +68,8 @@ export class BattleDialogComponent {
               glory: 0,
               notes: ''
             }
-      )
+      ),
+      multiplayer: new FormControl(false)
     });
     this.battleForm = new FormGroup({
       roster: new FormControl(
@@ -78,7 +84,7 @@ export class BattleDialogComponent {
       battleState: new FormControl(BattleState.Roster),
       turn: new FormControl(1),
       victoryPoints: new FormControl(0),
-      groupless: new FormControl(false),
+      multiplayer: new FormControl(false),
       campaign: new FormControl(false),
       battlegrounds: new FormControl([])
     });

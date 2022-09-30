@@ -131,7 +131,7 @@ export class CoreService {
 
   public handleFileUpload(
     loaded: (result: any) => any = () => {},
-    type: 'json' | 'image' = 'json',
+    type: 'json' | 'image' | 'other' = 'json',
     jsonTypeCheck?: string
   ): void {
     const upload: HTMLInputElement = document.createElement('input');
@@ -175,6 +175,12 @@ export class CoreService {
             loaded((reader as any).result as string);
           };
           reader.readAsDataURL((upload as any).files[0]);
+          break;
+        default:
+          reader.onload = () => {
+            loaded((reader as any).result as string);
+          };
+          reader.readAsText((upload as any).files[0]);
           break;
       }
     };

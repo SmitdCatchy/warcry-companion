@@ -38,11 +38,17 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
-### 2.2.5 - 2022.09.08
+### 3.0.0 Chosen - 2022.09.30.
+
+Feature added multiplayer battles.
+
+Fix: color inconsistencies.
+
+### 2.2.5 - 2022.09.08.
 
 Fix: handle webkit style errors.
 
-### 2.2.4 - 2022.09.07
+### 2.2.4 - 2022.09.07.
 
 <details>
   <summary>Features</summary>
@@ -60,15 +66,15 @@ Fix: handle webkit style errors.
 
 </details
 
-### 2.2.3 - 2022.09.06
+### 2.2.3 - 2022.09.06.
 
 Fix: pwa update dialog.
 
-### 2.2.2 - 2022.09.05
+### 2.2.2 - 2022.09.05.
 
 Feature: added pwa shorcuts and update.
 
-### 2.2.1 - 2022.09.03
+### 2.2.1 - 2022.09.03.
 
 Feature: added a guide for the app.
 
@@ -80,7 +86,7 @@ Feature: added a guide for the app.
 
 </details>
 
-### 2.2.0 - 2022.09.03
+### 2.2.0 - 2022.09.03.
 
 Feature: you can update all fighters in all the warbands with all the fighter types in the Fighter Store.
 
@@ -97,7 +103,7 @@ Feature: you can update all fighters in all the warbands with all the fighter ty
 
 </details>
 
-### 2.1.1 - 2022.09.01
+### 2.1.1 - 2022.09.01.
 
 <details>
   <summary>Fixes</summary>
@@ -107,7 +113,7 @@ Feature: you can update all fighters in all the warbands with all the fighter ty
 
 </details>
 
-### 2.1.0 - 2022.09.01
+### 2.1.0 - 2022.09.01.
 
 <details>
   <summary>Features</summary>
@@ -117,7 +123,7 @@ Feature: you can update all fighters in all the warbands with all the fighter ty
 
 </details>
 
-### 2.0.0 Berzerker - 2022.08.31
+### 2.0.0 Berzerker - 2022.08.31.
 
 <details>
   <summary>Features</summary>
@@ -138,11 +144,11 @@ Feature: you can update all fighters in all the warbands with all the fighter ty
 
 </details>
 
-### 1.2.2 - 2022.08.29
+### 1.2.2 - 2022.08.29.
 
 Fix: fighters with the Monster role can have modifiers.
 
-### 1.2.1 - 2022.08.28
+### 1.2.1 - 2022.08.28.
 
 <details>
   <summary>Features</summary>
@@ -161,7 +167,7 @@ Fix: fighters with the Monster role can have modifiers.
 
 </details>
 
-### 1.2.0 - 2022.08.28
+### 1.2.0 - 2022.08.28.
 
 <details>
   <summary>Features</summary>
@@ -184,7 +190,7 @@ Fix: fighters with the Monster role can have modifiers.
 
 </details>
 
-### 1.1.0 - 2022.08.25
+### 1.1.0 - 2022.08.25.
 
 <details>
   <summary>Features</summary>
@@ -208,7 +214,7 @@ Fix: fighters with the Monster role can have modifiers.
 
 </details>
 
-### 1.0.0 Auric - 2022.08.13
+### 1.0.0 Auric - 2022.08.13.
 
 <details>
   <summary>Features</summary>

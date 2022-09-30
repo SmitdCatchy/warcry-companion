@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { ApplicationRef, Component, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { loadFull } from 'tsparticles';
 import { Engine, MoveDirection, OutMode } from 'tsparticles-engine';
@@ -8,8 +8,8 @@ import { Slider } from './app-routing.animation';
 import { Color } from './core/enums/color.enum';
 import { TranslationService } from './core/services/translation.service';
 import { MatDialog } from '@angular/material/dialog';
-import { SwUpdate } from '@angular/service-worker';
-import { filter, from, Subscription } from 'rxjs';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { concat, filter, first, from, interval, Subscription } from 'rxjs';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
@@ -26,7 +26,8 @@ export class AppComponent implements OnDestroy {
     private readonly translationService: TranslationService,
     private readonly translateService: TranslateService,
     private readonly dialog: MatDialog,
-    private readonly updates: SwUpdate
+    private readonly updates: SwUpdate,
+    private appRef: ApplicationRef
   ) {
     this.particlesOptions = {
       fpsLimit: 120,
@@ -71,29 +72,7 @@ export class AppComponent implements OnDestroy {
         }
       }
     };
-    this._subscriptions.add(
-      this.updates.versionUpdates
-        .pipe(filter((event) => event.type === 'VERSION_READY'))
-        .subscribe(() => {
-          this.dialog
-            .open(ConfirmDialogComponent, {
-              data: {
-                question: this.translateService.instant('pwa.update')
-              },
-              closeOnNavigation: false
-            })
-            .afterClosed()
-            .subscribe((decision) => {
-              if (decision) {
-                this._subscriptions.add(
-                  from(this.updates.activateUpdate()).subscribe((update) => {
-                    document.location.reload();
-                  })
-                );
-              }
-            });
-        })
-    );
+    this.updateClient();
   }
 
   ngOnDestroy(): void {
@@ -109,6 +88,42 @@ export class AppComponent implements OnDestroy {
       outlet &&
       outlet.activatedRouteData &&
       outlet.activatedRouteData['animation']
+    );
+  }
+
+  private updateClient(): void {
+    if (!this.updates.isEnabled) {
+      console.error('Not Enabled');
+      return;
+    }
+    this._subscriptions.add(
+      this.updates.versionUpdates
+        .pipe(
+          filter(
+            (evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'
+          )
+        )
+        .subscribe((event) => {
+          this._subscriptions.add(
+            this.dialog
+              .open(ConfirmDialogComponent, {
+                data: {
+                  question: this.translateService.instant('pwa.update')
+                },
+                closeOnNavigation: false
+              })
+              .afterClosed()
+              .subscribe((decision) => {
+                if (decision) {
+                  this._subscriptions.add(
+                    from(this.updates.activateUpdate()).subscribe((update) => {
+                      document.location.reload();
+                    })
+                  );
+                }
+              })
+          );
+        })
     );
   }
 }

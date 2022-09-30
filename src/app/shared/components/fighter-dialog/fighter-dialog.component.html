@@ -1,7 +1,7 @@
 <h2>{{(data.edit ? 'fighter-dialog.title.edit' : 'fighter-dialog.title.add') | translate}}</h2>
 <div class="dialog-content">
   <form [formGroup]="fighterForm">
-    <ng-container  *ngIf="!data.storeDialog">
+    <ng-container *ngIf="!data.storeDialog">
       <div class="double icon">
         <smitd-icon-uploader [iconValue]="icon.value" (iconValueChange)="iconValueChange($event)"></smitd-icon-uploader>
         <mat-form-field appearance="fill">
