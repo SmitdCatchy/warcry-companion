@@ -158,6 +158,11 @@
       "damage": "Sebzés",
       "crit": "Kritikus sebzés",
       "min-health": "Minimum élet"
+    },
+    "label": {
+      "injured": "Sérült",
+      "equipped": "Felszerelt",
+      "carrying": "Kincshordozó"
     }
   },
   "fighter-role": {
@@ -243,7 +248,8 @@
       "multiplayer": "Online Csaták",
       "connect": "Csatlakozás egy csatához",
       "disconnect": "Csata elhagyása",
-      "token": "Csata kód másolása"
+      "token": "Csata kód másolása",
+      "aftermath": "Következmény lezárása"
     },
     "groups": "Csapathoz rendelés",
     "modifiers": "Módosítók",
@@ -251,12 +257,16 @@
     "injuries": "Sérülések",
     "trait": "Jellemvonás",
     "renown": "Hírnév",
+    "died": "Harcos eltávolítása a csapatból",
+    "aftermath": "{{outcome}} következménye",
     "group": {
       "roster": "Választható harcosok",
       "dagger": "Tőr",
       "shield": "Pajzs",
       "hammer": "Kalapács",
-      "wild": "Vadak"
+      "wild": "Vadak",
+      "survivors": "Túlélők",
+      "fallen": "Elbukottak"
     },
     "battle": {
       "turn": "{{turn}}. Kör",
@@ -292,6 +302,7 @@
   "battle-end-dialog": {
     "title": "Csata vefejezése",
     "question": "Biztosan befejezed a csatát?",
+    "aftermath": "Biztosan lezárod a csata következményét?",
     "form": {
       "outcome": "Csata ereménye",
       "enemy": "Ellenséges csapat"
@@ -323,7 +334,8 @@
   "modifier-type": {
     "artefact": "Tárgy",
     "injury": "Sérülés",
-    "trait": "Jellemvonás"
+    "trait": "Jellemvonás",
+    "used": "Használt"
   },
   "log": {
     "sentence": "{{date}} dátumon volt egy {{result}} {{campaign}}{{enemy}}.",

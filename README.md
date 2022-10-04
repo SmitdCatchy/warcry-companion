@@ -38,6 +38,24 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 3.1.0 Chosen - 2022.10.04.
+
+<details>
+  <summary>Features</summary>
+
+- added aftermath phase to the battle screen.
+- added labels on the fighter cards if the fighter is injured, has an artefact and or carrying a treasure.
+
+</details
+
+<details>
+  <summary>Fixes</summary>
+
+- multiplayer session disconnections handled.
+- during a multiplayer session fighter cards won't close if they are updated.
+
+</details
+
 ### 3.0.0 Chosen - 2022.09.30.
 
 Feature added multiplayer battles.

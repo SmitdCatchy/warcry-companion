@@ -25,6 +25,9 @@ export class MultiplayerService {
   private _peerState!: PeerState;
   public refreshUi: Subject<null>;
   public disconnectedPeerIndex: Subject<number>;
+  private interval: any;
+  private heartbeatCheck: boolean;
+  private heartbeatLength: number;
 
   constructor(
     private readonly battleService: BattleService,
@@ -34,12 +37,14 @@ export class MultiplayerService {
     private readonly translateService: TranslateService,
     private readonly router: Router
   ) {
+    this.heartbeatLength = 5000;
     this.peers = [];
     this.battleService.battleSubject.subscribe((change) =>
       this.stateChange(change)
     );
     this.refreshUi = new Subject();
     this.disconnectedPeerIndex = new Subject();
+    this.heartbeatCheck = false;
   }
 
   public initializePeer(): void {
@@ -115,6 +120,54 @@ export class MultiplayerService {
               this.broadcast(data as PeerData);
             }
             break;
+          case 'heartbeat':
+            (conn as any).heartbeat = Date.now();
+            this.privateMessage(
+              { peerId: this.peerId, data: { type: 'heartbeat' } },
+              conn.peer
+            );
+            if (!this.interval) {
+              this.interval = setInterval(() => {
+                const checkTimestamp = Date.now();
+                this._connections.forEach((conn) => {
+                  if ((conn as any).heartbeat < checkTimestamp - this.heartbeatLength * 2) {
+                    let peerIndex = this.peers.findIndex(
+                      (peer) => peer.peerId === conn.peer
+                    );
+                    this.disconnectedPeerIndex.next(peerIndex);
+                    if (peerIndex > -1) {
+                      this.dialog.open(ConfirmDialogComponent, {
+                        data: {
+                          confirmation: true,
+                          noLabel: 'common.ok',
+                          question: this.translateService.instant(
+                            'multiplayer.dialog.peer-disconnected',
+                            { peer: this.peers[peerIndex].warband.name }
+                          )
+                        },
+                        closeOnNavigation: false
+                      });
+                      this.peers.splice(peerIndex, 1);
+                      this.broadcast({
+                        peerId: this._peerId,
+                        data: {
+                          type: 'disconnected',
+                          peer: conn.peer
+                        }
+                      });
+                      this.refreshUi.next(null);
+                    }
+                    peerIndex = this._connections.findIndex(
+                      (peer) => peer.peer === conn.peer
+                    );
+                    if (peerIndex > -1) {
+                      this._connections.splice(peerIndex, 1);
+                    }
+                  }
+                });
+              }, this.heartbeatLength + 1000);
+            }
+            break;
           case 'state-change':
             this.handleStateChange(
               (data as PeerData).peerId,
@@ -178,6 +231,7 @@ export class MultiplayerService {
           this.refreshUi.next(null);
         }
       });
+      (conn as any).heartbeat = Date.now();
       this._connections.push(conn);
     });
     this._peer.on('open', (id) => {
@@ -227,6 +281,15 @@ export class MultiplayerService {
           phase: this.battleService.battle.battleState
         }
       });
+      this.interval = setInterval(() => {
+        this.broadcast({ peerId: this.peerId, data: { type: 'heartbeat' } });
+        this.heartbeatCheck = true;
+        setTimeout(() => {
+          if (this.heartbeatCheck) {
+            this.disconnect();
+          }
+        }, 1000);
+      }, this.heartbeatLength);
     });
     connection.on('close', () => {
       this.dialog.open(ConfirmDialogComponent, {
@@ -252,7 +315,7 @@ export class MultiplayerService {
                 noLabel: 'common.ok',
                 question: this.translateService.instant(
                   'multiplayer.dialog.joined',
-                  {peer: (data as PeerData).data.battle.warband.name}
+                  { peer: (data as PeerData).data.battle.warband.name }
                 )
               },
               closeOnNavigation: false
@@ -316,6 +379,9 @@ export class MultiplayerService {
               this.refreshUi.next(null);
             }
             break;
+          case 'heartbeat':
+            this.heartbeatCheck = false;
+            break;
           case 'state-change':
             this.handleStateChange(
               (data as PeerData).peerId,
@@ -369,22 +435,9 @@ export class MultiplayerService {
   }
 
   public disconnect(): void {
+    clearInterval(this.interval);
     this._peer.destroy();
-    this._peer = new Peer({
-      config: {
-        iceServers: [
-          { urls: ['stun:51.15.25.223:3478'] },
-          {
-            urls: ['turn:51.15.25.223:3478'],
-            username: 'warcry',
-            credential: 'companion'
-          }
-        ]
-      }
-    });
-    this.peers = [];
-    this._connections = [];
-    this._peerType = PeerType.Host;
+    this.initializePeer();
     this.refreshUi.next(null);
   }
 
@@ -441,12 +494,26 @@ export class MultiplayerService {
         break;
       case 'fighter':
         if (change.group === 'wild') {
-          this.battleService.battle.wild[change.index] = change.fighter;
+          this.battleService.battle.wild[change.index].carryingTreasure =
+            change.fighter.carryingTreasure;
+          this.battleService.battle.wild[change.index].wounds =
+            change.fighter.wounds;
+          this.battleService.battle.wild[change.index].notes =
+            change.fighter.notes;
+          this.battleService.battle.wild[change.index].state =
+            change.fighter.state;
         } else {
           peerIndex = this.peers.findIndex((peer) => peer.peerId === peerId);
           if (peerIndex > -1) {
-            (this.peers[peerIndex] as any)[change.group][change.index] =
-              change.fighter;
+            (this.peers[peerIndex] as any)[change.group][
+              change.index
+            ].carryingTreasure = change.fighter.carryingTreasure;
+            (this.peers[peerIndex] as any)[change.group][change.index].wounds =
+              change.fighter.wounds;
+            (this.peers[peerIndex] as any)[change.group][change.index].notes =
+              change.fighter.notes;
+            (this.peers[peerIndex] as any)[change.group][change.index].state =
+              change.fighter.state;
           }
         }
 

@@ -16,4 +16,7 @@ export interface Battle {
   multiplayer?: boolean;
   campaign: boolean;
   battlegrounds?: Battleground[];
+  survivors?: FighterReference[];
+  fallen?: FighterReference[];
+  outcome?: string;
 }

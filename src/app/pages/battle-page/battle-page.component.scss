@@ -24,7 +24,8 @@ h2 {
 }
 
 .prepare,
-.battle {
+.battle,
+.aftermath {
   display: block;
   padding: 0 12px 12px;
   margin: 0 auto;
@@ -51,8 +52,16 @@ h2 {
     }
   }
 }
+.aftermath {
+  & > .grid-item > .divider {
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+}
 
-.battle {
+.battle,
+.aftermath {
   padding-top: 8px;
 
   &.single {
@@ -185,6 +194,42 @@ h2 {
   textarea {
     color: $black !important;
   }
+
+  .narrative {
+    & > * {
+      width: 100%;
+    }
+  }
+
+  .modifiers,
+  .abilities {
+    .modifier-card,
+    .ability-card {
+      position: relative;
+      margin-bottom: 12px;
+
+      .modifier-options,
+      .ability-options {
+        position: absolute;
+        top: -6px;
+        right: 0;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+
+    & > button {
+      width: 100%;
+    }
+  }
+
+  .add {
+    width: 100%;
+    padding: 8px 8px 8px 16px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+  }
 }
 
 .roster,
@@ -257,17 +302,24 @@ h3 {
 }
 
 @include tablet {
-  .prepare {
+  .prepare,
+  .battle,
+  .aftermath {
     padding: 0 24px 24px;
   }
 
-  .battle {
-    padding: 0 24px 24px;
+  .aftermath {
+    & > .grid-item > .divider {
+      &:first-of-type {
+        margin-top: 8px;
+      }
+    }
   }
 }
 
 @include custom(780px) {
-  .battle {
+  .battle,
+  .aftermath {
     .fighters-list {
       display: grid;
       gap: 12px;
@@ -306,7 +358,8 @@ h3 {
     }
   }
 
-  .battle {
+  .battle,
+  .aftermath {
     .wild-container {
       grid-column-start: 1;
       grid-column-end: 4;

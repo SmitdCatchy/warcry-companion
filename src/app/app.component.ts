@@ -93,7 +93,6 @@ export class AppComponent implements OnDestroy {
 
   private updateClient(): void {
     if (!this.updates.isEnabled) {
-      console.error('Not Enabled');
       return;
     }
     this._subscriptions.add(

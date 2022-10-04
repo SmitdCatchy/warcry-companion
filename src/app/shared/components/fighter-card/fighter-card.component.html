@@ -14,12 +14,16 @@
       <mat-panel-title class="fighter-name"
         [ngClass]="{'long': (fighter.name ? fighter.name.length : fighter.type.length) > 24}">
         <p>
-          {{fighter.name ? fighter.name : fighter.type}} <span
-            *ngIf="fighter.role === FighterRole.Leader && !fighter.name">[{{'fighter-role.leader' | translate}}]</span>
+          {{fighter.name ? fighter.name : fighter.type}} <ng-container *ngIf="!fighter.name">
+            <span *ngIf="getLabels(fighter, fighterReference) as labels">[
+              {{labels}}
+              ]</span>
+          </ng-container>
         </p>
         <span *ngIf="fighter.name">
-          {{fighter.type}} <span
-            *ngIf="fighter.role === FighterRole.Leader">[{{'fighter-role.leader' | translate}}]</span>
+          {{fighter.type}} <span *ngIf="getLabels(fighter, fighterReference) as labels">[
+            {{labels}}
+            ]</span>
         </span>
       </mat-panel-title>
       <mat-panel-description class="fighter-points">

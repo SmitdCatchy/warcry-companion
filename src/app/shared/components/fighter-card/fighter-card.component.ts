@@ -16,6 +16,8 @@ import { MonsterStat } from 'src/app/core/models/monster-stat.model';
 import { MatExpansionPanelHeader } from '@angular/material/expansion';
 import { Fighter } from 'src/app/core/models/fighter.model';
 import { FighterReference } from 'src/app/core/models/fighter-reference.model';
+import { ModifierType } from 'src/app/core/enums/modifier-type.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'smitd-fighter-card',
@@ -38,7 +40,10 @@ export class FighterCardComponent {
   @ViewChild('fighterExpansionHeader')
   fighterExpansionHeader!: MatExpansionPanelHeader;
 
-  constructor(public readonly core: CoreService) {
+  constructor(
+    public readonly core: CoreService,
+    private translateService: TranslateService
+  ) {
     this.fighter = {
       role: FighterRole.Thrall,
       type: 'Error Thrall',
@@ -218,5 +223,33 @@ export class FighterCardComponent {
     this.battleFrameHeight = `${
       ((header as any)._element as ElementRef).nativeElement.clientHeight
     }px`;
+  }
+
+  public getLabels(
+    fighter: Fighter,
+    fighterReference?: FighterReference
+  ): string {
+    const labels: string[] = [];
+    if (fighter.role === FighterRole.Leader) {
+      labels.push(this.translateService.instant('fighter-role.leader'));
+    }
+    if (
+      fighter?.modifiers.findIndex(
+        (modifier) => modifier.type === ModifierType.Artefact
+      )! > -1
+    ) {
+      labels.push(this.translateService.instant('fighter-card.label.equipped'));
+    }
+    if (
+      fighter?.modifiers.findIndex(
+        (modifier) => modifier.type === ModifierType.Injury
+      )! > -1
+    ) {
+      labels.push(this.translateService.instant('fighter-card.label.injured'));
+    }
+    if (fighterReference?.carryingTreasure) {
+      labels.push(this.translateService.instant('fighter-card.label.carrying'));
+    }
+    return labels.length ? labels.join(', ') : '';
   }
 }

@@ -158,6 +158,11 @@
       "damage": "Damage",
       "crit": "Crit",
       "min-health": "Minimum Wounds"
+    },
+    "label": {
+      "injured": "Injured",
+      "equipped": "Equipped",
+      "carrying": "Carrying Treasure"
     }
   },
   "fighter-role": {
@@ -243,7 +248,8 @@
       "multiplayer": "Online Battles",
       "connect": "Join a Running Battle",
       "disconnect": "Leave the Running Battle",
-      "token": "Copy Battle Token"
+      "token": "Copy Battle Token",
+      "aftermath": "End Aftermath"
     },
     "groups": "Assign Group",
     "modifiers": "Modifiers",
@@ -251,12 +257,16 @@
     "injuries": "Injuries",
     "trait": "Trait",
     "renown": "Renown",
+    "died": "Remove this Fighter from the Warband",
+    "aftermath": "Aftermath of the {{outcome}}",
     "group": {
       "roster": "Roster",
       "dagger": "Dagger",
       "shield": "Shield",
       "hammer": "Hammer",
-      "wild": "Wild Fighters"
+      "wild": "Wild Fighters",
+      "survivors": "Survivors",
+      "fallen": "Fallen"
     },
     "battle": {
       "turn": "Turn {{turn}}",
@@ -292,6 +302,7 @@
   "battle-end-dialog": {
     "title": "Ending Battle",
     "question": "Are you sure you want to end this battle?",
+    "aftermath": "Are you sure you want to end the aftermath of this battle?",
     "form": {
       "outcome": "Battle Outcome",
       "enemy": "Opposing Warband"
@@ -323,7 +334,8 @@
   "modifier-type": {
     "artefact": "Artefact",
     "injury": "Injury",
-    "trait": "Trait"
+    "trait": "Trait",
+    "used": "Used"
   },
   "log": {
     "sentence": "On {{date}} there was a {{result}} {{campaign}}{{enemy}}.",
@@ -422,7 +434,7 @@
     "dialog": {
       "peer-joined": "{{peer}} joined the battle.",
       "peer-disconnected": "{{peer}} left the battle.",
-      "disconnected": "You left battle.",
+      "disconnected": "You left the battle.",
       "joined": "You joined the battle against {{peer}}."
     },
     "error": {

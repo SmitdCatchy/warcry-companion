@@ -1,7 +1,7 @@
 <div class="divider" [ngClass]="{'edit': edit}">
   <mat-divider></mat-divider>
   <span>
-    {{modifier.name || 'common.unknown' | translate}}
+    {{modifier.name || 'common.unknown' | translate}} <span *ngIf="showUsed && modifier.used">({{'modifier-type.used' | translate}})</span>
   </span>
   <mat-divider></mat-divider>
 </div>

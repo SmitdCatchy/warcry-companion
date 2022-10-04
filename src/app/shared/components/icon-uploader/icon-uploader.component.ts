@@ -33,8 +33,6 @@ export class IconUploaderComponent {
   }
 
   public iconUpload(): void {
-
-
     this.core.handleFileUpload((result) => {
       const icon = new Image();
       icon.onload = () => {

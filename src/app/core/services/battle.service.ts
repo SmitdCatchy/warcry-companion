@@ -340,7 +340,12 @@ export class BattleService {
     };
   }
 
-  public useRenown(fighter: FighterReference, renownIndex: number, group: string, index: number): void {
+  public useRenown(
+    fighter: FighterReference,
+    renownIndex: number,
+    group: string,
+    index: number
+  ): void {
     fighter.availableRenown![renownIndex] =
       !fighter.availableRenown![renownIndex];
     this.saveBattle();
@@ -352,7 +357,11 @@ export class BattleService {
     });
   }
 
-  public toggleTreasure(fighter: FighterReference, group: string, index: number): void {
+  public toggleTreasure(
+    fighter: FighterReference,
+    group: string,
+    index: number
+  ): void {
     fighter.carryingTreasure = !fighter.carryingTreasure;
     this.saveBattle();
     this.battleSubject.next({
@@ -460,42 +469,87 @@ export class BattleService {
       });
   }
 
-  public endBattle(): void {
+  public endBattle(cb: () => any = () => {}): void {
+    this.core.setColor(this.battle.warband.color);
     if (this.battle.warband.alliance) {
-      this.dialog
-        .open(BattleEndDialogComponent, {
-          data: {
-            battle: this.battle
-          },
-          closeOnNavigation: false
-        })
-        .afterClosed()
-        .subscribe((result) => {
-          if (result) {
-            if (!this.warbandService.selectedWarband.logs) {
-              this.warbandService.selectedWarband.logs = [];
+      if (this.battle.battleState === BattleState.Battle) {
+        this.dialog
+          .open(BattleEndDialogComponent, {
+            data: {
+              battle: this.battle
+            },
+            closeOnNavigation: false
+          })
+          .afterClosed()
+          .subscribe((result) => {
+            if (result) {
+              if (!this.warbandService.selectedWarband.logs) {
+                this.warbandService.selectedWarband.logs = [];
+              }
+              const date = new Date();
+              this.warbandService.pushLog({
+                date: `${date.getFullYear()}.${
+                  date.getMonth() + 1 < 10
+                    ? `0${date.getMonth() + 1}`
+                    : date.getMonth() + 1
+                }.${date.getDate()}.`,
+                outcome: result.outcome,
+                enemy: result.enemy,
+                campaign: this.battle.campaign,
+                casualities: this.allFighters
+                  .filter((fighter) => fighter.state === FighterState.Dead)
+                  .map((referenc) => ({
+                    type: referenc.stats.type,
+                    name: referenc.stats.name
+                  }))
+              });
+              if(this.battle.campaign) {
+                this.battle.survivors = [];
+                this.battle.fallen = [];
+                this.battle.outcome = result.outcome;
+                this.allFighters
+                  .sort((a, b) => (a.fighterIndex < b.fighterIndex ? -1 : 1))
+                  .forEach((fighterRef) => {
+                    fighterRef.carryingTreasure = false;
+                    fighterRef.artefacts.forEach((artefact) => {
+                      fighterRef.stats.modifiers.forEach((modifier) => {
+                        if (modifier.name === artefact.name) {
+                          modifier.used = artefact.used;
+                        }
+                      });
+                    });
+                    if (fighterRef.wounds > 0) {
+                      this.battle.survivors!.push(fighterRef);
+                    } else {
+                      this.battle.fallen!.push(fighterRef);
+                    }
+                  });
+                this.battle.battleState = BattleState.Aftermath;
+                this.saveBattle();
+                cb();
+              } else {
+                this.clearBattle();
+                this.back();
+              }
             }
-            const date = new Date();
-            this.warbandService.pushLog({
-              date: `${date.getFullYear()}.${
-                date.getMonth() + 1 < 10
-                  ? `0${date.getMonth() + 1}`
-                  : date.getMonth() + 1
-              }.${date.getDate()}.`,
-              outcome: result.outcome,
-              enemy: result.enemy,
-              campaign: this.battle.campaign,
-              casualities: this.allFighters
-                .filter((fighter) => fighter.state === FighterState.Dead)
-                .map((referenc) => ({
-                  type: referenc.stats.type,
-                  name: referenc.stats.name
-                }))
-            });
-            this.clearBattle();
-            this.back();
-          }
-        });
+          });
+      } else {
+        this.dialog
+          .open(ConfirmDialogComponent, {
+            data: {
+              question: 'battle-end-dialog.aftermath',
+              yesColor: 'warn'
+            },
+            closeOnNavigation: false
+          })
+          .afterClosed()
+          .subscribe((result) => {
+            if (result) {
+              this.clearBattle();
+              this.back();
+            }
+          });
+      }
     } else {
       this.dialog
         .open(ConfirmDialogComponent, {
@@ -520,11 +574,10 @@ export class BattleService {
   }
 
   public get warbandSize(): number {
-    return [
-      ...this.battle.dagger,
-      ...this.battle.shield,
-      ...this.battle.hammer
-    ].reduce((sum, fighter) => sum + fighter.stats.points, 0);
+    return this.allFighters.reduce(
+      (sum, fighter) => sum + fighter.stats.points,
+      0
+    );
   }
 
   public beginBattle(): void {

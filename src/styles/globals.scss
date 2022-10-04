@@ -84,7 +84,7 @@ smitd-header div {
   height: 40px;
 }
 
-smitd-warband-page .mat-tab-label, smitd-multiplayer-page .mat-tab-label {
+smitd-warband-page .mat-tab-label {
   height: 40px;
 
   &.mat-tab-label-active {
@@ -202,7 +202,7 @@ body .mat-expansion-panel.divider-expansion {
   }
 }
 
-smitd-warband-page .mat-expansion-panel-body, smitd-multiplayer-page .mat-expansion-panel-body{
+smitd-warband-page .mat-expansion-panel-body {
   padding: 0 8px 8px;
 }
 
@@ -434,6 +434,7 @@ input[type='number'] {
 }
 
 smitd-warband-page .mat-mini-fab,
+smitd-battle-page .mat-mini-fab,
 smitd-fighter-store-page .mat-mini-fab,
 smitd-battlegrounds-page .mat-mini-fab {
   margin-right: 8px;
@@ -456,7 +457,7 @@ smitd-battle-page {
   }
 }
 
-smitd-warband-page .mat-tab-header, smitd-multiplayer-page .mat-tab-header {
+smitd-warband-page .mat-tab-header {
   box-shadow: $material-shadow;
 }
 
@@ -565,7 +566,7 @@ body .mat-button-base {
 }
 
 .turn-counter-snackbar {
-  // box-shadow: 0 0 10vh 20vh rgba($black, 0.4) !important;
+  box-shadow: 0 0 10vh 20vh rgba($black, 0.4) !important;
   margin-top: calc(50vh - 48px) !important;
   pointer-events: none;
 
@@ -584,7 +585,7 @@ body .mat-button-base {
   pointer-events: none;
 }
 
-smitd-warband-page, smitd-multiplayer-page  {
+smitd-warband-page  {
   .mat-tab-group {
     height: calc(100% - 60px);
 

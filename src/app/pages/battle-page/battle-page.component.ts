@@ -20,13 +20,16 @@ import { BattlePeer } from 'src/app/core/models/battle-peer.model';
 import { Battle } from 'src/app/core/models/battle.model';
 import { FighterReference } from 'src/app/core/models/fighter-reference.model';
 import { Fighter } from 'src/app/core/models/fighter.model';
+import { Modifier } from 'src/app/core/models/modifier.model';
 import { Warband } from 'src/app/core/models/warband.model';
 import { BattleService } from 'src/app/core/services/battle.service';
 import { BattlegroundsService } from 'src/app/core/services/battlegrounds.service';
 import { CoreService } from 'src/app/core/services/core.service';
 import { MultiplayerService } from 'src/app/core/services/multiplayer.service';
 import { WarbandService } from 'src/app/core/services/warband.service';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { ConnectDialogComponent } from 'src/app/shared/components/connect-dialog/connect-dialog.component';
+import { ModifierDialogComponent } from 'src/app/shared/components/modifier-dialog/modifier-dialog.component';
 
 @Component({
   selector: 'smitd-battle-page',
@@ -226,21 +229,35 @@ export class BattlePageComponent implements OnInit, OnDestroy {
   }
 
   public copySessionToken(): void {
-    navigator.clipboard.writeText(
-      this.multiplayerService.peerType === PeerType.Host
-        ? this.multiplayerService.peerId
-        : this.multiplayerService.peers[0].peerId
-    );
-    this.popup.open(
-      `${this.translateService.instant('multiplayer.action.token')}`,
-      undefined,
-      {
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom',
-        duration: 1000,
-        panelClass: 'bottom-snackbar'
-      }
-    );
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(
+        this.multiplayerService.peerType === PeerType.Host
+          ? this.multiplayerService.peerId
+          : this.multiplayerService.peers[0].peerId
+      );
+      this.popup.open(
+        `${this.translateService.instant('multiplayer.action.token')}`,
+        undefined,
+        {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 1000,
+          panelClass: 'bottom-snackbar'
+        }
+      );
+    } else {
+      const textarea: HTMLTextAreaElement = document.createElement('textarea');
+      document.body.appendChild(textarea);
+      textarea.value =
+        this.multiplayerService.peerType === PeerType.Host
+          ? this.multiplayerService.peerId
+          : this.multiplayerService.peers[0].peerId;
+      textarea.focus();
+      textarea.select();
+      textarea.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
   }
 
   public checkWarband(index: number): void {
@@ -296,10 +313,10 @@ export class BattlePageComponent implements OnInit, OnDestroy {
   }
 
   private letSleep(): void {
-    if(this.wakeLock.abort) {
+    if (this.wakeLock?.abort) {
       this.wakeLock.abort();
     }
-    if(this.wakeLock.release) {
+    if (this.wakeLock?.release) {
       this.wakeLock.release();
     }
     this.wakeLock = null;
@@ -357,5 +374,98 @@ export class BattlePageComponent implements OnInit, OnDestroy {
         console.error(`${e.name}, ${e.message}`);
       }
     }
+  }
+
+  public refreshUI = (): void => {
+    this.cdr.detectChanges();
+  };
+
+  public removeFighter(fighterIndex: number, index: number): void {
+    this.warbandService.removeFighter(fighterIndex, () => {
+      this.battleService.battle.fallen!.splice(index, 1);
+      this.battleService.saveBattle();
+      this.refreshUI();
+    });
+  }
+
+  public addFighterModifier(fighter: FighterReference, index: number): void {
+    this._subscriptions.add(
+      this.dialog
+        .open(ModifierDialogComponent, {
+          data: {},
+          disableClose: true,
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
+        })
+        .afterClosed()
+        .subscribe((modifier: Modifier) => {
+          if (modifier) {
+            fighter.stats.modifiers.push(modifier);
+            this.warbandService.updateFighter(fighter.stats, fighter.fighterIndex);
+            this.battleService.saveBattle();
+            this.refreshUI();
+          }
+        })
+    );
+  }
+
+  public editFighterModifier(
+    fighter: FighterReference,
+    index: number,
+    modifierIndex: number
+  ): void {
+    this._subscriptions.add(
+      this.dialog
+        .open(ModifierDialogComponent, {
+          data: {
+            modifier: fighter.stats.modifiers[modifierIndex],
+            edit: true
+          },
+          disableClose: true,
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
+        })
+        .afterClosed()
+        .subscribe((modifier: Modifier) => {
+          if (modifier) {
+            fighter.stats.modifiers[modifierIndex] = modifier;
+            this.warbandService.updateFighter(fighter.stats, fighter.fighterIndex);
+            this.battleService.saveBattle();
+            this.refreshUI();
+          }
+        })
+    );
+  }
+
+  public removeFighterModifier(
+    fighter: FighterReference,
+    index: number,
+    modifierIndex: number
+  ): void {
+    this._subscriptions.add(
+      this.dialog
+        .open(ConfirmDialogComponent, {
+          data: {
+            yesColor: 'warn',
+            question: this.translateService.instant(
+              'warband-page.tab.fighters.form.modifiers.remove-question',
+              {
+                modifier: fighter.stats.modifiers[modifierIndex].name,
+                fighter: fighter.stats.name || fighter.stats.type
+              }
+            )
+          },
+          closeOnNavigation: false
+        })
+        .afterClosed()
+        .subscribe((decision) => {
+          if (decision) {
+            fighter.stats.modifiers.splice(modifierIndex, 1);
+            this.warbandService.updateFighter(fighter.stats, fighter.fighterIndex);
+            this.battleService.saveBattle();
+            this.refreshUI();
+          }
+        })
+    );
   }
 }

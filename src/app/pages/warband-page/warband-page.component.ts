@@ -193,7 +193,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
         .afterClosed()
         .subscribe((updated) => {
           if (updated) {
-            this.updateFighter(updated, index);
+            this.warbandService.updateFighter(updated, index);
           }
         })
     );
@@ -212,7 +212,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
         .subscribe((modifier: Modifier) => {
           if (modifier) {
             fighter.modifiers.push(modifier);
-            this.updateFighter(fighter, index);
+            this.warbandService.updateFighter(fighter, index);
           }
         })
     );
@@ -238,7 +238,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
         .subscribe((modifier: Modifier) => {
           if (modifier) {
             fighter.modifiers[modifierIndex] = modifier;
-            this.updateFighter(fighter, index);
+            this.warbandService.updateFighter(fighter, index);
           }
         })
     );
@@ -268,7 +268,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
         .subscribe((decision) => {
           if (decision) {
             fighter.modifiers.splice(modifierIndex, 1);
-            this.updateFighter(fighter, index);
+            this.warbandService.updateFighter(fighter, index);
           }
         })
     );
@@ -289,7 +289,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
             fighter.abilities ||= [];
             fighter.abilities.push(abilityFormValue);
             fighter.abilities = WarbandService.sortAbilities(fighter.abilities);
-            this.updateFighter(fighter, index);
+            this.warbandService.updateFighter(fighter, index);
           }
         })
     );
@@ -313,7 +313,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
           if (abilityFormValue) {
             fighter.abilities[abilityIndex] = abilityFormValue;
             fighter.abilities = WarbandService.sortAbilities(fighter.abilities);
-            this.updateFighter(fighter, index);
+            this.warbandService.updateFighter(fighter, index);
           }
         })
     );
@@ -343,14 +343,10 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
         .subscribe((decision) => {
           if (decision) {
             fighter.abilities.splice(abilityIndex, 1);
-            this.updateFighter(fighter, index);
+            this.warbandService.updateFighter(fighter, index);
           }
         })
     );
-  }
-
-  public updateFighter(fighter: Fighter, index: number): void {
-    this.warbandService.updateFighter(fighter, index);
   }
 
   public duplicateFighter(fighter: Fighter): void {
