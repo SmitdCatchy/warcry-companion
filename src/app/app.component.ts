@@ -1,7 +1,7 @@
 import { ApplicationRef, Component, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { loadFull } from 'tsparticles';
-import { Engine, MoveDirection, OutMode } from 'tsparticles-engine';
+import { ClickMode, Container, Engine, HoverMode, MoveDirection, OutMode } from 'tsparticles-engine';
 import { Theme } from './core/enums/theme.enum';
 import { CoreService } from './core/services/core.service';
 import { Slider } from './app-routing.animation';
@@ -9,7 +9,7 @@ import { Color } from './core/enums/color.enum';
 import { TranslationService } from './core/services/translation.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { concat, filter, first, from, interval, Subscription } from 'rxjs';
+import { filter, from, Subscription } from 'rxjs';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
@@ -19,10 +19,10 @@ import { TranslateService } from '@ngx-translate/core';
   animations: [Slider]
 })
 export class AppComponent implements OnDestroy {
-  public particlesOptions: any;
+  particlesOptions: any;
   private _subscriptions = new Subscription();
   constructor(
-    public readonly core: CoreService,
+    readonly core: CoreService,
     private readonly translationService: TranslationService,
     private readonly translateService: TranslateService,
     private readonly dialog: MatDialog,
@@ -30,7 +30,7 @@ export class AppComponent implements OnDestroy {
     private appRef: ApplicationRef
   ) {
     this.particlesOptions = {
-      fpsLimit: 120,
+      fpsLimit: 60,
       particles: {
         color: {
           value: this.core.getTheme() === Theme.Dark ? Color.orange : Color.blue
@@ -79,11 +79,11 @@ export class AppComponent implements OnDestroy {
     this._subscriptions.unsubscribe();
   }
 
-  public async particlesInit(engine: Engine): Promise<void> {
+  async particlesInit(engine: Engine): Promise<void> {
     await loadFull(engine);
   }
 
-  public prepareRoute(outlet: RouterOutlet): any {
+  prepareRoute(outlet: RouterOutlet): any {
     return (
       outlet &&
       outlet.activatedRouteData &&

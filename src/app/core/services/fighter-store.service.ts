@@ -2,31 +2,38 @@ import { Injectable } from '@angular/core';
 import { Fighter } from '../models/fighter.model';
 import { CoreService } from './core.service';
 import { MatDialog } from '@angular/material/dialog';
-import { LocalStorageKey } from '../enums/local-keys.enum';
+import { LocalStorageKey, StoreKey } from '../enums/local-keys.enum';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { Faction } from '../models/faction.model';
 import { TranslateService } from '@ngx-translate/core';
 import cloneDeep from 'lodash.clonedeep';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FighterStoreService {
-  public store: Fighter[];
+  store: Fighter[];
   private _factions!: Map<string, Faction>;
+  loaded: boolean = false;
 
   constructor(
+    private readonly core: CoreService,
     private readonly translateService: TranslateService,
     private readonly dialog: MatDialog
   ) {
     this.store = JSON.parse(
       CoreService.getLocalStorage(LocalStorageKey.FighterStore, '[]')
     ) as Fighter[];
-    this.createFactions(this.store);
+    this.core.getStore(StoreKey.FighterStore).subscribe((store: Fighter[]) => {
+      this.store = store;
+      this.loaded = true;
+      this.createFactions(this.store);
+    });
   }
 
-  public storeFighter(fighter: Fighter, dialog: boolean = true): void {
+  storeFighter(fighter: Fighter, dialog: boolean = true): void {
     if (!this.checkFighter(fighter, dialog)) {
       this.store.push(fighter);
       this.sortStore();
@@ -35,7 +42,7 @@ export class FighterStoreService {
     }
   }
 
-  public discardFighter(
+  discardFighter(
     fighter: Fighter,
     removeCallBack: () => any = () => {}
   ): void {
@@ -62,7 +69,7 @@ export class FighterStoreService {
       });
   }
 
-  public moveFighter(event: CdkDragDrop<string[]>): void {
+  moveFighter(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.store, event.previousIndex, event.currentIndex);
     this.saveFighterStore();
   }
@@ -74,7 +81,7 @@ export class FighterStoreService {
     );
   }
 
-  public updateFighter(fighter: Fighter): void {
+  updateFighter(fighter: Fighter): void {
     const fighterIndex = this.getFighterStoreIndex(fighter);
     if (fighterIndex > -1) {
       this.store[fighterIndex] = fighter;
@@ -88,7 +95,7 @@ export class FighterStoreService {
     }
   }
 
-  public checkFighter(fighter: Fighter, dialog: boolean = true): boolean {
+  checkFighter(fighter: Fighter, dialog: boolean = true): boolean {
     const check = -1 < this.getFighterStoreIndex(fighter);
 
     if (check && dialog) {
@@ -107,11 +114,11 @@ export class FighterStoreService {
     return check;
   }
 
-  public sortStore(): void {
+  sortStore(): void {
     this.store.sort((a, b) => (a.type < b.type ? -1 : 1));
   }
 
-  public sortFactions(): void {
+  sortFactions(): void {
     this._factions = new Map(
       [...this._factions.entries()].sort((a, b) =>
         a[0].toLocaleLowerCase() < b[0].toLocaleLowerCase() ? -1 : 1
@@ -119,14 +126,14 @@ export class FighterStoreService {
     );
   }
 
-  public getFighterStoreIndex(fighter: Fighter): number {
+  getFighterStoreIndex(fighter: Fighter): number {
     return this.store.findIndex(
       (check) =>
         fighter.type.toLocaleLowerCase() === check.type.toLocaleLowerCase()
     );
   }
 
-  public createFactions(store: Fighter[]): void {
+  createFactions(store: Fighter[]): void {
     this._factions = new Map();
     store.forEach((fighter) => {
       this.addFighterToFaction(fighter, false);
@@ -134,7 +141,7 @@ export class FighterStoreService {
     this.sortFactions();
   }
 
-  public addFighterToFaction(fighter: Fighter, sort: boolean = true): void {
+  addFighterToFaction(fighter: Fighter, sort: boolean = true): void {
     const factionName =
       fighter.faction || this.translateService.instant('common.unaligned');
     if (this._factions.has(factionName)) {
@@ -154,7 +161,7 @@ export class FighterStoreService {
     }
   }
 
-  public removeFighterFromFaction(fighter: Fighter): void {
+  removeFighterFromFaction(fighter: Fighter): void {
     const factionName =
       fighter.faction || this.translateService.instant('common.unaligned');
     const faction = this._factions.get(factionName)!;
@@ -168,7 +175,7 @@ export class FighterStoreService {
     }
   }
 
-  public updateFighterFromFaction(fighter: Fighter): void {
+  updateFighterFromFaction(fighter: Fighter): void {
     const factionName =
       fighter.faction || this.translateService.instant('common.unaligned');
     const faction = this._factions.get(factionName)!;
@@ -178,7 +185,7 @@ export class FighterStoreService {
     faction.fighterTypes[fighterIndex] = fighter;
   }
 
-  public get factions(): Faction[] {
+  get factions(): Faction[] {
     return Array.from(this._factions.values());
   }
 }

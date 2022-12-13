@@ -29,8 +29,8 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class BattleService {
-  public battle: Battle;
-  public battleSubject: Subject<any>;
+  battle: Battle;
+  battleSubject: Subject<any>;
 
   constructor(
     private readonly core: CoreService,
@@ -74,7 +74,7 @@ export class BattleService {
     this.battleSubject = new Subject();
   }
 
-  public prepareBattle(warband?: Warband): void {
+  prepareBattle(warband?: Warband): void {
     this.dialog
       .open(BattleDialogComponent, {
         data: {
@@ -97,14 +97,14 @@ export class BattleService {
       });
   }
 
-  public saveBattle(): void {
+  saveBattle(): void {
     CoreService.setLocalStorage(
       LocalStorageKey.Battle,
       JSON.stringify(this.battle)
     );
   }
 
-  public clearBattle(): void {
+  clearBattle(): void {
     this.battle = {
       warband: {
         name: this.translateService.instant('battle-page.quick'),
@@ -139,7 +139,7 @@ export class BattleService {
     this.saveBattle();
   }
 
-  public moveFighter(event: any): void {
+  moveFighter(event: any): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -157,7 +157,7 @@ export class BattleService {
     this.saveBattle();
   }
 
-  public reassignFighter(
+  reassignFighter(
     reference: FighterReference,
     from: FighterReference[],
     to: FighterReference[],
@@ -168,7 +168,7 @@ export class BattleService {
     this.saveBattle();
   }
 
-  public addFighter(cb: () => any = () => {}): void {
+  addFighter(cb: () => any = () => {}): void {
     this.dialog
       .open(FighterDialogComponent, {
         data: {},
@@ -191,7 +191,7 @@ export class BattleService {
       });
   }
 
-  public addWildFighter(cb: () => any = () => {}): void {
+  addWildFighter(cb: () => any = () => {}): void {
     this.dialog
       .open(FighterDialogComponent, {
         data: {},
@@ -215,7 +215,7 @@ export class BattleService {
       });
   }
 
-  public addWildFighterEffect(
+  addWildFighterEffect(
     wildFighter: FighterReference,
     cb: () => any = () => {}
   ): void {
@@ -224,7 +224,7 @@ export class BattleService {
     cb();
   }
 
-  public removeWildFighter(index: number, cb: () => any = () => {}): void {
+  removeWildFighter(index: number, cb: () => any = () => {}): void {
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -247,7 +247,7 @@ export class BattleService {
       });
   }
 
-  public removeWildFighterEffect(
+  removeWildFighterEffect(
     index: number,
     cb: () => any = () => {}
   ): void {
@@ -256,7 +256,7 @@ export class BattleService {
     cb();
   }
 
-  public static createFighterReference(
+  static createFighterReference(
     fighter: Fighter,
     index: number
   ): FighterReference {
@@ -340,7 +340,7 @@ export class BattleService {
     };
   }
 
-  public useRenown(
+  useRenown(
     fighter: FighterReference,
     renownIndex: number,
     group: string,
@@ -357,7 +357,7 @@ export class BattleService {
     });
   }
 
-  public toggleTreasure(
+  toggleTreasure(
     fighter: FighterReference,
     group: string,
     index: number
@@ -372,7 +372,7 @@ export class BattleService {
     });
   }
 
-  public get allFighters(): FighterReference[] {
+  get allFighters(): FighterReference[] {
     return [
       ...this.battle.dagger,
       ...this.battle.shield,
@@ -380,7 +380,7 @@ export class BattleService {
     ];
   }
 
-  public readyFighters(): void {
+  readyFighters(): void {
     this.allFighters.forEach((fighter) => {
       if (fighter.state !== FighterState.Dead) {
         fighter.state = FighterState.Ready;
@@ -388,7 +388,7 @@ export class BattleService {
     });
   }
 
-  public checkForReadyFighters(): FighterReference[] {
+  checkForReadyFighters(): FighterReference[] {
     return this.allFighters.filter(
       (fighter) =>
         fighter.state !== FighterState.Activated &&
@@ -396,7 +396,7 @@ export class BattleService {
     );
   }
 
-  public endTurn(cb: () => any = () => {}): void {
+  endTurn(cb: () => any = () => {}): void {
     const readyFighters = this.checkForReadyFighters();
     if (readyFighters.length) {
       this.dialog
@@ -428,7 +428,7 @@ export class BattleService {
     }
   }
 
-  public endTurnEffect(cb: () => any = () => {}): void {
+  endTurnEffect(cb: () => any = () => {}): void {
     this.readyFighters();
     this.battle.turn++;
     this.saveBattle();
@@ -451,7 +451,7 @@ export class BattleService {
     );
   }
 
-  public abortBattle(): void {
+  abortBattle(): void {
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -469,7 +469,7 @@ export class BattleService {
       });
   }
 
-  public endBattle(cb: () => any = () => {}): void {
+  endBattle(cb: () => any = () => {}): void {
     this.core.setColor(this.battle.warband.color);
     if (this.battle.warband.alliance) {
       if (this.battle.battleState === BattleState.Battle) {
@@ -569,18 +569,18 @@ export class BattleService {
     }
   }
 
-  public back(): void {
+  back(): void {
     this.location.back();
   }
 
-  public get warbandSize(): number {
+  get warbandSize(): number {
     return this.allFighters.reduce(
       (sum, fighter) => sum + fighter.stats.points,
       0
     );
   }
 
-  public beginBattle(): void {
+  beginBattle(): void {
     if (this.warbandSize < this.battle.warband.campaign.limit) {
       this.dialog
         .open(ConfirmDialogComponent, {

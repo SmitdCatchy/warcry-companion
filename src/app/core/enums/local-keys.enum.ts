@@ -9,3 +9,11 @@ export enum LocalStorageKey {
   Battle = 'smitd.warcry-companion.battle',
   FighterStore = 'smitd.warcry-companion.fighter-store',
 }
+
+export enum StoreKey {
+  Database = 'warcry-companion',
+  Store = 'main-store',
+  WarbandsStore = 'warbands',
+  FighterStore = 'fighters',
+  BattlegroundsStore = 'battlegrounds'
+}

@@ -9,7 +9,7 @@ import { Language } from '../enums/language.enum';
   providedIn: 'root'
 })
 export class TranslationService {
-  public currentLanguage: BehaviorSubject<Language>;
+  currentLanguage: BehaviorSubject<Language>;
 
   constructor(private translate: TranslateService) {
     this.translate.addLangs(Object.values(Language));
@@ -22,17 +22,17 @@ export class TranslationService {
     });
   }
 
-  public get language(): Language {
+  get language(): Language {
     return this.currentLanguage.value;
   }
 
-  public set language(lang: Language) {
+  set language(lang: Language) {
     if (lang !== this.language) {
       this.currentLanguage.next(lang);
     }
   }
 
-  public setLanguage(lang: Language) {
+  setLanguage(lang: Language) {
     if (lang !== this.language) {
       this.currentLanguage.next(lang);
     }

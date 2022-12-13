@@ -21,11 +21,11 @@ export class ConfirmDialogComponent {
     }
   ) {}
 
-  public acceptDialog(): void {
+  acceptDialog(): void {
     this.dialogRef.close(true);
   }
 
-  public closeDialog(): void {
+  closeDialog(): void {
     this.dialogRef.close(false);
   }
 }

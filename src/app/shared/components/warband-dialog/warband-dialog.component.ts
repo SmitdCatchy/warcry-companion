@@ -13,8 +13,8 @@ import cloneDeep from 'lodash.clonedeep';
   styleUrls: ['./warband-dialog.component.scss']
 })
 export class WarbandDialogComponent {
-  public warbandForm: FormGroup;
-  public colorList = Object.keys(Color).map((key) => ({
+  warbandForm: FormGroup;
+  colorList = Object.keys(Color).map((key) => ({
     key,
     value: Color[key as keyof typeof Color]
   }));
@@ -63,25 +63,25 @@ export class WarbandDialogComponent {
     });
   }
 
-  public get selectedColor(): string {
+  get selectedColor(): string {
     return this.warbandForm.get('color')!.value;
   }
 
-  public get icon(): AbstractControl {
+  get icon(): AbstractControl {
     return this.warbandForm.get('icon') as AbstractControl;
   }
 
-  public iconValueChange(icon: string): void {
+  iconValueChange(icon: string): void {
     this.icon.setValue(icon);
   }
 
-  public acceptDialog(): void {
+  acceptDialog(): void {
     if (!this.warbandService.checkWarband(this.warbandForm.value)) {
       this.dialogRef.close(this.warbandForm.value);
     }
   }
 
-  public closeDialog(): void {
+  closeDialog(): void {
     this.dialogRef.close(false);
   }
 }

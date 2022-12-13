@@ -22,7 +22,7 @@
         <mat-option *ngFor="let color of colorList" [value]="color.value">{{'color.' + color.key | translate}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <div class="color-sample" (click)="colorSelect.open()" [ngStyle]="{'background-color': selectedColor}"></div>
+    <input class="color-sample" type="color" formControlName="color" [value]="selectedColor">
   </div>
 </form>
 <div class="actions">

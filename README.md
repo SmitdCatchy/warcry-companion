@@ -38,7 +38,20 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
-### 3.1.0 Chosen - 2022.10.04.
+### 3.2.0 - 2022.12.14.
+
+<details>
+  <summary>Features</summary>
+
+- added german language support.
+- added new font for numberic values.
+- added custom colors with color pickers.
+- added color property to fighters to overwrite the fighter card background color.
+- update data storage to use indexeddb.
+
+</details
+
+### 3.1.0 - 2022.10.04.
 
 <details>
   <summary>Features</summary>

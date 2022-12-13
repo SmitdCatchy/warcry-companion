@@ -3,7 +3,8 @@
   "title": "Warcry Companion",
   "language": {
     "en": "English",
-    "hu": "Magyar"
+    "hu": "Magyar",
+    "de": "Deutsch"
   },
   "color": {
     "blue": "Order Blue",
@@ -11,7 +12,8 @@
     "grey": "Unaligned Grey",
     "orange": "Wildlands Orange",
     "purple": "Death Purple",
-    "red": "Chaos Red"
+    "red": "Chaos Red",
+    "warband": "Warband Color"
   },
   "theme": {
     "light": "Light theme",
@@ -26,7 +28,8 @@
     "unknown": "Unknown",
     "pts": "PTS",
     "options": "Options",
-    "faction": "Faction"
+    "faction": "Faction",
+    "fighters": "Fighters"
   },
   "main-page": {
     "menu": {

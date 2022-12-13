@@ -47,6 +47,12 @@ export class WarbandColorDirective implements OnInit, OnDestroy {
   }
 
   private setBackgroundColor(color: Color | string): void {
+    const bgColor = color.substring(1, 7)
+    var r = parseInt(bgColor.substring(0, 2), 16);
+    var g = parseInt(bgColor.substring(2, 4), 16);
+    var b = parseInt(bgColor.substring(4, 6), 16);
+    const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+    this.element.nativeElement.style.color = luminance > 125 ? '#000000' : '#ffffff';;
     this.element.nativeElement.style.backgroundColor = this.opaque
       ? `${color}cc`
       : color;

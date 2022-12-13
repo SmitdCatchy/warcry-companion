@@ -38,24 +38,24 @@ import { ModifierDialogComponent } from 'src/app/shared/components/modifier-dial
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BattlePageComponent implements OnInit, OnDestroy {
-  public FighterCardMode = FighterCardMode;
-  public BattleState = BattleState;
-  public FighterState = FighterState;
-  public FighterRole = FighterRole;
-  public PeerType = PeerType;
-  public PeerState = PeerState;
-  public beastRunemark: string;
+  FighterCardMode = FighterCardMode;
+  BattleState = BattleState;
+  FighterState = FighterState;
+  FighterRole = FighterRole;
+  PeerType = PeerType;
+  PeerState = PeerState;
+  beastRunemark: string;
   private _subscriptions = new Subscription();
-  public showGridLayout: boolean;
-  public visibleWarbandIndex: number;
+  showGridLayout: boolean;
+  visibleWarbandIndex: number;
   private wakeLock: any;
 
   constructor(
-    public readonly core: CoreService,
-    public readonly battleService: BattleService,
-    public readonly warbandService: WarbandService,
-    public readonly battlegroundService: BattlegroundsService,
-    public readonly multiplayerService: MultiplayerService,
+    readonly core: CoreService,
+    readonly battleService: BattleService,
+    readonly warbandService: WarbandService,
+    readonly battlegroundService: BattlegroundsService,
+    readonly multiplayerService: MultiplayerService,
     private readonly router: Router,
     private readonly cdr: ChangeDetectorRef,
     private readonly translateService: TranslateService,
@@ -100,7 +100,7 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     this.letSleep();
   }
 
-  public get battle(): Battle | BattlePeer {
+  get battle(): Battle | BattlePeer {
     return this.visibleWarbandIndex < 0
       ? this.battleService.battle
       : this.multiplayerService.peers[this.visibleWarbandIndex]
@@ -108,7 +108,7 @@ export class BattlePageComponent implements OnInit, OnDestroy {
       : this.battleService.battle;
   }
 
-  public get warband(): Warband {
+  get warband(): Warband {
     return this.visibleWarbandIndex < 0
       ? this.battleService.battle.warband
       : this.multiplayerService.peers[this.visibleWarbandIndex]
@@ -116,11 +116,11 @@ export class BattlePageComponent implements OnInit, OnDestroy {
       : this.battleService.battle.warband;
   }
 
-  public get notEditable(): boolean {
+  get notEditable(): boolean {
     return this.visibleWarbandIndex > -1;
   }
 
-  public alterWounds(
+  alterWounds(
     fighter: FighterReference,
     alterBy: number,
     group: string,
@@ -142,7 +142,7 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     });
   }
 
-  public alterFighter(
+  alterFighter(
     fighter: FighterReference,
     group: string,
     index: number
@@ -156,7 +156,7 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     });
   }
 
-  public alterVictoryPoints(alterBy: number): void {
+  alterVictoryPoints(alterBy: number): void {
     this.battle.victoryPoints += alterBy;
     this.battleService.saveBattle();
     this.battleService.battleSubject.next({
@@ -165,31 +165,31 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     });
   }
 
-  public addFighter(): void {
+  addFighter(): void {
     this.battleService.addFighter(() => {
       this.cdr.detectChanges();
     });
   }
 
-  public addWildFighter(): void {
+  addWildFighter(): void {
     this.battleService.addWildFighter(() => {
       this.cdr.detectChanges();
     });
   }
 
-  public endTurn(): void {
+  endTurn(): void {
     this.battleService.endTurn(() => {
       this.cdr.detectChanges();
     });
   }
 
-  public removeWildFighter(index: number): void {
+  removeWildFighter(index: number): void {
     this.battleService.removeWildFighter(index, () => {
       this.cdr.detectChanges();
     });
   }
 
-  public canCarry(fighter: Fighter): boolean {
+  canCarry(fighter: Fighter): boolean {
     return (
       !this.notEditable &&
       fighter.role !== FighterRole.Monster &&
@@ -202,15 +202,15 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     );
   }
 
-  public dragStarted(): void {
+  dragStarted(): void {
     this.showGridLayout = true;
   }
 
-  public dragEnded(): void {
+  dragEnded(): void {
     this.showGridLayout = false;
   }
 
-  public connectToSession(): void {
+  connectToSession(): void {
     this._subscriptions.add(
       this.dialog
         .open(ConnectDialogComponent, {
@@ -228,7 +228,7 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     );
   }
 
-  public copySessionToken(): void {
+  copySessionToken(): void {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(
         this.multiplayerService.peerType === PeerType.Host
@@ -260,7 +260,7 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  public checkWarband(index: number): void {
+  checkWarband(index: number): void {
     this.visibleWarbandIndex = index;
     if (index < 0) {
       this.core.setColor(this.battleService.battle.warband.color);
@@ -270,7 +270,7 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  public useRenown(
+  useRenown(
     fighter: FighterReference,
     renownIndex: number,
     group: string,
@@ -281,7 +281,7 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  public stayAwake(): void {
+  stayAwake(): void {
     if ('WakeLock' in window && 'request' in (window as any).WakeLock) {
       // alert('if WakeLock');
       this.wakeLock = this.requestWakeLockController();
@@ -376,11 +376,11 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  public refreshUI = (): void => {
+  refreshUI = (): void => {
     this.cdr.detectChanges();
   };
 
-  public removeFighter(fighterIndex: number, index: number): void {
+  removeFighter(fighterIndex: number, index: number): void {
     this.warbandService.removeFighter(fighterIndex, () => {
       this.battleService.battle.fallen!.splice(index, 1);
       this.battleService.saveBattle();
@@ -388,7 +388,7 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     });
   }
 
-  public addFighterModifier(fighter: FighterReference, index: number): void {
+  addFighterModifier(fighter: FighterReference, index: number): void {
     this._subscriptions.add(
       this.dialog
         .open(ModifierDialogComponent, {
@@ -409,7 +409,7 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     );
   }
 
-  public editFighterModifier(
+  editFighterModifier(
     fighter: FighterReference,
     index: number,
     modifierIndex: number
@@ -437,7 +437,7 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     );
   }
 
-  public removeFighterModifier(
+  removeFighterModifier(
     fighter: FighterReference,
     index: number,
     modifierIndex: number

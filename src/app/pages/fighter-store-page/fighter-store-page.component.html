@@ -17,7 +17,7 @@
   </mat-menu>
 </smitd-header>
 <div class="scroll-container">
-  <div class="fighters-container">
+  <div class="fighters-container" *ngIf="fighterStore.loaded">
     <div class="faction" *ngFor="let faction of fighterStore.factions">
       <div class="divider">
         <mat-divider></mat-divider>

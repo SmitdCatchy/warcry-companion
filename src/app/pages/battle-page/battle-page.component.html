@@ -34,9 +34,9 @@
 <mat-card class="score">
   <ng-container [ngSwitch]="battleService.battle.battleState">
     <ng-container *ngSwitchCase="BattleState.Roster">
-      <h2>{{'' | translate}}{{battleService.warbandSize}} /
-        {{'' | translate}}{{battleService.battle.campaign ? battle.warband.campaign.limit : 1000}}
-        <span>{{'PTS'}}</span></h2>
+      <h2 class="number">{{battleService.warbandSize}} /
+        {{battleService.battle.campaign ? battle.warband.campaign.limit : 1000}}
+        <span>{{'common.pts' | translate}}</span></h2>
     </ng-container>
     <ng-container *ngSwitchCase="BattleState.Battle">
       <div class="stats">

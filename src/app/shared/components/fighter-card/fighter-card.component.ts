@@ -29,19 +29,19 @@ export class FighterCardComponent {
   @Input('fighterReference') fighterReference?: FighterReference;
   @Input('mode') mode: string;
   @Input('campaign') campaign: boolean;
-  public Color = Color;
-  public FighterRole = FighterRole;
-  public FighterCardMode = FighterCardMode;
-  public FighterState = FighterState;
+  Color = Color;
+  FighterRole = FighterRole;
+  FighterCardMode = FighterCardMode;
+  FighterState = FighterState;
   @Output() callAbilities: EventEmitter<null>;
   @Output() woundChange: EventEmitter<number>;
-  public expanded: boolean;
-  public battleFrameHeight: string;
+  expanded: boolean;
+  battleFrameHeight: string;
   @ViewChild('fighterExpansionHeader')
   fighterExpansionHeader!: MatExpansionPanelHeader;
 
   constructor(
-    public readonly core: CoreService,
+    readonly core: CoreService,
     private translateService: TranslateService
   ) {
     this.fighter = {
@@ -75,18 +75,18 @@ export class FighterCardComponent {
     this.battleFrameHeight = '80px';
   }
 
-  public get headerColor(): Observable<any> {
+  get headerColor(): Observable<any> {
     return this.core.color.pipe();
   }
 
-  public get dead(): boolean {
+  get dead(): boolean {
     return (
       !!this.fighterReference &&
       this.fighterReference!.state === FighterState.Dead
     );
   }
 
-  public get deadColor(): string | undefined {
+  get deadColor(): string | undefined {
     if (!this.fighterReference) {
       return undefined;
     }
@@ -97,7 +97,7 @@ export class FighterCardComponent {
       : undefined;
   }
 
-  public getModifier(
+  getModifier(
     stat: string,
     secondary: string = '',
     weaponIndex: number = 0
@@ -122,7 +122,7 @@ export class FighterCardComponent {
     }
   }
 
-  public getModified(
+  getModified(
     stat: string,
     secondary: string = '',
     weaponIndex: number = 0
@@ -151,7 +151,7 @@ export class FighterCardComponent {
     return modified > 1 ? modified : 1;
   }
 
-  public getFighterStat(
+  getFighterStat(
     stat: string,
     secondary: string = '',
     weaponIndex: number = 0
@@ -168,7 +168,7 @@ export class FighterCardComponent {
     }
   }
 
-  public getMonsterStat(stat: string, secondary: string = ''): number {
+  getMonsterStat(stat: string, secondary: string = ''): number {
     const monsterTable: MonsterStat[] = this.fighter.monsterStatTable!;
     if (this.mode !== 'battle') {
       switch (stat) {
@@ -219,13 +219,13 @@ export class FighterCardComponent {
     }
   }
 
-  public setBattleFrameHeight(header: MatExpansionPanelHeader): void {
+  setBattleFrameHeight(header: MatExpansionPanelHeader): void {
     this.battleFrameHeight = `${
       ((header as any)._element as ElementRef).nativeElement.clientHeight
     }px`;
   }
 
-  public getLabels(
+  getLabels(
     fighter: Fighter,
     fighterReference?: FighterReference
   ): string {

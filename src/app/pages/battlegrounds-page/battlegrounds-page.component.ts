@@ -27,12 +27,12 @@ export const battlegroundsFileType = 'battlegrounds';
 })
 export class BattlegroundsPageComponent implements OnDestroy {
   private _subscriptions = new Subscription();
-  public battlegroundForm: FormGroup;
-  public selectedBattlegroundIndex: number;
+  battlegroundForm: FormGroup;
+  selectedBattlegroundIndex: number;
 
   constructor(
-    public readonly core: CoreService,
-    public readonly battlegroundsService: BattlegroundsService,
+    readonly core: CoreService,
+    readonly battlegroundsService: BattlegroundsService,
     private readonly translateService: TranslateService,
     private readonly dialog: MatDialog
   ) {
@@ -46,8 +46,12 @@ export class BattlegroundsPageComponent implements OnDestroy {
       )
     });
     this.selectedBattlegroundIndex = 0;
-    this.addInitialAbilities(
-      this.battlegroundsService.universalAbilities.abilities
+    this._subscriptions.add(
+      this.battlegroundsService.loaded.subscribe(() =>
+        this.addInitialAbilities(
+          this.battlegroundsService.universalAbilities.abilities
+        )
+      )
     );
     this.battlegroundForm.markAsUntouched();
     this._subscriptions.add(
@@ -66,23 +70,23 @@ export class BattlegroundsPageComponent implements OnDestroy {
     this._subscriptions.unsubscribe();
   }
 
-  public get abilities(): FormArray {
+  get abilities(): FormArray {
     return this.battlegroundForm.get('abilities') as FormArray;
   }
 
-  public get abilitiesList(): FormGroup[] {
+  get abilitiesList(): FormGroup[] {
     return this.abilities.controls as FormGroup[];
   }
 
-  public get universal(): AbstractControl {
+  get universal(): AbstractControl {
     return this.battlegroundForm.get('universal') as AbstractControl;
   }
 
-  public get name(): AbstractControl {
+  get name(): AbstractControl {
     return this.battlegroundForm.get('name') as AbstractControl;
   }
 
-  public selectBattleground(index: number): void {
+  selectBattleground(index: number): void {
     this.selectedBattlegroundIndex = index;
     const selected = this.battlegroundsService.battlegrounds[index];
     this.name.setValue(selected.name);
@@ -94,7 +98,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
     this.battlegroundForm.markAsUntouched();
   }
 
-  public addNewBattleground(
+  addNewBattleground(
     battleground?: Battleground,
     select: boolean = true
   ): void {
@@ -114,7 +118,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
     }
   }
 
-  public updateBattleground(): void {
+  updateBattleground(): void {
     this.battlegroundsService.editBattleground(
       this.selectedBattlegroundIndex,
       this.battlegroundForm.value
@@ -122,7 +126,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
     this.battlegroundForm.markAsUntouched();
   }
 
-  public removeBattleground(): void {
+  removeBattleground(): void {
     this._subscriptions.add(
       this.dialog
         .open(ConfirmDialogComponent, {
@@ -152,7 +156,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
     );
   }
 
-  public addAbility(ability?: Ability, sort: boolean = true): FormGroup | void {
+  addAbility(ability?: Ability, sort: boolean = true): FormGroup | void {
     const abilityFormGroup = new FormGroup({
       type: new FormControl(ability ? ability.type : AbilityType.Double, [
         Validators.required
@@ -178,7 +182,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
     }
   }
 
-  public addNewAbility(ability?: Ability): FormGroup | void {
+  addNewAbility(ability?: Ability): FormGroup | void {
     this._subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
@@ -197,7 +201,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
     );
   }
 
-  public editAbility(index: number) {
+  editAbility(index: number) {
     this._subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
@@ -219,7 +223,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
     );
   }
 
-  public removeAbility(index: number): void {
+  removeAbility(index: number): void {
     this._subscriptions.add(
       this.dialog
         .open(ConfirmDialogComponent, {
@@ -249,13 +253,13 @@ export class BattlegroundsPageComponent implements OnDestroy {
     );
   }
 
-  public addInitialAbilities(abilities: Ability[]): void {
+  addInitialAbilities(abilities: Ability[]): void {
     abilities.forEach((ability) => {
       this.addAbility(ability, false);
     });
   }
 
-  public importBattlegrounds(): void {
+  importBattlegrounds(): void {
     this.core.handleFileUpload(
       (result) => {
         const battlegrounds = result.battlegrounds as Battleground[];
@@ -277,7 +281,7 @@ export class BattlegroundsPageComponent implements OnDestroy {
     );
   }
 
-  public exportBattlegrounds(): void {
+  exportBattlegrounds(): void {
     const filename = `battlegrounds.json`;
     const jsonStr = JSON.stringify({
       type: 'battlegrounds',

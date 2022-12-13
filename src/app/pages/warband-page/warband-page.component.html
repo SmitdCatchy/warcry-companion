@@ -18,9 +18,12 @@
 </smitd-header>
 
 <mat-tab-group color="primary" mat-stretch-tabs dynamicHeight [(selectedIndex)]="activeTab">
-  <mat-tab [label]="('warband-page.tab.fighters.title' | translate) + ' [' + warband.fighters.length + '/20]'">
+  <mat-tab [label]="('warband-page.tab.fighters.title' | translate)">
     <div class="scroll-container">
       <div class="fighters-container">
+        <h2>
+          <span class="number">{{warbandPointSum(warband)}} <span class="small">{{('common.pts' | translate)}}</span> </span> <span class="number"> {{warband.fighters.length}}/20 <span class="small">{{('common.fighters' | translate)}}</span></span> 
+        </h2>
         <div class="fighters-grid" [ngClass]="{'show-items': showGridLayout}" cdkDropListGroup>
           <div class="fighters-grid-item" cdkDropList (cdkDropListDropped)="dropListDropped()"
             (cdkDropListEntered)="cdkDropListEntered($event)">
@@ -260,8 +263,7 @@
               <mat-option *ngFor="let color of colorList" [value]="color.value">{{'color.' + color.key | translate}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
-          <div class="color-sample" (click)="colorSelect.open()" [ngStyle]="{'background-color': selectedColor}"></div>
+          </mat-form-field><input class="color-sample" type="color" formControlName="color" [value]="selectedColor">
         </div>
         <mat-expansion-panel>
           <mat-expansion-panel-header>

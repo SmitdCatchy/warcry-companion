@@ -3,7 +3,8 @@
   "title": "Warcry Companion",
   "language": {
     "en": "English",
-    "hu": "Magyar"
+    "hu": "Magyar",
+    "de": "Deutsch"
   },
   "color": {
     "blue": "Rend Kék",
@@ -11,7 +12,9 @@
     "grey": "Független Szürke",
     "orange": "Vadvidéh Narancs",
     "purple": "Halál Lile",
-    "red": "Káosz Vörös"
+    "red": "Káosz Vörös",
+    "warband": "Csapatszín",
+    "fighters": "Harcos"
   },
   "theme": {
     "light": "Világos téma",

@@ -44,24 +44,24 @@ import { CoreService } from 'src/app/core/services/core.service';
 })
 export class WarbandPageComponent implements OnDestroy, AfterViewInit {
   private _subscriptions = new Subscription();
-  public Color = Color;
-  public FighterCardMode = FighterCardMode;
-  public FighterRole = FighterRole;
-  public colorList = Object.keys(Color).map((key) => ({
+  Color = Color;
+  FighterCardMode = FighterCardMode;
+  FighterRole = FighterRole;
+  colorList = Object.keys(Color).map((key) => ({
     key,
     value: Color[key as keyof typeof Color]
   }));
-  public EncampmentState = EncampmentState;
-  public encampmentStateList = Object.values(EncampmentState);
+  EncampmentState = EncampmentState;
+  encampmentStateList = Object.values(EncampmentState);
 
-  public warbandForm: FormGroup;
-  public campaignForm: FormGroup;
-  public activeTab: number;
+  warbandForm: FormGroup;
+  campaignForm: FormGroup;
+  activeTab: number;
 
   constructor(
-    public readonly core: CoreService,
-    public readonly warbandService: WarbandService,
-    public readonly battleService: BattleService,
+    readonly core: CoreService,
+    readonly warbandService: WarbandService,
+    readonly battleService: BattleService,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService,
     private readonly router: Router
@@ -126,36 +126,36 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     this._subscriptions.unsubscribe();
   }
 
-  public get selectedColor(): string {
+  get selectedColor(): string {
     return this.warbandForm.get('color')!.value;
   }
 
-  public get warband(): Warband {
+  get warband(): Warband {
     return this.warbandService.selectedWarband;
   }
 
-  public get abilities(): FormArray {
+  get abilities(): FormArray {
     return this.warbandForm.get('abilities') as FormArray;
   }
 
-  public get abilitiesList(): FormGroup[] {
+  get abilitiesList(): FormGroup[] {
     return this.abilities.controls as FormGroup[];
   }
 
-  public get icon(): AbstractControl {
+  get icon(): AbstractControl {
     return this.warbandForm.get('icon') as AbstractControl;
   }
 
-  public iconValueChange(icon: string): void {
+  iconValueChange(icon: string): void {
     this.icon.setValue(icon);
   }
 
-  public updateWarband(): void {
+  updateWarband(): void {
     const editedWarband = { ...this.warband, ...this.warbandForm.value };
     this.warbandService.updateWarband(editedWarband);
   }
 
-  public updateCampaign(): void {
+  updateCampaign(): void {
     const editedWarband = {
       ...this.warband,
       campaign: this.campaignForm.value
@@ -163,7 +163,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     this.warbandService.updateWarband(editedWarband);
   }
 
-  public addFighter(): void {
+  addFighter(): void {
     this._subscriptions.add(
       this.dialog
         .open(FighterDialogComponent, {
@@ -181,7 +181,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  public editFighter(fighter: Fighter, index: number): void {
+  editFighter(fighter: Fighter, index: number): void {
     this._subscriptions.add(
       this.dialog
         .open(FighterDialogComponent, {
@@ -199,7 +199,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  public addFighterModifier(fighter: Fighter, index: number): void {
+  addFighterModifier(fighter: Fighter, index: number): void {
     this._subscriptions.add(
       this.dialog
         .open(ModifierDialogComponent, {
@@ -218,7 +218,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  public editFighterModifier(
+  editFighterModifier(
     fighter: Fighter,
     index: number,
     modifierIndex: number
@@ -244,7 +244,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  public removeFighterModifier(
+  removeFighterModifier(
     fighter: Fighter,
     index: number,
     modifierIndex: number
@@ -274,7 +274,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  public addFighterAbility(fighter: Fighter, index: number): void {
+  addFighterAbility(fighter: Fighter, index: number): void {
     this._subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
@@ -295,7 +295,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  public editFighterAbility(
+  editFighterAbility(
     fighter: Fighter,
     index: number,
     abilityIndex: number
@@ -319,7 +319,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  public removeFighterAbility(
+  removeFighterAbility(
     fighter: Fighter,
     index: number,
     abilityIndex: number
@@ -349,7 +349,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  public duplicateFighter(fighter: Fighter): void {
+  duplicateFighter(fighter: Fighter): void {
     const duplicated = { ...fighter, ...{ name: '', modifiers: [], note: '' } };
     this._subscriptions.add(
       this.dialog
@@ -368,7 +368,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  public addAbility(ability?: Ability, sort: boolean = true): FormGroup | void {
+  addAbility(ability?: Ability, sort: boolean = true): FormGroup | void {
     const abilityFormGroup = new FormGroup({
       type: new FormControl(ability ? ability.type : AbilityType.Double, [
         Validators.required
@@ -393,7 +393,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  public addNewAbility(ability?: Ability): FormGroup | void {
+  addNewAbility(ability?: Ability): FormGroup | void {
     this._subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
@@ -411,7 +411,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  public editAbility(index: number) {
+  editAbility(index: number) {
     this._subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
@@ -432,7 +432,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  public removeAbility(index: number): void {
+  removeAbility(index: number): void {
     this._subscriptions.add(
       this.dialog
         .open(ConfirmDialogComponent, {
@@ -457,7 +457,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  public addInitialAbilities(abilities: Ability[]): void {
+  addInitialAbilities(abilities: Ability[]): void {
     abilities.forEach((ability) => {
       this.addAbility(ability, false);
     });
@@ -466,12 +466,12 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
   @ViewChild(CdkDropListGroup) listGroup!: CdkDropListGroup<CdkDropList>;
   @ViewChild(CdkDropList) placeholder!: CdkDropList;
 
-  public target!: CdkDropList | null;
-  public targetIndex!: number;
-  public source!: CdkDropList | null;
-  public sourceIndex!: number;
-  public activeContainer!: any;
-  public showGridLayout: boolean = false;
+  target!: CdkDropList | null;
+  targetIndex!: number;
+  source!: CdkDropList | null;
+  sourceIndex!: number;
+  activeContainer!: any;
+  showGridLayout: boolean = false;
 
   ngAfterViewInit(): void {
     const phElement = this.placeholder.element.nativeElement;
@@ -537,11 +537,11 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
       return true;
     }
 
-    const dragIndex = __indexOf(
+    const dragIndex = Array.prototype.indexOf.call(
       dropElement.parentElement!.children,
       this.source ? phElement : sourceElement
     );
-    const dropIndex = __indexOf(
+    const dropIndex = Array.prototype.indexOf.call(
       dropElement.parentElement!.children,
       dropElement
     );
@@ -570,11 +570,11 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     });
   }
 
-  public itemTrackBy(item: any) {
+  itemTrackBy(item: any) {
     return item.id;
   }
-}
 
-function __indexOf(collection: any, node: any) {
-  return Array.prototype.indexOf.call(collection, node);
+  warbandPointSum(warband: Warband): number {
+    return warband.fighters.reduce((prev, fighter) => prev += fighter.points , 0);
+  }
 }

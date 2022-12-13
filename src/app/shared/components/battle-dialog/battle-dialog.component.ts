@@ -17,11 +17,11 @@ import { BattlegroundsService } from 'src/app/core/services/battlegrounds.servic
   styleUrls: ['./battle-dialog.component.scss']
 })
 export class BattleDialogComponent {
-  public battleForm: FormGroup;
-  public warbandForm: FormGroup;
-  public BattleState = BattleState;
-  public battlegroundList: Battleground[];
-  public colorList = Object.keys(Color).map((key) => ({
+  battleForm: FormGroup;
+  warbandForm: FormGroup;
+  BattleState = BattleState;
+  battlegroundList: Battleground[];
+  colorList = Object.keys(Color).map((key) => ({
     key,
     value: Color[key as keyof typeof Color]
   }));
@@ -91,35 +91,35 @@ export class BattleDialogComponent {
     this.battlegroundList = this.battlegroundService.battlegrounds.slice(1);
   }
 
-  public get runningBattle(): boolean {
+  get runningBattle(): boolean {
     return this.data.battle.battleState !== BattleState.Peace;
   }
 
-  public get warband(): Warband {
+  get warband(): Warband {
     return this.data.warband;
   }
 
-  public get selectedColor(): string {
+  get selectedColor(): string {
     return this.warbandForm.get('color')!.value;
   }
 
-  public get fighters(): AbstractControl {
+  get fighters(): AbstractControl {
     return this.warbandForm.get('fighters') as AbstractControl;
   }
 
-  public get campaign(): AbstractControl {
+  get campaign(): AbstractControl {
     return this.battleForm.get('campaign') as AbstractControl;
   }
 
-  public get features(): AbstractControl {
+  get features(): AbstractControl {
     return this.battleForm.get('campaign') as AbstractControl;
   }
 
-  public get color(): AbstractControl {
+  get color(): AbstractControl {
     return this.warbandForm.get('color') as AbstractControl;
   }
 
-  public acceptDialog(newBattle: boolean = true): void {
+  acceptDialog(newBattle: boolean = true): void {
     this.dialogRef.close({
       newBattle,
       battle: {
@@ -133,7 +133,7 @@ export class BattleDialogComponent {
     });
   }
 
-  public closeDialog(): void {
+  closeDialog(): void {
     this.dialogRef.close(false);
   }
 }

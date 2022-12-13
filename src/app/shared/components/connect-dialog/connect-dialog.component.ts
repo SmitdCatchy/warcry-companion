@@ -9,30 +9,30 @@ import { MultiplayerService } from 'src/app/core/services/multiplayer.service';
   styleUrls: ['./connect-dialog.component.scss']
 })
 export class ConnectDialogComponent {
-  public peerForm: FormGroup;
+  peerForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<ConnectDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {},
-    public readonly multiplayerService: MultiplayerService
+    readonly multiplayerService: MultiplayerService
   ) {
     this.peerForm = new FormGroup({
       sessionToken: new FormControl('', [Validators.required])
     });
   }
 
-  public get sessionToken(): string {
+  get sessionToken(): string {
     return this.peerForm.get('sessionToken')?.value;
   }
 
-  public acceptDialog(): void {
+  acceptDialog(): void {
     this.multiplayerService.connectPeer(this.sessionToken, () => {
       this.dialogRef.close(true);
     })
   }
 
-  public closeDialog(): void {
+  closeDialog(): void {
     this.dialogRef.close(false);
   }
 }

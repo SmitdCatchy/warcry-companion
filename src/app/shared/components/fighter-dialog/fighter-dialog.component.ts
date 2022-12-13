@@ -19,6 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import cloneDeep from 'lodash.clonedeep';
 import { Warband } from 'src/app/core/models/warband.model';
 import { TranslateService } from '@ngx-translate/core';
+import { Color } from 'src/app/core/enums/color.enum';
 
 @Component({
   selector: 'smitd-fighter-dialog',
@@ -26,13 +27,17 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./fighter-dialog.component.scss']
 })
 export class FighterDialogComponent implements OnDestroy {
-  public fighterForm: FormGroup;
-  public separatorKeysCodes: number[] = [ENTER, COMMA, PERIOD];
-  public runemarkCtrl = new FormControl('');
-  public fighterRoleList = Object.values(FighterRole);
-  public FighterRole = FighterRole;
-  public existsInStore: boolean;
+  fighterForm: FormGroup;
+  separatorKeysCodes: number[] = [ENTER, COMMA, PERIOD];
+  runemarkCtrl = new FormControl('');
+  fighterRoleList = Object.values(FighterRole);
+  FighterRole = FighterRole;
+  existsInStore: boolean;
   private _subscriptions: Subscription = new Subscription();
+  colorList = Object.keys(Color).map((key) => ({
+    key,
+    value: Color[key as keyof typeof Color]
+  }));
 
   constructor(
     public dialogRef: MatDialogRef<FighterDialogComponent>,
@@ -43,10 +48,13 @@ export class FighterDialogComponent implements OnDestroy {
       edit: boolean;
       storeDialog: boolean;
     },
-    public readonly fighterStore: FighterStoreService,
+    readonly fighterStore: FighterStoreService,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService
   ) {
+    if(data.warband) {
+      this.colorList.unshift({key: 'warband', value: data.warband.color});
+    }
     const fighterCopy = data.fighter ? cloneDeep(data.fighter) : undefined;
     this.fighterForm = new FormGroup({
       name: new FormControl(fighterCopy ? fighterCopy.name : '', []),
@@ -90,8 +98,17 @@ export class FighterDialogComponent implements OnDestroy {
           ? fighterCopy.faction
           : this.translateService.instant('common.unaligned'),
         data.storeDialog ? [Validators.required] : []
+      ),
+      color: new FormControl(
+        fighterCopy?.color ? fighterCopy.color : data.warband.color
       )
     });
+    console.log(
+      fighterCopy?.color ? fighterCopy.color : data.warband.color
+    );
+    console.log(fighterCopy);
+    console.log(data.warband);
+
     if (data.storeDialog && data.edit) {
       this.type.disable();
       this.faction.disable();
@@ -116,7 +133,7 @@ export class FighterDialogComponent implements OnDestroy {
       );
     }
     this._subscriptions.add(
-      this.role.valueChanges.subscribe((role) => {
+      this.role.valueChanges.subscribe((role: FighterRole) => {
         this.setRoleRunemarks(role);
       })
     );
@@ -126,39 +143,43 @@ export class FighterDialogComponent implements OnDestroy {
     this._subscriptions.unsubscribe();
   }
 
-  public get weapons(): FormArray {
+  get weapons(): FormArray {
     return this.fighterForm.get('weapons') as FormArray;
   }
 
-  public get monsterStats(): FormArray {
+  get monsterStats(): FormArray {
     return this.fighterForm.get('monsterStatTable') as FormArray;
   }
 
-  public get runemarks(): AbstractControl {
+  get runemarks(): AbstractControl {
     return this.fighterForm.get('runemarks') as AbstractControl;
   }
 
-  public get icon(): AbstractControl {
+  get icon(): AbstractControl {
     return this.fighterForm.get('icon') as AbstractControl;
   }
 
-  public get role(): AbstractControl {
+  get role(): AbstractControl {
     return this.fighterForm.get('role') as AbstractControl;
   }
 
-  public get type(): AbstractControl {
+  get type(): AbstractControl {
     return this.fighterForm.get('type') as AbstractControl;
   }
 
-  public get faction(): AbstractControl {
+  get faction(): AbstractControl {
     return this.fighterForm.get('faction') as AbstractControl;
   }
 
-  public get abilities(): AbstractControl {
+  get abilities(): AbstractControl {
     return this.fighterForm.get('abilities') as AbstractControl;
   }
 
-  public addWeapon(weapon?: Weapon): FormGroup | void {
+  get selectedColor(): string {
+    return this.fighterForm.get('color')!.value;
+  }
+
+  addWeapon(weapon?: Weapon): FormGroup | void {
     const weaponFromGroup = new FormGroup({
       range: new FormControl(weapon ? weapon.range : undefined, [
         Validators.required,
@@ -188,11 +209,11 @@ export class FighterDialogComponent implements OnDestroy {
     this.weapons.push(weaponFromGroup);
   }
 
-  public removeWeapon(index: number): void {
+  removeWeapon(index: number): void {
     this.weapons.removeAt(index);
   }
 
-  public addMonsterStat(monsterStats?: MonsterStat): FormGroup | void {
+  addMonsterStat(monsterStats?: MonsterStat): FormGroup | void {
     const monsterStatsFromGroup = new FormGroup({
       minHealth: new FormControl(monsterStats ? monsterStats.minHealth : 1, [
         Validators.required,
@@ -214,11 +235,11 @@ export class FighterDialogComponent implements OnDestroy {
     this.monsterStats.push(monsterStatsFromGroup);
   }
 
-  public removeMonsterStat(index: number): void {
+  removeMonsterStat(index: number): void {
     this.monsterStats.removeAt(index);
   }
 
-  public addRunemark(event: any): void {
+  addRunemark(event: any): void {
     const value = (event.value || '').trim();
     const runemarks = this.runemarks.value;
 
@@ -231,19 +252,19 @@ export class FighterDialogComponent implements OnDestroy {
     this.runemarks.setValue(runemarks);
   }
 
-  public removeRunemark(runemark: string): void {
+  removeRunemark(runemark: string): void {
     const runemarks = this.runemarks.value;
     runemarks.splice(runemarks.indexOf(runemark), 1);
     this.runemarks.setValue(runemarks);
   }
 
-  public addInitialWeapons(weapons: Weapon[]): void {
+  addInitialWeapons(weapons: Weapon[]): void {
     weapons.forEach((weapon) => {
       this.addWeapon(weapon);
     });
   }
 
-  public addInitialMonsterStats(stats: MonsterStat[]): void {
+  addInitialMonsterStats(stats: MonsterStat[]): void {
     if (stats.length) {
       stats.forEach((stats) => {
         this.addMonsterStat(stats);
@@ -253,11 +274,11 @@ export class FighterDialogComponent implements OnDestroy {
     }
   }
 
-  public iconValueChange(icon: string): void {
+  iconValueChange(icon: string): void {
     this.icon.setValue(icon);
   }
 
-  public acceptDialog(): void {
+  acceptDialog(): void {
     this.type.enable();
     this.faction.enable();
     const fighter = cloneDeep(this.fighterForm.value as Fighter);
@@ -274,30 +295,31 @@ export class FighterDialogComponent implements OnDestroy {
     this.dialogRef.close(this.fighterForm.value);
   }
 
-  public closeDialog(): void {
+  closeDialog(): void {
     this.dialogRef.close(false);
   }
 
-  public storeFighter(): void {
+  storeFighter(): void {
     this.fighterStore.storeFighter(this.cleanFighter(this.fighterForm.value));
     this.existsInStore = true;
   }
 
-  public updateFighter(): void {
+  updateFighter(): void {
     this.fighterStore.updateFighter(this.cleanFighter(this.fighterForm.value));
     this.existsInStore = true;
   }
 
-  public discardFighter(): void {
+  discardFighter(): void {
     this.fighterStore.discardFighter(this.fighterForm.value, () => {
       this.existsInStore = false;
     });
   }
 
-  public cleanFighter(original: Fighter): Fighter {
+  cleanFighter(original: Fighter): Fighter {
     const fighter = cloneDeep(original);
     return {
-      role: fighter.role === FighterRole.Leader ? FighterRole.Hero : fighter.role,
+      role:
+        fighter.role === FighterRole.Leader ? FighterRole.Hero : fighter.role,
       type: fighter.type,
       movement: fighter.movement,
       toughness: fighter.toughness,
@@ -309,11 +331,12 @@ export class FighterDialogComponent implements OnDestroy {
       modifiers: [],
       abilities: fighter.abilities,
       monsterStatTable: fighter.monsterStatTable,
-      icon: fighter.icon
+      icon: fighter.icon,
+      color: this.data.warband ? this.data.warband.color : undefined
     };
   }
 
-  public loadFighter(): void {
+  loadFighter(): void {
     this._subscriptions.add(
       this.dialog
         .open(FighterStoreDialogComponent)

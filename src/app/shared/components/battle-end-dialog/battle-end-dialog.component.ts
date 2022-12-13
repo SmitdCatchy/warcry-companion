@@ -14,7 +14,7 @@ import { Battle } from 'src/app/core/models/battle.model';
   styleUrls: ['./battle-end-dialog.component.scss']
 })
 export class BattleEndDialogComponent {
-  public resultForm: FormGroup;
+  resultForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<BattleEndDialogComponent>,
@@ -29,11 +29,11 @@ export class BattleEndDialogComponent {
     });
   }
 
-  public acceptDialog(): void {
+  acceptDialog(): void {
     this.dialogRef.close(this.resultForm.value);
   }
 
-  public closeDialog(): void {
+  closeDialog(): void {
     this.dialogRef.close(false);
   }
 }

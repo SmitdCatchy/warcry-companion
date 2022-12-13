@@ -175,3 +175,15 @@ html {
     }
   }
 }
+
+.number {
+  font-family: Stenberg !important;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
+
+
+@font-face {
+  font-family: 'Stenberg';
+  src: url(../assets/fonts/StenbergITCStd.otf);
+}

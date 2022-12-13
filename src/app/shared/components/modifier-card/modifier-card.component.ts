@@ -45,7 +45,7 @@ export class ModifierCardComponent {
     this.used = new EventEmitter();
   }
 
-  public useModifier(): void {
+  useModifier(): void {
     if (!this.disabled) {
       this.modifier.used = !this.modifier.used;
       this.used.emit();

@@ -21,10 +21,10 @@ export class MultiplayerService {
   private _peerType!: PeerType;
   private _connections!: DataConnection[];
   private _peerId!: string;
-  public peers!: BattlePeer[];
+  peers!: BattlePeer[];
   private _peerState!: PeerState;
-  public refreshUi: Subject<null>;
-  public disconnectedPeerIndex: Subject<number>;
+  refreshUi: Subject<null>;
+  disconnectedPeerIndex: Subject<number>;
   private interval: any;
   private heartbeatCheck: boolean;
   private heartbeatLength: number;
@@ -47,7 +47,7 @@ export class MultiplayerService {
     this.heartbeatCheck = false;
   }
 
-  public initializePeer(): void {
+  initializePeer(): void {
     this.peers = [];
     this._connections = [];
     this._peerType = PeerType.Host;
@@ -239,7 +239,7 @@ export class MultiplayerService {
     });
   }
 
-  public connectPeer(peerId: string, connectedCb: () => any = () => {}): void {
+  connectPeer(peerId: string, connectedCb: () => any = () => {}): void {
     this.core.startLoader();
     let loaderFailSafe = true;
     let peerIndex;
@@ -418,7 +418,7 @@ export class MultiplayerService {
     this._connections.push(connection);
   }
 
-  public ready(): void {
+  ready(): void {
     this._peerState = PeerState.Ready;
     this.broadcast({
       peerId: this.peerId,
@@ -426,7 +426,7 @@ export class MultiplayerService {
     });
   }
 
-  public unready(): void {
+  unready(): void {
     this._peerState = PeerState.Unready;
     this.broadcast({
       peerId: this.peerId,
@@ -434,14 +434,14 @@ export class MultiplayerService {
     });
   }
 
-  public disconnect(): void {
+  disconnect(): void {
     clearInterval(this.interval);
     this._peer.destroy();
     this.initializePeer();
     this.refreshUi.next(null);
   }
 
-  public stateChange(change: any): void {
+  stateChange(change: any): void {
     switch (change.changed) {
       case 'end-turn':
         this._peerState = PeerState.Unready;
@@ -461,7 +461,7 @@ export class MultiplayerService {
     this.refreshUi.next(null);
   }
 
-  public handleStateChange(peerId: string, change: any): void {
+  handleStateChange(peerId: string, change: any): void {
     let peerIndex;
     switch (change.changed) {
       case 'end-turn':
@@ -525,7 +525,7 @@ export class MultiplayerService {
     }
   }
 
-  public broadcast(message: PeerData): void {
+  broadcast(message: PeerData): void {
     this._connections.forEach((connection) => {
       if (message.peerId !== connection.peer) {
         connection.send(message);
@@ -533,7 +533,7 @@ export class MultiplayerService {
     });
   }
 
-  public privateMessage(message: PeerData, peer: string): void {
+  privateMessage(message: PeerData, peer: string): void {
     const selected = this._connections.find(
       (connection) => peer === connection.peer
     );
@@ -542,34 +542,34 @@ export class MultiplayerService {
     }
   }
 
-  public get peerId(): string {
+  get peerId(): string {
     return this._peerId;
   }
 
-  public get peerType(): string {
+  get peerType(): string {
     return this._peerType;
   }
 
-  public get host(): boolean {
+  get host(): boolean {
     return this._peerType === PeerType.Host;
   }
 
-  public get peerState(): PeerState {
+  get peerState(): PeerState {
     return this._peerState;
   }
 
-  public get connected(): boolean {
+  get connected(): boolean {
     return this.peers.length > 0;
   }
 
-  public get allReady(): boolean {
+  get allReady(): boolean {
     return (
       this._peerState === PeerState.Ready &&
       this.peers.findIndex((peer) => peer.state === PeerState.Unready) === -1
     );
   }
 
-  public get meReady(): boolean {
+  get meReady(): boolean {
     return this._peerState === PeerState.Ready;
   }
 }

@@ -447,7 +447,8 @@ smitd-battlegrounds-page .mat-mini-fab {
   }
 }
 
-body mat-panel-description.mat-expansion-panel-header-description {
+body mat-panel-description.mat-expansion-panel-header-description,
+body mat-panel-title.mat-expansion-panel-header-title {
   color: inherit;
 }
 
