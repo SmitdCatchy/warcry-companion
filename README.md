@@ -49,7 +49,7 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 - added color property to fighters to overwrite the fighter card background color.
 - update data storage to use indexeddb.
 
-</details
+</details>
 
 ### 3.1.0 - 2022.10.04.
 
@@ -59,7 +59,7 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 - added aftermath phase to the battle screen.
 - added labels on the fighter cards if the fighter is injured, has an artefact and or carrying a treasure.
 
-</details
+</details>
 
 <details>
   <summary>Fixes</summary>
@@ -67,7 +67,7 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 - multiplayer session disconnections handled.
 - during a multiplayer session fighter cards won't close if they are updated.
 
-</details
+</details>
 
 ### 3.0.0 Chosen - 2022.09.30.
 
@@ -87,7 +87,7 @@ Fix: handle webkit style errors.
 - updated the guide.
 - fighter groups are displayed as columns on wide screens.
 
-</details
+</details>
 
 <details>
   <summary>Fixes</summary>
@@ -95,7 +95,7 @@ Fix: handle webkit style errors.
 - navigating back from an initially loaded screen will always go to Main screen.
 - renown no longer visible during non campaign battles.
 
-</details
+</details>
 
 ### 2.2.3 - 2022.09.06.
 
