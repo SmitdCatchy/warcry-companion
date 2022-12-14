@@ -20,7 +20,7 @@ export class IconUploaderComponent {
 
   @ViewChild('canvas') canvasRef!: ElementRef;
 
-  constructor(public readonly core: CoreService) {
+  constructor(readonly core: CoreService) {
     this.iconValueChange = new EventEmitter();
   }
 
@@ -32,9 +32,7 @@ export class IconUploaderComponent {
     return this.canvas.getContext('2d')!;
   }
 
-  public iconUpload(): void {
-
-
+  iconUpload(): void {
     this.core.handleFileUpload((result) => {
       const icon = new Image();
       icon.onload = () => {
@@ -63,7 +61,7 @@ export class IconUploaderComponent {
     }, 'image');
   }
 
-  public removeIcon(): void {
+  removeIcon(): void {
     this.iconValueChange.emit(undefined);
   }
 }

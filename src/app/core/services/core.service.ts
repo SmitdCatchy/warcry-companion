@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, filter, Observable, from } from 'rxjs';
-import { LocalStorageKey } from '../enums/local-keys.enum';
+import { BehaviorSubject, filter, Observable, from, switchMap } from 'rxjs';
+import { LocalStorageKey, StoreKey } from '../enums/local-keys.enum';
 import { Theme } from '../enums/theme.enum';
 import { Color } from '../enums/color.enum';
 import { DomSanitizer, Meta } from '@angular/platform-browser';
@@ -9,7 +9,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { Warband } from '../models/warband.model';
 
+export const databaseVersion = 1;
 @Injectable({
   providedIn: 'root'
 })
@@ -17,8 +20,10 @@ export class CoreService {
   private _themeSubject: BehaviorSubject<Theme>;
   private _colorSubject: BehaviorSubject<Color>;
   private _previousTheme: Theme;
-  public effectsEnabled: boolean;
-  public _loader: boolean;
+  effectsEnabled: boolean;
+  _loader: boolean;
+  private _database?: IDBDatabase;
+  private _databaseOldVersion?: number;
 
   constructor(
     private readonly meta: Meta,
@@ -26,7 +31,8 @@ export class CoreService {
     private readonly domSanitizer: DomSanitizer,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService,
-    private readonly location: Location
+    private readonly location: Location,
+    private readonly router: Router
   ) {
     this._themeSubject = new BehaviorSubject<Theme>(
       CoreService.getLocalStorage(LocalStorageKey.Theme, Theme.Dark) as Theme
@@ -57,30 +63,30 @@ export class CoreService {
     this._loader = false;
   }
 
-  public get theme(): Observable<Theme> {
+  get theme(): Observable<Theme> {
     return this._themeSubject.asObservable();
   }
 
-  public getTheme(): Theme {
+  getTheme(): Theme {
     return this._themeSubject.value;
   }
 
-  public get color(): Observable<Color> {
+  get color(): Observable<Color> {
     return this._colorSubject.asObservable();
   }
 
-  public getColor(): Color {
+  getColor(): Color {
     return this._colorSubject.value;
   }
 
-  public setTheme(theme: Theme) {
+  setTheme(theme: Theme) {
     this._previousTheme = this._themeSubject.value;
     CoreService.setLocalStorage(LocalStorageKey.Theme, theme);
     this._themeSubject.next(theme);
     location.reload();
   }
 
-  public setColor(color: Color) {
+  setColor(color: Color) {
     CoreService.setLocalStorage(LocalStorageKey.Color, color || Color.grey);
     this.meta.updateTag(
       { name: 'theme-color', content: color || Color.grey },
@@ -89,24 +95,24 @@ export class CoreService {
     this._colorSubject.next(color || Color.grey);
   }
 
-  public static getLocalStorage(key: string, missing: string = ''): string {
+  static getLocalStorage(key: string, missing: string = ''): string {
     return localStorage.getItem(key) || missing;
   }
 
-  public static setLocalStorage(key: string, value: string): void {
+  static setLocalStorage(key: string, value: string): void {
     localStorage.setItem(key, value);
   }
 
-  public static removeLocalStorage(key: string): void {
+  static removeLocalStorage(key: string): void {
     localStorage.removeItem(key);
   }
 
-  public static checkLocalStorageSpace(): Observable<StorageEstimate> {
+  static checkLocalStorageSpace(): Observable<StorageEstimate> {
     const storageManagerOb = navigator.storage;
     return from(navigator.storage.estimate());
   }
 
-  public switchEffects(): void {
+  switchEffects(): void {
     this.effectsEnabled = !this.effectsEnabled;
     CoreService.setLocalStorage(
       LocalStorageKey.Effects,
@@ -115,21 +121,21 @@ export class CoreService {
     location.reload();
   }
 
-  public startLoader(): void {
+  startLoader(): void {
     this._loader = true;
   }
 
-  public stopLoader(): void {
+  stopLoader(): void {
     this._loader = false;
   }
 
-  public get loading(): boolean {
+  get loading(): boolean {
     return this._loader;
   }
 
-  public handleFileUpload(
+  handleFileUpload(
     loaded: (result: any) => any = () => {},
-    type: 'json' | 'image' = 'json',
+    type: 'json' | 'image' | 'other' = 'json',
     jsonTypeCheck?: string
   ): void {
     const upload: HTMLInputElement = document.createElement('input');
@@ -174,6 +180,12 @@ export class CoreService {
           };
           reader.readAsDataURL((upload as any).files[0]);
           break;
+        default:
+          reader.onload = () => {
+            loaded((reader as any).result as string);
+          };
+          reader.readAsText((upload as any).files[0]);
+          break;
       }
     };
     document.body.appendChild(upload);
@@ -181,7 +193,153 @@ export class CoreService {
     upload.click();
   }
 
-  public back(): void {
-    this.location.back();
+  back(): void {
+    if (history.state.navigationId < 2) {
+      this.router.navigateByUrl('/');
+    } else {
+      this.location.back();
+    }
+  }
+
+  initStore(): Observable<any> {
+    return from(
+      new Promise((resolve, reject) => {
+        if (this._database) {
+          resolve(this._database);
+          return;
+        }
+        const openRequest = indexedDB.open(StoreKey.Database, databaseVersion);
+        openRequest.onupgradeneeded = (event: IDBVersionChangeEvent) => {
+          console.log('onupgradeneeded', event.oldVersion, openRequest.result);
+          this._databaseOldVersion = event.oldVersion;
+          const db = openRequest.result;
+          // switch(event.oldVersion) { // existing db version
+          // case 0:
+          // version 0 means that the client had no database
+          // perform initialization
+          db.createObjectStore(StoreKey.Store, { keyPath: 'name' });
+          // case 1:
+          // client had version 1
+          // update
+          // }
+        };
+        openRequest.onerror = () => {
+          reject(openRequest.error);
+        };
+        openRequest.onsuccess = () => {
+          this._database = openRequest.result;
+          if (this._databaseOldVersion !== undefined) {
+            const transaction = this._database.transaction(
+              StoreKey.Store,
+              'readwrite'
+            );
+            const mainStore = transaction.objectStore(StoreKey.Store);
+            const requestWarbansStore = mainStore.put({
+              name: StoreKey.WarbandsStore,
+              data: JSON.parse(
+                CoreService.getLocalStorage(LocalStorageKey.Warbands, '[]')
+              ) as Warband[]
+            });
+
+            requestWarbansStore.onsuccess = () => {
+              resolve(requestWarbansStore.result);
+            };
+
+            requestWarbansStore.onerror = () => {
+              reject(requestWarbansStore.error);
+            };
+            const requestBattlegroundsStore = mainStore.put({
+              name: StoreKey.BattlegroundsStore,
+              data: JSON.parse(
+                CoreService.getLocalStorage(LocalStorageKey.Battlegrounds, '[]')
+              ) as Warband[]
+            });
+
+            requestBattlegroundsStore.onsuccess = () => {
+              resolve(requestBattlegroundsStore.result);
+            };
+
+            requestBattlegroundsStore.onerror = () => {
+              reject(requestBattlegroundsStore.error);
+            };
+            const requestFighterStore = mainStore.put({
+              name: StoreKey.FighterStore,
+              data: JSON.parse(
+                CoreService.getLocalStorage(LocalStorageKey.FighterStore, '[]')
+              ) as Warband[]
+            });
+
+            requestFighterStore.onsuccess = () => {
+              resolve(requestFighterStore.result);
+            };
+
+            requestFighterStore.onerror = () => {
+              reject(requestFighterStore.error);
+            };
+          } else {
+            resolve(this._database);
+            this._database.onversionchange = () => {
+              this._database!.close();
+              delete this._database;
+              alert('Database is outdated, please reload the page.');
+            };
+          }
+        };
+      })
+    );
+  }
+
+  getStore(storekey: StoreKey): Observable<any> {
+    return this.initStore().pipe(
+      switchMap((result) => {
+        return from(
+          new Promise((resolve, reject) => {
+            if (!this._database) {
+              reject('IDBDatabase is not initialized!');
+              return;
+            }
+            const transaction = this._database.transaction(
+              StoreKey.Store,
+              'readonly'
+            );
+            const mainStore = transaction.objectStore(StoreKey.Store);
+            const request = mainStore.get(storekey);
+
+            request.onsuccess = () => {
+              resolve(request.result ? request.result.data : []);
+            };
+
+            request.onerror = () => {
+              reject(request.error);
+            };
+          })
+        );
+      })
+    );
+  }
+
+  setStore(value: any): Observable<any> {
+    return from(
+      new Promise((resolve, reject) => {
+        if (!this._database) {
+          reject('IDBDatabase is not initialized!');
+          return;
+        }
+        const transaction = this._database.transaction(
+          StoreKey.Store,
+          'readwrite'
+        );
+        const mainStore = transaction.objectStore(StoreKey.Store);
+        const request = mainStore.put(value);
+
+        request.onsuccess = () => {
+          resolve(request.result);
+        };
+
+        request.onerror = () => {
+          reject(request.error);
+        };
+      })
+    );
   }
 }

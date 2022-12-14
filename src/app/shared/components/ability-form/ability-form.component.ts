@@ -13,25 +13,25 @@ import { Battleground } from 'src/app/core/models/battleground.model';
 export class AbilityFormComponent {
   @Input() abilityForm: FormGroup;
   @Input() index: number;
-  public separatorKeysCodes: number[] = [ENTER, COMMA, PERIOD];
-  public runemarkCtrl = new FormControl('');
-  public prohibitiveRunemarksCtrl = new FormControl('');
-  public AbilityTypeList = Object.values(AbilityType);
+  separatorKeysCodes: number[] = [ENTER, COMMA, PERIOD];
+  runemarkCtrl = new FormControl('');
+  prohibitiveRunemarksCtrl = new FormControl('');
+  AbilityTypeList = Object.values(AbilityType);
 
   constructor(private warbandService: WarbandService) {
     this.abilityForm = new FormGroup({});
     this.index = -1;
   }
 
-  public get runemarks(): AbstractControl {
+  get runemarks(): AbstractControl {
     return this.abilityForm.get('runemarks') as AbstractControl;
   }
 
-  public get prohibitiveRunemarks(): AbstractControl {
+  get prohibitiveRunemarks(): AbstractControl {
     return this.abilityForm.get('prohibitiveRunemarks') as AbstractControl;
   }
 
-  public addRunemark(event: any): void {
+  addRunemark(event: any): void {
     const value = (event.value || '').trim();
     const runemarks = this.runemarks.value;
 
@@ -44,14 +44,14 @@ export class AbilityFormComponent {
     this.runemarks.setValue(runemarks);
   }
 
-  public removeRunemark(runemark: string): void {
+  removeRunemark(runemark: string): void {
     const runemarks = this.runemarks.value;
 
     runemarks.splice(runemarks.indexOf(runemark), 1);
     this.runemarks.setValue(runemarks);
   }
 
-  public addProhibitiveRunemarks(event: any): void {
+  addProhibitiveRunemarks(event: any): void {
     const value = (event.value || '').trim();
     const runemarks = this.prohibitiveRunemarks.value;
 
@@ -64,7 +64,7 @@ export class AbilityFormComponent {
     this.prohibitiveRunemarks.setValue(runemarks);
   }
 
-  public removeProhibitiveRunemarks(runemark: string): void {
+  removeProhibitiveRunemarks(runemark: string): void {
     const runemarks = this.prohibitiveRunemarks.value;
 
     runemarks.splice(runemarks.indexOf(runemark), 1);

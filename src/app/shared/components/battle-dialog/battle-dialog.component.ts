@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { BattleState } from 'src/app/core/enums/battle-state.enum';
 import { Color } from 'src/app/core/enums/color.enum';
 import { Battle } from 'src/app/core/models/battle.model';
@@ -16,11 +17,11 @@ import { BattlegroundsService } from 'src/app/core/services/battlegrounds.servic
   styleUrls: ['./battle-dialog.component.scss']
 })
 export class BattleDialogComponent {
-  public battleForm: FormGroup;
-  public warbandForm: FormGroup;
-  public BattleState = BattleState;
-  public battlegroundList: Battleground[];
-  public colorList = Object.keys(Color).map((key) => ({
+  battleForm: FormGroup;
+  warbandForm: FormGroup;
+  BattleState = BattleState;
+  battlegroundList: Battleground[];
+  colorList = Object.keys(Color).map((key) => ({
     key,
     value: Color[key as keyof typeof Color]
   }));
@@ -32,17 +33,21 @@ export class BattleDialogComponent {
       battle: Battle;
       warband: Warband;
     },
-    private battlegroundService: BattlegroundsService
+    private battlegroundService: BattlegroundsService,
+    private readonly translateService: TranslateService
   ) {
     this.warbandForm = new FormGroup({
       name: new FormControl(
-        this.data.warband ? this.data.warband.name : 'battle-page.quick'
+        this.data.warband ? this.data.warband.name : this.translateService.instant('battle-page.quick')
       ),
       alliance: new FormControl(
         this.data.warband ? this.data.warband.alliance : ''
       ),
+      icon: new FormControl(
+        this.data.warband ? this.data.warband.icon : ''
+      ),
       faction: new FormControl(
-        this.data.warband ? this.data.warband.faction : 'common.unaligned'
+        this.data.warband ? this.data.warband.faction : this.translateService.instant('common.unaligned')
       ),
       fighters: new FormControl(
         this.data.warband ? this.data.warband.fighters : []
@@ -63,7 +68,8 @@ export class BattleDialogComponent {
               glory: 0,
               notes: ''
             }
-      )
+      ),
+      multiplayer: new FormControl(false)
     });
     this.battleForm = new FormGroup({
       roster: new FormControl(
@@ -78,42 +84,42 @@ export class BattleDialogComponent {
       battleState: new FormControl(BattleState.Roster),
       turn: new FormControl(1),
       victoryPoints: new FormControl(0),
-      groupless: new FormControl(false),
+      multiplayer: new FormControl(false),
       campaign: new FormControl(false),
       battlegrounds: new FormControl([])
     });
     this.battlegroundList = this.battlegroundService.battlegrounds.slice(1);
   }
 
-  public get runningBattle(): boolean {
+  get runningBattle(): boolean {
     return this.data.battle.battleState !== BattleState.Peace;
   }
 
-  public get warband(): Warband {
+  get warband(): Warband {
     return this.data.warband;
   }
 
-  public get selectedColor(): string {
+  get selectedColor(): string {
     return this.warbandForm.get('color')!.value;
   }
 
-  public get fighters(): AbstractControl {
+  get fighters(): AbstractControl {
     return this.warbandForm.get('fighters') as AbstractControl;
   }
 
-  public get campaign(): AbstractControl {
+  get campaign(): AbstractControl {
     return this.battleForm.get('campaign') as AbstractControl;
   }
 
-  public get features(): AbstractControl {
+  get features(): AbstractControl {
     return this.battleForm.get('campaign') as AbstractControl;
   }
 
-  public get color(): AbstractControl {
+  get color(): AbstractControl {
     return this.warbandForm.get('color') as AbstractControl;
   }
 
-  public acceptDialog(newBattle: boolean = true): void {
+  acceptDialog(newBattle: boolean = true): void {
     this.dialogRef.close({
       newBattle,
       battle: {
@@ -127,7 +133,7 @@ export class BattleDialogComponent {
     });
   }
 
-  public closeDialog(): void {
+  closeDialog(): void {
     this.dialogRef.close(false);
   }
 }

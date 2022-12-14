@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
-import { LocalStorageKey } from '../enums/local-keys.enum';
+import { LocalStorageKey, StoreKey } from '../enums/local-keys.enum';
 import { Battleground } from '../models/battleground.model';
 import { CoreService } from './core.service';
 import { Ability } from '../models/ability.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BattlegroundsService {
   private _battlegrounds: Battleground[];
+  _loaded: Subject<null> = new Subject;
 
   constructor(
+    private readonly core: CoreService,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService
   ) {
@@ -23,24 +26,32 @@ export class BattlegroundsService {
         '[{"name": "universal", "abilities": [], "universal": true}]'
       )
     ) as Battleground[];
+    this.core.getStore(StoreKey.BattlegroundsStore).subscribe((battlegrounds: Battleground[]) => {
+      this._battlegrounds = battlegrounds;
+      this._loaded.next(null);
+    });
   }
 
   private saveBattlegrounds(): void {
-    CoreService.setLocalStorage(
-      LocalStorageKey.Battlegrounds,
-      JSON.stringify(this._battlegrounds)
-    );
+    this.core.setStore({
+      name: StoreKey.BattlegroundsStore,
+      data: this._battlegrounds
+    })
   }
 
-  public get universalAbilities(): Battleground {
+  get universalAbilities(): Battleground {
     return this._battlegrounds[0];
   }
 
-  public get battlegrounds(): Battleground[] {
+  get battlegrounds(): Battleground[] {
     return this._battlegrounds;
   }
 
-  public addBattleground(battleground: Battleground): void {
+  get loaded(): Observable<null> {
+    return this._loaded.asObservable();
+  }
+
+  addBattleground(battleground: Battleground): void {
     if (battleground.universal) {
       this._battlegrounds[0] = battleground;
     } else if (
@@ -65,7 +76,7 @@ export class BattlegroundsService {
     }
   }
 
-  public uploadBattleground(battleground: Battleground): void {
+  uploadBattleground(battleground: Battleground): void {
     if (battleground.universal) {
       this._battlegrounds[0] = battleground;
       return;
@@ -81,7 +92,7 @@ export class BattlegroundsService {
     }
   }
 
-  public editBattleground(
+  editBattleground(
     battlegroundIndex: number,
     battleground: Battleground
   ): void {
@@ -109,17 +120,17 @@ export class BattlegroundsService {
     }
   }
 
-  public removeBattleground(battlegroundIndex: number): void {
+  removeBattleground(battlegroundIndex: number): void {
     this._battlegrounds.splice(battlegroundIndex, 1);
     this.saveBattlegrounds();
   }
 
-  public addAbility(battlegroundIndex: number, ability: Ability): void {
+  addAbility(battlegroundIndex: number, ability: Ability): void {
     this._battlegrounds[battlegroundIndex].abilities.push(ability);
     this.saveBattlegrounds();
   }
 
-  public editAbility(
+  editAbility(
     battlegroundIndex: number,
     abilityIndex: number,
     ability: Ability
@@ -128,7 +139,7 @@ export class BattlegroundsService {
     this.saveBattlegrounds();
   }
 
-  public removeAbility(battlegroundIndex: number, abilityIndex: number): void {
+  removeAbility(battlegroundIndex: number, abilityIndex: number): void {
     this._battlegrounds[battlegroundIndex].abilities.splice(abilityIndex, 1);
     this.saveBattlegrounds();
   }

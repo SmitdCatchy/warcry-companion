@@ -14,24 +14,24 @@ import cloneDeep from 'lodash.clonedeep';
   styleUrls: ['./fighter-store-dialog.component.scss']
 })
 export class FighterStoreDialogComponent {
-  public storeForm: FormGroup;
+  storeForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<FighterStoreDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {},
-    public readonly fighterStore: FighterStoreService
+    readonly fighterStore: FighterStoreService
   ) {
     this.storeForm = new FormGroup({
       fighter: new FormControl('', [Validators.required])
     });
   }
 
-  public acceptDialog(): void {
+  acceptDialog(): void {
     this.dialogRef.close(cloneDeep(this.storeForm.value.fighter));
   }
 
-  public closeDialog(): void {
+  closeDialog(): void {
     this.dialogRef.close(false);
   }
 }

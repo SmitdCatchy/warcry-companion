@@ -136,6 +136,17 @@
   }
 }
 
+.fighters-container {
+  h2 {
+    text-align: center;
+    margin-bottom: 12px;
+
+    .small {
+      font-size: 14px;
+    }
+  }
+}
+
 .warband {
   .abilities {
     display: flex;

@@ -20,24 +20,24 @@ export const warbandFileType = 'warband';
   styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent implements OnDestroy {
-  public themeList = Object.values(Theme);
-  public languageList = Object.values(Language);
+  themeList = Object.values(Theme);
+  languageList = Object.values(Language);
   private _subscriptions = new Subscription();
 
   constructor(
-    public readonly core: CoreService,
-    public readonly translationService: TranslationService,
+    readonly core: CoreService,
+    readonly translationService: TranslationService,
     private readonly dialog: MatDialog,
-    public readonly warbandService: WarbandService,
-    public readonly battleService: BattleService,
+    readonly warbandService: WarbandService,
+    readonly battleService: BattleService,
     private readonly translateService: TranslateService
   ) {}
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this._subscriptions.unsubscribe();
   }
 
-  public addWarband(): void {
+  addWarband(): void {
     history.pushState({ isDialog: true }, '');
     this._subscriptions.add(
       this.dialog
@@ -59,7 +59,7 @@ export class MainPageComponent implements OnDestroy {
     );
   }
 
-  public duplicateWarband(warband: Warband): void {
+  duplicateWarband(warband: Warband): void {
     history.pushState({ isDialog: true }, '');
     this._subscriptions.add(
       this.dialog
@@ -81,7 +81,7 @@ export class MainPageComponent implements OnDestroy {
     );
   }
 
-  public exportWarband(warband: Warband): void {
+  exportWarband(warband: Warband): void {
     const filename = `${warband.name
       .toLocaleLowerCase()
       .split(`'`)
@@ -101,7 +101,7 @@ export class MainPageComponent implements OnDestroy {
     document.body.removeChild(element);
   }
 
-  public importWarband(): void {
+  importWarband(): void {
     this.core.handleFileUpload(
       (result) => {
         const warband = result.warband as Warband;
@@ -140,7 +140,8 @@ export class MainPageComponent implements OnDestroy {
                 },
                 closeOnNavigation: true
               })
-              .afterClosed().subscribe(() => {
+              .afterClosed()
+              .subscribe(() => {
                 if (history.state.isDialog) {
                   history.back();
                 }
@@ -151,5 +152,19 @@ export class MainPageComponent implements OnDestroy {
       'json',
       warbandFileType
     );
+  }
+
+  getLatestVersion(): void {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (const registration of registrations) {
+          registration.unregister();
+        }
+      });
+      caches.keys().then((keys) => {
+        keys.forEach((key) => {
+          caches.delete(key);
+        });
+      });
+      location.reload();
   }
 }

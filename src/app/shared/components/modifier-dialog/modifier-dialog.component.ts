@@ -15,8 +15,8 @@ import { Modifier } from 'src/app/core/models/modifier.model';
   styleUrls: ['./modifier-dialog.component.scss']
 })
 export class ModifierDialogComponent {
-  public modifierForm: FormGroup;
-  public ModifierTypeList = Object.values(ModifierType);
+  modifierForm: FormGroup;
+  ModifierTypeList = Object.values(ModifierType);
 
   constructor(
     public dialogRef: MatDialogRef<ModifierDialogComponent>,
@@ -48,19 +48,19 @@ export class ModifierDialogComponent {
     });
   }
 
-  public get modify(): FormGroup {
+  get modify(): FormGroup {
     return this.modifierForm.get('modify') as FormGroup;
   }
 
-  public get weapon(): FormGroup {
+  get weapon(): FormGroup {
     return this.modify.get('weapon') as FormGroup;
   }
 
-  public acceptDialog(): void {
+  acceptDialog(): void {
     this.dialogRef.close(this.modifierForm.value);
   }
 
-  public closeDialog(): void {
+  closeDialog(): void {
     this.dialogRef.close(false);
   }
 }

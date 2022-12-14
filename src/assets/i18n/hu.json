@@ -3,7 +3,8 @@
   "title": "Warcry Companion",
   "language": {
     "en": "English",
-    "hu": "Magyar"
+    "hu": "Magyar",
+    "de": "Deutsch"
   },
   "color": {
     "blue": "Rend Kék",
@@ -11,7 +12,9 @@
     "grey": "Független Szürke",
     "orange": "Vadvidéh Narancs",
     "purple": "Halál Lile",
-    "red": "Káosz Vörös"
+    "red": "Káosz Vörös",
+    "warband": "Csapatszín",
+    "fighters": "Harcos"
   },
   "theme": {
     "light": "Világos téma",
@@ -158,6 +161,11 @@
       "damage": "Sebzés",
       "crit": "Kritikus sebzés",
       "min-health": "Minimum élet"
+    },
+    "label": {
+      "injured": "Sérült",
+      "equipped": "Felszerelt",
+      "carrying": "Kincshordozó"
     }
   },
   "fighter-role": {
@@ -231,7 +239,7 @@
     }
   },
   "battle-page": {
-    "quick": "Gyors csata",
+    "quick": "Gyors csapat",
     "menu": {
       "warband": "Frakció képességek",
       "fighter": "Harcos hozzáadása",
@@ -239,7 +247,12 @@
       "turn": "Kör vége",
       "end": "Csata vége",
       "abort": "Csata elvetése",
-      "wild": "Vad hozzáadása"
+      "wild": "Vad hozzáadása",
+      "multiplayer": "Online Csaták",
+      "connect": "Csatlakozás egy csatához",
+      "disconnect": "Csata elhagyása",
+      "token": "Csata kód másolása",
+      "aftermath": "Következmény lezárása"
     },
     "groups": "Csapathoz rendelés",
     "modifiers": "Módosítók",
@@ -247,12 +260,16 @@
     "injuries": "Sérülések",
     "trait": "Jellemvonás",
     "renown": "Hírnév",
+    "died": "Harcos eltávolítása a csapatból",
+    "aftermath": "{{outcome}} következménye",
     "group": {
       "roster": "Választható harcosok",
       "dagger": "Tőr",
       "shield": "Pajzs",
       "hammer": "Kalapács",
-      "wild": "Vadak"
+      "wild": "Vadak",
+      "survivors": "Túlélők",
+      "fallen": "Elbukottak"
     },
     "battle": {
       "turn": "{{turn}}. Kör",
@@ -269,6 +286,7 @@
     "dialog": {
       "remove-wild": "Biztosan el akarod távolítani a vadat?",
       "abort": "Biztosan el akarod vetni a csatát?",
+      "begin": "Biztosan készen állsz a csatára? Nem érted el a pont limitet {{size}}/{{limit}}.",
       "ready": "Biztosan be akarod fejezni a kört? Az alábbi harcosaidat még aktiválhatnád:"
     }
   },
@@ -276,7 +294,8 @@
     "title": "Felkészülés a csatára",
     "running": "Egy korábbi csata nem ért véget.",
     "form": {
-      "campaign": "Kampány csata"
+      "campaign": "Kampány csata",
+      "multiplayer": "Online csata"
     },
     "action": {
       "start": "Új csata",
@@ -286,6 +305,7 @@
   "battle-end-dialog": {
     "title": "Csata vefejezése",
     "question": "Biztosan befejezed a csatát?",
+    "aftermath": "Biztosan lezárod a csata következményét?",
     "form": {
       "outcome": "Csata ereménye",
       "enemy": "Ellenséges csapat"
@@ -317,7 +337,8 @@
   "modifier-type": {
     "artefact": "Tárgy",
     "injury": "Sérülés",
-    "trait": "Jellemvonás"
+    "trait": "Jellemvonás",
+    "used": "Használt"
   },
   "log": {
     "sentence": "{{date}} dátumon volt egy {{result}} {{campaign}}{{enemy}}.",
@@ -407,5 +428,31 @@
   },
   "pwa": {
     "update": "Új frissítés elérhető. Szeretnéd alkalmazni?"
+  },
+  "multiplayer": {
+    "action": {
+      "token": "Csata kód kimásolva.."
+    },
+    "warbands": "Csapatok",
+    "dialog": {
+      "peer-joined": "{{peer}} csatlakozott a csatához.",
+      "peer-disconnected": "{{peer}} elhagyta a csatát.",
+      "disconnected": "Elhagytad a csatát.",
+      "joined": "Csatlakoztál a csatához {{peer}} ellen."
+    },
+    "error": {
+      "unable": "A csatához nem lehet csatlakozni."
+    }
+  },
+  "connect-dialog": {
+    "title": "Csatlakozás csatához",
+    "form": {
+      "session-token": {
+        "label": "Csata kód"
+      }
+    },
+    "action": {
+      "join": "Csatlakozás"
+    }
   }
 }

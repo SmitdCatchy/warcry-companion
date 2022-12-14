@@ -289,6 +289,26 @@ input:-internal-autofill-selected {
   user-select: none;
 }
 
+.selectable {
+  -webkit-tap-highlight-color: initial;
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.selectable-all {
+  -webkit-tap-highlight-color: initial;
+  -webkit-touch-callout: all;
+  -webkit-user-select: all;
+  -khtml-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
+}
+
 .color-picker {
   display: grid;
   grid-template-columns: auto 40px;
@@ -414,6 +434,7 @@ input[type='number'] {
 }
 
 smitd-warband-page .mat-mini-fab,
+smitd-battle-page .mat-mini-fab,
 smitd-fighter-store-page .mat-mini-fab,
 smitd-battlegrounds-page .mat-mini-fab {
   margin-right: 8px;
@@ -426,7 +447,8 @@ smitd-battlegrounds-page .mat-mini-fab {
   }
 }
 
-body mat-panel-description.mat-expansion-panel-header-description {
+body mat-panel-description.mat-expansion-panel-header-description,
+body mat-panel-title.mat-expansion-panel-header-title {
   color: inherit;
 }
 
@@ -526,16 +548,25 @@ body .mat-button-base {
     }
   }
 
-  .mat-fab {
-    display: none;
-  }
-
   @include laptop {
     display: none;
+
+    &.ingame {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      height: 40px;
+      .mat-raised-button {
+        max-width: 80px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        margin: 0 4px;
+      }
+    }
   }
 }
 
-.mat-snack-bar-container {
+.turn-counter-snackbar {
   box-shadow: 0 0 10vh 20vh rgba($black, 0.4) !important;
   margin-top: calc(50vh - 48px) !important;
   pointer-events: none;
@@ -544,10 +575,18 @@ body .mat-button-base {
     font-size: 24px;
     font-weight: bold;
     justify-content: center;
+    span {
+      white-space: nowrap;
+    }
   }
 }
 
-smitd-warband-page {
+.bottom-snackbar {
+  margin-top: calc(50vh - 48px) !important;
+  pointer-events: none;
+}
+
+smitd-warband-page  {
   .mat-tab-group {
     height: calc(100% - 60px);
 

@@ -20,14 +20,14 @@ export const fighterStoreFileType = 'fighterStore';
   styleUrls: ['./fighter-store-page.component.scss']
 })
 export class FighterStorePageComponent implements OnDestroy {
-  public FighterCardMode = FighterCardMode;
+  FighterCardMode = FighterCardMode;
   private _subscriptions = new Subscription();
-  public FighterRole = FighterRole;
+  FighterRole = FighterRole;
 
   constructor(
-    public readonly core: CoreService,
-    public readonly fighterStore: FighterStoreService,
-    public readonly warbandService: WarbandService,
+    readonly core: CoreService,
+    readonly fighterStore: FighterStoreService,
+    readonly warbandService: WarbandService,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService
   ) {}
@@ -36,7 +36,7 @@ export class FighterStorePageComponent implements OnDestroy {
     this._subscriptions.unsubscribe();
   }
 
-  public addFighter(): void {
+  addFighter(): void {
     this._subscriptions.add(
       this.dialog
         .open(FighterDialogComponent, {
@@ -54,7 +54,7 @@ export class FighterStorePageComponent implements OnDestroy {
     );
   }
 
-  public duplicateFighter(fighter: Fighter): void {
+  duplicateFighter(fighter: Fighter): void {
     this._subscriptions.add(
       this.dialog
         .open(FighterDialogComponent, {
@@ -72,7 +72,7 @@ export class FighterStorePageComponent implements OnDestroy {
     );
   }
 
-  public editFighter(fighter: Fighter): void {
+  editFighter(fighter: Fighter): void {
     this._subscriptions.add(
       this.dialog
         .open(FighterDialogComponent, {
@@ -90,7 +90,7 @@ export class FighterStorePageComponent implements OnDestroy {
     );
   }
 
-  public importFighterStore(): void {
+  importFighterStore(): void {
     this.core.handleFileUpload(
       (result) => {
         const fighters = result.fighterStore as Fighter[];
@@ -115,7 +115,7 @@ export class FighterStorePageComponent implements OnDestroy {
     );
   }
 
-  public exportFighterStore(): void {
+  exportFighterStore(): void {
     const filename = `fighter-store.json`;
     const jsonStr = JSON.stringify({
       type: 'fighterStore',
@@ -133,7 +133,7 @@ export class FighterStorePageComponent implements OnDestroy {
     document.body.removeChild(element);
   }
 
-  public addFighterAbility(fighter: Fighter, index: number): void {
+  addFighterAbility(fighter: Fighter, index: number): void {
     this._subscriptions.add(
       this.dialog
         .open(AbilityDialogComponent, {
@@ -154,7 +154,7 @@ export class FighterStorePageComponent implements OnDestroy {
     );
   }
 
-  public editFighterAbility(
+  editFighterAbility(
     fighter: Fighter,
     index: number,
     abilityIndex: number
@@ -178,7 +178,7 @@ export class FighterStorePageComponent implements OnDestroy {
     );
   }
 
-  public removeFighterAbility(
+  removeFighterAbility(
     fighter: Fighter,
     index: number,
     abilityIndex: number
@@ -208,7 +208,7 @@ export class FighterStorePageComponent implements OnDestroy {
     );
   }
 
-  public updateAllFighters(): void {
+  updateAllFighters(): void {
     this.core.startLoader();
     this.fighterStore.factions.forEach((faction) => {
       this.warbandService.warbands.forEach((warband) => {
@@ -216,7 +216,7 @@ export class FighterStorePageComponent implements OnDestroy {
           faction.fighterTypes.forEach((fighterType) => {
             warband.fighters.forEach((fighter) => {
               if (fighterType.type === fighter.type) {
-                if(fighter.role !== FighterRole.Leader) {
+                if (fighter.role !== FighterRole.Leader) {
                   fighter.role = fighterType.role;
                 }
                 fighter.movement = fighterType.movement;

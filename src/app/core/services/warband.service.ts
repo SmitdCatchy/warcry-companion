@@ -11,7 +11,7 @@ import { AbilityType } from '../enums/ability-type.enum';
 import { Color } from '../enums/color.enum';
 import { EncampmentState } from '../enums/encampment-state.enum';
 import { FighterRole } from '../enums/fighter-role.enum';
-import { LocalStorageKey } from '../enums/local-keys.enum';
+import { LocalStorageKey, StoreKey } from '../enums/local-keys.enum';
 import { Ability } from '../models/ability.model';
 import { BattleLog } from '../models/battle-log.model';
 import { Battleground } from '../models/battleground.model';
@@ -23,8 +23,9 @@ import { CoreService } from './core.service';
   providedIn: 'root'
 })
 export class WarbandService {
-  public warbands: Warband[];
-  public selectedWarbandIndex: number;
+  warbands: Warband[];
+  loaded: boolean = false;
+  selectedWarbandIndex: number;
 
   constructor(
     private readonly core: CoreService,
@@ -36,6 +37,10 @@ export class WarbandService {
     this.warbands = JSON.parse(
       CoreService.getLocalStorage(LocalStorageKey.Warbands, '[]')
     ) as Warband[];
+    this.core.getStore(StoreKey.WarbandsStore).subscribe((warbands: Warband[]) => {
+      this.warbands = warbands;
+      this.loaded = true;
+    });
 
     this.selectedWarbandIndex = +CoreService.getLocalStorage(
       LocalStorageKey.SelectedWarband,
@@ -43,7 +48,7 @@ export class WarbandService {
     ) as number;
   }
 
-  public checkWarband(warband: Warband, dialog: boolean = true): boolean {
+  checkWarband(warband: Warband, dialog: boolean = true): boolean {
     const check =
       -1 < this.warbands.findIndex((check) => warband.name === check.name);
 
@@ -63,7 +68,7 @@ export class WarbandService {
     return check;
   }
 
-  public addWarband(
+  addWarband(
     warband: Warband = {
       name: this.translateService.instant('common.unknown'),
       faction: this.translateService.instant('common.unaligned'),
@@ -93,10 +98,7 @@ export class WarbandService {
     }
   }
 
-  public removeWarband(
-    index: number,
-    removeCallBack: () => any = () => {}
-  ): void {
+  removeWarband(index: number, removeCallBack: () => any = () => {}): void {
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -118,19 +120,19 @@ export class WarbandService {
       });
   }
 
-  public moveWarband(event: CdkDragDrop<string[]>): void {
+  moveWarband(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.warbands, event.previousIndex, event.currentIndex);
     this.saveWarbands();
   }
 
   private saveWarbands(): void {
-    CoreService.setLocalStorage(
-      LocalStorageKey.Warbands,
-      JSON.stringify(this.warbands)
-    );
+    this.core.setStore({
+      name: StoreKey.WarbandsStore,
+      data: this.warbands
+    })
   }
 
-  public updateWarband(warband: Warband): void {
+  updateWarband(warband: Warband): void {
     if (
       this.warbands.find(
         (check, index) =>
@@ -154,7 +156,7 @@ export class WarbandService {
     this.saveWarbands();
   }
 
-  public selectWarband(index: number): void {
+  selectWarband(index: number): void {
     this.selectedWarbandIndex = index;
     this.core.setColor(this.warbands[index].color);
     CoreService.setLocalStorage(
@@ -164,11 +166,11 @@ export class WarbandService {
     this.router.navigate(['warband']);
   }
 
-  public get selectedWarband(): Warband {
+  get selectedWarband(): Warband {
     return this.warbands[this.selectedWarbandIndex];
   }
 
-  public moveFighter(event: CdkDragDrop<string[]>): void {
+  moveFighter(event: CdkDragDrop<string[]>): void {
     moveItemInArray(
       this.selectedWarband.fighters,
       event.previousIndex,
@@ -177,12 +179,12 @@ export class WarbandService {
     this.saveWarbands();
   }
 
-  public addFighter(fighter: Fighter): void {
+  addFighter(fighter: Fighter): void {
     this.selectedWarband.fighters.push(fighter);
     this.saveWarbands();
   }
 
-  public pushLog(log: BattleLog): void {
+  pushLog(log: BattleLog): void {
     if (!this.selectedWarband.logs) {
       this.selectedWarband.logs = [];
     }
@@ -190,15 +192,12 @@ export class WarbandService {
     this.saveWarbands();
   }
 
-  public updateFighter(fighter: Fighter, index: number): void {
+  updateFighter(fighter: Fighter, index: number): void {
     this.selectedWarband.fighters[index] = fighter;
     this.saveWarbands();
   }
 
-  public removeFighter(
-    index: number,
-    removeCallBack: () => any = () => {}
-  ): void {
+  removeFighter(index: number, removeCallBack: () => any = () => {}): void {
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {
@@ -225,7 +224,7 @@ export class WarbandService {
       });
   }
 
-  public showAbilities(
+  showAbilities(
     abilities?: Ability[],
     fighter?: Fighter,
     warband?: Warband,
@@ -252,7 +251,9 @@ export class WarbandService {
         label: this.translateService
           .instant('warband-service.abilities.label', {
             label: abilityGroups.length
-              ? warband ? warband.faction : this.translateService.instant('common.faction')
+              ? warband
+                ? warband.faction
+                : this.translateService.instant('common.faction')
               : fighter?.type || warband?.faction || ''
           })
           .trim(),
@@ -310,11 +311,11 @@ export class WarbandService {
     }
   }
 
-  public checkRunemarks(obtained: string[], required: string[]): boolean {
+  checkRunemarks(obtained: string[], required: string[]): boolean {
     return required.every((runemark) => obtained.includes(runemark));
   }
 
-  public checkProhibitiveRunemarks(
+  checkProhibitiveRunemarks(
     obtained: string[],
     prohibitive: string[]
   ): boolean {
@@ -323,17 +324,17 @@ export class WarbandService {
     );
   }
 
-  public get hasLogs(): boolean {
+  get hasLogs(): boolean {
     return !!this.selectedWarband.logs && this.selectedWarband.logs.length > 0;
   }
 
-  public showLogs(): void {
+  showLogs(): void {
     this.bottomSheet.open(LogsBottomSheetComponent, {
       data: { logs: this.selectedWarband.logs }
     });
   }
 
-  public static sortAbilities(abilities: Ability[]): Ability[] {
+  static sortAbilities(abilities: Ability[]): Ability[] {
     abilities = abilities.sort((a, b) => {
       if (this.abilityTypeIndex(a.type) < this.abilityTypeIndex(b.type)) {
         return -1;

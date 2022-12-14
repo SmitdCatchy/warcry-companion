@@ -1,4 +1,9 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { ModifierType } from 'src/app/core/enums/modifier-type.enum';
 import { Modifier } from 'src/app/core/models/modifier.model';
 
@@ -10,7 +15,10 @@ import { Modifier } from 'src/app/core/models/modifier.model';
 export class ModifierCardComponent {
   @Input() modifier: Modifier;
   @Input() showUsage: boolean;
+  @Input() showUsed: boolean;
+  @Input() disabled: boolean;
   @Input() edit: boolean;
+  @Output() used: EventEmitter<null>;
 
   constructor() {
     this.modifier = {
@@ -28,13 +36,19 @@ export class ModifierCardComponent {
           damage: 0,
           crit: 0
         }
-      },
+      }
     };
     this.showUsage = false;
+    this.showUsed = false;
+    this.disabled = false;
     this.edit = false;
+    this.used = new EventEmitter();
   }
 
-  public useModifier(): void {
-    this.modifier.used = ! this.modifier.used;
+  useModifier(): void {
+    if (!this.disabled) {
+      this.modifier.used = !this.modifier.used;
+      this.used.emit();
+    }
   }
 }

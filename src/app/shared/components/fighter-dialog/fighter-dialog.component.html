@@ -1,13 +1,23 @@
 <h2>{{(data.edit ? 'fighter-dialog.title.edit' : 'fighter-dialog.title.add') | translate}}</h2>
 <div class="dialog-content">
   <form [formGroup]="fighterForm">
-    <ng-container  *ngIf="!data.storeDialog">
+    <ng-container *ngIf="!data.storeDialog">
       <div class="double icon">
         <smitd-icon-uploader [iconValue]="icon.value" (iconValueChange)="iconValueChange($event)"></smitd-icon-uploader>
         <mat-form-field appearance="fill">
           <mat-label>{{'fighter-dialog.form.name.label' | translate}}</mat-label>
           <input matInput formControlName="name" maxlength="100">
         </mat-form-field>
+      </div>
+      <div class="color-picker">
+        <mat-form-field appearance="fill">
+          <mat-label>{{'warband-dialog.form.color.label' | translate}}</mat-label>
+          <mat-select formControlName="color" #colorSelect>
+            <mat-option *ngFor="let color of colorList" [value]="color.value">{{'color.' + color.key | translate}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <input class="color-sample" type="color" formControlName="color" [value]="selectedColor">
       </div>
       <mat-form-field appearance="fill">
         <mat-label>{{'fighter-dialog.form.type.label' | translate}}</mat-label>

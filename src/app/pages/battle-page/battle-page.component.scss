@@ -18,19 +18,19 @@ h2 {
   box-sizing: border-box;
   position: relative;
 
-  @include laptop{
+  @include laptop {
     height: calc(100% - 80px);
   }
 }
 
 .prepare,
-.battle {
+.battle,
+.aftermath {
   display: block;
   padding: 0 12px 12px;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
-
 
   & > * {
     width: 100%;
@@ -52,8 +52,16 @@ h2 {
     }
   }
 }
+.aftermath {
+  & > .grid-item > .divider {
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+}
 
-.battle {
+.battle,
+.aftermath {
   padding-top: 8px;
 
   &.single {
@@ -182,6 +190,46 @@ h2 {
       }
     }
   }
+
+  textarea {
+    color: $black !important;
+  }
+
+  .narrative {
+    & > * {
+      width: 100%;
+    }
+  }
+
+  .modifiers,
+  .abilities {
+    .modifier-card,
+    .ability-card {
+      position: relative;
+      margin-bottom: 12px;
+
+      .modifier-options,
+      .ability-options {
+        position: absolute;
+        top: -6px;
+        right: 0;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+
+    & > button {
+      width: 100%;
+    }
+  }
+
+  .add {
+    width: 100%;
+    padding: 8px 8px 8px 16px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+  }
 }
 
 .roster,
@@ -212,18 +260,66 @@ h2 {
   min-width: 0;
 }
 
+h3 {
+  padding: 0 16px;
+  text-align: center;
+  margin: 0;
+}
+
+.peer {
+  min-height: 48px;
+  padding: 0 8px 0 16px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+
+  .warband-name {
+    margin-right: 12px;
+  }
+
+  &.iconed {
+    padding-left: 60px;
+    position: relative;
+
+    .warband-icon {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 48px;
+      height: 100%;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+  }
+
+  mat-icon {
+    flex-shrink: 0;
+  }
+}
+
 @include tablet {
-  .prepare{
+  .prepare,
+  .battle,
+  .aftermath {
     padding: 0 24px 24px;
   }
 
-  .battle {
-    padding: 8px 24px 24px;
+  .aftermath {
+    & > .grid-item > .divider {
+      &:first-of-type {
+        margin-top: 8px;
+      }
+    }
   }
 }
 
 @include custom(780px) {
-  .battle {
+  .battle,
+  .aftermath {
     .fighters-list {
       display: grid;
       gap: 12px;
@@ -237,8 +333,9 @@ h2 {
   }
 }
 
-@include custom(1164px) {
-  .prepare {
+@include custom(1152px) {
+  .prepare,
+  .battle {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     column-gap: 24px;
@@ -258,6 +355,17 @@ h2 {
     .wild-container {
       grid-column-start: 2;
       grid-column-end: 3;
+    }
+  }
+
+  .battle,
+  .aftermath {
+    .wild-container {
+      grid-column-start: 1;
+      grid-column-end: 4;
+      .fighters-list {
+        column-gap: 24px;
+      }
     }
   }
 }

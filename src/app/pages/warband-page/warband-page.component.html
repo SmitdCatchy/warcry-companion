@@ -18,9 +18,12 @@
 </smitd-header>
 
 <mat-tab-group color="primary" mat-stretch-tabs dynamicHeight [(selectedIndex)]="activeTab">
-  <mat-tab [label]="('warband-page.tab.fighters.title' | translate) + ' [' + warband.fighters.length + '/20]'">
+  <mat-tab [label]="('warband-page.tab.fighters.title' | translate)">
     <div class="scroll-container">
       <div class="fighters-container">
+        <h2>
+          <span class="number">{{warbandPointSum(warband)}} <span class="small">{{('common.pts' | translate)}}</span> </span> <span class="number"> {{warband.fighters.length}}/20 <span class="small">{{('common.fighters' | translate)}}</span></span> 
+        </h2>
         <div class="fighters-grid" [ngClass]="{'show-items': showGridLayout}" cdkDropListGroup>
           <div class="fighters-grid-item" cdkDropList (cdkDropListDropped)="dropListDropped()"
             (cdkDropListEntered)="cdkDropListEntered($event)">
@@ -38,11 +41,11 @@
                     <div class="double renown">
                       <mat-form-field appearance="fill">
                         <mat-label>{{'warband-page.tab.fighters.form.narrative.name' | translate}}</mat-label>
-                        <input matInput [(ngModel)]="fighter.name" (ngModelChange)="updateFighter(fighter, index)">
+                        <input matInput [(ngModel)]="fighter.name" (ngModelChange)="warbandService.updateFighter(fighter, index)">
                       </mat-form-field>
                       <mat-form-field appearance="fill">
                         <mat-label>{{'warband-page.tab.fighters.form.narrative.renown' | translate}}</mat-label>
-                        <mat-select [(ngModel)]="fighter.renown" (ngModelChange)="updateFighter(fighter, index)">
+                        <mat-select [(ngModel)]="fighter.renown" (ngModelChange)="warbandService.updateFighter(fighter, index)">
                           <mat-option [value]="0">{{0}}</mat-option>
                           <mat-option [value]="1">{{1}}</mat-option>
                           <mat-option [value]="2">{{2}}</mat-option>
@@ -53,7 +56,7 @@
                     <mat-form-field appearance="fill">
                       <mat-label>{{'warband-page.tab.fighters.form.narrative.notes' | translate}}</mat-label>
                       <textarea matInput [rows]="4" [(ngModel)]="fighter.notes"
-                        (ngModelChange)="updateFighter(fighter, index)"></textarea>
+                        (ngModelChange)="warbandService.updateFighter(fighter, index)"></textarea>
                     </mat-form-field>
                   </div>
                 </smitd-divider-expansion>
@@ -139,11 +142,11 @@
                   <div class="double renown">
                     <mat-form-field appearance="fill">
                       <mat-label>{{'warband-page.tab.fighters.form.narrative.name' | translate}}</mat-label>
-                      <input matInput [(ngModel)]="fighter.name" (ngModelChange)="updateFighter(fighter, index)">
+                      <input matInput [(ngModel)]="fighter.name" (ngModelChange)="warbandService.updateFighter(fighter, index)">
                     </mat-form-field>
                     <mat-form-field appearance="fill">
                       <mat-label>{{'warband-page.tab.fighters.form.narrative.renown' | translate}}</mat-label>
-                      <mat-select [(ngModel)]="fighter.renown" (ngModelChange)="updateFighter(fighter, index)">
+                      <mat-select [(ngModel)]="fighter.renown" (ngModelChange)="warbandService.updateFighter(fighter, index)">
                         <mat-option [value]="0">{{0}}</mat-option>
                         <mat-option [value]="1">{{1}}</mat-option>
                         <mat-option [value]="2">{{2}}</mat-option>
@@ -154,7 +157,7 @@
                   <mat-form-field appearance="fill">
                     <mat-label>{{'warband-page.tab.fighters.form.narrative.notes' | translate}}</mat-label>
                     <textarea matInput [rows]="4" [(ngModel)]="fighter.notes"
-                      (ngModelChange)="updateFighter(fighter, index)"></textarea>
+                      (ngModelChange)="warbandService.updateFighter(fighter, index)"></textarea>
                   </mat-form-field>
                 </div>
               </smitd-divider-expansion>
@@ -260,8 +263,7 @@
               <mat-option *ngFor="let color of colorList" [value]="color.value">{{'color.' + color.key | translate}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
-          <div class="color-sample" (click)="colorSelect.open()" [ngStyle]="{'background-color': selectedColor}"></div>
+          </mat-form-field><input class="color-sample" type="color" formControlName="color" [value]="selectedColor">
         </div>
         <mat-expansion-panel>
           <mat-expansion-panel-header>

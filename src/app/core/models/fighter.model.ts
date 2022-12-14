@@ -21,4 +21,5 @@ export interface Fighter {
   icon?: string;
   monsterStatTable?: MonsterStat[];
   faction?: string;
+  color?: string;
 }

@@ -3,7 +3,8 @@
   "title": "Warcry Companion",
   "language": {
     "en": "English",
-    "hu": "Magyar"
+    "hu": "Magyar",
+    "de": "Deutsch"
   },
   "color": {
     "blue": "Order Blue",
@@ -11,7 +12,8 @@
     "grey": "Unaligned Grey",
     "orange": "Wildlands Orange",
     "purple": "Death Purple",
-    "red": "Chaos Red"
+    "red": "Chaos Red",
+    "warband": "Warband Color"
   },
   "theme": {
     "light": "Light theme",
@@ -26,7 +28,8 @@
     "unknown": "Unknown",
     "pts": "PTS",
     "options": "Options",
-    "faction": "Faction"
+    "faction": "Faction",
+    "fighters": "Fighters"
   },
   "main-page": {
     "menu": {
@@ -158,6 +161,11 @@
       "damage": "Damage",
       "crit": "Crit",
       "min-health": "Minimum Wounds"
+    },
+    "label": {
+      "injured": "Injured",
+      "equipped": "Equipped",
+      "carrying": "Carrying Treasure"
     }
   },
   "fighter-role": {
@@ -231,7 +239,7 @@
     }
   },
   "battle-page": {
-    "quick": "Quick Battle",
+    "quick": "Quick Warband",
     "menu": {
       "warband": "Warband Abilities",
       "fighter": "Add Fighter to Roster",
@@ -239,7 +247,12 @@
       "turn": "End Turn",
       "end": "End Battle",
       "abort": "Abort Battle",
-      "wild": "Add Wild Fighter"
+      "wild": "Add Wild Fighter",
+      "multiplayer": "Online Battles",
+      "connect": "Join a Running Battle",
+      "disconnect": "Leave the Running Battle",
+      "token": "Copy Battle Token",
+      "aftermath": "End Aftermath"
     },
     "groups": "Assign Group",
     "modifiers": "Modifiers",
@@ -247,12 +260,16 @@
     "injuries": "Injuries",
     "trait": "Trait",
     "renown": "Renown",
+    "died": "Remove this Fighter from the Warband",
+    "aftermath": "Aftermath of the {{outcome}}",
     "group": {
       "roster": "Roster",
       "dagger": "Dagger",
       "shield": "Shield",
       "hammer": "Hammer",
-      "wild": "Wild Fighters"
+      "wild": "Wild Fighters",
+      "survivors": "Survivors",
+      "fallen": "Fallen"
     },
     "battle": {
       "turn": "Turn {{turn}}",
@@ -269,6 +286,7 @@
     "dialog": {
       "remove-wild": "Are you sure you want to remove this wild fighter?",
       "abort": "Are you sure you want to abort this battle?",
+      "begin": "Are you sure you are ready for the battle? You have not reached the point limit {{size}}/{{limit}}.",
       "ready": "Are you sure you want to end this turn? The following fighters are still waiting for activation:"
     }
   },
@@ -276,7 +294,8 @@
     "title": "Prepare for Battle",
     "running": "A previous battle has not been finished.",
     "form": {
-      "campaign": "Campaign Battle"
+      "campaign": "Campaign Battle",
+      "multiplayer": "Online Battle"
     },
     "action": {
       "start": "New Battle",
@@ -286,6 +305,7 @@
   "battle-end-dialog": {
     "title": "Ending Battle",
     "question": "Are you sure you want to end this battle?",
+    "aftermath": "Are you sure you want to end the aftermath of this battle?",
     "form": {
       "outcome": "Battle Outcome",
       "enemy": "Opposing Warband"
@@ -317,7 +337,8 @@
   "modifier-type": {
     "artefact": "Artefact",
     "injury": "Injury",
-    "trait": "Trait"
+    "trait": "Trait",
+    "used": "Used"
   },
   "log": {
     "sentence": "On {{date}} there was a {{result}} {{campaign}}{{enemy}}.",
@@ -326,7 +347,7 @@
     "tie": "tied",
     "battle": "battle",
     "campaign": "campaign battle",
-    "enemy": " against the {{enemy}}",
+    "enemy": " against {{enemy}}",
     "casualities": "Casualities",
     "label": {
       "victory": "Victorius Battle",
@@ -407,5 +428,31 @@
   },
   "pwa": {
     "update": "There is a new available update. Do you want to apply it?"
+  },
+  "multiplayer": {
+    "action": {
+      "token": "Copied Battle Token."
+    },
+    "warbands": "Warbands",
+    "dialog": {
+      "peer-joined": "{{peer}} joined the battle.",
+      "peer-disconnected": "{{peer}} left the battle.",
+      "disconnected": "You left the battle.",
+      "joined": "You joined the battle against {{peer}}."
+    },
+    "error": {
+      "unable": "Unable to join the battle."
+    }
+  },
+  "connect-dialog": {
+    "title": "Join Battle",
+    "form": {
+      "session-token": {
+        "label": "Battle Token"
+      }
+    },
+    "action": {
+      "join": "Join"
+    }
   }
 }

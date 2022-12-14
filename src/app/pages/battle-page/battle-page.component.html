@@ -4,58 +4,67 @@
     <mat-icon>chevron_left</mat-icon>
   </button>
 
-  <h2>{{warband.name | translate}}</h2>
+  <h2>{{warband.name}}</h2>
 
   <button mat-icon-button [matMenuTriggerFor]="main">
     <mat-icon>menu</mat-icon>
   </button>
 
   <mat-menu #main="matMenu">
-    <button mat-menu-item *ngIf="warband.abilities.length"
+    <button mat-menu-item *ngIf="warband.abilities.length && battleService.battle.battleState !== BattleState.Aftermath"
       (click)="warbandService.showAbilities(warband.abilities, undefined, warband, true)">{{'battle-page.menu.warband' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster"
       (click)="battleService.beginBattle()">{{'battle-page.menu.begin' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Battle"
       (click)="endTurn()">{{'battle-page.menu.turn' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Battle"
-      (click)="battleService.endBattle()">{{'battle-page.menu.end' | translate}}</button>
+      (click)="battleService.endBattle(refreshUI)">{{'battle-page.menu.end' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster"
       (click)="addFighter()">{{'battle-page.menu.fighter' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Battle"
       (click)="addWildFighter()">{{'battle-page.menu.wild' | translate}}</button>
-    <button mat-menu-item (click)="battleService.abortBattle()">{{'battle-page.menu.abort' | translate}}</button>
+    <button mat-menu-item *ngIf="battleService.battle.battleState !== BattleState.Aftermath"
+      (click)="battleService.abortBattle()">{{'battle-page.menu.abort' | translate}}</button>
+    <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Aftermath"
+      (click)="battleService.endBattle()">{{'battle-page.menu.aftermath' | translate}}</button>
+    <button mat-menu-item [matMenuTriggerFor]="multiplayer"
+      *ngIf="battleService.battle.battleState === BattleState.Battle">{{'battle-page.menu.multiplayer' | translate}}</button>
   </mat-menu>
 </smitd-header>
 <mat-card class="score">
-  <ng-container [ngSwitch]="battle.battleState">
+  <ng-container [ngSwitch]="battleService.battle.battleState">
     <ng-container *ngSwitchCase="BattleState.Roster">
-      <h2>{{'' | translate}}{{battleService.warbandSize}} /
-        {{'' | translate}}{{battle.campaign ? battle.warband.campaign.limit : 1000}} <span>{{'PTS'}}</span></h2>
+      <h2 class="number">{{battleService.warbandSize}} /
+        {{battleService.battle.campaign ? battle.warband.campaign.limit : 1000}}
+        <span>{{'common.pts' | translate}}</span></h2>
     </ng-container>
     <ng-container *ngSwitchCase="BattleState.Battle">
       <div class="stats">
-        <h2>{{'battle-page.battle.turn' | translate: ({ turn: battle.turn })}}</h2>
+        <h2>{{'battle-page.battle.turn' | translate: ({ turn: battleService.battle.turn })}}</h2>
         <div class="victory">
           <h2>{{'battle-page.battle.victory-points' | translate}}:</h2>
-          <button mat-icon-button aria-label="subtract" [disabled]="battle.victoryPoints - 1 < 0"
+          <button mat-icon-button aria-label="subtract" [disabled]="notEditable || battle.victoryPoints - 1 < 0"
             (click)="alterVictoryPoints(-1)">
             <mat-icon>remove</mat-icon>
           </button>
           <h2><b> {{battle.victoryPoints}}</b></h2>
-          <button mat-icon-button aria-label="add" (click)="alterVictoryPoints(1)">
+          <button mat-icon-button aria-label="add" [disabled]="notEditable" (click)="alterVictoryPoints(1)">
             <mat-icon>add</mat-icon>
           </button>
         </div>
       </div>
     </ng-container>
-    <ng-container *ngSwitchDefault>
+    <ng-container *ngSwitchCase="BattleState.Aftermath">
+      <div class="stats">
+        <h2>{{('battle-page.aftermath' | translate: {outcome: ('log.label.' + battleService.battle.outcome | translate)})}}</h2>
+      </div>
     </ng-container>
   </ng-container>
 </mat-card>
 <div class="scroll-container">
-  <mat-tab-group color="primary" mat-stretch-tabs dynamicHeight [selectedIndex]="battle.battleState">
+  <mat-tab-group color="primary" mat-stretch-tabs dynamicHeight [selectedIndex]="battleService.battle.battleState">
     <mat-tab>
-      <div class="prepare" *ngIf="battle.battleState === 0"  [ngClass]="{'show-items': showGridLayout}">
+      <div class="prepare" [ngClass]="{'show-items': showGridLayout}">
         <div class="grid-item">
           <div class="divider">
             <mat-divider></mat-divider>
@@ -63,13 +72,13 @@
             <mat-divider></mat-divider>
           </div>
           <div class="fighters-list dagger fighters-grid-item" cdkDropList #daggerList="cdkDropList"
-            [cdkDropListData]="battleService.battle.dagger"
-            [cdkDropListConnectedTo]="[rosterList, hammerList, shieldList]"
+            [cdkDropListData]="battle.dagger" [cdkDropListConnectedTo]="[rosterList, hammerList, shieldList]"
             (cdkDropListDropped)="battleService.moveFighter($event)">
             <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.list"
-              [campaign]="battle.campaign"
+              [campaign]="battleService.battle.campaign"
               (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
-              *ngFor="let fighter of battleService.battle.dagger; let index = index" cdkDrag cdkDragBoundary=".prepare" (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()" >
+              *ngFor="let fighter of battle.dagger; let index = index" cdkDrag cdkDragBoundary=".prepare"
+              (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()">
               <div class="drag-marker" cdkDragHandle></div>
               <div class="options" options>
                 <div class="divider">
@@ -79,11 +88,11 @@
                 </div>
                 <div class="actions">
                   <button mat-flat-button
-                    (click)="battleService.reassignFighter(fighter, battleService.battle.dagger, battleService.battle.shield, index)">{{'battle-page.group.shield' | translate}}</button>
+                    (click)="battleService.reassignFighter(fighter, battle.dagger, battle.shield, index)">{{'battle-page.group.shield' | translate}}</button>
                   <button mat-flat-button
-                    (click)="battleService.reassignFighter(fighter, battleService.battle.dagger, battleService.battle.hammer, index)">{{'battle-page.group.hammer' | translate}}</button>
+                    (click)="battleService.reassignFighter(fighter, battle.dagger, battle.hammer, index)">{{'battle-page.group.hammer' | translate}}</button>
                   <button mat-flat-button
-                    (click)="battleService.reassignFighter(fighter, battleService.battle.dagger, battleService.battle.roster, index)">{{'battle-page.group.roster' | translate}}</button>
+                    (click)="battleService.reassignFighter(fighter, battle.dagger, battleService.battle.roster, index)">{{'battle-page.group.roster' | translate}}</button>
                 </div>
                 <smitd-divider-expansion
                   *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
@@ -111,13 +120,13 @@
             <mat-divider></mat-divider>
           </div>
           <div class="fighters-list shield fighters-grid-item" cdkDropList #shieldList="cdkDropList"
-            [cdkDropListData]="battleService.battle.shield"
-            [cdkDropListConnectedTo]="[rosterList, hammerList, daggerList]"
+            [cdkDropListData]="battle.shield" [cdkDropListConnectedTo]="[rosterList, hammerList, daggerList]"
             (cdkDropListDropped)="battleService.moveFighter($event)">
             <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.list"
-              [campaign]="battle.campaign"
+              [campaign]="battleService.battle.campaign"
               (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
-              *ngFor="let fighter of battleService.battle.shield; let index = index" cdkDrag cdkDragBoundary=".prepare" (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()" >
+              *ngFor="let fighter of battle.shield; let index = index" cdkDrag cdkDragBoundary=".prepare"
+              (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()">
               <div class="drag-marker" cdkDragHandle></div>
               <div class="options" options>
                 <div class="divider">
@@ -127,11 +136,11 @@
                 </div>
                 <div class="actions">
                   <button mat-flat-button
-                    (click)="battleService.reassignFighter(fighter, battleService.battle.shield, battleService.battle.dagger, index)">{{'battle-page.group.dagger' | translate}}</button>
+                    (click)="battleService.reassignFighter(fighter, battle.shield, battle.dagger, index)">{{'battle-page.group.dagger' | translate}}</button>
                   <button mat-flat-button
-                    (click)="battleService.reassignFighter(fighter, battleService.battle.shield, battleService.battle.hammer, index)">{{'battle-page.group.hammer' | translate}}</button>
+                    (click)="battleService.reassignFighter(fighter, battle.shield, battle.hammer, index)">{{'battle-page.group.hammer' | translate}}</button>
                   <button mat-flat-button
-                    (click)="battleService.reassignFighter(fighter, battleService.battle.shield, battleService.battle.roster, index)">{{'battle-page.group.roster' | translate}}</button>
+                    (click)="battleService.reassignFighter(fighter, battle.shield, battleService.battle.roster, index)">{{'battle-page.group.roster' | translate}}</button>
                 </div>
                 <smitd-divider-expansion
                   *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
@@ -159,13 +168,13 @@
             <mat-divider></mat-divider>
           </div>
           <div class="fighters-list hammer fighters-grid-item" cdkDropList #hammerList="cdkDropList"
-            [cdkDropListData]="battleService.battle.hammer"
-            [cdkDropListConnectedTo]="[rosterList, shieldList, daggerList]"
+            [cdkDropListData]="battle.hammer" [cdkDropListConnectedTo]="[rosterList, shieldList, daggerList]"
             (cdkDropListDropped)="battleService.moveFighter($event)">
             <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.list"
-              [campaign]="battle.campaign"
+              [campaign]="battleService.battle.campaign"
               (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
-              *ngFor="let fighter of battleService.battle.hammer; let index = index" cdkDrag cdkDragBoundary=".prepare" (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()" >
+              *ngFor="let fighter of battle.hammer; let index = index" cdkDrag cdkDragBoundary=".prepare"
+              (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()">
               <div class="drag-marker" cdkDragHandle></div>
               <div class="options" options>
                 <div class="divider">
@@ -175,11 +184,11 @@
                 </div>
                 <div class="actions">
                   <button mat-flat-button
-                    (click)="battleService.reassignFighter(fighter, battleService.battle.hammer, battleService.battle.dagger, index)">{{'battle-page.group.dagger' | translate}}</button>
+                    (click)="battleService.reassignFighter(fighter, battle.hammer, battle.dagger, index)">{{'battle-page.group.dagger' | translate}}</button>
                   <button mat-flat-button
-                    (click)="battleService.reassignFighter(fighter, battleService.battle.hammer, battleService.battle.shield, index)">{{'battle-page.group.shield' | translate}}</button>
+                    (click)="battleService.reassignFighter(fighter, battle.hammer, battle.shield, index)">{{'battle-page.group.shield' | translate}}</button>
                   <button mat-flat-button
-                    (click)="battleService.reassignFighter(fighter, battleService.battle.hammer, battleService.battle.roster, index)">{{'battle-page.group.roster' | translate}}</button>
+                    (click)="battleService.reassignFighter(fighter, battle.hammer, battleService.battle.roster, index)">{{'battle-page.group.roster' | translate}}</button>
                 </div>
                 <smitd-divider-expansion
                   *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
@@ -211,9 +220,10 @@
             [cdkDropListConnectedTo]="[hammerList, shieldList, daggerList]"
             (cdkDropListDropped)="battleService.moveFighter($event)">
             <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.list"
-              [campaign]="battle.campaign"
+              [campaign]="battleService.battle.campaign"
               (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
-              *ngFor="let fighter of battleService.battle.roster; let index = index" cdkDrag cdkDragBoundary=".prepare" (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()" >
+              *ngFor="let fighter of battleService.battle.roster; let index = index" cdkDrag cdkDragBoundary=".prepare"
+              (cdkDragStarted)="dragStarted()" (cdkDragEnded)="dragEnded()">
               <div class="drag-marker" cdkDragHandle></div>
               <div class="options" options>
                 <div class="divider">
@@ -223,11 +233,11 @@
                 </div>
                 <div class="actions">
                   <button mat-flat-button
-                    (click)="battleService.reassignFighter(fighter, battleService.battle.roster, battleService.battle.dagger, index)">{{'battle-page.group.dagger' | translate}}</button>
+                    (click)="battleService.reassignFighter(fighter, battleService.battle.roster, battle.dagger, index)">{{'battle-page.group.dagger' | translate}}</button>
                   <button mat-flat-button
-                    (click)="battleService.reassignFighter(fighter, battleService.battle.roster, battleService.battle.shield, index)">{{'battle-page.group.shield' | translate}}</button>
+                    (click)="battleService.reassignFighter(fighter, battleService.battle.roster, battle.shield, index)">{{'battle-page.group.shield' | translate}}</button>
                   <button mat-flat-button
-                    (click)="battleService.reassignFighter(fighter, battleService.battle.roster, battleService.battle.hammer, index)">{{'battle-page.group.hammer' | translate}}</button>
+                    (click)="battleService.reassignFighter(fighter, battleService.battle.roster, battle.hammer, index)">{{'battle-page.group.hammer' | translate}}</button>
                 </div>
                 <smitd-divider-expansion
                   *ngIf="battleService.battle.campaign&& (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
@@ -251,351 +261,578 @@
       </div>
     </mat-tab>
     <mat-tab>
-      <div class="battle" *ngIf="battle.battleState === 1" [ngClass]="{'single':
-      !((battleService.battle.dagger.length && (battleService.battle.hammer.length || battleService.battle.shield.length || battleService.battle.wild.length)) ||
-      (battleService.battle.hammer.length && (battleService.battle.dagger.length || battleService.battle.shield.length || battleService.battle.wild.length)) ||
-      (battleService.battle.shield.length && (battleService.battle.hammer.length || battleService.battle.dagger.length || battleService.battle.wild.length)))
+      <div class="battle" *ngIf="battleService.battle.battleState === 1" [ngClass]="{'single':
+      !((battle.dagger.length && (battle.hammer.length || battle.shield.length || battleService.battle.wild.length)) ||
+      (battle.hammer.length && (battle.dagger.length || battle.shield.length || battleService.battle.wild.length)) ||
+      (battle.shield.length && (battle.hammer.length || battle.dagger.length || battleService.battle.wild.length)))
     }">
-        <div class="divider"
-          *ngIf="battleService.battle.dagger.length && (battleService.battle.hammer.length || battleService.battle.shield.length ||battleService.battle.wild.length)">
-          <mat-divider></mat-divider>
-          <span class="label">{{'battle-page.group.dagger' | translate}}</span>
-          <mat-divider></mat-divider>
-        </div>
-        <div class="fighters-list dagger" *ngIf="battleService.battle.dagger.length">
-          <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.battle"
-            [campaign]="battle.campaign"
-            (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
-            *ngFor="let fighter of battleService.battle.dagger; let index = index">
-            <div class="options" options>
-              <div class="divider" *ngIf="fighter.availableRenown?.length">
-                <mat-divider></mat-divider>
-                <span>{{'battle-page.renown' | translate}}</span>
-                <mat-divider></mat-divider>
-              </div>
-              <div class="renowns" *ngIf="fighter.availableRenown?.length">
-                <ng-container *ngFor="let renownState of fighter.availableRenown; let renownIndex = index">
-                  <div class="renown" (click)="battleService.useRenown(fighter, renownIndex)">
-                    <img [src]="'assets/runemarks/fighter-state-' + (renownState ? 'activated' : 'ready') + '.svg'"
-                      [alt]="'battle-page.renown' | translate" class="runemark">
+        <div class="battle-group">
+          <div class="divider"
+            *ngIf="battle.dagger.length && (battle.hammer.length || battle.shield.length ||battleService.battle.wild.length)">
+            <mat-divider></mat-divider>
+            <span class="label">{{'battle-page.group.dagger' | translate}}</span>
+            <mat-divider></mat-divider>
+          </div>
+          <div class="fighters-list dagger" *ngIf="battle.dagger.length">
+            <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.battle"
+              [campaign]="battleService.battle.campaign"
+              (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
+              *ngFor="let fighter of battle.dagger; let index = index">
+              <div class="options" options>
+                <div class="divider" *ngIf="battleService.battle.campaign && fighter.availableRenown?.length">
+                  <mat-divider></mat-divider>
+                  <span>{{'battle-page.renown' | translate}}</span>
+                  <mat-divider></mat-divider>
+                </div>
+                <div class="renowns" *ngIf="battleService.battle.campaign && fighter.availableRenown?.length">
+                  <ng-container *ngFor="let renownState of fighter.availableRenown; let renownIndex = index">
+                    <div class="renown" (click)="useRenown(fighter, renownIndex, 'dagger', index)">
+                      <img [src]="'assets/runemarks/fighter-state-' + (renownState ? 'activated' : 'ready') + '.svg'"
+                        [alt]="'battle-page.renown' | translate" class="runemark">
+                    </div>
+                  </ng-container>
+                </div>
+                <smitd-divider-expansion
+                  *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
+                  <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
+                  <div class="modifiers" expansionContent>
+                    <ng-container *ngFor="let modifier of fighter.artefacts">
+                      <smitd-modifier-card [modifier]="modifier" [showUsage]="true" [disabled]="notEditable"
+                        (used)="alterFighter(fighter, 'dagger', index)"></smitd-modifier-card>
+                    </ng-container>
+                    <ng-container *ngFor="let modifier of fighter.injuries">
+                      <smitd-modifier-card [modifier]="modifier" [showUsage]="true" [disabled]="notEditable"
+                        (used)="alterFighter(fighter, 'dagger', index)"></smitd-modifier-card>
+                    </ng-container>
+                    <ng-container *ngFor="let modifier of fighter.traits">
+                      <smitd-modifier-card [modifier]="modifier" [showUsage]="true" [disabled]="notEditable"
+                        (used)="alterFighter(fighter, 'dagger', index)"></smitd-modifier-card>
+                    </ng-container>
                   </div>
-                </ng-container>
-              </div>
-              <smitd-divider-expansion
-                *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
-                <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
-                <div class="modifiers" expansionContent>
-                  <ng-container *ngFor="let modifier of fighter.artefacts">
-                    <smitd-modifier-card [modifier]="modifier" [showUsage]="true"></smitd-modifier-card>
-                  </ng-container>
-                  <ng-container *ngFor="let modifier of fighter.injuries">
-                    <smitd-modifier-card [modifier]="modifier" [showUsage]="true"></smitd-modifier-card>
-                  </ng-container>
-                  <ng-container *ngFor="let modifier of fighter.traits">
-                    <smitd-modifier-card [modifier]="modifier" [showUsage]="true"></smitd-modifier-card>
-                  </ng-container>
-                </div>
-              </smitd-divider-expansion>
-              <smitd-divider-expansion>
-                <span dividerLabel>{{'common.options' | translate}}</span>
-                <div class="options" expansionContent>
-                  <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'"
-                    *ngIf="canCarry(fighter.stats)"
-                    (click)="battleService.toggleTreasure(fighter)">{{('battle-page.options.' + (fighter.carryingTreasure ? 'treasure-drop' : 'treasure-carry')) | translate}}</button>
-                  <mat-form-field appearance="fill">
-                    <mat-label>{{'battle-page.options.notes' | translate}}</mat-label>
-                    <textarea matInput [rows]="4"></textarea>
-                  </mat-form-field>
-                </div>
-              </smitd-divider-expansion>
-            </div>
-            <div class="battleframe-header" battleframeHeader>
-              <div class="fighter-state" matRipple>
-                <div class="state" (click)="stateSelection.toggle()">
-                  <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
-                    [alt]="'fighter-card.characteristic.movement' | translate" class="runemark invert">
-                </div>
-                <mat-select #stateSelection [(value)]="fighter.state" (valueChange)="battleService.saveBattle()"
-                  [disabled]="fighter.state === FighterState.Dead">
-                  <mat-option [value]="FighterState.Ready">{{'fighter-state.' + FighterState.Ready | translate}}
-                  </mat-option>
-                  <mat-option [value]="FighterState.Waiting">{{'fighter-state.' + FighterState.Waiting | translate}}
-                  </mat-option>
-                  <mat-option [value]="FighterState.Reacted">{{'fighter-state.' + FighterState.Reacted | translate}}
-                  </mat-option>
-                  <mat-option [value]="FighterState.Activated">{{'fighter-state.' + FighterState.Activated | translate}}
-                  </mat-option>
-                </mat-select>
-              </div>
-              <div class="wound-counter">
-                <div class="value">{{fighter.wounds}}</div>
-                <button mat-icon-button aria-label="add wounds" [disabled]="fighter.wounds + 1 > fighter.stats.wounds"
-                  (click)="alterWounds(fighter, 1)">
-                  <mat-icon>keyboard_arrow_up</mat-icon>
-                </button>
-                <button mat-icon-button aria-label="subtract wounds" [disabled]="fighter.wounds - 1 < 0"
-                  (click)="alterWounds(fighter, -1)">
-                  <mat-icon>keyboard_arrow_down</mat-icon>
-                </button>
-              </div>
-            </div>
-          </smitd-fighter-card>
-        </div>
-        <div class="divider"
-          *ngIf="battleService.battle.shield.length && (battleService.battle.hammer.length || battleService.battle.dagger.length ||battleService.battle.wild.length)">
-          <mat-divider></mat-divider>
-          <span class="label">{{'battle-page.group.shield' | translate}}</span>
-          <mat-divider></mat-divider>
-        </div>
-        <div class="fighters-list shield" *ngIf="battleService.battle.shield.length">
-          <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.battle"
-            [campaign]="battle.campaign"
-            (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
-            *ngFor="let fighter of battleService.battle.shield; let index = index">
-            <div class="options" options>
-              <div class="divider" *ngIf="fighter.availableRenown?.length">
-                <mat-divider></mat-divider>
-                <span>{{'battle-page.renown' | translate}}</span>
-                <mat-divider></mat-divider>
-              </div>
-              <div class="renowns" *ngIf="fighter.availableRenown?.length">
-                <ng-container *ngFor="let renownState of fighter.availableRenown; let renownIndex = index">
-                  <div class="renown" (click)="battleService.useRenown(fighter, renownIndex)">
-                    <img [src]="'assets/runemarks/fighter-state-' + (renownState ? 'activated' : 'ready') + '.svg'"
-                      [alt]="'battle-page.renown' | translate" class="runemark">
+                </smitd-divider-expansion>
+                <smitd-divider-expansion>
+                  <span dividerLabel>{{'common.options' | translate}}</span>
+                  <div class="options" expansionContent>
+                    <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'"
+                      *ngIf="canCarry(fighter.stats)"
+                      (click)="battleService.toggleTreasure(fighter, 'dagger', index)">{{('battle-page.options.' + (fighter.carryingTreasure ? 'treasure-drop' : 'treasure-carry')) | translate}}</button>
+                    <mat-form-field appearance="fill">
+                      <mat-label>{{'battle-page.options.notes' | translate}}</mat-label>
+                      <textarea matInput [rows]="4" [disabled]="notEditable" [(ngModel)]="fighter.notes"
+                        (keyup)="alterFighter(fighter, 'dagger', index)"></textarea>
+                    </mat-form-field>
                   </div>
-                </ng-container>
+                </smitd-divider-expansion>
               </div>
-              <smitd-divider-expansion
-                *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
-                <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
-                <div class="modifiers" expansionContent>
-                  <ng-container *ngFor="let modifier of fighter.artefacts">
-                    <smitd-modifier-card [modifier]="modifier" [showUsage]="true"></smitd-modifier-card>
-                  </ng-container>
-                  <ng-container *ngFor="let modifier of fighter.injuries">
-                    <smitd-modifier-card [modifier]="modifier" [showUsage]="true"></smitd-modifier-card>
-                  </ng-container>
-                  <ng-container *ngFor="let modifier of fighter.traits">
-                    <smitd-modifier-card [modifier]="modifier" [showUsage]="true"></smitd-modifier-card>
-                  </ng-container>
-                </div>
-              </smitd-divider-expansion>
-              <smitd-divider-expansion>
-                <span dividerLabel>{{'common.options' | translate}}</span>
-                <div class="options" expansionContent>
-                  <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'"
-                    *ngIf="canCarry(fighter.stats)"
-                    (click)="battleService.toggleTreasure(fighter)">{{('battle-page.options.' + (fighter.carryingTreasure ? 'treasure-drop' : 'treasure-carry')) | translate}}</button>
-                  <mat-form-field appearance="fill">
-                    <mat-label>{{'battle-page.options.notes' | translate}}</mat-label>
-                    <textarea matInput [rows]="4"></textarea>
-                  </mat-form-field>
-                </div>
-              </smitd-divider-expansion>
-            </div>
-            <div class="battleframe-header" battleframeHeader>
-              <div class="fighter-state" matRipple>
-                <div class="state" (click)="stateSelection.toggle()">
-                  <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
-                    [alt]="'fighter-card.characteristic.movement' | translate" class="runemark invert">
-                </div>
-                <mat-select #stateSelection [(value)]="fighter.state" (valueChange)="battleService.saveBattle()"
-                  [disabled]="fighter.state === FighterState.Dead">
-                  <mat-option [value]="FighterState.Ready">{{'fighter-state.' + FighterState.Ready | translate}}
-                  </mat-option>
-                  <mat-option [value]="FighterState.Waiting">{{'fighter-state.' + FighterState.Waiting | translate}}
-                  </mat-option>
-                  <mat-option [value]="FighterState.Reacted">{{'fighter-state.' + FighterState.Reacted | translate}}
-                  </mat-option>
-                  <mat-option [value]="FighterState.Activated">{{'fighter-state.' + FighterState.Activated | translate}}
-                  </mat-option>
-                </mat-select>
-              </div>
-              <div class="wound-counter">
-                <div class="value">{{fighter.wounds}}</div>
-                <button mat-icon-button aria-label="add wounds" [disabled]="fighter.wounds + 1 > fighter.stats.wounds"
-                  (click)="alterWounds(fighter, 1)">
-                  <mat-icon>keyboard_arrow_up</mat-icon>
-                </button>
-                <button mat-icon-button aria-label="subtract wounds" [disabled]="fighter.wounds - 1 < 0"
-                  (click)="alterWounds(fighter, -1)">
-                  <mat-icon>keyboard_arrow_down</mat-icon>
-                </button>
-              </div>
-            </div>
-          </smitd-fighter-card>
-        </div>
-        <div class="divider"
-          *ngIf="battleService.battle.hammer.length  && (battleService.battle.dagger.length || battleService.battle.shield.length ||battleService.battle.wild.length)">
-          <mat-divider></mat-divider>
-          <span class="label">{{'battle-page.group.hammer' | translate}}</span>
-          <mat-divider></mat-divider>
-        </div>
-        <div class="fighters-list hammer" *ngIf="battleService.battle.hammer.length">
-          <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.battle"
-            [campaign]="battle.campaign"
-            (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
-            *ngFor="let fighter of battleService.battle.hammer; let index = index">
-            <div class="options" options>
-              <div class="divider" *ngIf="fighter.availableRenown?.length">
-                <mat-divider></mat-divider>
-                <span>{{'battle-page.renown' | translate}}</span>
-                <mat-divider></mat-divider>
-              </div>
-              <div class="renowns" *ngIf="fighter.availableRenown?.length">
-                <ng-container *ngFor="let renownState of fighter.availableRenown; let renownIndex = index">
-                  <div class="renown" (click)="battleService.useRenown(fighter, renownIndex)">
-                    <img [src]="'assets/runemarks/fighter-state-' + (renownState ? 'activated' : 'ready') + '.svg'"
-                      [alt]="'battle-page.renown' | translate" class="runemark">
+              <div class="battleframe-header" battleframeHeader>
+                <div class="fighter-state" matRipple>
+                  <div class="state" (click)="stateSelection.toggle()">
+                    <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
+                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark invert">
                   </div>
-                </ng-container>
-              </div>
-              <smitd-divider-expansion
-                *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
-                <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
-                <div class="modifiers" expansionContent>
-                  <ng-container *ngFor="let modifier of fighter.artefacts">
-                    <smitd-modifier-card [modifier]="modifier" [showUsage]="true"></smitd-modifier-card>
-                  </ng-container>
-                  <ng-container *ngFor="let modifier of fighter.injuries">
-                    <smitd-modifier-card [modifier]="modifier" [showUsage]="true"></smitd-modifier-card>
-                  </ng-container>
-                  <ng-container *ngFor="let modifier of fighter.traits">
-                    <smitd-modifier-card [modifier]="modifier" [showUsage]="true"></smitd-modifier-card>
-                  </ng-container>
+                  <mat-select #stateSelection [(value)]="fighter.state"
+                    (valueChange)="alterFighter(fighter, 'dagger', index)"
+                    [disabled]="fighter.state === FighterState.Dead || notEditable">
+                    <mat-option [value]="FighterState.Ready">{{'fighter-state.' + FighterState.Ready | translate}}
+                    </mat-option>
+                    <mat-option [value]="FighterState.Waiting">{{'fighter-state.' + FighterState.Waiting | translate}}
+                    </mat-option>
+                    <mat-option [value]="FighterState.Reacted">{{'fighter-state.' + FighterState.Reacted | translate}}
+                    </mat-option>
+                    <mat-option [value]="FighterState.Activated">
+                      {{'fighter-state.' + FighterState.Activated | translate}}
+                    </mat-option>
+                  </mat-select>
                 </div>
-              </smitd-divider-expansion>
-              <smitd-divider-expansion>
-                <span dividerLabel>{{'common.options' | translate}}</span>
-                <div class="options" expansionContent>
-                  <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'"
-                    *ngIf="canCarry(fighter.stats)"
-                    (click)="battleService.toggleTreasure(fighter)">{{('battle-page.options.' + (fighter.carryingTreasure ? 'treasure-drop' : 'treasure-carry')) | translate}}</button>
-                  <mat-form-field appearance="fill">
-                    <mat-label>{{'battle-page.options.notes' | translate}}</mat-label>
-                    <textarea matInput [rows]="4"></textarea>
-                  </mat-form-field>
+                <div class="wound-counter">
+                  <div class="value">{{fighter.wounds}}</div>
+                  <button mat-icon-button aria-label="add wounds"
+                    [disabled]="fighter.wounds + 1 > fighter.stats.wounds || notEditable"
+                    (click)="alterWounds(fighter, 1, 'dagger', index)">
+                    <mat-icon>keyboard_arrow_up</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="subtract wounds"
+                    [disabled]="fighter.wounds - 1 < 0 || notEditable"
+                    (click)="alterWounds(fighter, -1, 'dagger', index)">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  </button>
                 </div>
-              </smitd-divider-expansion>
-            </div>
-            <div class="battleframe-header" battleframeHeader>
-              <div class="fighter-state" matRipple>
-                <div class="state" (click)="stateSelection.toggle()">
-                  <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
-                    [alt]="'fighter-card.characteristic.movement' | translate" class="runemark invert">
-                </div>
-                <mat-select #stateSelection [(value)]="fighter.state" (valueChange)="battleService.saveBattle()"
-                  [disabled]="fighter.state === FighterState.Dead">
-                  <mat-option [value]="FighterState.Ready">{{'fighter-state.' + FighterState.Ready | translate}}
-                  </mat-option>
-                  <mat-option [value]="FighterState.Waiting">{{'fighter-state.' + FighterState.Waiting | translate}}
-                  </mat-option>
-                  <mat-option [value]="FighterState.Reacted">{{'fighter-state.' + FighterState.Reacted | translate}}
-                  </mat-option>
-                  <mat-option [value]="FighterState.Activated">{{'fighter-state.' + FighterState.Activated | translate}}
-                  </mat-option>
-                </mat-select>
               </div>
-              <div class="wound-counter">
-                <div class="value">{{fighter.wounds}}</div>
-                <button mat-icon-button aria-label="add wounds" [disabled]="fighter.wounds + 1 > fighter.stats.wounds"
-                  (click)="alterWounds(fighter, 1)">
-                  <mat-icon>keyboard_arrow_up</mat-icon>
-                </button>
-                <button mat-icon-button aria-label="subtract wounds" [disabled]="fighter.wounds - 1 < 0"
-                  (click)="alterWounds(fighter, -1)">
-                  <mat-icon>keyboard_arrow_down</mat-icon>
-                </button>
-              </div>
-            </div>
-          </smitd-fighter-card>
+            </smitd-fighter-card>
+          </div>
         </div>
-        <div class="divider"
-          *ngIf="battleService.battle.wild.length  && (battleService.battle.hammer.length || battleService.battle.shield.length ||battleService.battle.dagger.length)">
-          <mat-divider></mat-divider>
-          <span class="label">{{'battle-page.group.wild' | translate}}</span>
-          <mat-divider></mat-divider>
+        <div class="battle-group">
+          <div class="divider"
+            *ngIf="battle.shield.length && (battle.hammer.length || battle.dagger.length ||battleService.battle.wild.length)">
+            <mat-divider></mat-divider>
+            <span class="label">{{'battle-page.group.shield' | translate}}</span>
+            <mat-divider></mat-divider>
+          </div>
+          <div class="fighters-list shield" *ngIf="battle.shield.length">
+            <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.battle"
+              [campaign]="battleService.battle.campaign"
+              (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
+              *ngFor="let fighter of battle.shield; let index = index">
+              <div class="options" options>
+                <div class="divider" *ngIf="battleService.battle.campaign && fighter.availableRenown?.length">
+                  <mat-divider></mat-divider>
+                  <span>{{'battle-page.renown' | translate}}</span>
+                  <mat-divider></mat-divider>
+                </div>
+                <div class="renowns" *ngIf="battleService.battle.campaign && fighter.availableRenown?.length">
+                  <ng-container *ngFor="let renownState of fighter.availableRenown; let renownIndex = index">
+                    <div class="renown" (click)="useRenown(fighter, renownIndex, 'shield', index)">
+                      <img [src]="'assets/runemarks/fighter-state-' + (renownState ? 'activated' : 'ready') + '.svg'"
+                        [alt]="'battle-page.renown' | translate" class="runemark">
+                    </div>
+                  </ng-container>
+                </div>
+                <smitd-divider-expansion
+                  *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
+                  <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
+                  <div class="modifiers" expansionContent>
+                    <ng-container *ngFor="let modifier of fighter.artefacts">
+                      <smitd-modifier-card [modifier]="modifier" [showUsage]="true" [disabled]="notEditable"
+                        (used)="alterFighter(fighter, 'shield', index)"></smitd-modifier-card>
+                    </ng-container>
+                    <ng-container *ngFor="let modifier of fighter.injuries">
+                      <smitd-modifier-card [modifier]="modifier" [showUsage]="true" [disabled]="notEditable"
+                        (used)="alterFighter(fighter, 'shield', index)"></smitd-modifier-card>
+                    </ng-container>
+                    <ng-container *ngFor="let modifier of fighter.traits">
+                      <smitd-modifier-card [modifier]="modifier" [showUsage]="true" [disabled]="notEditable"
+                        (used)="alterFighter(fighter, 'shield', index)"></smitd-modifier-card>
+                    </ng-container>
+                  </div>
+                </smitd-divider-expansion>
+                <smitd-divider-expansion>
+                  <span dividerLabel>{{'common.options' | translate}}</span>
+                  <div class="options" expansionContent>
+                    <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'"
+                      *ngIf="canCarry(fighter.stats)"
+                      (click)="battleService.toggleTreasure(fighter, 'shield', index)">{{('battle-page.options.' + (fighter.carryingTreasure ? 'treasure-drop' : 'treasure-carry')) | translate}}</button>
+                    <mat-form-field appearance="fill">
+                      <mat-label>{{'battle-page.options.notes' | translate}}</mat-label>
+                      <textarea matInput [rows]="4" [disabled]="notEditable" [(ngModel)]="fighter.notes"
+                        (keyup)="alterFighter(fighter, 'shield', index)"></textarea>
+                    </mat-form-field>
+                  </div>
+                </smitd-divider-expansion>
+              </div>
+              <div class="battleframe-header" battleframeHeader>
+                <div class="fighter-state" matRipple>
+                  <div class="state" (click)="stateSelection.toggle()">
+                    <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
+                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark invert">
+                  </div>
+                  <mat-select #stateSelection [(value)]="fighter.state"
+                    (valueChange)="alterFighter(fighter, 'shield', index)"
+                    [disabled]="fighter.state === FighterState.Dead || notEditable">
+                    <mat-option [value]="FighterState.Ready">{{'fighter-state.' + FighterState.Ready | translate}}
+                    </mat-option>
+                    <mat-option [value]="FighterState.Waiting">{{'fighter-state.' + FighterState.Waiting | translate}}
+                    </mat-option>
+                    <mat-option [value]="FighterState.Reacted">{{'fighter-state.' + FighterState.Reacted | translate}}
+                    </mat-option>
+                    <mat-option [value]="FighterState.Activated">
+                      {{'fighter-state.' + FighterState.Activated | translate}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+                <div class="wound-counter">
+                  <div class="value">{{fighter.wounds}}</div>
+                  <button mat-icon-button aria-label="add wounds"
+                    [disabled]="fighter.wounds + 1 > fighter.stats.wounds || notEditable"
+                    (click)="alterWounds(fighter, 1, 'shield', index)">
+                    <mat-icon>keyboard_arrow_up</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="subtract wounds"
+                    [disabled]="fighter.wounds - 1 < 0 || notEditable"
+                    (click)="alterWounds(fighter, -1, 'shield', index)">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </smitd-fighter-card>
+          </div>
         </div>
-        <div class="fighters-list wild" *ngIf="battleService.battle.wild.length">
-          <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.battle"
-            [campaign]="battle.campaign"
-            (callAbilities)="warbandService.showAbilities([], fighter.stats, undefined, false, battleService.battle.battlegrounds)"
-            *ngFor="let fighter of battleService.battle.wild; let index = index">
-            <div class="options" options>
-              <smitd-divider-expansion>
-                <span dividerLabel>{{'common.options' | translate}}</span>
-                <div class="options" expansionContent>
-                  <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'"
-                    *ngIf="canCarry(fighter.stats)"
-                    (click)="battleService.toggleTreasure(fighter)">{{('battle-page.options.' + (fighter.carryingTreasure ? 'treasure-drop' : 'treasure-carry')) | translate}}</button>
-                  <mat-form-field appearance="fill">
-                    <mat-label>{{'battle-page.options.notes' | translate}}</mat-label>
-                    <textarea matInput [rows]="4"></textarea>
-                  </mat-form-field>
-                  <button mat-flat-button color="warn"
-                    (click)="removeWildFighter(index)">{{'battle-page.battle.remove-wild' | translate}}</button>
+        <div class="battle-group">
+          <div class="divider"
+            *ngIf="battle.hammer.length  && (battle.dagger.length || battle.shield.length ||battleService.battle.wild.length)">
+            <mat-divider></mat-divider>
+            <span class="label">{{'battle-page.group.hammer' | translate}}</span>
+            <mat-divider></mat-divider>
+          </div>
+          <div class="fighters-list hammer" *ngIf="battle.hammer.length">
+            <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.battle"
+              [campaign]="battleService.battle.campaign"
+              (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
+              *ngFor="let fighter of battle.hammer; let index = index">
+              <div class="options" options>
+                <div class="divider" *ngIf="battleService.battle.campaign && fighter.availableRenown?.length">
+                  <mat-divider></mat-divider>
+                  <span>{{'battle-page.renown' | translate}}</span>
+                  <mat-divider></mat-divider>
                 </div>
-              </smitd-divider-expansion>
-            </div>
-            <div class="battleframe-header" battleframeHeader>
-              <div class="fighter-state" matRipple>
-                <div class="state" (click)="stateSelection.toggle()">
-                  <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
-                    [alt]="'fighter-card.characteristic.movement' | translate" class="runemark invert">
+                <div class="renowns" *ngIf="battleService.battle.campaign && fighter.availableRenown?.length">
+                  <ng-container *ngFor="let renownState of fighter.availableRenown; let renownIndex = index">
+                    <div class="renown" (click)="useRenown(fighter, renownIndex, 'hammer', index)">
+                      <img [src]="'assets/runemarks/fighter-state-' + (renownState ? 'activated' : 'ready') + '.svg'"
+                        [alt]="'battle-page.renown' | translate" class="runemark">
+                    </div>
+                  </ng-container>
                 </div>
-                <mat-select #stateSelection [(value)]="fighter.state" (valueChange)="battleService.saveBattle()"
-                  [disabled]="fighter.state === FighterState.Dead">
-                  <mat-option [value]="FighterState.Ready">{{'fighter-state.' + FighterState.Ready | translate}}
-                  </mat-option>
-                  <mat-option [value]="FighterState.Waiting">{{'fighter-state.' + FighterState.Waiting | translate}}
-                  </mat-option>
-                  <mat-option [value]="FighterState.Reacted">{{'fighter-state.' + FighterState.Reacted | translate}}
-                  </mat-option>
-                  <mat-option [value]="FighterState.Activated">{{'fighter-state.' + FighterState.Activated | translate}}
-                  </mat-option>
-                </mat-select>
+                <smitd-divider-expansion
+                  *ngIf="battleService.battle.campaign && (fighter.artefacts.length || fighter.injuries.length || fighter.traits.length)">
+                  <span dividerLabel>{{'battle-page.modifiers' | translate}}</span>
+                  <div class="modifiers" expansionContent>
+                    <ng-container *ngFor="let modifier of fighter.artefacts">
+                      <smitd-modifier-card [modifier]="modifier" [showUsage]="true" [disabled]="notEditable"
+                        (used)="alterFighter(fighter, 'hammer', index)"></smitd-modifier-card>
+                    </ng-container>
+                    <ng-container *ngFor="let modifier of fighter.injuries">
+                      <smitd-modifier-card [modifier]="modifier" [showUsage]="true" [disabled]="notEditable"
+                        (used)="alterFighter(fighter, 'hammer', index)"></smitd-modifier-card>
+                    </ng-container>
+                    <ng-container *ngFor="let modifier of fighter.traits">
+                      <smitd-modifier-card [modifier]="modifier" [showUsage]="true" [disabled]="notEditable"
+                        (used)="alterFighter(fighter, 'hammer', index)"></smitd-modifier-card>
+                    </ng-container>
+                  </div>
+                </smitd-divider-expansion>
+                <smitd-divider-expansion>
+                  <span dividerLabel>{{'common.options' | translate}}</span>
+                  <div class="options" expansionContent>
+                    <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'"
+                      *ngIf="canCarry(fighter.stats)"
+                      (click)="battleService.toggleTreasure(fighter, 'hammer', index)">{{('battle-page.options.' + (fighter.carryingTreasure ? 'treasure-drop' : 'treasure-carry')) | translate}}</button>
+                    <mat-form-field appearance="fill">
+                      <mat-label>{{'battle-page.options.notes' | translate}}</mat-label>
+                      <textarea matInput [rows]="4" [disabled]="notEditable" [(ngModel)]="fighter.notes"
+                        (keyup)="alterFighter(fighter, 'hammer', index)"></textarea>
+                    </mat-form-field>
+                  </div>
+                </smitd-divider-expansion>
               </div>
-              <div class="wound-counter">
-                <div class="value">{{fighter.wounds}}</div>
-                <button mat-icon-button aria-label="add wounds" [disabled]="fighter.wounds + 1 > fighter.stats.wounds"
-                  (click)="alterWounds(fighter, 1)">
-                  <mat-icon>keyboard_arrow_up</mat-icon>
-                </button>
-                <button mat-icon-button aria-label="subtract wounds" [disabled]="fighter.wounds - 1 < 0"
-                  (click)="alterWounds(fighter, -1)">
-                  <mat-icon>keyboard_arrow_down</mat-icon>
-                </button>
+              <div class="battleframe-header" battleframeHeader>
+                <div class="fighter-state" matRipple>
+                  <div class="state" (click)="stateSelection.toggle()">
+                    <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
+                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark invert">
+                  </div>
+                  <mat-select #stateSelection [(value)]="fighter.state"
+                    (valueChange)="alterFighter(fighter, 'hammer', index)"
+                    [disabled]="fighter.state === FighterState.Dead || notEditable">
+                    <mat-option [value]="FighterState.Ready">{{'fighter-state.' + FighterState.Ready | translate}}
+                    </mat-option>
+                    <mat-option [value]="FighterState.Waiting">{{'fighter-state.' + FighterState.Waiting | translate}}
+                    </mat-option>
+                    <mat-option [value]="FighterState.Reacted">{{'fighter-state.' + FighterState.Reacted | translate}}
+                    </mat-option>
+                    <mat-option [value]="FighterState.Activated">
+                      {{'fighter-state.' + FighterState.Activated | translate}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+                <div class="wound-counter">
+                  <div class="value">{{fighter.wounds}}</div>
+                  <button mat-icon-button aria-label="add wounds"
+                    [disabled]="fighter.wounds + 1 > fighter.stats.wounds || notEditable"
+                    (click)="alterWounds(fighter, 1, 'hammer', index)">
+                    <mat-icon>keyboard_arrow_up</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="subtract wounds"
+                    [disabled]="fighter.wounds - 1 < 0 || notEditable"
+                    (click)="alterWounds(fighter, -1, 'hammer', index)">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  </button>
+                </div>
               </div>
-            </div>
-          </smitd-fighter-card>
+            </smitd-fighter-card>
+          </div>
+        </div>
+        <div class="battle-group wild-container">
+          <div class="divider"
+            *ngIf="battleService.battle.wild.length  && (battle.hammer.length || battle.shield.length ||battle.dagger.length)">
+            <mat-divider></mat-divider>
+            <span class="label">{{'battle-page.group.wild' | translate}}</span>
+            <mat-divider></mat-divider>
+          </div>
+          <div class="fighters-list wild" *ngIf="battleService.battle.wild.length">
+            <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.battle"
+              [campaign]="battleService.battle.campaign"
+              (callAbilities)="warbandService.showAbilities([], fighter.stats, undefined, false, battleService.battle.battlegrounds)"
+              *ngFor="let fighter of battleService.battle.wild; let index = index">
+              <div class="options" options>
+                <smitd-divider-expansion>
+                  <span dividerLabel>{{'common.options' | translate}}</span>
+                  <div class="options" expansionContent>
+                    <button mat-flat-button [color]="fighter.carryingTreasure ? 'warn' : 'accent'"
+                      *ngIf="canCarry(fighter.stats)"
+                      (click)="battleService.toggleTreasure(fighter, 'wild', index)">{{('battle-page.options.' + (fighter.carryingTreasure ? 'treasure-drop' : 'treasure-carry')) | translate}}</button>
+                    <mat-form-field appearance="fill">
+                      <mat-label>{{'battle-page.options.notes' | translate}}</mat-label>
+                      <textarea matInput [rows]="4" [(ngModel)]="fighter.notes"
+                        (keyup)="alterFighter(fighter, 'wild', index)"></textarea>
+                    </mat-form-field>
+                    <button mat-flat-button color="warn" *ngIf="multiplayerService.host"
+                      (click)="removeWildFighter(index)">{{'battle-page.battle.remove-wild' | translate}}</button>
+                  </div>
+                </smitd-divider-expansion>
+              </div>
+              <div class="battleframe-header" battleframeHeader>
+                <div class="fighter-state" matRipple>
+                  <div class="state" (click)="stateSelection.toggle()">
+                    <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
+                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark invert">
+                  </div>
+                  <mat-select #stateSelection [(value)]="fighter.state"
+                    (valueChange)="alterFighter(fighter, 'wild', index)"
+                    [disabled]="fighter.state === FighterState.Dead">
+                    <mat-option [value]="FighterState.Ready">{{'fighter-state.' + FighterState.Ready | translate}}
+                    </mat-option>
+                    <mat-option [value]="FighterState.Waiting">{{'fighter-state.' + FighterState.Waiting | translate}}
+                    </mat-option>
+                    <mat-option [value]="FighterState.Reacted">{{'fighter-state.' + FighterState.Reacted | translate}}
+                    </mat-option>
+                    <mat-option [value]="FighterState.Activated">
+                      {{'fighter-state.' + FighterState.Activated | translate}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+                <div class="wound-counter">
+                  <div class="value">{{fighter.wounds}}</div>
+                  <button mat-icon-button aria-label="add wounds" [disabled]="fighter.wounds + 1 > fighter.stats.wounds"
+                    (click)="alterWounds(fighter, 1, 'wild', index)">
+                    <mat-icon>keyboard_arrow_up</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="subtract wounds" [disabled]="fighter.wounds - 1 < 0"
+                    (click)="alterWounds(fighter, -1, 'wild', index)">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </smitd-fighter-card>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <div class="aftermath">
+        <div class="grid-item"  *ngIf="battleService.battle.survivors?.length">
+          <div class="divider">
+            <mat-divider></mat-divider>
+            <span class="label">{{'battle-page.group.survivors' | translate}}</span>
+            <mat-divider></mat-divider>
+          </div>
+          <div class="fighters-list survivors fighters-grid-item">
+            <smitd-fighter-card [fighter]="fighter.stats" [mode]="FighterCardMode.list"
+              [campaign]="battleService.battle.campaign"
+              (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
+              *ngFor="let fighter of battleService.battle.survivors; let index = index">
+              <div class="options" options>
+                <smitd-divider-expansion>
+                  <span dividerLabel>{{'warband-page.tab.fighters.form.narrative.label' | translate}}</span>
+                  <div class="narrative" expansionContent>
+                    <div class="double renown">
+                      <mat-form-field appearance="fill">
+                        <mat-label>{{'warband-page.tab.fighters.form.narrative.name' | translate}}</mat-label>
+                        <input matInput [(ngModel)]="fighter.stats.name" (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)">
+                      </mat-form-field>
+                      <mat-form-field appearance="fill">
+                        <mat-label>{{'warband-page.tab.fighters.form.narrative.renown' | translate}}</mat-label>
+                        <mat-select [(ngModel)]="fighter.stats.renown" (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)">
+                          <mat-option [value]="0">{{0}}</mat-option>
+                          <mat-option [value]="1">{{1}}</mat-option>
+                          <mat-option [value]="2">{{2}}</mat-option>
+                          <mat-option [value]="3">{{3}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <mat-form-field appearance="fill">
+                      <mat-label>{{'warband-page.tab.fighters.form.narrative.notes' | translate}}</mat-label>
+                      <textarea matInput [rows]="4" [(ngModel)]="fighter.notes" (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)"></textarea>
+                    </mat-form-field>
+                  </div>
+                </smitd-divider-expansion>
+                <smitd-divider-expansion>
+                  <span dividerLabel>{{'warband-page.tab.fighters.form.modifiers.label' | translate}}</span>
+                  <div class="modifiers" expansionContent>
+                    <ng-container *ngFor="let modifier of fighter.stats.modifiers; let modifierIndex = index">
+                      <div class="modifier-card">
+                        <smitd-modifier-card [modifier]="modifier" [edit]="true" [showUsed]="true"></smitd-modifier-card>
+                        <div class="modifier-options">
+                          <div class="button-wrapper dark">
+                            <button class="remove-modifier" mat-mini-fab (click)="editFighterModifier(fighter, index, modifierIndex)">
+                              <mat-icon>edit</mat-icon>
+                            </button>
+                          </div>
+                          <div class="button-wrapper dark">
+                            <button class="remove-modifier" mat-mini-fab color="warn" (click)="removeFighterModifier(fighter, index, modifierIndex)">
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                    <button class="add-ability" color="accent" mat-flat-button
+                      (click)="addFighterModifier(fighter, index)">{{'warband-page.tab.fighters.form.modifiers.add' | translate}}</button>
+                  </div>
+                </smitd-divider-expansion>
+              </div>
+            </smitd-fighter-card>
+          </div>
+        </div>
+        <div class="grid-item" *ngIf="battleService.battle.fallen?.length">
+          <div class="divider">
+            <mat-divider></mat-divider>
+            <span class="label">{{'battle-page.group.fallen' | translate}}</span>
+            <mat-divider></mat-divider>
+          </div>
+          <div class="fighters-list fallen fighters-grid-item">
+            <smitd-fighter-card [fighter]="fighter.stats" [mode]="FighterCardMode.list"
+              [campaign]="battleService.battle.campaign"
+              (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
+              *ngFor="let fighter of battleService.battle.fallen; let index = index">
+              <div class="options" options>
+                <smitd-divider-expansion>
+                  <span dividerLabel>{{'warband-page.tab.fighters.form.narrative.label' | translate}}</span>
+                  <div class="narrative" expansionContent>
+                    <div class="double renown">
+                      <mat-form-field appearance="fill">
+                        <mat-label>{{'warband-page.tab.fighters.form.narrative.name' | translate}}</mat-label>
+                        <input matInput [(ngModel)]="fighter.stats.name" (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)">
+                      </mat-form-field>
+                      <mat-form-field appearance="fill">
+                        <mat-label>{{'warband-page.tab.fighters.form.narrative.renown' | translate}}</mat-label>
+                        <mat-select [(ngModel)]="fighter.stats.renown" (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)">
+                          <mat-option [value]="0">{{0}}</mat-option>
+                          <mat-option [value]="1">{{1}}</mat-option>
+                          <mat-option [value]="2">{{2}}</mat-option>
+                          <mat-option [value]="3">{{3}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <mat-form-field appearance="fill">
+                      <mat-label>{{'warband-page.tab.fighters.form.narrative.notes' | translate}}</mat-label>
+                      <textarea matInput [rows]="4" [(ngModel)]="fighter.notes" (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)"></textarea>
+                    </mat-form-field>
+                  </div>
+                </smitd-divider-expansion>
+                <smitd-divider-expansion>
+                  <span dividerLabel>{{'warband-page.tab.fighters.form.modifiers.label' | translate}}</span>
+                  <div class="modifiers" expansionContent>
+                    <ng-container *ngFor="let modifier of fighter.stats.modifiers; let modifierIndex = index">
+                      <div class="modifier-card">
+                        <smitd-modifier-card [modifier]="modifier" [edit]="true" [showUsed]="true"></smitd-modifier-card>
+                        <div class="modifier-options">
+                          <div class="button-wrapper dark">
+                            <button class="remove-modifier" mat-mini-fab (click)="editFighterModifier(fighter, index, modifierIndex)">
+                              <mat-icon>edit</mat-icon>
+                            </button>
+                          </div>
+                          <div class="button-wrapper dark">
+                            <button class="remove-modifier" mat-mini-fab color="warn" (click)="removeFighterModifier(fighter, index, modifierIndex)">
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                    <button class="add-ability" color="accent" mat-flat-button
+                      (click)="addFighterModifier(fighter, index)">{{'warband-page.tab.fighters.form.modifiers.add' | translate}}</button>
+                  </div>
+                </smitd-divider-expansion>
+                <div class="divider">
+                  <mat-divider></mat-divider>
+                  <span>{{'common.options' | translate}}</span>
+                  <mat-divider></mat-divider>
+                </div>
+                <div class="actions">
+                  <button mat-flat-button color="warn" (click)="removeFighter(fighter.fighterIndex, index)">{{'battle-page.died' | translate}}</button>
+                </div>
+              </div>
+            </smitd-fighter-card>
+          </div>
         </div>
       </div>
     </mat-tab>
   </mat-tab-group>
 </div>
-
-<div class="bottom-action-bar">
+<div class="bottom-action-bar ingame">
   <button mat-raised-button (click)="battleService.abortBattle()"
     *ngIf="battleService.battle.battleState === BattleState.Roster">
     <mat-icon>close</mat-icon>
   </button>
-  <button mat-raised-button (click)="battleService.endBattle()"
+  <button mat-raised-button (click)="battleService.endBattle(refreshUI)"
     *ngIf="battleService.battle.battleState === BattleState.Battle">
     <mat-icon>handshake</mat-icon>
   </button>
   <button mat-raised-button (click)="addFighter()" *ngIf="battleService.battle.battleState === BattleState.Roster">
     <mat-icon>person_add</mat-icon>
   </button>
-  <button mat-raised-button (click)="addWildFighter()" *ngIf="battleService.battle.battleState === BattleState.Battle">
+  <button mat-raised-button (click)="addWildFighter()"
+    *ngIf="battleService.battle.battleState === BattleState.Battle  && multiplayerService.host">
     <mat-icon>pets</mat-icon>
+  </button>
+  <button mat-raised-button [matMenuTriggerFor]="multiplayer"
+    *ngIf="battleService.battle.battleState === BattleState.Battle">
+    <mat-icon>group_add</mat-icon>
+  </button>
+  <mat-menu #multiplayer="matMenu">
+    <button mat-menu-item (click)="connectToSession()"
+      *ngIf="!multiplayerService.connected">{{'battle-page.menu.connect' | translate}}</button>
+    <button mat-menu-item (click)="multiplayerService.disconnect()"
+      *ngIf="multiplayerService.connected">{{'battle-page.menu.disconnect' | translate}}</button>
+    <button mat-menu-item (click)="copySessionToken()">{{'battle-page.menu.token' | translate}}</button>
+    <ng-container *ngIf="multiplayerService.connected">
+      <h3>{{'multiplayer.warbands' | translate}}</h3>
+      <div class="peer" (click)="checkWarband(-1)" matRipple [warbandColor]="battleService.battle.warband.color"
+        [ngClass]="{'iconed': battleService.battle.warband.icon}">
+        <div class="warband-icon" [ngStyle]="{'background-image': 'url(' + iconSrc + ')'}" warbandColor
+          [warbandColor]="battleService.battle.warband.color" [warbandColorOpaque]="false"
+          *ngIf="battleService.battle.warband.icon as iconSrc"></div>
+        <div class="warband-name">
+          <span *ngIf="multiplayerService.host">[{{'host'}}]</span> {{battleService.battle.warband.name}}
+        </div>
+      </div>
+      <div class="peer" (click)="checkWarband(index)" matRipple [warbandColor]="peer.warband.color"
+        [ngClass]="{'iconed': peer.warband.icon}" *ngFor="let peer of multiplayerService.peers, let index = index">
+        <div class="warband-icon" [ngStyle]="{'background-image': 'url(' + iconSrc + ')'}" warbandColor
+          [warbandColor]="peer.warband.color" [warbandColorOpaque]="false" *ngIf="peer.warband.icon as iconSrc"></div>
+        <div class="warband-name">
+          <span *ngIf="peer.type === PeerType.Host">[{{'host'}}]</span> {{peer.warband.name}}
+        </div>
+        <mat-icon *ngIf="peer.state === PeerState.Ready">check_circle</mat-icon>
+        <mat-icon *ngIf="peer.state !== PeerState.Ready">hourglass_bottom</mat-icon>
+      </div>
+    </ng-container>
+  </mat-menu>
+  <button mat-raised-button (click)="multiplayerService.ready()" *ngIf="
+      battleService.battle.battleState === BattleState.Battle &&
+      multiplayerService.connected &&
+      !multiplayerService.meReady
+    ">
+    <mat-icon>check_circle</mat-icon>
+  </button>
+  <button mat-raised-button (click)="multiplayerService.unready()" *ngIf="
+      battleService.battle.battleState === BattleState.Battle &&
+      multiplayerService.connected &&
+      multiplayerService.meReady
+    ">
+    <mat-icon>unpublished</mat-icon>
   </button>
   <button mat-raised-button (click)="battleService.beginBattle()"
     *ngIf="battleService.battle.battleState === BattleState.Roster">
     <mat-icon svgIcon="swords"></mat-icon>
   </button>
   <button mat-raised-button (click)="endTurn()"
-    *ngIf="battleService.battle.battleState === BattleState.Battle">
+    [disabled]="multiplayerService.connected && !multiplayerService.allReady"
+    *ngIf="battleService.battle.battleState === BattleState.Battle && multiplayerService.host">
     <mat-icon>hourglass_bottom</mat-icon>
+  </button>
+  <button mat-raised-button (click)="battleService.endBattle(refreshUI)"
+    *ngIf="battleService.battle.battleState === BattleState.Aftermath">
+    <mat-icon>done</mat-icon>
   </button>
 </div>

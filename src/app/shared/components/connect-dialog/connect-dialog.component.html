@@ -1,0 +1,14 @@
+<h2>{{'connect-dialog.title' | translate}}</h2>
+<div class="dialog-content">
+  <form [formGroup]="peerForm">
+    <mat-form-field appearance="fill">
+      <mat-label>{{'connect-dialog.form.session-token.label' | translate}}</mat-label>
+      <input matInput formControlName="sessionToken">
+    </mat-form-field>
+  </form>
+</div>
+<div class="actions">
+  <button mat-flat-button color="accent" (click)="acceptDialog()"
+  [disabled]="!sessionToken">{{'connect-dialog.action.join'  | translate}}</button>
+  <button mat-flat-button (click)="closeDialog()">{{'common.back' | translate}}</button>
+</div>

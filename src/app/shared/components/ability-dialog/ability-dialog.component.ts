@@ -10,7 +10,7 @@ import { Ability } from 'src/app/core/models/ability.model';
   styleUrls: ['./ability-dialog.component.scss']
 })
 export class AbilityDialogComponent {
-  public abilityForm: FormGroup;
+  abilityForm: FormGroup;
 
   constructor(public dialogRef: MatDialogRef<AbilityDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -34,11 +34,11 @@ export class AbilityDialogComponent {
     }
 
 
-  public acceptDialog(): void {
+  acceptDialog(): void {
     this.dialogRef.close(this.abilityForm.value);
   }
 
-  public closeDialog(): void {
+  closeDialog(): void {
     this.dialogRef.close(false);
   }
 }

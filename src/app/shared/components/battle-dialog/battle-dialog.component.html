@@ -21,11 +21,10 @@
           <mat-option *ngFor="let color of colorList" [value]="color.value">{{'color.' + color.key | translate}}
           </mat-option>
         </mat-select>
-      </mat-form-field>
-      <div class="color-sample" (click)="colorSelect.open()" [ngStyle]="{'background-color': selectedColor}"></div>
+      </mat-form-field><input class="color-sample" type="color" formControlName="color" [value]="selectedColor">
     </div>
   </form>
-  <ng-container  *ngIf="runningBattle">
+  <ng-container *ngIf="runningBattle">
     <p>{{'battle-dialog.running' | translate}}</p>
     <button mat-flat-button color="accent" (click)="acceptDialog(false)"
       [disabled]="battleForm.invalid">{{'battle-dialog.action.continue'  | translate}}</button>

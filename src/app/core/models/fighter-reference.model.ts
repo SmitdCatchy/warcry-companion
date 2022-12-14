@@ -24,4 +24,5 @@ export interface FighterReference {
   availableRenown?: boolean[];
   traits: Modifier[];
   carryingTreasure?: boolean;
+  notes?: string;
 }
