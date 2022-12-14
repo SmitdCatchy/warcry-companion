@@ -160,7 +160,7 @@
       "strength": "Stärke",
       "damage": "Schaden",
       "crit": "Kritischer Schaden",
-      "min-health": "Minimaler Schaden"
+      "min-health": "Minimale Gesundheit"
     },
     "label": {
       "injured": "Verletzt",
