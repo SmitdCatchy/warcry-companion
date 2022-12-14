@@ -7,13 +7,13 @@
     "de": "Deutsch"
   },
   "color": {
-    "blue": "Orden Blau",
-    "green": "Zerstörüng Grün",
+    "blue": "Ordnung Blau",
+    "green": "Zerstörung Grün",
     "grey": "Neutral Grau",
     "orange": "Wildnis Orange",
     "purple": "Tod Violett",
     "red": "Chaos Rot",
-    "warband": "Farbe der Kriegsbande"
+    "warband": "Farbe der Kriegerschar"
   },
   "theme": {
     "light": "Helle Benutzeroberfläche",
@@ -29,15 +29,15 @@
     "pts": "PTS",
     "options": "Optionen",
     "faction": "Fraktion",
-    "fighters": "Kämpfer"
+    "fighters": "Krieger"
   },
   "main-page": {
     "menu": {
       "quick-battle": "Schneller Kampf",
-      "warband-create": "Kriegshaufen erstellen",
-      "warband-import": "Kriegshaufen importieren",
+      "warband-create": "Kriegerschar erstellen",
+      "warband-import": "Kriegerschar importieren",
       "battlegrounds": "Schlachtfelder",
-      "fighter-store": "Kämpfer Lager",
+      "fighter-store": "Krieger Lager",
       "settings": "Einstellungen",
       "toggle-effects": "Bildschirmeffekte an/aus",
       "select-theme": "Benutzeroberfläche wählen",
@@ -47,23 +47,23 @@
       "github": "Unterstützung auf GitHub"
     },
     "warband-options": {
-      "select": "Kriegshaufen wählen",
-      "duplicate": "Kriegshaufen duplizieren",
-      "remove": "Kriegshaufen entfernen",
-      "export": "Kriegshaufen exportieren"
+      "select": "Kriegerschar wählen",
+      "duplicate": "Kriegerschar duplizieren",
+      "remove": "Kriegerschar entfernen",
+      "export": "Kriegerschar exportieren"
     }
   },
   "warband-service": {
-    "warband-exists": "Du hast bereits eine Kriegshaufen mit dem Namen \"{{warband}}\".",
+    "warband-exists": "Du hast bereits eine Kriegerschar mit dem Namen \"{{warband}}\".",
     "warband-remove": "Bist du sicher das du {{warband}} enfernen möchtest ?",
-    "fighter-remove": "Bist du sich das du \"{{fighter}}\" aus {{warband}} entfernen möchtest ?",
+    "fighter-remove": "Bist du sicher das du \"{{fighter}}\" aus {{warband}} entfernen möchtest ?",
     "abilities": {
       "label": "{{label}} Fähigkeiten",
       "universal": "Universelle Fähigkeiten"
     }
   },
   "warband-dialog": {
-    "title": "Neue Kriegshaufen",
+    "title": "Neue Kriegerschar",
     "form": {
       "name": {
         "label": "Name"
@@ -79,19 +79,19 @@
       }
     },
     "action": {
-      "add": "Kriegshaufen hinzufügen"
+      "add": "Kriegerschar hinzufügen"
     }
   },
   "warband-page": {
     "menu": {
       "battle": "Mach dich zu Kampf bereit",
-      "fighter-add": "Kämpfer hinzufügen",
+      "fighter-add": "Krieger hinzufügen",
       "logs": "Kampfprotokolle",
-      "abilities": "Kriegshaufen Fähigkeiten"
+      "abilities": "Kriegerschar Fähigkeiten"
     },
     "tab": {
       "fighters": {
-        "title": "Kämpfer",
+        "title": "Krieger",
         "option": {
           "edit": "Bearbeiten",
           "remove": "Entfernen",
@@ -133,15 +133,15 @@
         }
       },
       "warband": {
-        "title": "Kriegshaufen",
-        "update": "Kriegshaufen aktualisieren",
+        "title": "Kriegerschar",
+        "update": "Kriegerschar aktualisieren",
         "form": {
-          "name": "Kriegshaufen Name",
+          "name": "Kriegerschar Name",
           "faction": "Fraktion",
           "alliance": "Großes Bündnis",
           "color": "Farbe",
           "abilities": {
-            "label": "Kriegshaufen Fähigkeiten",
+            "label": "Kriegerschar Fähigkeiten",
             "add": "Fähigkeit hinzufügen",
             "remove-question": "Bist du sicher das du \"{{ability}}\" von {{warband}} entfernen möchtest ?"
           }
@@ -159,28 +159,28 @@
       "attacks": "Anzahl Attacken",
       "strength": "Stärke",
       "damage": "Schaden",
-      "crit": "kritischer Schaden",
-      "min-health": "minimaler Schaden"
+      "crit": "Kritischer Schaden",
+      "min-health": "Minimale Gesundheit"
     },
     "label": {
       "injured": "Verletzt",
-      "equipped": "Ausgestattet",
+      "equipped": "Ausgerüstet",
       "carrying": "Schatz tragen"
     }
   },
   "fighter-role": {
     "leader": "Anführer",
     "hero": "Held",
-    "fighter": "Kämpfer",
-    "ally": "Verbündete",
-    "thrall": "Knechte",
+    "fighter": "Krieger",
+    "ally": "Verbündeter",
+    "thrall": "Knecht",
     "monster": "Monster",
     "beast": "Bestie"
   },
   "fighter-dialog": {
     "title": {
-      "new": "Kämpfer hinzufügen",
-      "edit": "Kämpfer bearbeiten"
+      "new": "Krieger hinzufügen",
+      "edit": "Krieger bearbeiten"
     },
     "form": {
       "name": { "label": "Narrativer Name" },
@@ -193,17 +193,17 @@
       "monster-stats": { "label": "Schadenstabelle" }
     },
     "action": {
-      "add-weapon": "Zeite Waffe hinzufügen",
+      "add-weapon": "Zweite Waffe hinzufügen",
       "remove-weapon": "Zweite Waffe entfernen",
       "add-monster-stat": "Reihe einer Schadenstabelle hinzufügen",
       "remove-monster-stat": "Reihe einer Schadenstabelle entfernen",
       "add": "Hinzufügen",
       "update": "Aktualisieren",
-      "store": "Kämpfer Lager",
-      "save": "Kämpfer zum Lager hinzufügen",
-      "store-update": "Kämpfer im Lager aktualisieren",
-      "load": "Kämpfer aus den Kämpfer Lager wählen",
-      "discard": "Kämpfer aus dem Lager entfernen"
+      "store": "Krieger Lager",
+      "save": "Krieger zum Lager hinzufügen",
+      "store-update": "Krieger im Lager aktualisieren",
+      "load": "Krieger aus den Lager wählen",
+      "discard": "Krieger aus dem Lager entfernen"
     }
   },
   "fighter-state": {
@@ -224,8 +224,8 @@
     "title": "Name",
     "battleground": "Schlachtfelder",
     "runemarks": "Runenzeichen",
-    "prohibitive": "verbotene Runenzeichen",
-    "placeholder": "neues Runenzeichen",
+    "prohibitive": "Verbotene Runenzeichen",
+    "placeholder": "Neues Runenzeichen",
     "description": "Beschreibung"
   },
   "ability-dialog": {
@@ -234,20 +234,20 @@
       "edit": "Fähigkeit bearbeiten"
     },
     "action": {
-      "add": "hinzufügen",
-      "update": "aktualisieren"
+      "add": "Hinzufügen",
+      "update": "Aktualisieren"
     }
   },
   "battle-page": {
     "quick": "Schneller Kampf",
     "menu": {
-      "warband": "Kriegshaufen Fähigkeiten",
-      "fighter": "Kämpfer zur Übersicht hinzufügen",
+      "warband": "Kriegerschar Fähigkeiten",
+      "fighter": "Krieger zur Übersicht hinzufügen",
       "begin": "Kampf beginnen",
       "turn": "Zug beenden",
       "end": "Kampf beenden",
       "abort": "Kampf abbrechen",
-      "wild": "wilden Kämpfer hinzufügen"
+      "wild": "Wilden Krieger hinzufügen"
     },
     "groups": "Gruppe zuweisen",
     "modifiers": "Modifikatoren",
@@ -260,12 +260,12 @@
       "dagger": "Dolch",
       "shield": "Schild",
       "hammer": "Hammer",
-      "wild": "Wilde Kämpfer"
+      "wild": "Wilde Krieger"
     },
     "battle": {
       "turn": "Kampfrunde {{turn}}",
       "victory-points": "Siegpunkte",
-      "remove-wild": "Wilden Kämpfer entfernen"
+      "remove-wild": "Wilden Krieger entfernen"
     },
     "options": {
       "notes": "Notizen",
@@ -275,9 +275,9 @@
   },
   "battle-service": {
     "dialog": {
-      "remove-wild": "Bist du sicher das du diesen wilden Kämpfer entfernen möchtest ?",
+      "remove-wild": "Bist du sicher das du diesen wilden Krieger entfernen möchtest ?",
       "abort": "Bist du sicher das du den Kampf beenden willst ?",
-      "ready": "Bist du sicher das du den Zug beenden möchtest ? Die folgenden Kämpfer warten noch auf ihre Aktivierung:"
+      "ready": "Bist du sicher das du den Zug beenden möchtest ? Die folgenden Krieger warten noch auf ihre Aktivierung:"
     }
   },
   "battle-dialog": {
@@ -288,7 +288,7 @@
     },
     "action": {
       "start": "Neuer Kampf",
-      "continue": "Vorherigen Kampf vortsetzen"
+      "continue": "Vorherigen Kampf fortsetzen"
     }
   },
   "battle-end-dialog": {
@@ -296,7 +296,7 @@
     "question": "Bist du sicher das du den Kampf beenden möchtest?",
     "form": {
       "outcome": "Kampfergebnis",
-      "enemy": "Gegnerische Kriegshaufen"
+      "enemy": "Gegnerische Kriegerschar"
     },
     "action": {
       "end": "Kampf beenden"
@@ -334,7 +334,7 @@
     "tie": "Unentschieden",
     "battle": "Kampf",
     "campaign": "Kampagnen-Kampf",
-    "enemy": " gegen{{enemy}}",
+    "enemy": " gegen {{enemy}}",
     "casualities": "Verluste",
     "label": {
       "victory": "Siegreicher Kampf",
@@ -382,11 +382,11 @@
     "exists": "Du hast bereits ein Schlachtfeld mit dem Namen \"{{battleground}}\"."
   },
   "fighter-store-page": {
-    "title": "Kämpfer Lager",
+    "title": "Krieger Lager",
     "menu": {
-      "fighter-add": "Kämpfer hinzufügen ",
-      "import": "Kämpfer importieren",
-      "export": "Kämpfer exportieren",
+      "fighter-add": "Krieger hinzufügen ",
+      "import": "Krieger importieren",
+      "export": "Krieger exportieren",
       "update": "Kämpfer in den Kriegerscharen aktualisieren"
     },
     "option": {
@@ -397,12 +397,12 @@
     "updated": "Erfogreich alle Kämpfer in allen Kriegerscharen aktualisiert."
   },
   "fighter-store-service": {
-    "remove": "Bist du sicher das du \"{{fighter}}\" aus dem Kämpfer-Lager entfernen möchtest ?",
-    "exists": "Du hast bereits einen kämpfer mit dem Namen \"{{fighter}}\" im Kämpfer-Lager."
+    "remove": "Bist du sicher das du \"{{fighter}}\" aus dem Krieger-Lager entfernen möchtest ?",
+    "exists": "Du hast bereits einen Krieger mit dem Namen \"{{fighter}}\" im Krieger-Lager."
   },
   "fighter-store-dialog": {
-    "title": "Kämpfer-Lager",
-    "fighter": "Kämpfer Art",
+    "title": "Krieger-Lager",
+    "fighter": "Krieger Art",
     "filter": "Filter",
     "load": "Laden",
     "clear": "keinen Auswählen"
@@ -414,7 +414,7 @@
     }
   },
   "pwa": {
-    "update": "Es gibt ein neues Update. Möchtest du Do you want to apply anwenden?"
+    "update": "Es gibt ein neues Update. Möchtest du es anwenden?"
   },
   "multiplayer": {
     "action": {
