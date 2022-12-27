@@ -1,4 +1,10 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnDestroy,
+  ViewChild
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -13,13 +19,15 @@ import { Fighter } from 'src/app/core/models/fighter.model';
 import { Weapon } from 'src/app/core/models/weapon.model';
 import { MonsterStat } from 'src/app/core/models/monster-stat.model';
 import { FighterStoreService } from 'src/app/core/services/fighter-store.service';
-import { Subscription } from 'rxjs';
+import { map, Observable, startWith, Subscription } from 'rxjs';
 import { FighterStoreDialogComponent } from '../fighter-store-dialog/fighter-store-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import cloneDeep from 'lodash.clonedeep';
 import { Warband } from 'src/app/core/models/warband.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Color } from 'src/app/core/enums/color.enum';
+import { RunemarksService } from 'src/app/core/services/runemarks.service';
+import { Runemark } from 'src/app/core/models/runemark.model';
 
 @Component({
   selector: 'smitd-fighter-dialog',
@@ -38,6 +46,10 @@ export class FighterDialogComponent implements OnDestroy {
     key,
     value: Color[key as keyof typeof Color]
   }));
+  @ViewChild('runemarkInput')
+  private _runemarkInput!: ElementRef<HTMLInputElement>;
+  private _junkRunemark!: string;
+  filteredRunemarkList: Observable<Runemark[]>;
 
   constructor(
     public dialogRef: MatDialogRef<FighterDialogComponent>,
@@ -50,10 +62,11 @@ export class FighterDialogComponent implements OnDestroy {
     },
     readonly fighterStore: FighterStoreService,
     private readonly dialog: MatDialog,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly _runemarksService: RunemarksService
   ) {
-    if(data.warband) {
-      this.colorList.unshift({key: 'warband', value: data.warband.color});
+    if (data.warband) {
+      this.colorList.unshift({ key: 'warband', value: data.warband.color });
     }
     const fighterCopy = data.fighter ? cloneDeep(data.fighter) : undefined;
     this.fighterForm = new FormGroup({
@@ -100,14 +113,13 @@ export class FighterDialogComponent implements OnDestroy {
         data.storeDialog ? [Validators.required] : []
       ),
       color: new FormControl(
-        fighterCopy?.color ? fighterCopy.color : data.warband.color
+        fighterCopy?.color
+          ? fighterCopy.color
+          : data.warband
+          ? data.warband.color
+          : undefined
       )
     });
-    console.log(
-      fighterCopy?.color ? fighterCopy.color : data.warband.color
-    );
-    console.log(fighterCopy);
-    console.log(data.warband);
 
     if (data.storeDialog && data.edit) {
       this.type.disable();
@@ -136,6 +148,27 @@ export class FighterDialogComponent implements OnDestroy {
       this.role.valueChanges.subscribe((role: FighterRole) => {
         this.setRoleRunemarks(role);
       })
+    );
+    this.filteredRunemarkList = this.runemarkCtrl.valueChanges.pipe(
+      map((expression: string | null) =>
+        expression
+          ? this._filterRunemarkArray(
+              expression,
+              this._runemarksService.runemarks.slice()
+            )
+          : this._runemarksService.runemarks.slice()
+      )
+    );
+  }
+
+  private _filterRunemarkArray(
+    expression: string,
+    runemarks: Runemark[]
+  ): Runemark[] {
+    const filterValue = expression.toLowerCase();
+
+    return runemarks.filter((runemark) =>
+      runemark.key.toLowerCase().includes(filterValue)
     );
   }
 
@@ -242,13 +275,25 @@ export class FighterDialogComponent implements OnDestroy {
   addRunemark(event: any): void {
     const value = (event.value || '').trim();
     const runemarks = this.runemarks.value;
-
     if (value) {
       runemarks.push(value);
     }
+    setTimeout(() => {
+      this._runemarkInput.nativeElement.value = '';
+      this.runemarkCtrl.setValue(null);
+    }, 100);
+    this.runemarks.setValue(runemarks);
+  }
 
-    event.chipInput!.clear();
-    this.runemarkCtrl.setValue(null);
+  selectRunemark(event: any): void {
+    let runemarks = this.runemarks.value;
+    if (this._runemarkInput.nativeElement.value) {
+      runemarks = runemarks.filter(
+        (runemark: string) =>
+          runemark !== this._runemarkInput.nativeElement.value
+      );
+    }
+    runemarks.push(event.option.value);
     this.runemarks.setValue(runemarks);
   }
 
@@ -292,6 +337,7 @@ export class FighterDialogComponent implements OnDestroy {
     if (fighter.role !== FighterRole.Monster) {
       fighter.monsterStatTable = undefined;
     }
+    this._runemarksService.addRunemarks(fighter.runemarks);
     this.dialogRef.close(this.fighterForm.value);
   }
 
@@ -331,8 +377,7 @@ export class FighterDialogComponent implements OnDestroy {
       modifiers: [],
       abilities: fighter.abilities,
       monsterStatTable: fighter.monsterStatTable,
-      icon: fighter.icon,
-      color: this.data.warband ? this.data.warband.color : undefined
+      icon: fighter.icon
     };
   }
 

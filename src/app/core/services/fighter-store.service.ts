@@ -75,10 +75,10 @@ export class FighterStoreService {
   }
 
   private saveFighterStore(): void {
-    CoreService.setLocalStorage(
-      LocalStorageKey.FighterStore,
-      JSON.stringify(this.store)
-    );
+    this.core.setStore({
+      name: StoreKey.FighterStore,
+      data: this.store
+    });
   }
 
   updateFighter(fighter: Fighter): void {

@@ -16,6 +16,8 @@ import { BattlePageComponent } from './pages/battle-page/battle-page.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BattlegroundsPageComponent } from './pages/battlegrounds-page/battlegrounds-page.component';
 import { FighterStorePageComponent } from './pages/fighter-store-page/fighter-store-page.component';
+import { UtilityPageComponent } from './pages/utility-page/utility-page.component';
+import { PrintPageComponent } from './pages/print-page/print-page.component';
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -28,7 +30,9 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     WarbandPageComponent,
     BattlePageComponent,
     BattlegroundsPageComponent,
-    FighterStorePageComponent
+    FighterStorePageComponent,
+    UtilityPageComponent,
+    PrintPageComponent
   ],
   imports: [
     BrowserModule,

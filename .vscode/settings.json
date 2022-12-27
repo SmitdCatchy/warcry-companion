@@ -8,6 +8,6 @@
   "files.exclude": {
     "**/dist": true,
     "**/node_modules": false,
-    "**/.angular": true
+    "**/.angular": false
   }
 }

@@ -5,6 +5,8 @@ import { BattlePageComponent } from './pages/battle-page/battle-page.component';
 import { BattlegroundsPageComponent } from './pages/battlegrounds-page/battlegrounds-page.component';
 import { FighterStorePageComponent } from './pages/fighter-store-page/fighter-store-page.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
+import { PrintPageComponent } from './pages/print-page/print-page.component';
+import { UtilityPageComponent } from './pages/utility-page/utility-page.component';
 import { WarbandPageComponent } from './pages/warband-page/warband-page.component';
 
 const routes: Routes = [
@@ -55,6 +57,24 @@ const routes: Routes = [
     canDeactivate: [DialogGuard],
     component: FighterStorePageComponent,
     data: { animation: 'fighter-store' }
+  },
+  {
+    path: 'runemarks',
+    canDeactivate: [DialogGuard],
+    component: UtilityPageComponent,
+    data: { animation: 'runemarks' }
+  },
+  {
+    path: 'print',
+    canDeactivate: [DialogGuard],
+    component: PrintPageComponent,
+    data: { animation: 'print' }
+  },
+  {
+    path: 'print-groups',
+    canDeactivate: [DialogGuard],
+    component: PrintPageComponent,
+    data: { animation: 'print', groups: true }
   },
   {
     path: '**',

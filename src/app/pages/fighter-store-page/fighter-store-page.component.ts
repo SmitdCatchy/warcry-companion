@@ -232,6 +232,7 @@ export class FighterStorePageComponent implements OnDestroy {
         }
       });
     });
+    this.warbandService.saveWarbands();
     this.dialog.open(ConfirmDialogComponent, {
       data: {
         confirmation: true,

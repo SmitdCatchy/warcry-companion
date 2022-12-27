@@ -29,7 +29,8 @@
     "pts": "PTS",
     "options": "Options",
     "faction": "Faction",
-    "fighters": "Fighters"
+    "fighters": "Fighters",
+    "abilities": "Abilities"
   },
   "main-page": {
     "menu": {
@@ -44,7 +45,8 @@
       "language-selection": "Choose Language",
       "language-add": "Add my language",
       "guide": "Guide",
-      "github": "Support on GitHub"
+      "github": "Support on GitHub",
+      "runemarks": "Runemarks"
     },
     "warband-options": {
       "select": "Select Warband",
@@ -87,7 +89,8 @@
       "battle": "Prepare for Battle",
       "fighter-add": "Add Fighter",
       "logs": "Battle Logs",
-      "abilities": "Warband Abilities"
+      "abilities": "Warband Abilities",
+      "print": "Print Warband Roster"
     },
     "tab": {
       "fighters": {
@@ -252,7 +255,8 @@
       "connect": "Join a Running Battle",
       "disconnect": "Leave the Running Battle",
       "token": "Copy Battle Token",
-      "aftermath": "End Aftermath"
+      "aftermath": "End Aftermath",
+      "print": "Print Warband Groups"
     },
     "groups": "Assign Group",
     "modifiers": "Modifiers",
@@ -454,5 +458,21 @@
     "action": {
       "join": "Join"
     }
+  },
+  "utility-page": {
+    "title": "Runemarks",
+    "menu": {
+      "runemarks-import": "Import Runemarks",
+      "runemarks-export": "Export Runemarks"
+    },
+    "form": {
+      "runemark": {
+        "label": "Runemark name"
+      }
+    }
+  },
+  "print-page": {
+    "print": "Print",
+    "pagebreak": "<< PAGEBREAK >>"
   }
 }

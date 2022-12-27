@@ -14,6 +14,7 @@
     <button mat-menu-item (click)="warbandService.showLogs()"
       *ngIf="warbandService.hasLogs">{{'warband-page.menu.logs' | translate}}</button>
     <button mat-menu-item (click)="addFighter()">{{'warband-page.menu.fighter-add' | translate}}</button>
+    <button mat-menu-item routerLink="/print">{{'warband-page.menu.print' | translate}}</button>
   </mat-menu>
 </smitd-header>
 
@@ -22,7 +23,7 @@
     <div class="scroll-container">
       <div class="fighters-container">
         <h2>
-          <span class="number">{{warbandPointSum(warband)}} <span class="small">{{('common.pts' | translate)}}</span> </span> <span class="number"> {{warband.fighters.length}}/20 <span class="small">{{('common.fighters' | translate)}}</span></span> 
+          <span class="number">{{warbandPointSum(warband)}} <span class="small">{{('common.pts' | translate)}}</span> </span> <span class="number"> {{warband.fighters.length}}/20 <span class="small">{{('common.fighters' | translate)}}</span></span>
         </h2>
         <div class="fighters-grid" [ngClass]="{'show-items': showGridLayout}" cdkDropListGroup>
           <div class="fighters-grid-item" cdkDropList (cdkDropListDropped)="dropListDropped()"

@@ -1,0 +1,54 @@
+<smitd-header>
+  <button mat-icon-button (click)="core.back()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+
+  <h2>{{'utility-page.title' | translate}}</h2>
+
+  <button mat-icon-button [matMenuTriggerFor]="battlegroundSelection">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #battlegroundSelection="matMenu">
+    <button mat-menu-item (click)="importRunemarks()">{{'utility-page.menu.runemarks-import' | translate}}</button>
+    <button mat-menu-item (click)="exportRunemarks()">{{'utility-page.menu.runemarks-export' | translate}}</button>
+  </mat-menu>
+</smitd-header>
+<div class="scroll-container">
+  <div class="runemarks-list glass">
+    <div class="runemark-card" *ngFor="let runemark of runemarks; let index = index">
+      <smitd-icon-uploader [iconValue]="runemark.icon" selectedColor="#ffffffcc"
+        (iconValueChange)="iconValueChange($event, index)"></smitd-icon-uploader>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'utility-page.form.runemark.label' | translate}}</mat-label>
+        <input matInput [(ngModel)]="runemark.key" maxlength="100" (keyup)="updateRunemark(runemark, index)">
+      </mat-form-field>
+      <button mat-flat-button (click)="removeRunemark(index)" color="warn">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <div class="runemark-card">
+      <smitd-icon-uploader [iconValue]="newRunemark.icon" selectedColor="#ffffffcc"
+        (iconValueChange)="newIconValueChange($event)"></smitd-icon-uploader>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'utility-page.form.runemark.label' | translate}}</mat-label>
+        <input matInput [(ngModel)]="newRunemark.key" maxlength="100">
+      </mat-form-field>
+      <button mat-flat-button (click)="addRunemark()" color="accent">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-action-bar">
+  <button mat-raised-button (click)="core.back()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <button mat-raised-button (click)="importRunemarks()">
+    <mat-icon>upload</mat-icon>
+  </button>
+  <button mat-raised-button (click)="exportRunemarks()">
+    <mat-icon>download</mat-icon>
+  </button>
+</div>

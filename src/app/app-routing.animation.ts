@@ -5,12 +5,18 @@ export const Slider = trigger('routeAnimations', [
   transition('menu => battle', slideTo('right')),
   transition('menu => battlegrounds', slideTo('right')),
   transition('menu => fighter-store', slideTo('right')),
+  transition('menu => runemarks', slideTo('right')),
+  transition('menu => print', slideTo('right')),
   transition('warband => menu', slideTo('left')),
   transition('warband => battle', slideTo('right')),
+  transition('warband => print', slideTo('right')),
   transition('battle => warband', slideTo('left')),
   transition('battle => menu', slideTo('left')),
   transition('battlegrounds => menu', slideTo('left')),
   transition('fighter-store => menu', slideTo('left')),
+  transition('runemarks => menu', slideTo('left')),
+  transition('print => menu', slideTo('left')),
+  transition('print => warband', slideTo('left')),
 ]);
 
 function slideTo(direction: 'left' | 'right'): any {

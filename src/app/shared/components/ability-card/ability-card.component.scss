@@ -26,9 +26,15 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 24px 16px 16px;
+      padding: 16px;
       height: 100%;
       box-sizing: border-box;
+
+      .runemark {
+        width: 28px;
+        height: 28px;
+        margin: 4px;
+      }
     }
   }
 
@@ -44,6 +50,11 @@
   }
 }
 
+.divider {
+  span {
+    font-weight: bold;
+  }
+}
 
 .mat-divider.dark-borders {
   border-color: rgba($black, 0.24);

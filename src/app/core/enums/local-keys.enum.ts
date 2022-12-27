@@ -15,5 +15,6 @@ export enum StoreKey {
   Store = 'main-store',
   WarbandsStore = 'warbands',
   FighterStore = 'fighters',
-  BattlegroundsStore = 'battlegrounds'
+  BattlegroundsStore = 'battlegrounds',
+  RunemarkStore = 'runemarks'
 }

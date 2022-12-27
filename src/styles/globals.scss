@@ -127,6 +127,9 @@ body .mat-expansion-panel.fighter-card {
       grid-gap: 12px;
       grid-template-columns: auto max-content;
       overflow: visible;
+      & > * {
+        color: inherit;
+      }
     }
     .cdk-drag-handle {
       position: absolute;
@@ -404,6 +407,7 @@ input::-webkit-inner-spin-button {
 
 input[type='number'] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .drag-marker {
@@ -608,4 +612,22 @@ smitd-warband-page  {
 
 .mat-tab-label-content {
   font-weight: bold;
+}
+
+.runemark-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .runemark-icon {
+    height: 28px;
+  }
+}
+
+
+@media print {
+  body {
+    height: auto;
+    overflow: unset;
+  }
 }

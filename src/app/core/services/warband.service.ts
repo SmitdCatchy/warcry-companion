@@ -125,7 +125,7 @@ export class WarbandService {
     this.saveWarbands();
   }
 
-  private saveWarbands(): void {
+  saveWarbands(): void {
     this.core.setStore({
       name: StoreKey.WarbandsStore,
       data: this.warbands

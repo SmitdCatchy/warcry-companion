@@ -19,6 +19,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 const importsAndExports = [
   MatButtonModule,
@@ -40,7 +41,8 @@ const importsAndExports = [
   MatChipsModule,
   MatSlideToggleModule,
   MatSnackBarModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatAutocompleteModule
 ];
 
 @NgModule({
