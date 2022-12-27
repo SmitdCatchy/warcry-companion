@@ -29,7 +29,8 @@
     "pts": "PTS",
     "options": "Optionen",
     "faction": "Fraktion",
-    "fighters": "Krieger"
+    "fighters": "Krieger",
+    "abilities": "Fähigkeiten"
   },
   "main-page": {
     "menu": {
@@ -44,7 +45,8 @@
       "language-selection": "Sprache wählen",
       "language-add": "Sprache hinzufügen",
       "guide": "Anleitung",
-      "github": "Unterstützung auf GitHub"
+      "github": "Unterstützung auf GitHub",
+      "runemarks": "Runenzeichen"
     },
     "warband-options": {
       "select": "Kriegerschar wählen",
@@ -87,7 +89,8 @@
       "battle": "Mach dich zu Kampf bereit",
       "fighter-add": "Krieger hinzufügen",
       "logs": "Kampfprotokolle",
-      "abilities": "Kriegerschar Fähigkeiten"
+      "abilities": "Kriegerschar Fähigkeiten",
+      "print": "Kriegerschar drucken"
     },
     "tab": {
       "fighters": {
@@ -247,7 +250,13 @@
       "turn": "Zug beenden",
       "end": "Kampf beenden",
       "abort": "Kampf abbrechen",
-      "wild": "Wilden Krieger hinzufügen"
+      "wild": "Wilden Krieger hinzufügen",
+      "multiplayer": "Online Battles",
+      "connect": "Join a Running Battle",
+      "disconnect": "Leave the Running Battle",
+      "token": "Copy Battle Token",
+      "aftermath": "End Aftermath",
+      "print": "Kriegerschar drucken"
     },
     "groups": "Gruppe zuweisen",
     "modifiers": "Modifikatoren",
@@ -441,5 +450,21 @@
     "action": {
       "join": "Beitreten"
     }
+  },
+  "utility-page": {
+    "title": "Runenzeichen",
+    "menu": {
+      "runemarks-import": "Runenzeichen importieren",
+      "runemarks-export": "Runenzeichen exportieren"
+    },
+    "form": {
+      "runemark": {
+        "label": "Name des Runenzeichens"
+      }
+    }
+  },
+  "print-page": {
+    "print": "Drucken",
+    "pagebreak": "<< SEITENUMBRUCH >>"
   }
 }
