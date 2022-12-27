@@ -64,7 +64,12 @@
               [alt]="'fighter-card.characteristic.damage' | translate" class="runemark"></div>
         </div>
         <div class="fighter-runemarks" matRipple (click)="callAbilities.emit()">
-          <span *ngFor="let runemark of fighter.runemarks">{{runemark}}</span>
+          <ng-container *ngFor="let runemark of runemarks">
+            <img [src]="iconSrc" [alt]="runemark.key" class="runemark" *ngIf="runemark.icon as iconSrc; else runemarkKey">
+            <ng-template #runemarkKey>
+              <span>{{runemark.key}}</span>
+            </ng-template>
+          </ng-container>
           <span *ngIf="fighter.runemarks.length === 0">{{'fighter-card.characteristic.no-ability' | translate}}</span>
         </div>
         <div class="fighter-weapons">

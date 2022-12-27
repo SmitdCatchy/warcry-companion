@@ -21,6 +21,7 @@
       (click)="battleService.endBattle(refreshUI)">{{'battle-page.menu.end' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster"
       (click)="addFighter()">{{'battle-page.menu.fighter' | translate}}</button>
+    <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster" routerLink="/print-groups">{{'battle-page.menu.print' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Battle"
       (click)="addWildFighter()">{{'battle-page.menu.wild' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState !== BattleState.Aftermath"

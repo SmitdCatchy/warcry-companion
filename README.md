@@ -38,6 +38,25 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 3.3.0 - 2022.12.27.
+
+<details>
+  <summary>Features</summary>
+
+- added optional runemark icon.
+- added runemarks page.
+- added printable warband roster.
+
+</details>
+
+<details>
+  <summary>Fixes</summary>
+
+- fix fighterstore fighter dialog.
+- fix custom primary color selection text color.
+
+</details>
+
 ### 3.2.0 - 2022.12.14.
 
 <details>

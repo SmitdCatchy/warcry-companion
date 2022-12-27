@@ -35,3 +35,12 @@
   bottom: 0;
   background-color: rgba($black, 0.2);
 }
+
+@media print {
+  :host, .content {
+    display: block;
+  }
+  smitd-footer {
+    display: none;
+  }
+}

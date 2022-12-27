@@ -13,8 +13,7 @@
     "orange": "Vadvidéh Narancs",
     "purple": "Halál Lile",
     "red": "Káosz Vörös",
-    "warband": "Csapatszín",
-    "fighters": "Harcos"
+    "warband": "Csapatszín"
   },
   "theme": {
     "light": "Világos téma",
@@ -29,7 +28,9 @@
     "unknown": "Ismeretlen",
     "pts": "PTS",
     "options": "Opciók",
-    "faction": "Frakció"
+    "faction": "Frakció",
+    "fighters": "Harcosok",
+    "abilities": "Képességek"
   },
   "main-page": {
     "menu": {
@@ -44,7 +45,8 @@
       "language-selection": "Nyelvválasztás",
       "language-add": "Nyelv hozzáadása",
       "guide": "Használati útmutató",
-      "github": "Támogatás a GitHub-on"
+      "github": "Támogatás a GitHub-on",
+      "runemarks": "Rúnák"
     },
     "warband-options": {
       "select": "Csapat kiválasztása",
@@ -87,7 +89,8 @@
       "battle": "Felkészülés egy csatára",
       "fighter-add": "Harcos hozzáadása",
       "logs": "Csata feljegyzések",
-      "abilities": "Frakció képességek"
+      "abilities": "Frakció képességek",
+      "print": "Csapat nyomtatása"
     },
     "tab": {
       "fighters": {
@@ -252,7 +255,8 @@
       "connect": "Csatlakozás egy csatához",
       "disconnect": "Csata elhagyása",
       "token": "Csata kód másolása",
-      "aftermath": "Következmény lezárása"
+      "aftermath": "Következmény lezárása",
+      "print": "Csapatok nyomtatása"
     },
     "groups": "Csapathoz rendelés",
     "modifiers": "Módosítók",
@@ -454,5 +458,21 @@
     "action": {
       "join": "Csatlakozás"
     }
+  },
+  "utility-page": {
+    "title": "Rúnák",
+    "menu": {
+      "runemarks-import": "Rúnák importálása",
+      "runemarks-export": "Rúnák exportálása"
+    },
+    "form": {
+      "runemark": {
+        "label": "Rúna név"
+      }
+    }
+  },
+  "print-page": {
+    "print": "Nyomtatás",
+    "pagebreak": "<< OLDALTÖRÉS >>"
   }
 }

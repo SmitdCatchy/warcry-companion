@@ -18,6 +18,8 @@ import { Fighter } from 'src/app/core/models/fighter.model';
 import { FighterReference } from 'src/app/core/models/fighter-reference.model';
 import { ModifierType } from 'src/app/core/enums/modifier-type.enum';
 import { TranslateService } from '@ngx-translate/core';
+import { Runemark } from 'src/app/core/models/runemark.model';
+import { RunemarksService } from 'src/app/core/services/runemarks.service';
 
 @Component({
   selector: 'smitd-fighter-card',
@@ -42,7 +44,8 @@ export class FighterCardComponent {
 
   constructor(
     readonly core: CoreService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private readonly _runemarksService: RunemarksService
   ) {
     this.fighter = {
       role: FighterRole.Thrall,
@@ -95,6 +98,15 @@ export class FighterCardComponent {
         ? '#222222'
         : '#cccccc'
       : undefined;
+  }
+
+  get runemarks(): Runemark[] {
+    return this.fighter.runemarks.map(
+      (key) =>
+        this._runemarksService.runemarks.find(
+          (runemark) => runemark.key === key
+        ) || { key }
+    );
   }
 
   getModifier(
@@ -225,10 +237,7 @@ export class FighterCardComponent {
     }px`;
   }
 
-  getLabels(
-    fighter: Fighter,
-    fighterReference?: FighterReference
-  ): string {
+  getLabels(fighter: Fighter, fighterReference?: FighterReference): string {
     const labels: string[] = [];
     if (fighter.role === FighterRole.Leader) {
       labels.push(this.translateService.instant('fighter-role.leader'));

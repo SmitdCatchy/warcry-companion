@@ -54,16 +54,25 @@
     </div>
     <mat-form-field appearance="fill">
       <mat-label>{{'fighter-dialog.form.runemarks.label' | translate}}</mat-label>
-      <mat-chip-list #runemarkList aria-label="Fruit selection">
+      <mat-chip-list #runemarkChipList>
         <mat-chip *ngFor="let runemark of runemarks.value" (removed)="removeRunemark(runemark)">
           <span>{{runemark}}</span>
           <button matChipRemove>
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
-        <input placeholder="New runemark" #runemarkInput [formControl]="runemarkCtrl" [matChipInputFor]="runemarkList"
-          (matChipInputTokenEnd)="addRunemark($event)" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="true">
+        <input placeholder="New runemark" #runemarkInput [formControl]="runemarkCtrl"
+          [matChipInputFor]="runemarkChipList" (matChipInputTokenEnd)="addRunemark($event)"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+          [matAutocomplete]="autoRunemark">
+        <mat-autocomplete #autoRunemark="matAutocomplete" (optionSelected)="selectRunemark($event)">
+          <mat-option *ngFor="let runemark of filteredRunemarkList | async" [value]="runemark.key">
+            <div class="runemark-option">
+              <img class="runemark-icon invert" [src]="iconSrc" *ngIf="runemark.icon as iconSrc">
+              {{runemark.key}}
+            </div>
+          </mat-option>
+        </mat-autocomplete>
       </mat-chip-list>
     </mat-form-field>
     <div class="triple">

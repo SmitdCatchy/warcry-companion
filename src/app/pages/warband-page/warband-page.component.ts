@@ -26,15 +26,12 @@ import { Modifier } from 'src/app/core/models/modifier.model';
 import { EncampmentState } from 'src/app/core/enums/encampment-state.enum';
 import { Router } from '@angular/router';
 import {
-  CdkDrag,
   CdkDragEnd,
   CdkDragEnter,
-  CdkDragMove,
   CdkDropList,
   CdkDropListGroup,
   moveItemInArray
 } from '@angular/cdk/drag-drop';
-import { ViewportRuler } from '@angular/cdk/scrolling';
 import { CoreService } from 'src/app/core/services/core.service';
 
 @Component({

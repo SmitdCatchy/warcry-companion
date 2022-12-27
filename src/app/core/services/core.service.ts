@@ -11,8 +11,9 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Warband } from '../models/warband.model';
+import { Runemark } from '../models/runemark.model';
 
-export const databaseVersion = 1;
+export const databaseVersion = 2;
 @Injectable({
   providedIn: 'root'
 })
@@ -210,7 +211,6 @@ export class CoreService {
         }
         const openRequest = indexedDB.open(StoreKey.Database, databaseVersion);
         openRequest.onupgradeneeded = (event: IDBVersionChangeEvent) => {
-          console.log('onupgradeneeded', event.oldVersion, openRequest.result);
           this._databaseOldVersion = event.oldVersion;
           const db = openRequest.result;
           // switch(event.oldVersion) { // existing db version
@@ -234,48 +234,71 @@ export class CoreService {
               'readwrite'
             );
             const mainStore = transaction.objectStore(StoreKey.Store);
-            const requestWarbansStore = mainStore.put({
-              name: StoreKey.WarbandsStore,
-              data: JSON.parse(
-                CoreService.getLocalStorage(LocalStorageKey.Warbands, '[]')
-              ) as Warband[]
-            });
+            switch (this._databaseOldVersion) {
+              // @ts-ignore
+              case 0:
+                const requestWarbansStore = mainStore.put({
+                  name: StoreKey.WarbandsStore,
+                  data: JSON.parse(
+                    CoreService.getLocalStorage(LocalStorageKey.Warbands, '[]')
+                  ) as Warband[]
+                });
 
-            requestWarbansStore.onsuccess = () => {
-              resolve(requestWarbansStore.result);
-            };
+                requestWarbansStore.onsuccess = () => {
+                  resolve(requestWarbansStore.result);
+                };
 
-            requestWarbansStore.onerror = () => {
-              reject(requestWarbansStore.error);
-            };
-            const requestBattlegroundsStore = mainStore.put({
-              name: StoreKey.BattlegroundsStore,
-              data: JSON.parse(
-                CoreService.getLocalStorage(LocalStorageKey.Battlegrounds, '[]')
-              ) as Warband[]
-            });
+                requestWarbansStore.onerror = () => {
+                  reject(requestWarbansStore.error);
+                };
+                const requestBattlegroundsStore = mainStore.put({
+                  name: StoreKey.BattlegroundsStore,
+                  data: JSON.parse(
+                    CoreService.getLocalStorage(
+                      LocalStorageKey.Battlegrounds,
+                      '[]'
+                    )
+                  ) as Warband[]
+                });
 
-            requestBattlegroundsStore.onsuccess = () => {
-              resolve(requestBattlegroundsStore.result);
-            };
+                requestBattlegroundsStore.onsuccess = () => {
+                  resolve(requestBattlegroundsStore.result);
+                };
 
-            requestBattlegroundsStore.onerror = () => {
-              reject(requestBattlegroundsStore.error);
-            };
-            const requestFighterStore = mainStore.put({
-              name: StoreKey.FighterStore,
-              data: JSON.parse(
-                CoreService.getLocalStorage(LocalStorageKey.FighterStore, '[]')
-              ) as Warband[]
-            });
+                requestBattlegroundsStore.onerror = () => {
+                  reject(requestBattlegroundsStore.error);
+                };
+                const requestFighterStore = mainStore.put({
+                  name: StoreKey.FighterStore,
+                  data: JSON.parse(
+                    CoreService.getLocalStorage(
+                      LocalStorageKey.FighterStore,
+                      '[]'
+                    )
+                  ) as Warband[]
+                });
 
-            requestFighterStore.onsuccess = () => {
-              resolve(requestFighterStore.result);
-            };
+                requestFighterStore.onsuccess = () => {
+                  resolve(requestFighterStore.result);
+                };
 
-            requestFighterStore.onerror = () => {
-              reject(requestFighterStore.error);
-            };
+                requestFighterStore.onerror = () => {
+                  reject(requestFighterStore.error);
+                };
+              case 1:
+                const requestRunemarkStore = mainStore.put({
+                  name: StoreKey.RunemarkStore,
+                  data: [] as Runemark[]
+                });
+
+                requestRunemarkStore.onsuccess = () => {
+                  resolve(requestRunemarkStore.result);
+                };
+
+                requestRunemarkStore.onerror = () => {
+                  reject(requestRunemarkStore.error);
+                };
+            }
           } else {
             resolve(this._database);
             this._database.onversionchange = () => {

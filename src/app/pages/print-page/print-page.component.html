@@ -1,0 +1,98 @@
+<smitd-header>
+  <button mat-icon-button (click)="core.back()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+
+  <h1>{{'title' | translate}}</h1>
+
+  <button mat-icon-button [matMenuTriggerFor]="main">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #main="matMenu">
+    <button mat-menu-item (click)="print()">{{'print-page.print' | translate}}</button>
+
+  </mat-menu>
+
+</smitd-header>
+<div class="print-container">
+
+  <h1 class="number" *ngIf="warbandName" (click)="toggleVisibility($event)">{{warbandName}}</h1>
+  <h2 class="number" *ngIf="warbandName" (click)="toggleVisibility($event)">{{warbandFaction}}</h2>
+
+  <ng-container *ngIf="printGroups; else roster">
+    <ng-container *ngIf="dagger.length">
+      <div class="divider" (click)="toggleVisibility($event)">
+        <mat-divider></mat-divider>
+        <h3 class="label number">{{'battle-page.group.dagger' | translate}}</h3>
+        <mat-divider></mat-divider>
+      </div>
+      <div class="fighters-list">
+        <smitd-fighter-print-card [fighter]="fighter.stats" *ngFor="let fighter of dagger"
+          (click)="toggleVisibility($event)">
+        </smitd-fighter-print-card>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="shield.length">
+      <div class="divider" (click)="toggleVisibility($event)">
+        <mat-divider></mat-divider>
+        <h3 class="label number">{{'battle-page.group.shield' | translate}}</h3>
+        <mat-divider></mat-divider>
+      </div>
+      <div class="fighters-list">
+        <smitd-fighter-print-card [fighter]="fighter.stats" *ngFor="let fighter of shield"
+          (click)="toggleVisibility($event)">
+        </smitd-fighter-print-card>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="hammer.length">
+      <div class="divider" (click)="toggleVisibility($event)">
+        <mat-divider></mat-divider>
+        <h3 class="label number">{{'battle-page.group.hammer' | translate}}</h3>
+        <mat-divider></mat-divider>
+      </div>
+      <div class="fighters-list">
+        <smitd-fighter-print-card [fighter]="fighter.stats" *ngFor="let fighter of hammer"
+          (click)="toggleVisibility($event)">
+        </smitd-fighter-print-card>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-template #roster>
+    <ng-container *ngIf="fighters.length">
+      <div class="divider" (click)="toggleVisibility($event)">
+        <mat-divider></mat-divider>
+        <h3 class="label number">{{'common.fighters' | translate}}</h3>
+        <mat-divider></mat-divider>
+      </div>
+      <div class="fighters-list">
+        <smitd-fighter-print-card [fighter]="fighter" *ngFor="let fighter of fighters" (click)="toggleVisibility($event)">
+        </smitd-fighter-print-card>
+      </div>
+    </ng-container>
+  </ng-template>
+
+
+
+  <div class="page-break number" (click)="toggleVisibility($event)">{{'print-page.pagebreak' | translate}}</div>
+  <div class="divider" (click)="toggleVisibility($event)">
+    <mat-divider></mat-divider>
+    <h3 class="label number">{{'common.abilities' | translate}}</h3>
+    <mat-divider></mat-divider>
+  </div>
+  <div class="abilities-list">
+    <smitd-ability-card [ability]="ability" [darkBorders]="true" [showRunemarks]="true"
+      *ngFor="let ability of abilities" (click)="toggleVisibility($event)"></smitd-ability-card>
+  </div>
+</div>
+
+<div class="bottom-action-bar ingame">
+  <button mat-raised-button (click)="core.back()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <button mat-raised-button (click)="print()">
+    <mat-icon>print</mat-icon>
+  </button>
+</div>

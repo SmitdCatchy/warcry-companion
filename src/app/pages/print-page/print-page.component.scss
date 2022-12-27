@@ -1,0 +1,107 @@
+@import 'dimensions';
+@import 'globals';
+@import 'colors';
+
+:host {
+  display: block;
+}
+
+@include header;
+
+.print-container {
+  padding: 0.5cm;
+  box-sizing: border-box;
+  background-color: $white;
+  color: $black;
+  max-width: 796px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  min-height: calc(100vh - 80px);
+
+  h1,
+  h2 {
+    text-align: center;
+    cursor: pointer;
+  }
+
+  h2 {
+    margin-top: -20px;
+  }
+
+  .fighters-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 12px;
+
+    smitd-fighter-print-card {
+      cursor: pointer;
+      width: 100%;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+  }
+
+  .abilities-list {
+    smitd-ability-card {
+      cursor: pointer;
+    }
+  }
+
+  .page-break {
+    margin: 16px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .divider {
+    cursor: pointer;
+
+    h3 {
+      margin: 0;
+    }
+    .mat-divider {
+      border-top-color: rgba($black, 0.24);
+    }
+
+    margin: 16px 0 0;
+  }
+
+  .hide {
+    opacity: 0.4;
+  }
+}
+
+@media print {
+  smitd-header,
+  .hide,
+  .bottom-action-bar {
+    display: none;
+
+    &.space {
+      display: block;
+      visibility: hidden;
+    }
+  }
+
+  .page-break {
+    visibility: hidden;
+    page-break-after: always;
+  }
+
+  .print-container {
+    padding: 0;
+
+    h1.hide + h2 {
+      margin-top: 0;
+    }
+    .divider,
+    smitd-ability-card,
+    smitd-fighter-print-card {
+      page-break-inside: avoid;
+    }
+  }
+
+  @page {
+    margin: 0.5cm;
+  }
+}

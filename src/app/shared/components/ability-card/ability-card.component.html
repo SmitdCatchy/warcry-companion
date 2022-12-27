@@ -7,11 +7,12 @@
 <div class="ability-details" [ngClass]="{'runemarked': showRunemarks && ability.runemarks.length}">
   <mat-divider  [ngClass]="{'dark-borders': darkBorders}" vertical></mat-divider>
   <div class="runemarks"  *ngIf="showRunemarks && ability.runemarks.length">
-    <ng-container *ngIf="ability.runemarks as runemarks">
-      <span *ngFor="let runemark of runemarks; let runemarkIndex = index">
-        {{runemark}}
-      </span>
-    </ng-container>
+      <ng-container *ngFor="let runemark of runemarks">
+        <img [src]="iconSrc" [alt]="runemark.key" [ngClass]="{'invert': !darkBorders}" class="runemark" *ngIf="runemark.icon as iconSrc; else runemarkKey">
+        <ng-template #runemarkKey>
+          <span>{{runemark.key}}</span>
+        </ng-template>
+      </ng-container>
   </div>
   <mat-divider  [ngClass]="{'dark-borders': darkBorders}" vertical  *ngIf="showRunemarks && ability.runemarks.length"></mat-divider>
   <p>{{ability.description}}</p>

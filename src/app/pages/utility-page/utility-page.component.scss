@@ -1,0 +1,70 @@
+@import 'dimensions';
+@import 'globals';
+
+:host {
+  display: block;
+  height: inherit;
+}
+@include header;
+
+.scroll-container {
+  height: calc(100% - 60px);
+
+  @include laptop {
+    height: calc(100% - 40px);
+  }
+}
+
+.glass {
+  padding: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 100%;
+  overflow: auto;
+  max-width: $tablet;
+  margin: 0 auto;
+}
+
+.mat-form-field {
+  min-width: unset;
+}
+
+.runemarks-list {
+  .runemark-card {
+    display: grid;
+    grid-template-columns: 32px 1fr 32px;
+    gap: 12px;
+    align-items: center;
+
+    .mat-flat-button {
+      min-width: unset;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+    }
+
+    .mat-flat-button,
+    smitd-icon-uploader {
+      margin-bottom: 20px;
+    }
+  }
+}
+@include mobile {
+  .runemarks-list {
+    .runemark-card {
+      align-items: flex-start;
+      grid-template-columns: 52px 1fr 52px;
+
+      .mat-flat-button {
+        width: 52px;
+        height: 52px;
+      }
+
+      .mat-flat-button,
+      smitd-icon-uploader {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

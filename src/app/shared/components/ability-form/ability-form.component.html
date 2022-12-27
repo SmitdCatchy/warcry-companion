@@ -14,7 +14,7 @@
   </div>
   <mat-form-field appearance="fill">
     <mat-label>{{'ability-form.runemarks' | translate}}</mat-label>
-    <mat-chip-list #runemarkList>
+    <mat-chip-list #runemarkChipList>
       <mat-chip *ngFor="let runemark of runemarks.value" (removed)="removeRunemark(runemark)">
         <span>
           {{runemark}}
@@ -23,8 +23,18 @@
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-chip>
-      <input [placeholder]="'ability-form.placeholder' | translate" #runemarkInput [formControl]="runemarkCtrl" [matChipInputFor]="runemarkList"
-        (matChipInputTokenEnd)="addRunemark($event)"[matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
+      <input [placeholder]="'ability-form.placeholder' | translate" #runemarkInput [formControl]="runemarkCtrl"
+        [matChipInputFor]="runemarkChipList" (matChipInputTokenEnd)="addRunemark($event)"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+        [matAutocomplete]="autoRunemark">
+      <mat-autocomplete #autoRunemark="matAutocomplete" (optionSelected)="selectRunemark($event)">
+        <mat-option *ngFor="let runemark of filteredRunemarkList | async" [value]="runemark.key">
+          <div class="runemark-option">
+            <img class="runemark-icon invert" [src]="iconSrc" *ngIf="runemark.icon as iconSrc">
+            {{runemark.key}}
+          </div>
+        </mat-option>
+      </mat-autocomplete>
     </mat-chip-list>
   </mat-form-field>
   <mat-form-field appearance="fill">
@@ -38,8 +48,18 @@
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-chip>
-      <input [placeholder]="'ability-form.placeholder' | translate" #prohibitiveRunemarkInput [formControl]="prohibitiveRunemarksCtrl" [matChipInputFor]="prohibitiveRunemarksList"
-        (matChipInputTokenEnd)="addProhibitiveRunemarks($event)"[matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
+      <input [placeholder]="'ability-form.placeholder' | translate" #prohibitiveRunemarkInput
+        [formControl]="prohibitiveRunemarksCtrl" [matChipInputFor]="prohibitiveRunemarksList"
+        (matChipInputTokenEnd)="addProhibitiveRunemarks($event)" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="true" [matAutocomplete]="autoProhibitiveRunemark">
+      <mat-autocomplete #autoProhibitiveRunemark="matAutocomplete" (optionSelected)="selectProhibitiveRunemark($event)">
+        <mat-option *ngFor="let runemark of filteredProhibitiveRunemarkList | async" [value]="runemark.key">
+          <div class="runemark-option">
+            <img class="runemark-icon invert" [src]="iconSrc" *ngIf="runemark.icon as iconSrc">
+            {{runemark.key}}
+          </div>
+        </mat-option>
+      </mat-autocomplete>
     </mat-chip-list>
   </mat-form-field>
 
