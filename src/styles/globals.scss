@@ -41,7 +41,7 @@ mat-dialog-container.mat-dialog-container {
       margin-top: auto;
       display: grid;
       gap: 12px;
-      grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(40px, auto));
       padding: 16px 16px 0;
       box-sizing: border-box;
       min-width: 0;
