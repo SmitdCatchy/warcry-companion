@@ -38,6 +38,12 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 3.4.0 - 2023.01.03.
+
+Feature: added french language support.
+
+Fix: made button width loose to support different languages.
+
 ### 3.3.0 - 2022.12.27.
 
 <details>
