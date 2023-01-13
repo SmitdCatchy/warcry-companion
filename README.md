@@ -38,6 +38,10 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 3.5.0 - 2023.01.13.
+
+Feature: added abilities import and export for warbands.
+
 ### 3.4.0 - 2023.01.03.
 
 Feature: added french language support.

@@ -147,6 +147,8 @@
           "abilities": {
             "label": "Warband Abilities",
             "add": "Add Ability",
+            "import": "Import Abilities",
+            "export": "Export Abilities",
             "remove-question": "Are you sure you want to remove the ability called \"{{ability}}\" from your warband {{warband}}?"
           }
         }

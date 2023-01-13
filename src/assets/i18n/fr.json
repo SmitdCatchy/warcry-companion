@@ -147,6 +147,8 @@
           "abilities": {
             "label": "Aptitudes bande",
             "add": "Ajouter aptitude",
+            "import": "Importer aptitudes",
+            "export": "Exporter aptitudes",
             "remove-question": "Êtes-vous sûr de vouloir supprimer l'aptitude appelée \"{{ability}}\" de votre bande {{warband}}?"
           }
         }
