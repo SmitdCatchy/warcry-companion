@@ -23,7 +23,9 @@
     <div class="scroll-container">
       <div class="fighters-container">
         <h2>
-          <span class="number">{{warbandPointSum(warband)}} <span class="small">{{('common.pts' | translate)}}</span> </span> <span class="number"> {{warband.fighters.length}}/20 <span class="small">{{('common.fighters' | translate)}}</span></span>
+          <span class="number">{{warbandPointSum(warband)}} <span class="small">{{('common.pts' | translate)}}</span>
+          </span> <span class="number"> {{warband.fighters.length}}/20 <span
+              class="small">{{('common.fighters' | translate)}}</span></span>
         </h2>
         <div class="fighters-grid" [ngClass]="{'show-items': showGridLayout}" cdkDropListGroup>
           <div class="fighters-grid-item" cdkDropList (cdkDropListDropped)="dropListDropped()"
@@ -42,11 +44,13 @@
                     <div class="double renown">
                       <mat-form-field appearance="fill">
                         <mat-label>{{'warband-page.tab.fighters.form.narrative.name' | translate}}</mat-label>
-                        <input matInput [(ngModel)]="fighter.name" (ngModelChange)="warbandService.updateFighter(fighter, index)">
+                        <input matInput [(ngModel)]="fighter.name"
+                          (ngModelChange)="warbandService.updateFighter(fighter, index)">
                       </mat-form-field>
                       <mat-form-field appearance="fill">
                         <mat-label>{{'warband-page.tab.fighters.form.narrative.renown' | translate}}</mat-label>
-                        <mat-select [(ngModel)]="fighter.renown" (ngModelChange)="warbandService.updateFighter(fighter, index)">
+                        <mat-select [(ngModel)]="fighter.renown"
+                          (ngModelChange)="warbandService.updateFighter(fighter, index)">
                           <mat-option [value]="0">{{0}}</mat-option>
                           <mat-option [value]="1">{{1}}</mat-option>
                           <mat-option [value]="2">{{2}}</mat-option>
@@ -143,11 +147,13 @@
                   <div class="double renown">
                     <mat-form-field appearance="fill">
                       <mat-label>{{'warband-page.tab.fighters.form.narrative.name' | translate}}</mat-label>
-                      <input matInput [(ngModel)]="fighter.name" (ngModelChange)="warbandService.updateFighter(fighter, index)">
+                      <input matInput [(ngModel)]="fighter.name"
+                        (ngModelChange)="warbandService.updateFighter(fighter, index)">
                     </mat-form-field>
                     <mat-form-field appearance="fill">
                       <mat-label>{{'warband-page.tab.fighters.form.narrative.renown' | translate}}</mat-label>
-                      <mat-select [(ngModel)]="fighter.renown" (ngModelChange)="warbandService.updateFighter(fighter, index)">
+                      <mat-select [(ngModel)]="fighter.renown"
+                        (ngModelChange)="warbandService.updateFighter(fighter, index)">
                         <mat-option [value]="0">{{0}}</mat-option>
                         <mat-option [value]="1">{{1}}</mat-option>
                         <mat-option [value]="2">{{2}}</mat-option>
@@ -293,6 +299,12 @@
             </ng-container>
             <button class="add-ability" color="accent" mat-flat-button
               (click)="addNewAbility()">{{'warband-page.tab.warband.form.abilities.add' | translate}}</button>
+            <div class="double">
+              <button class="add-ability" color="accent" mat-flat-button
+                (click)="importWarbandAbilities()">{{'warband-page.tab.warband.form.abilities.import' | translate}}</button>
+              <button class="add-ability" color="accent" mat-flat-button
+                (click)="exportWarbandAbilities()">{{'warband-page.tab.warband.form.abilities.export' | translate}}</button>
+            </div>
           </div>
         </mat-expansion-panel>
       </form>
@@ -368,8 +380,8 @@
   <button mat-raised-button (click)="addNewAbility()" *ngIf="activeTab === 1">
     <mat-icon>add_comment</mat-icon>
   </button>
-  <button mat-raised-button  (click)="warbandService.showLogs()"
-  *ngIf="activeTab === 2" [disabled]="!warbandService.hasLogs">
+  <button mat-raised-button (click)="warbandService.showLogs()" *ngIf="activeTab === 2"
+    [disabled]="!warbandService.hasLogs">
     <mat-icon>menu_book</mat-icon>
   </button>
   <button mat-raised-button (click)="battleService.prepareBattle(warband)">

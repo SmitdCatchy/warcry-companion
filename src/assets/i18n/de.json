@@ -147,6 +147,8 @@
           "abilities": {
             "label": "Kriegerschar Fähigkeiten",
             "add": "Fähigkeit hinzufügen",
+            "import": "Fähigkeiten importieren",
+            "export": "Fähigkeiten exportieren",
             "remove-question": "Bist du sicher das du \"{{ability}}\" von {{warband}} entfernen möchtest ?"
           }
         }

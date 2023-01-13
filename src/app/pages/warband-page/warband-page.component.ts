@@ -34,6 +34,8 @@ import {
 } from '@angular/cdk/drag-drop';
 import { CoreService } from 'src/app/core/services/core.service';
 
+export const abilitiesFileType = 'abilities';
+
 @Component({
   selector: 'smitd-warband-page',
   templateUrl: './warband-page.component.html',
@@ -459,7 +461,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
       this.addAbility(ability, false);
     });
   }
- // TODO: REFACTOR
+  // TODO: REFACTOR
   @ViewChild(CdkDropListGroup) listGroup!: CdkDropListGroup<CdkDropList>;
   @ViewChild(CdkDropList) placeholder!: CdkDropList;
 
@@ -572,6 +574,44 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
   }
 
   warbandPointSum(warband: Warband): number {
-    return warband.fighters.reduce((prev, fighter) => prev += fighter.points , 0);
+    return warband.fighters.reduce(
+      (prev, fighter) => (prev += fighter.points),
+      0
+    );
+  }
+
+  exportWarbandAbilities(): void {
+    const filename = `${this.warband.name
+      .toLocaleLowerCase()
+      .split(`'`)
+      .join('')
+      .split(' ')
+      .join('-')}-abilities.json`;
+    const jsonStr = JSON.stringify({
+      type: abilitiesFileType,
+      abilities: this.warband.abilities
+    });
+    const element = document.createElement('a');
+    element.setAttribute(
+      'href',
+      'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonStr)
+    );
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
+  importWarbandAbilities(): void {
+    this.core.handleFileUpload(
+      (result) => {
+        const abilities = result.abilities as Ability[];
+        console.log(abilities);
+        this.addInitialAbilities(abilities)
+      },
+      'json',
+      abilitiesFileType
+    );
   }
 }

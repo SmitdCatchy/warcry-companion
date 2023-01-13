@@ -147,6 +147,8 @@
           "abilities": {
             "label": "Frakció képességek",
             "add": "Képesség hozzáadása",
+            "import": "Képességek importálása",
+            "export": "Képességek exportálása",
             "remove-question": "Biztosan el akarod távolítani a/az \"{{ability}}\" elnevezésű képességet a/az \"{{warband}}\" nevű csapatodból?"
           }
         }
