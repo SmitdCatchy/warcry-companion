@@ -40,14 +40,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Replace secrets
+      - name: Replace secret tokens
         uses: cschleiden/replace-tokens@v1
         with:
           tokenPrefix: '{'
           tokenSuffix: '}'
           files: 'src/environments/environment.prod.ts'
         env:
-          STUN_TRUN_SERVER_ADDRESS: ${{ secrets.STUN_TRUN_SERVER_ADDRESS}}
+          STUN_TURN_SERVER_ADDRESS: ${{ secrets.STUN_TURN_SERVER_ADDRESS}}
           STUN_TURN_USERNAME: ${{ secrets.STUN_TURN_USERNAME}}
           STUN_TURN_CREDENTIAL: ${{ secrets.STUN_TURN_CREDENTIAL}}
 
