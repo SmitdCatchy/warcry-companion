@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  stunTurnServerAddress: '{STUN_TRUN_SERVER_ADDRESS}',
+  stunTurnServerAddress: '{STUN_TURN_SERVER_ADDRESS}',
   stunTurnUsername: '{STUN_TURN_USERNAME}',
   stunTurnCredential: '{STUN_TURN_CREDENTIAL}'
 };
