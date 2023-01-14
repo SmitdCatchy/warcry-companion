@@ -6,13 +6,13 @@ import { Color } from 'src/app/core/enums/color.enum';
   selector: '[warbandColor]'
 })
 export class WarbandColorDirective implements OnInit, OnDestroy {
-  @Input('warbandColor') color?: Color | string;
-  @Input('warbandColorOpaque') opaque: boolean;
-  @Input('warbandColorAsync') colorAsync?: Observable<Color | string>;
-  @Input('warbandColorImportant') set important(color: any) {
-    this.importantColor = color;
-    if (color) {
-      this.setBackgroundColor(color);
+  @Input() warbandColor?: Color | string;
+  @Input() warbandColorOpaque: boolean;
+  @Input() warbandColorAsync?: Observable<Color | string>;
+  @Input() set warbandColorImportant(warbandColor: any) {
+    this.importantColor = warbandColor;
+    if (warbandColor) {
+      this.setBackgroundColor(warbandColor);
     } else {
       this.setBackgroundColor(this.syncColor);
     }
@@ -22,23 +22,23 @@ export class WarbandColorDirective implements OnInit, OnDestroy {
   private _subscriptions = new Subscription();
 
   constructor(private element: ElementRef) {
-    this.color = Color.grey;
+    this.warbandColor = Color.grey;
     this.syncColor = Color.grey;
-    this.opaque = true;
+    this.warbandColorOpaque = true;
   }
 
   ngOnInit(): void {
-    if (this.colorAsync) {
+    if (this.warbandColorAsync) {
       this._subscriptions.add(
-        this.colorAsync.subscribe((color) => {
+        this.warbandColorAsync.subscribe((color) => {
           this.syncColor = color;
           if (!this.importantColor) {
             this.setBackgroundColor(color);
           }
         })
       );
-    } else if (this.color) {
-      this.setBackgroundColor(this.color);
+    } else if (this.warbandColor) {
+      this.setBackgroundColor(this.warbandColor);
     }
   }
 
@@ -53,7 +53,7 @@ export class WarbandColorDirective implements OnInit, OnDestroy {
     var b = parseInt(bgColor.substring(4, 6), 16);
     const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
     this.element.nativeElement.style.color = luminance > 125 ? '#000000' : '#ffffff';;
-    this.element.nativeElement.style.backgroundColor = this.opaque
+    this.element.nativeElement.style.backgroundColor = this.warbandColorOpaque
       ? `${color}cc`
       : color;
   }

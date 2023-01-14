@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import cloneDeep from 'lodash.clonedeep';
@@ -14,7 +14,7 @@ export const runemarksFileType = 'runemarks';
   templateUrl: './utility-page.component.html',
   styleUrls: ['./utility-page.component.scss']
 })
-export class UtilityPageComponent implements OnInit {
+export class UtilityPageComponent {
   newRunemark: Runemark;
 
   constructor(
@@ -28,8 +28,6 @@ export class UtilityPageComponent implements OnInit {
       icon: ''
     };
   }
-
-  ngOnInit(): void {}
 
   get runemarks(): Runemark[] {
     return this._runemarksService.runemarks;

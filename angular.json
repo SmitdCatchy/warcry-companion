@@ -42,10 +42,10 @@
             },
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json",
-            "baseHref": "/warcry-companion/",
+            "baseHref": "/",
             "allowedCommonJsDependencies": [
               "lodash.clonedeep"
-           ]
+            ]
           },
           "configurations": {
             "production": {
@@ -116,8 +116,22 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

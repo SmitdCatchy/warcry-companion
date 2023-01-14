@@ -27,10 +27,10 @@ import { RunemarksService } from 'src/app/core/services/runemarks.service';
   styleUrls: ['./fighter-card.component.scss']
 })
 export class FighterCardComponent {
-  @Input('fighter') fighter: Fighter;
-  @Input('fighterReference') fighterReference?: FighterReference;
-  @Input('mode') mode: string;
-  @Input('campaign') campaign: boolean;
+  @Input() fighter: Fighter;
+  @Input() fighterReference?: FighterReference;
+  @Input() mode: string;
+  @Input() campaign: boolean;
   Color = Color;
   FighterRole = FighterRole;
   FighterCardMode = FighterCardMode;

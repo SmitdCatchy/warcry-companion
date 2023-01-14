@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  stunTurnServerAddress: '{STUN_TRUN_SERVER_ADDRESS}',
+  stunTurnUsername: '{STUN_TURN_USERNAME}',
+  stunTurnCredential: '{STUN_TURN_CREDENTIAL}'
 };
 
 /*
