@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterState } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FighterCardMode } from 'src/app/core/enums/fighter-card-mode.enum';
 import { FighterRole } from 'src/app/core/enums/fighter-role.enum';
 import { Ability } from 'src/app/core/models/ability.model';
@@ -14,7 +14,7 @@ import { WarbandService } from 'src/app/core/services/warband.service';
   templateUrl: './print-page.component.html',
   styleUrls: ['./print-page.component.scss']
 })
-export class PrintPageComponent implements OnInit {
+export class PrintPageComponent {
   FighterCardMode = FighterCardMode;
   FighterRole = FighterRole;
 
@@ -56,8 +56,6 @@ export class PrintPageComponent implements OnInit {
   get abilities(): Ability[] {
     return this._warbandService.selectedWarband?.abilities ?? [];
   }
-
-  ngOnInit(): void {}
 
   print(): void {
     window.print();

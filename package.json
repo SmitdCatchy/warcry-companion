@@ -9,7 +9,9 @@
     "test": "ng test",
     "mobile": "ng serve --host 0.0.0.0",
     "webkit": "node ./browsers/webkit.js",
-    "deploy": "ng build && sh ./deploy.sh"
+    "deploy": "ng build --deploy-url /warcry-companion/ && sh ./deploy.sh",
+    "lint": "ng lint",
+    "test:prod": "ng test --browsers=ChromeHeadless --watch=false --code-coverage"
   },
   "private": true,
   "dependencies": {
@@ -37,11 +39,19 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "14.1.0",
+    "@angular-eslint/builder": "14.1.0",
+    "@angular-eslint/eslint-plugin": "14.1.0",
+    "@angular-eslint/eslint-plugin-template": "14.1.0",
+    "@angular-eslint/schematics": "14.1.0",
+    "@angular-eslint/template-parser": "14.1.0",
     "@angular/cli": "14.1.0",
     "@angular/compiler-cli": "14.1.0",
     "@types/jasmine": "3.10.0",
     "@types/lodash.clonedeep": "4.5.7",
     "@types/node": "12.11.1",
+    "@typescript-eslint/eslint-plugin": "5.37.0",
+    "@typescript-eslint/parser": "5.37.0",
+    "eslint": "^8.23.1",
     "jasmine-core": "4.0.0",
     "karma": "6.3.0",
     "karma-chrome-launcher": "3.1.0",

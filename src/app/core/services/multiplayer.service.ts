@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DataConnection, Peer } from 'peerjs';
 import { Subject } from 'rxjs';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { environment } from 'src/environments/environment';
 import { PeerState } from '../enums/peer-state.enum';
 import { PeerType } from '../enums/peer-type.enum.ts';
 import { BattlePeer } from '../models/battle-peer.model';
@@ -54,11 +55,23 @@ export class MultiplayerService {
     this._peer = new Peer({
       config: {
         iceServers: [
-          { urls: ['stun:51.15.25.223:3478'] },
           {
-            urls: ['turn:51.15.25.223:3478'],
-            username: 'warcry',
-            credential: 'companion'
+            urls: `stun:${environment.stunTurnServerAddress}:80`
+          },
+          {
+            urls: `turn:${environment.stunTurnServerAddress}:80`,
+            username: environment.stunTurnUsername,
+            credential: environment.stunTurnCredential
+          },
+          {
+            urls: `turn:${environment.stunTurnServerAddress}:443`,
+            username: environment.stunTurnUsername,
+            credential: environment.stunTurnCredential
+          },
+          {
+            urls: `turn:${environment.stunTurnServerAddress}:443?transport=tcp`,
+            username: environment.stunTurnUsername,
+            credential: environment.stunTurnCredential
           }
         ]
       }
@@ -130,7 +143,10 @@ export class MultiplayerService {
               this.interval = setInterval(() => {
                 const checkTimestamp = Date.now();
                 this._connections.forEach((conn) => {
-                  if ((conn as any).heartbeat < checkTimestamp - this.heartbeatLength * 2) {
+                  if (
+                    (conn as any).heartbeat <
+                    checkTimestamp - this.heartbeatLength * 2
+                  ) {
                     let peerIndex = this.peers.findIndex(
                       (peer) => peer.peerId === conn.peer
                     );

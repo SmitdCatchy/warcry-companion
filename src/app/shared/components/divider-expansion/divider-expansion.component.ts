@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'smitd-divider-expansion',
   templateUrl: './divider-expansion.component.html',
   styleUrls: ['./divider-expansion.component.scss']
 })
-export class DividerExpansionComponent implements OnInit {
+export class DividerExpansionComponent {
   @Input() expanded: boolean;
   @Input() darkBorders: boolean;
 
@@ -13,6 +13,4 @@ export class DividerExpansionComponent implements OnInit {
     this.expanded = false;
     this.darkBorders = true;
   }
-
-  ngOnInit(): void {}
 }
