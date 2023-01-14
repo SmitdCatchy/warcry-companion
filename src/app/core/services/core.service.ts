@@ -58,7 +58,7 @@ export class CoreService {
     this.matIconRegistry.addSvgIcon(
       'swords',
       this.domSanitizer.bypassSecurityTrustResourceUrl(
-        '/assets/mat-icons/swords.svg'
+        '/warcry-companion/assets/mat-icons/swords.svg'
       )
     );
     this._loader = false;
