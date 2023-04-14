@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { BattleState } from 'src/app/core/enums/battle-state.enum';
+import { Color } from 'src/app/core/enums/color.enum';
 import { FighterCardMode } from 'src/app/core/enums/fighter-card-mode.enum';
 import { FighterRole } from 'src/app/core/enums/fighter-role.enum';
 import { FighterState } from 'src/app/core/enums/fighter-state.enum';
@@ -30,6 +31,7 @@ import { WarbandService } from 'src/app/core/services/warband.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { ConnectDialogComponent } from 'src/app/shared/components/connect-dialog/connect-dialog.component';
 import { ModifierDialogComponent } from 'src/app/shared/components/modifier-dialog/modifier-dialog.component';
+import { getLuminance } from 'src/app/shared/directives/warband-color.directive';
 
 @Component({
   selector: 'smitd-battle-page',
@@ -142,11 +144,7 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     });
   }
 
-  alterFighter(
-    fighter: FighterReference,
-    group: string,
-    index: number
-  ): void {
+  alterFighter(fighter: FighterReference, group: string, index: number): void {
     this.battleService.saveBattle();
     this.battleService.battleSubject.next({
       changed: 'fighter',
@@ -401,7 +399,10 @@ export class BattlePageComponent implements OnInit, OnDestroy {
         .subscribe((modifier: Modifier) => {
           if (modifier) {
             fighter.stats.modifiers.push(modifier);
-            this.warbandService.updateFighter(fighter.stats, fighter.fighterIndex);
+            this.warbandService.updateFighter(
+              fighter.stats,
+              fighter.fighterIndex
+            );
             this.battleService.saveBattle();
             this.refreshUI();
           }
@@ -429,7 +430,10 @@ export class BattlePageComponent implements OnInit, OnDestroy {
         .subscribe((modifier: Modifier) => {
           if (modifier) {
             fighter.stats.modifiers[modifierIndex] = modifier;
-            this.warbandService.updateFighter(fighter.stats, fighter.fighterIndex);
+            this.warbandService.updateFighter(
+              fighter.stats,
+              fighter.fighterIndex
+            );
             this.battleService.saveBattle();
             this.refreshUI();
           }
@@ -461,11 +465,18 @@ export class BattlePageComponent implements OnInit, OnDestroy {
         .subscribe((decision) => {
           if (decision) {
             fighter.stats.modifiers.splice(modifierIndex, 1);
-            this.warbandService.updateFighter(fighter.stats, fighter.fighterIndex);
+            this.warbandService.updateFighter(
+              fighter.stats,
+              fighter.fighterIndex
+            );
             this.battleService.saveBattle();
             this.refreshUI();
           }
         })
     );
+  }
+
+  blackContent(color?: Color | string): boolean {
+    return color ? getLuminance(color) > 125 : true;
   }
 }

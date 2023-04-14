@@ -21,7 +21,8 @@
       (click)="battleService.endBattle(refreshUI)">{{'battle-page.menu.end' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster"
       (click)="addFighter()">{{'battle-page.menu.fighter' | translate}}</button>
-    <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster" routerLink="/print-groups">{{'battle-page.menu.print' | translate}}</button>
+    <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster"
+      routerLink="/print-groups">{{'battle-page.menu.print' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Battle"
       (click)="addWildFighter()">{{'battle-page.menu.wild' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState !== BattleState.Aftermath"
@@ -57,7 +58,9 @@
     </ng-container>
     <ng-container *ngSwitchCase="BattleState.Aftermath">
       <div class="stats">
-        <h2>{{('battle-page.aftermath' | translate: {outcome: ('log.label.' + battleService.battle.outcome | translate)})}}</h2>
+        <h2>
+          {{('battle-page.aftermath' | translate: {outcome: ('log.label.' + battleService.battle.outcome | translate)})}}
+        </h2>
       </div>
     </ng-container>
   </ng-container>
@@ -325,11 +328,11 @@
                   </div>
                 </smitd-divider-expansion>
               </div>
-              <div class="battleframe-header" battleframeHeader>
+              <div class="battleframe-header" battleframeHeader [ngClass]="{'black-content': fighter.wounds > 0 && blackContent(fighter.stats.color || core.getColor())}">
                 <div class="fighter-state" matRipple>
                   <div class="state" (click)="stateSelection.toggle()">
                     <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
-                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark invert">
+                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark" [ngClass]="{'invert': fighter.wounds < 1 || !blackContent(fighter.stats.color || core.getColor())}">
                   </div>
                   <mat-select #stateSelection [(value)]="fighter.state"
                     (valueChange)="alterFighter(fighter, 'dagger', index)"
@@ -420,11 +423,11 @@
                   </div>
                 </smitd-divider-expansion>
               </div>
-              <div class="battleframe-header" battleframeHeader>
+              <div class="battleframe-header" battleframeHeader [ngClass]="{'black-content': fighter.wounds > 0 && blackContent(fighter.stats.color || core.getColor())}">
                 <div class="fighter-state" matRipple>
                   <div class="state" (click)="stateSelection.toggle()">
                     <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
-                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark invert">
+                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark" [ngClass]="{'invert': fighter.wounds < 1 || !blackContent(fighter.stats.color || core.getColor())}">
                   </div>
                   <mat-select #stateSelection [(value)]="fighter.state"
                     (valueChange)="alterFighter(fighter, 'shield', index)"
@@ -515,11 +518,11 @@
                   </div>
                 </smitd-divider-expansion>
               </div>
-              <div class="battleframe-header" battleframeHeader>
+              <div class="battleframe-header" battleframeHeader [ngClass]="{'black-content': fighter.wounds > 0 && blackContent(fighter.stats.color || core.getColor())}">
                 <div class="fighter-state" matRipple>
                   <div class="state" (click)="stateSelection.toggle()">
                     <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
-                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark invert">
+                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark" [ngClass]="{'invert': fighter.wounds < 1 || !blackContent(fighter.stats.color || core.getColor())}">
                   </div>
                   <mat-select #stateSelection [(value)]="fighter.state"
                     (valueChange)="alterFighter(fighter, 'hammer', index)"
@@ -581,11 +584,11 @@
                   </div>
                 </smitd-divider-expansion>
               </div>
-              <div class="battleframe-header" battleframeHeader>
+              <div class="battleframe-header" battleframeHeader [ngClass]="{'black-content': fighter.wounds > 0 && blackContent(fighter.stats.color || core.getColor())}">
                 <div class="fighter-state" matRipple>
                   <div class="state" (click)="stateSelection.toggle()">
                     <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
-                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark invert">
+                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark" [ngClass]="{'invert': fighter.wounds < 1 || !blackContent(fighter.stats.color || core.getColor())}">
                   </div>
                   <mat-select #stateSelection [(value)]="fighter.state"
                     (valueChange)="alterFighter(fighter, 'wild', index)"
@@ -620,7 +623,7 @@
     </mat-tab>
     <mat-tab>
       <div class="aftermath">
-        <div class="grid-item"  *ngIf="battleService.battle.survivors?.length">
+        <div class="grid-item" *ngIf="battleService.battle.survivors?.length">
           <div class="divider">
             <mat-divider></mat-divider>
             <span class="label">{{'battle-page.group.survivors' | translate}}</span>
@@ -638,11 +641,13 @@
                     <div class="double renown">
                       <mat-form-field appearance="fill">
                         <mat-label>{{'warband-page.tab.fighters.form.narrative.name' | translate}}</mat-label>
-                        <input matInput [(ngModel)]="fighter.stats.name" (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)">
+                        <input matInput [(ngModel)]="fighter.stats.name"
+                          (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)">
                       </mat-form-field>
                       <mat-form-field appearance="fill">
                         <mat-label>{{'warband-page.tab.fighters.form.narrative.renown' | translate}}</mat-label>
-                        <mat-select [(ngModel)]="fighter.stats.renown" (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)">
+                        <mat-select [(ngModel)]="fighter.stats.renown"
+                          (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)">
                           <mat-option [value]="0">{{0}}</mat-option>
                           <mat-option [value]="1">{{1}}</mat-option>
                           <mat-option [value]="2">{{2}}</mat-option>
@@ -652,7 +657,8 @@
                     </div>
                     <mat-form-field appearance="fill">
                       <mat-label>{{'warband-page.tab.fighters.form.narrative.notes' | translate}}</mat-label>
-                      <textarea matInput [rows]="4" [(ngModel)]="fighter.notes" (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)"></textarea>
+                      <textarea matInput [rows]="4" [(ngModel)]="fighter.notes"
+                        (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)"></textarea>
                     </mat-form-field>
                   </div>
                 </smitd-divider-expansion>
@@ -661,15 +667,18 @@
                   <div class="modifiers" expansionContent>
                     <ng-container *ngFor="let modifier of fighter.stats.modifiers; let modifierIndex = index">
                       <div class="modifier-card">
-                        <smitd-modifier-card [modifier]="modifier" [edit]="true" [showUsed]="true"></smitd-modifier-card>
+                        <smitd-modifier-card [modifier]="modifier" [edit]="true" [showUsed]="true">
+                        </smitd-modifier-card>
                         <div class="modifier-options">
                           <div class="button-wrapper dark">
-                            <button class="remove-modifier" mat-mini-fab (click)="editFighterModifier(fighter, index, modifierIndex)">
+                            <button class="remove-modifier" mat-mini-fab
+                              (click)="editFighterModifier(fighter, index, modifierIndex)">
                               <mat-icon>edit</mat-icon>
                             </button>
                           </div>
                           <div class="button-wrapper dark">
-                            <button class="remove-modifier" mat-mini-fab color="warn" (click)="removeFighterModifier(fighter, index, modifierIndex)">
+                            <button class="remove-modifier" mat-mini-fab color="warn"
+                              (click)="removeFighterModifier(fighter, index, modifierIndex)">
                               <mat-icon>delete</mat-icon>
                             </button>
                           </div>
@@ -702,11 +711,13 @@
                     <div class="double renown">
                       <mat-form-field appearance="fill">
                         <mat-label>{{'warband-page.tab.fighters.form.narrative.name' | translate}}</mat-label>
-                        <input matInput [(ngModel)]="fighter.stats.name" (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)">
+                        <input matInput [(ngModel)]="fighter.stats.name"
+                          (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)">
                       </mat-form-field>
                       <mat-form-field appearance="fill">
                         <mat-label>{{'warband-page.tab.fighters.form.narrative.renown' | translate}}</mat-label>
-                        <mat-select [(ngModel)]="fighter.stats.renown" (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)">
+                        <mat-select [(ngModel)]="fighter.stats.renown"
+                          (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)">
                           <mat-option [value]="0">{{0}}</mat-option>
                           <mat-option [value]="1">{{1}}</mat-option>
                           <mat-option [value]="2">{{2}}</mat-option>
@@ -716,7 +727,8 @@
                     </div>
                     <mat-form-field appearance="fill">
                       <mat-label>{{'warband-page.tab.fighters.form.narrative.notes' | translate}}</mat-label>
-                      <textarea matInput [rows]="4" [(ngModel)]="fighter.notes" (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)"></textarea>
+                      <textarea matInput [rows]="4" [(ngModel)]="fighter.notes"
+                        (ngModelChange)="warbandService.updateFighter(fighter.stats, fighter.fighterIndex)"></textarea>
                     </mat-form-field>
                   </div>
                 </smitd-divider-expansion>
@@ -725,15 +737,18 @@
                   <div class="modifiers" expansionContent>
                     <ng-container *ngFor="let modifier of fighter.stats.modifiers; let modifierIndex = index">
                       <div class="modifier-card">
-                        <smitd-modifier-card [modifier]="modifier" [edit]="true" [showUsed]="true"></smitd-modifier-card>
+                        <smitd-modifier-card [modifier]="modifier" [edit]="true" [showUsed]="true">
+                        </smitd-modifier-card>
                         <div class="modifier-options">
                           <div class="button-wrapper dark">
-                            <button class="remove-modifier" mat-mini-fab (click)="editFighterModifier(fighter, index, modifierIndex)">
+                            <button class="remove-modifier" mat-mini-fab
+                              (click)="editFighterModifier(fighter, index, modifierIndex)">
                               <mat-icon>edit</mat-icon>
                             </button>
                           </div>
                           <div class="button-wrapper dark">
-                            <button class="remove-modifier" mat-mini-fab color="warn" (click)="removeFighterModifier(fighter, index, modifierIndex)">
+                            <button class="remove-modifier" mat-mini-fab color="warn"
+                              (click)="removeFighterModifier(fighter, index, modifierIndex)">
                               <mat-icon>delete</mat-icon>
                             </button>
                           </div>
@@ -750,7 +765,8 @@
                   <mat-divider></mat-divider>
                 </div>
                 <div class="actions">
-                  <button mat-flat-button color="warn" (click)="removeFighter(fighter.fighterIndex, index)">{{'battle-page.died' | translate}}</button>
+                  <button mat-flat-button color="warn"
+                    (click)="removeFighter(fighter.fighterIndex, index)">{{'battle-page.died' | translate}}</button>
                 </div>
               </div>
             </smitd-fighter-card>

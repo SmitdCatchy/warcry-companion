@@ -38,6 +38,17 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 3.5.1 - 2023.04.14.
+
+<details>
+  <summary>Fixes</summary>
+
+- fix fighter card font color during battles.
+- fix maximum wounds for fighters from 99 to 999.
+- fix screen changing animations.
+
+</details>
+
 ### 3.5.0 - 2023.01.13.
 
 Feature: added abilities import and export for warbands.

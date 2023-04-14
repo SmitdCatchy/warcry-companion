@@ -89,7 +89,7 @@ export class FighterDialogComponent implements OnDestroy {
       wounds: new FormControl(fighterCopy ? fighterCopy.wounds : undefined, [
         Validators.required,
         Validators.min(1),
-        Validators.max(99)
+        Validators.max(999)
       ]),
       runemarks: new FormControl(fighterCopy ? fighterCopy.runemarks : [], []),
       weapons: new FormArray([], []),

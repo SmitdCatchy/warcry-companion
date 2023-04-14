@@ -35,10 +35,10 @@ function slideTo(direction: 'left' | 'right'): any {
     ]),
     group([
       query(':leave', [
-        animate('200ms ease-out', style({[direction]: '100%'}))
+        animate('400ms ease-out', style({[direction]: '100%'}))
       ], optional),
       query(':enter', [
-        animate('200ms ease-out', style({[direction]: '0%'}))
+        animate('400ms ease-out', style({[direction]: '0%'}))
       ], optional)
     ])
   ];
