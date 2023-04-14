@@ -1,11 +1,11 @@
-<div class="battle-frame" [ngClass]="{'battleframe': mode === 'battle'}">
+<div class="battle-frame" [ngClass]="{'battleframe': mode === 'battle'}" >
   <div class="battleframe-header" [ngStyle]="{'height': battleFrameHeight}" *ngIf="mode === 'battle'">
     <ng-content select="[battleframeHeader]"></ng-content>
   </div>
   <mat-expansion-panel class="fighter-card" hideToggle [disabled]="dead" [expanded]="dead ? false : expanded"
     (expandedChange)="expanded = !expanded" #fighterExpansion>
     <mat-expansion-panel-header matRipple #fighterExpansionHeader class="fighter-header" warbandColor
-      [warbandColorAsync]="core.color" [warbandColorImportant]="fighter.color ? fighter.color : deadColor" [warbandColorOpaque]="true"
+      [warbandColorAsync]="core.color" [warbandColorImportant]="dead ? deadColor : fighter.color " [warbandColorOpaque]="true"
       [ngClass]="{'iconed': fighter.icon}">
       <div class="fighter-icon" warbandColor [warbandColorAsync]="core.color"
         [ngStyle]="{'background-image': 'url(' + iconSrc + ')'}" [warbandColorOpaque]="false"

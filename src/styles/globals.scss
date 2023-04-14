@@ -590,7 +590,7 @@ body .mat-button-base {
   pointer-events: none;
 }
 
-smitd-warband-page  {
+smitd-warband-page {
   .mat-tab-group {
     height: calc(100% - 60px);
 
@@ -624,10 +624,13 @@ smitd-warband-page  {
   }
 }
 
-
 @media print {
   body {
     height: auto;
     overflow: unset;
   }
+}
+
+main.content > * {
+  will-change: left, right;
 }
