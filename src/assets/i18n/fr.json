@@ -16,6 +16,12 @@
     "red": "Rouge Chaos",
     "warband": "Couleur Bande"
   },
+  "alliance": {
+    "chaos": "Chaos",
+    "death": "Mort",
+    "destruction": "Destruction",
+    "order": "Ordre"
+  },
   "theme": {
     "light": "Thème clair",
     "dark": "Thème sombre"
@@ -88,7 +94,8 @@
   "warband-page": {
     "menu": {
       "battle": "Se préparer pour la bataille",
-      "fighter-add": "Ajouter combattant",
+      "fighter-add": "Ajouter combattant personnalisé",
+      "fighter-load": "Ajouter combattant",
       "logs": "Journaux de batailles",
       "abilities": "Aptitudes de bande",
       "print": "Imprimer liste des combattants"

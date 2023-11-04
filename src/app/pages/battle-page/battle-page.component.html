@@ -332,7 +332,7 @@
                 <div class="fighter-state" matRipple>
                   <div class="state" (click)="stateSelection.toggle()">
                     <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
-                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark" [ngClass]="{'invert': fighter.wounds < 1 || !blackContent(fighter.stats.color || core.getColor())}">
+                      [alt]="'fighter-state.' + fighter.state | translate" class="runemark" [ngClass]="{'invert': fighter.wounds < 1 || !blackContent(fighter.stats.color || core.getColor())}">
                   </div>
                   <mat-select #stateSelection [(value)]="fighter.state"
                     (valueChange)="alterFighter(fighter, 'dagger', index)"
@@ -427,7 +427,7 @@
                 <div class="fighter-state" matRipple>
                   <div class="state" (click)="stateSelection.toggle()">
                     <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
-                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark" [ngClass]="{'invert': fighter.wounds < 1 || !blackContent(fighter.stats.color || core.getColor())}">
+                      [alt]="'fighter-state.' + fighter.state | translate" class="runemark" [ngClass]="{'invert': fighter.wounds < 1 || !blackContent(fighter.stats.color || core.getColor())}">
                   </div>
                   <mat-select #stateSelection [(value)]="fighter.state"
                     (valueChange)="alterFighter(fighter, 'shield', index)"
@@ -522,7 +522,7 @@
                 <div class="fighter-state" matRipple>
                   <div class="state" (click)="stateSelection.toggle()">
                     <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
-                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark" [ngClass]="{'invert': fighter.wounds < 1 || !blackContent(fighter.stats.color || core.getColor())}">
+                      [alt]="'fighter-state.' + fighter.state | translate" class="runemark" [ngClass]="{'invert': fighter.wounds < 1 || !blackContent(fighter.stats.color || core.getColor())}">
                   </div>
                   <mat-select #stateSelection [(value)]="fighter.state"
                     (valueChange)="alterFighter(fighter, 'hammer', index)"
@@ -588,7 +588,7 @@
                 <div class="fighter-state" matRipple>
                   <div class="state" (click)="stateSelection.toggle()">
                     <img [src]="'assets/runemarks/fighter-state-' + fighter.state + '.svg'"
-                      [alt]="'fighter-card.characteristic.movement' | translate" class="runemark" [ngClass]="{'invert': fighter.wounds < 1 || !blackContent(fighter.stats.color || core.getColor())}">
+                      [alt]="'fighter-state.' + fighter.state | translate" class="runemark" [ngClass]="{'invert': fighter.wounds < 1 || !blackContent(fighter.stats.color || core.getColor())}">
                   </div>
                   <mat-select #stateSelection [(value)]="fighter.state"
                     (valueChange)="alterFighter(fighter, 'wild', index)"

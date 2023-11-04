@@ -46,13 +46,19 @@ export class BattlegroundsPageComponent implements OnDestroy {
       )
     });
     this.selectedBattlegroundIndex = 0;
-    this._subscriptions.add(
-      this.battlegroundsService.loaded.subscribe(() =>
-        this.addInitialAbilities(
-          this.battlegroundsService.universalAbilities.abilities
-        )
-      )
-    );
+    if (this.battlegroundsService.loadedValue) {
+      this.addInitialAbilities(
+        this.battlegroundsService.universalAbilities.abilities
+      );
+    } else {
+      this._subscriptions.add(
+        this.battlegroundsService.loaded.subscribe(() => {
+          this.addInitialAbilities(
+            this.battlegroundsService.universalAbilities.abilities
+          );
+        })
+      );
+    }
     this.battlegroundForm.markAsUntouched();
     this._subscriptions.add(
       this.battlegroundForm.valueChanges

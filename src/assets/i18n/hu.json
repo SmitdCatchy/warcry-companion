@@ -16,6 +16,12 @@
     "red": "Káosz Vörös",
     "warband": "Csapatszín"
   },
+  "alliance": {
+    "chaos": "Káosz",
+    "death": "Halál",
+    "destruction": "Pusztítás",
+    "order": "Rend"
+  },
   "theme": {
     "light": "Világos téma",
     "dark": "Sötét téma"
@@ -88,7 +94,8 @@
   "warband-page": {
     "menu": {
       "battle": "Felkészülés egy csatára",
-      "fighter-add": "Harcos hozzáadása",
+      "fighter-add": "Egyedi Harcos hozzáadása",
+      "fighter-load": "Harcos hozzáadása",
       "logs": "Csata feljegyzések",
       "abilities": "Frakció képességek",
       "print": "Csapat nyomtatása"

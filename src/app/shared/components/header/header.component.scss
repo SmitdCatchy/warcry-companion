@@ -14,4 +14,5 @@ header {
   align-items: center;
   overflow: hidden;
   box-shadow: $material-shadow;
+  flex-shrink: 0;
 }

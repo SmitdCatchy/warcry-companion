@@ -16,6 +16,12 @@
     "red": "Chaos Rot",
     "warband": "Farbe der Kriegerschar"
   },
+  "alliance": {
+    "chaos": "Chaos",
+    "death": "Tod",
+    "destruction": "Zerstörung",
+    "order": "Ordnung"
+  },
   "theme": {
     "light": "Helle Benutzeroberfläche",
     "dark": "Dunkle Benutzeroberfläche"
@@ -88,7 +94,8 @@
   "warband-page": {
     "menu": {
       "battle": "Mach dich zu Kampf bereit",
-      "fighter-add": "Krieger hinzufügen",
+      "fighter-add": "Benutzerdefiniert Krieger hinzufügen",
+      "fighter-load": "Krieger hinzufügen",
       "logs": "Kampfprotokolle",
       "abilities": "Kriegerschar Fähigkeiten",
       "print": "Kriegerschar drucken"

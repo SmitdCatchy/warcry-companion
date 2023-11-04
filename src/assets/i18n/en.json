@@ -16,6 +16,12 @@
     "red": "Chaos Red",
     "warband": "Warband Color"
   },
+  "alliance": {
+    "chaos": "Chaos",
+    "death": "Death",
+    "destruction": "Destruction",
+    "order": "Order"
+  },
   "theme": {
     "light": "Light theme",
     "dark": "Dark theme"
@@ -88,7 +94,8 @@
   "warband-page": {
     "menu": {
       "battle": "Prepare for Battle",
-      "fighter-add": "Add Fighter",
+      "fighter-add": "Add Custom Fighter",
+      "fighter-load": "Add Fighter",
       "logs": "Battle Logs",
       "abilities": "Warband Abilities",
       "print": "Print Warband Roster"

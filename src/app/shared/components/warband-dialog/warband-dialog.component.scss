@@ -5,3 +5,18 @@
   text-align: left;
   white-space: pre-line;
 }
+
+.option {
+  white-space: normal;
+  line-height: 1.2;
+
+  span {
+    font-size: 8px;
+  }
+}
+
+.parser {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}

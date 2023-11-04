@@ -13,6 +13,7 @@
       (click)="warbandService.showAbilities(warband.abilities, undefined, warband, true)">{{'warband-page.menu.abilities' | translate}}</button>
     <button mat-menu-item (click)="warbandService.showLogs()"
       *ngIf="warbandService.hasLogs">{{'warband-page.menu.logs' | translate}}</button>
+    <button mat-menu-item (click)="loadFighter()">{{'warband-page.menu.fighter-load' | translate}}</button>
     <button mat-menu-item (click)="addFighter()">{{'warband-page.menu.fighter-add' | translate}}</button>
     <button mat-menu-item routerLink="/print">{{'warband-page.menu.print' | translate}}</button>
   </mat-menu>
@@ -255,12 +256,12 @@
         </div>
         <div class="double">
           <mat-form-field appearance="fill">
-            <mat-label>{{'warband-page.tab.warband.form.faction' | translate}}</mat-label>
-            <input matInput formControlName="faction">
-          </mat-form-field>
-          <mat-form-field appearance="fill">
             <mat-label>{{'warband-page.tab.warband.form.alliance' | translate}}</mat-label>
             <input matInput formControlName="alliance">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>{{'warband-page.tab.warband.form.faction' | translate}}</mat-label>
+            <input matInput formControlName="faction">
           </mat-form-field>
         </div>
         <div class="color-picker">
@@ -374,7 +375,7 @@
   <button mat-raised-button (click)="core.back()">
     <mat-icon>arrow_back</mat-icon>
   </button>
-  <button mat-raised-button (click)="addFighter()" *ngIf="activeTab === 0">
+  <button mat-raised-button (click)="loadFighter()" *ngIf="activeTab === 0">
     <mat-icon>person_add</mat-icon>
   </button>
   <button mat-raised-button (click)="addNewAbility()" *ngIf="activeTab === 1">

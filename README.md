@@ -38,6 +38,23 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 4.0.0 Dawnbringer - 2023.11.04.
+
+<details>
+  <summary>Features</summary>
+
+- added autocomplete options for warband creation
+- added new add fighter dialog and reporpused the old as custom fighter dialog
+
+</details>
+
+<details>
+  <summary>Fixes</summary>
+
+- fix fighter min 3 movement.
+
+</details>
+
 ### 3.5.1 - 2023.04.14.
 
 <details>

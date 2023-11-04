@@ -62,19 +62,6 @@ export class PrintPageComponent {
   }
 
   toggleVisibility(event: any): void {
-    const element: HTMLElement = event.path.find(
-      (element: any) =>
-        element.localName === 'smitd-ability-card' ||
-        element.localName === 'smitd-fighter-print-card' ||
-        (element.classList ? element.classList[0] : undefined) === 'divider' ||
-        (element.classList ? element.classList[0] : undefined) ===
-          'page-break' ||
-        element.localName === 'h1' ||
-        element.localName === 'h2'
-    );
-
-    if (element) {
-      element.classList.toggle('hide');
-    }
+    event.currentTarget.classList.toggle('hide');
   }
 }
