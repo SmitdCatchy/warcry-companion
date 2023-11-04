@@ -1,0 +1,52 @@
+<h2>{{ 'fighter-dialog.title.add' | translate }}</h2>
+<div class="dialog-content">
+  <form [formGroup]="fighterForm">
+    <mat-form-field appearance="fill">
+      <mat-label>{{
+        'warband-dialog.form.alliance.label' | translate
+      }}</mat-label>
+      <mat-select formControlName="alliance">
+        <mat-option [value]="alliance" *ngFor="let alliance of alliances"
+          >{{ 'alliance.' + alliance.toLowerCase() | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{
+        'warband-dialog.form.faction.label' | translate
+      }}</mat-label>
+      <mat-select formControlName="faction">
+        <mat-option [value]="faction.name" *ngFor="let faction of factions">
+          <div class="option">
+            {{ faction.name }}
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'fighter-store-dialog.fighter' | translate }}</mat-label>
+      <mat-select formControlName="fighter">
+        <mat-option [value]="fighter" *ngFor="let fighter of fighters">
+          <div class="option">
+            {{ fighter.type }} ({{ fighter.points }}
+            <span>{{ 'common.pts' | translate }}</span
+            >)
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div class="actions">
+  <button
+    mat-flat-button
+    color="accent"
+    (click)="acceptDialog()"
+    [disabled]="fighterForm.invalid"
+  >
+    {{ 'fighter-dialog.action.add' | translate }}
+  </button>
+  <button mat-flat-button (click)="closeDialog()">
+    {{ 'common.back' | translate }}
+  </button>
+</div>

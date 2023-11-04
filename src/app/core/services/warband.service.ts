@@ -37,10 +37,12 @@ export class WarbandService {
     this.warbands = JSON.parse(
       CoreService.getLocalStorage(LocalStorageKey.Warbands, '[]')
     ) as Warband[];
-    this.core.getStore(StoreKey.WarbandsStore).subscribe((warbands: Warband[]) => {
-      this.warbands = warbands;
-      this.loaded = true;
-    });
+    this.core
+      .getStore(StoreKey.WarbandsStore)
+      .subscribe((warbands: Warband[]) => {
+        this.warbands = warbands;
+        this.loaded = true;
+      });
 
     this.selectedWarbandIndex = +CoreService.getLocalStorage(
       LocalStorageKey.SelectedWarband,
@@ -89,12 +91,17 @@ export class WarbandService {
         questProgress: 0
       },
       logs: []
-    }
+    },
+    autoSelect?: boolean
   ): void {
     if (!this.checkWarband(warband)) {
       this.warbands.push(warband);
       this.core.setColor(warband.color);
       this.saveWarbands();
+
+      if (autoSelect) {
+        this.selectWarband(this.warbands.length - 1);
+      }
     }
   }
 
@@ -129,7 +136,7 @@ export class WarbandService {
     this.core.setStore({
       name: StoreKey.WarbandsStore,
       data: this.warbands
-    })
+    });
   }
 
   updateWarband(warband: Warband): void {
@@ -244,8 +251,7 @@ export class WarbandService {
       });
     }
     if (
-      abilities?.length &&
-      (!fighter || fighter.role !== FighterRole.Monster)
+      abilities?.length
     ) {
       abilityGroups.push({
         label: this.translateService

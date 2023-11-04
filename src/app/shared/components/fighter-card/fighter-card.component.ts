@@ -154,6 +154,14 @@ export class FighterCardComponent {
           this.getFighterStat(stat, secondary, weaponIndex) +
           this.getModifier(stat, secondary, weaponIndex);
         break;
+      case 'movement':
+        modified =
+          this.getFighterStat(stat) +
+          this.getModifier(stat, secondary, weaponIndex);
+        if (modified < 3) {
+          modified = 3;
+        }
+        break;
       default:
         modified =
           this.getFighterStat(stat) +

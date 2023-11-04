@@ -6,8 +6,19 @@
   }
 }
 
-
 .double.right {
   grid-template-columns: 1fr 2fr;
   align-items: end;
+}
+
+mat-chip-list {
+  mat-chip {
+    span {
+      text-transform: capitalize;
+    }
+  }
+}
+
+.runemark-option {
+  text-transform: capitalize;
 }

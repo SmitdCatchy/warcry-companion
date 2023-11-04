@@ -24,6 +24,7 @@ import { DividerExpansionComponent } from './components/divider-expansion/divide
 import { FighterStoreDialogComponent } from './components/fighter-store-dialog/fighter-store-dialog.component';
 import { ConnectDialogComponent } from './components/connect-dialog/connect-dialog.component';
 import { FighterPrintCardComponent } from './components/fighter-print-card/fighter-print-card.component';
+import { FighterLoadDialogComponent } from './components/fighter-load-dialog/fighter-load-dialog.component';
 
 const declarationsAndExports = [
   HeaderComponent,
@@ -46,7 +47,8 @@ const declarationsAndExports = [
   DividerExpansionComponent,
   FighterStoreDialogComponent,
   ConnectDialogComponent,
-  FighterPrintCardComponent
+  FighterPrintCardComponent,
+  FighterLoadDialogComponent
 ];
 const importsAndExports = [MaterialModule];
 

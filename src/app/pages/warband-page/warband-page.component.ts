@@ -33,6 +33,7 @@ import {
   moveItemInArray
 } from '@angular/cdk/drag-drop';
 import { CoreService } from 'src/app/core/services/core.service';
+import { FighterLoadDialogComponent } from 'src/app/shared/components/fighter-load-dialog/fighter-load-dialog.component';
 
 export const abilitiesFileType = 'abilities';
 
@@ -77,6 +78,8 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
       abilities: new FormArray([]),
       icon: new FormControl(this.warband ? this.warband.icon : undefined, [])
     });
+    this.warbandForm.get('alliance')?.disable();
+    this.warbandForm.get('faction')?.disable();
     this.campaignForm = new FormGroup({
       name: new FormControl(this.warband.campaign.name, []),
       limit: new FormControl(this.warband.campaign.limit, [
@@ -178,6 +181,44 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
           }
         })
     );
+  }
+
+  loadFighter(): void {
+    this._subscriptions.add(
+      this.dialog
+        .open(FighterLoadDialogComponent, {
+          data: { warband: this.warband },
+          disableClose: true,
+          panelClass: ['full-screen-modal'],
+          closeOnNavigation: false
+        })
+        .afterClosed()
+        .subscribe(({ fighter, abilities }) => {
+          if (fighter) {
+            this.warbandService.addFighter(fighter);
+          }
+          if (abilities?.length) {
+            abilities.forEach((ability: Ability) => this.addAbility(ability));
+          }
+          console.log(this.abilities);
+          this._filterDuplicateAbilities();
+        })
+    );
+  }
+
+  private _filterDuplicateAbilities(): void {
+    const existingAbilities: any[] = [];
+    const abilityForms = this.abilities.controls.filter((control) => {
+      const abilityTitle = control.get('title')?.value;
+      if (existingAbilities.find((existing) => existing === abilityTitle)) {
+        return false;
+      }
+      existingAbilities.push(abilityTitle);
+      return true;
+    });
+
+    this.abilities.clear();
+    abilityForms.forEach((abilityForm) => this.abilities.push(abilityForm));
   }
 
   editFighter(fighter: Fighter, index: number): void {
@@ -608,7 +649,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
       (result) => {
         const abilities = result.abilities as Ability[];
         console.log(abilities);
-        this.addInitialAbilities(abilities)
+        this.addInitialAbilities(abilities);
       },
       'json',
       abilitiesFileType

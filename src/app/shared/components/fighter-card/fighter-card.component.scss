@@ -138,6 +138,7 @@
         flex-wrap: wrap;
         min-height: 48px;
         box-sizing: border-box;
+        text-transform: capitalize;
 
         span {
           display: block;
@@ -145,12 +146,14 @@
           overflow: hidden;
           text-align: center;
           margin: 4px;
+          pointer-events: none;
         }
 
         .runemark {
           width: 28px;
           height: 28px;
           margin: 4px;
+          pointer-events: none;
         }
       }
 

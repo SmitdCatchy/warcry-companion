@@ -6,14 +6,14 @@ import { Ability } from '../models/ability.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BattlegroundsService {
   private _battlegrounds: Battleground[];
-  _loaded: Subject<null> = new Subject;
+  _loaded: BehaviorSubject<boolean> = new BehaviorSubject(false as boolean);
 
   constructor(
     private readonly core: CoreService,
@@ -28,7 +28,7 @@ export class BattlegroundsService {
     ) as Battleground[];
     this.core.getStore(StoreKey.BattlegroundsStore).subscribe((battlegrounds: Battleground[]) => {
       this._battlegrounds = battlegrounds;
-      this._loaded.next(null);
+      this._loaded.next(true);
     });
   }
 
@@ -47,13 +47,18 @@ export class BattlegroundsService {
     return this._battlegrounds;
   }
 
-  get loaded(): Observable<null> {
+  get loaded(): Observable<boolean> {
     return this._loaded.asObservable();
+  }
+
+  get loadedValue(): boolean {
+    return this._loaded.value;
   }
 
   addBattleground(battleground: Battleground): void {
     if (battleground.universal) {
       this._battlegrounds[0] = battleground;
+      this.saveBattlegrounds();
     } else if (
       this.battlegrounds.findIndex(
         (check) => check.name === battleground.name
@@ -79,6 +84,7 @@ export class BattlegroundsService {
   uploadBattleground(battleground: Battleground): void {
     if (battleground.universal) {
       this._battlegrounds[0] = battleground;
+      this.saveBattlegrounds();
       return;
     }
     const battlegroundIndex = this.battlegrounds.findIndex(

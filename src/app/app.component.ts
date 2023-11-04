@@ -1,7 +1,7 @@
 import { ApplicationRef, Component, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { loadFull } from 'tsparticles';
-import { ClickMode, Container, Engine, HoverMode, MoveDirection, OutMode } from 'tsparticles-engine';
+import { Engine, MoveDirection, OutMode } from 'tsparticles-engine';
 import { Theme } from './core/enums/theme.enum';
 import { CoreService } from './core/services/core.service';
 import { Slider } from './app-routing.animation';
@@ -12,6 +12,7 @@ import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter, from, Subscription } from 'rxjs';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
+import { DataService } from './core/services/data.service';
 @Component({
   selector: 'smitd-root',
   templateUrl: './app.component.html',
@@ -27,7 +28,8 @@ export class AppComponent implements OnDestroy {
     private readonly translateService: TranslateService,
     private readonly dialog: MatDialog,
     private readonly updates: SwUpdate,
-    private appRef: ApplicationRef
+    private appRef: ApplicationRef,
+    private readonly dataService: DataService,
   ) {
     this.particlesOptions = {
       fpsLimit: 60,

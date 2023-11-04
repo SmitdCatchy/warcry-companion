@@ -14,4 +14,5 @@ export interface Warband {
   campaign: Campaign;
   logs?: BattleLog[];
   icon?: string;
+  bladeborn?: string;
 }

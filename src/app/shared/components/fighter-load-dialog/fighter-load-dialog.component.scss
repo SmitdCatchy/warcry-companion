@@ -69,3 +69,13 @@ form {
 .runemark-option {
   text-transform: capitalize;
 }
+
+
+.option {
+  white-space: normal;
+  line-height: 1.2;
+
+  span {
+    font-size: 8px;
+  }
+}
