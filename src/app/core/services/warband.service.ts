@@ -244,7 +244,7 @@ export class WarbandService {
       abilityGroups.push({
         label: this.translateService
           .instant('warband-service.abilities.label', {
-            label: fighter?.type || warband?.faction || ''
+            label: fighter?.type || warband?.name || warband?.faction || ''
           })
           .trim(),
         abilities: fighter.abilities
@@ -260,13 +260,13 @@ export class WarbandService {
               ? warband
                 ? warband.faction
                 : this.translateService.instant('common.faction')
-              : fighter?.type || warband?.faction || ''
+              : fighter?.type || warband?.name || warband?.faction || ''
           })
           .trim(),
         abilities: abilities.filter((ability) => {
           if (fighter) {
             return (
-              this.checkRunemarks(fighter.runemarks, ability.runemarks) &&
+              this.checkRunemarks([fighter.faction || '', fighter.bladeborn || '', ...fighter.runemarks], ability.runemarks) &&
               !this.checkProhibitiveRunemarks(
                 fighter.runemarks,
                 ability.prohibitiveRunemarks || []
@@ -291,7 +291,7 @@ export class WarbandService {
           abilities: battleground.abilities.filter((ability: Ability) => {
             if (fighter) {
               return (
-                this.checkRunemarks(fighter.runemarks, ability.runemarks) &&
+                this.checkRunemarks([fighter.faction || '', fighter.bladeborn || '', ...fighter.runemarks], ability.runemarks) &&
                 !this.checkProhibitiveRunemarks(
                   fighter.runemarks,
                   ability.prohibitiveRunemarks || []

@@ -32,7 +32,7 @@ export class FighterPrintCardComponent {
           strength: 2,
           damage: 1,
           crit: 2,
-          type: 'Claws'
+          runemark: 'Claws'
         }
       ],
       points: 100,

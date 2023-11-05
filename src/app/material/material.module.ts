@@ -19,8 +19,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 const importsAndExports = [
   MatButtonModule,
@@ -44,7 +45,8 @@ const importsAndExports = [
   MatSnackBarModule,
   MatProgressSpinnerModule,
   MatAutocompleteModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatCheckboxModule
 ];
 
 @NgModule({

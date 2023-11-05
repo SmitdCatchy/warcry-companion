@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import cloneDeep from 'lodash.clonedeep';
 import { Subscription } from 'rxjs';
@@ -31,9 +31,9 @@ export class FighterLoadDialogComponent {
     public readonly dataService: DataService
   ) {
     this.fighterForm = new FormGroup({
-      alliance: new FormControl(this.data.warband.alliance, []),
-      faction: new FormControl(this.data.warband.faction, []),
-      fighter: new FormControl(undefined, [])
+      alliance: new FormControl(this.data.warband.alliance, [Validators.required]),
+      faction: new FormControl(this.data.warband.faction, [Validators.required]),
+      fighter: new FormControl(undefined, [Validators.required])
     });
     this._setFactions(this.data.warband.alliance as GrandAlliance);
     this._setFighters(this.data.warband.faction);

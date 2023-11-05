@@ -80,6 +80,9 @@
       "faction": {
         "label": "Faction"
       },
+      "fill": {
+        "label": "Remplissez avec les types de combattants disponibles"
+      },
       "alliance": {
         "label": "Grande Alliance"
       },

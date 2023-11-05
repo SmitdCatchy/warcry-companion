@@ -38,6 +38,18 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 4.1.0 Dawnbringer - 2023.11.05.
+
+<summary>Features</summary>
+
+- rework fighter faction runemark handling
+- filter new warband dropdowns based on input content
+- add option to create empty warband or with all available fighter types
+
+</details>
+
+Fix:  remove universal runemark for universal abilities
+
 ### 4.0.0 Dawnbringer - 2023.11.04.
 
 <details>

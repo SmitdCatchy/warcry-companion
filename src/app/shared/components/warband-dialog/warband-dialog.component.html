@@ -21,7 +21,7 @@
       [matAutocomplete]="autoAlliance"
     />
     <mat-autocomplete autoActiveFirstOption #autoAlliance="matAutocomplete">
-      <mat-option *ngFor="let alliance of alliances" [value]="alliance">
+      <mat-option *ngFor="let alliance of filteredAlliances" [value]="alliance">
         {{ 'alliance.' + alliance.toLowerCase() | translate }}
       </mat-option>
     </mat-autocomplete>
@@ -30,13 +30,14 @@
     <mat-label>{{ 'warband-dialog.form.faction.label' | translate }}</mat-label>
     <input matInput formControlName="faction" [matAutocomplete]="autoFaction" />
     <mat-autocomplete autoActiveFirstOption #autoFaction="matAutocomplete">
-      <mat-option *ngFor="let faction of warbands" [value]="faction.name">
+      <mat-option *ngFor="let faction of filteredWarbands" [value]="faction.name">
         <div class="option">
           {{ faction.name }}
         </div>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
+  <mat-checkbox formControlName="fill">{{ 'warband-dialog.form.fill.label' | translate }}</mat-checkbox>
   <div class="color-picker">
     <mat-form-field appearance="fill">
       <mat-label>{{ 'warband-dialog.form.color.label' | translate }}</mat-label>

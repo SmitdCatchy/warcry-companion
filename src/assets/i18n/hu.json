@@ -80,6 +80,9 @@
       "faction": {
         "label": "Frakció"
       },
+      "fill": {
+        "label": "Töltse fel a rendelkezésre álló harcostípusokkal"
+      },
       "alliance": {
         "label": "Fő szövetség"
       },

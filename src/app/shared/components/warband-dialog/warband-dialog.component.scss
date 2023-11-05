@@ -20,3 +20,9 @@
   pointer-events: none;
   position: absolute;
 }
+
+mat-checkbox {
+  padding-bottom: 12px;
+  padding-left: 12px;
+  transform: translateY(calc(-1.34375em + 12px));
+}
