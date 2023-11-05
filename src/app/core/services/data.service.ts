@@ -94,12 +94,22 @@ export class DataService {
           !warbandMapper[warbandKey].alliance &&
           warbandMapper[warbandKey].warband !== 'universal'
         ) {
-          warbandMapper[warbandKey].fighters =
-            warbandMapper['Cities of Sigmar'].fighters;
+          warbandMapper[warbandKey].fighters = warbandMapper[
+            'Cities of Sigmar'
+          ].fighters.map((fighter: Fighter) => {
+            const mappedFighter = cloneDeep(fighter);
+            mappedFighter.faction = warbandKey;
+            return mappedFighter;
+          });
           warbandMapper[
             warbandKey
           ].warband = `Cities of Sigmar - ${warbandKey}`;
           warbandMapper[warbandKey].alliance = 'order';
+        }
+        if (warbandMapper[warbandKey]?.bladeborn) {
+          warbandMapper[warbandKey].abilities.push(
+            ...warbandMapper[warbandMapper[warbandKey].warband].abilities
+          );
         }
       });
       delete warbandMapper['Cities of Sigmar'];
@@ -124,6 +134,9 @@ export class DataService {
         commonAbilities[12],
         commonAbilities[13]
       ];
+      monsterHuntAbilities[0].prohibitiveRunemarks?.push('monster');
+      monsterHuntAbilities[1].prohibitiveRunemarks?.push('monster');
+      monsterHuntAbilities[2].prohibitiveRunemarks?.push('monster');
 
       setTimeout(() => {
         this._battlegroundsService.uploadBattleground({
@@ -170,10 +183,11 @@ export class DataService {
     return {
       role,
       type: fighterData.name,
+      bladeborn: fighterData.bladeborn,
       movement: fighterData.movement,
       toughness: fighterData.toughness,
       wounds: fighterData.wounds,
-      runemarks: [fighterData.warband, ...fighterData.runemarks],
+      runemarks: fighterData.runemarks,
       weapons: fighterData.weapons.map((weaponData: any) =>
         this._parseWeapon(weaponData)
       ),
@@ -221,7 +235,6 @@ export class DataService {
       strength: weaponData.strength,
       damage: weaponData.dmg_hit,
       crit: weaponData.dmg_crit,
-      type: weaponData.runemark,
       runemark: weaponData.runemark
     };
   }
@@ -244,7 +257,10 @@ export class DataService {
   private _parseAbility(abilityData: any): Ability {
     return {
       type: abilityData.cost,
-      runemarks: [abilityData.warband, ...abilityData.runemarks],
+      runemarks:
+        abilityData.warband !== 'universal'
+          ? [abilityData.warband, ...abilityData.runemarks]
+          : abilityData.runemarks,
       prohibitiveRunemarks: [],
       title: abilityData.name,
       description: abilityData.description

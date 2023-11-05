@@ -80,6 +80,9 @@
       "faction": {
         "label": "Faction"
       },
+      "fill": {
+        "label": "Fill with available fighter types"
+      },
       "alliance": {
         "label": "Grand Alliance"
       },

@@ -4,6 +4,5 @@ export interface Weapon {
   strength: number;
   damage: number;
   crit: number;
-  type?: string;
   runemark?: string;
 }

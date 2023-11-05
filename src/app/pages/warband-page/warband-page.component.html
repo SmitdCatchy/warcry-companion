@@ -239,7 +239,7 @@
           </smitd-fighter-card>
         </div>
         <button mat-flat-button color="accent" class="add" *ngIf="!warbandService.selectedWarband.fighters.length"
-          (click)="addFighter()">{{'warband-page.menu.fighter-add' | translate}}</button>
+          (click)="loadFighter()">{{'warband-page.menu.fighter-load' | translate}}</button>
       </div>
     </div>
   </mat-tab>

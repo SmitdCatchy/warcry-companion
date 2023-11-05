@@ -80,6 +80,9 @@
       "faction": {
         "label": "Fraktion"
       },
+      "fill": {
+        "label": "Füllen Sie die verfügbaren Krieger aus"
+      },
       "alliance": {
         "label": "Grosse Allianz"
       },

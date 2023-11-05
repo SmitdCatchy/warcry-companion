@@ -23,11 +23,13 @@ import { Subscription } from 'rxjs';
 export class WarbandDialogComponent implements OnDestroy {
   warbandForm: FormGroup;
   alliances = Object.keys(GrandAlliance);
+  filteredAlliances: string[] = [...this.alliances];
   colorList = Object.keys(Color).map((key) => ({
     key,
     value: Color[key as keyof typeof Color]
   }));
   warbands: Warband[] = [];
+  filteredWarbands: Warband[] = [];
   private _subs = new Subscription();
 
   constructor(
@@ -69,21 +71,59 @@ export class WarbandDialogComponent implements OnDestroy {
               encampmentState: EncampmentState.Secure
             }
       ),
-      icon: new FormControl(warband ? warband.icon : undefined, [])
+      icon: new FormControl(warband ? warband.icon : undefined, []),
+      fill: new FormControl(true, [])
     });
-    this._subs.add(this.alliance.valueChanges.subscribe((value: GrandAlliance) => {
-      this.warbands = this.dataService.getAlliance(value.toLocaleLowerCase() as GrandAlliance);
-    }));
-    this._subs.add(this.faction.valueChanges.subscribe((value: string) => {
-      const selectedWarband = this.warbands.find(
-        (check) => check.name === value
-      );
-      if(selectedWarband) {
-        this.warbandForm.get('color')?.setValue(selectedWarband.color);
-        this.warbandForm.get('fighters')?.setValue(selectedWarband.fighters);
-        this.warbandForm.get('abilities')?.setValue(selectedWarband.abilities);
-      }
-    }));
+    this._subs.add(
+      this.alliance.valueChanges.subscribe((value: GrandAlliance) => {
+        this.filteredAlliances = this.alliances.filter((alliance) =>
+          alliance.includes(value)
+        );
+        this.warbands = this.dataService.getAlliance(
+          value.toLocaleLowerCase() as GrandAlliance
+        );
+        this.filteredWarbands = this.warbands.filter((warband) =>
+          warband.faction.includes(this.faction.value)
+        );
+      })
+    );
+    this._subs.add(
+      this.warbandForm.get('fill')?.valueChanges.subscribe((value: boolean) => {
+        if (value) {
+          const selectedWarband = this.warbands.find(
+            (check) => check.name === this.faction.value
+          );
+          if (selectedWarband) {
+            this.warbandForm
+              .get('fighters')
+              ?.setValue(selectedWarband.fighters);
+          }
+        } else {
+          this.warbandForm.get('fighters')?.setValue([]);
+        }
+      })
+    );
+    this._subs.add(
+      this.faction.valueChanges.subscribe((value: string) => {
+        this.filteredWarbands = this.warbands.filter((warband) =>
+          warband.faction.includes(value)
+        );
+        const selectedWarband = this.warbands.find(
+          (check) => check.name === value
+        );
+        if (selectedWarband) {
+          this.warbandForm.get('color')?.setValue(selectedWarband.color);
+          if (this.warbandForm.get('fill')?.value) {
+            this.warbandForm
+              .get('fighters')
+              ?.setValue(selectedWarband.fighters);
+          }
+          this.warbandForm
+            .get('abilities')
+            ?.setValue(selectedWarband.abilities);
+        }
+      })
+    );
   }
 
   ngOnDestroy(): void {

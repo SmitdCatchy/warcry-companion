@@ -78,8 +78,6 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
       abilities: new FormArray([]),
       icon: new FormControl(this.warband ? this.warband.icon : undefined, [])
     });
-    this.warbandForm.get('alliance')?.disable();
-    this.warbandForm.get('faction')?.disable();
     this.campaignForm = new FormGroup({
       name: new FormControl(this.warband.campaign.name, []),
       limit: new FormControl(this.warband.campaign.limit, [
@@ -210,10 +208,20 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     const existingAbilities: any[] = [];
     const abilityForms = this.abilities.controls.filter((control) => {
       const abilityTitle = control.get('title')?.value;
-      if (existingAbilities.find((existing) => existing === abilityTitle)) {
+      const abilityFactionRunemark = control.get('runemarks')?.value[0];
+      if (
+        existingAbilities.find(
+          (existing) =>
+            existing.title === abilityTitle &&
+            existing.runemark === abilityFactionRunemark
+        )
+      ) {
         return false;
       }
-      existingAbilities.push(abilityTitle);
+      existingAbilities.push({
+        title: abilityTitle,
+        runemark: abilityFactionRunemark
+      });
       return true;
     });
 
