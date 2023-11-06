@@ -113,6 +113,9 @@ export class WarbandDialogComponent implements OnDestroy {
         );
         if (selectedWarband) {
           this.warbandForm.get('color')?.setValue(selectedWarband.color);
+          if(selectedWarband.fighters.length > 20) {
+            this.warbandForm.get('fill')?.setValue(false);
+          }
           if (this.warbandForm.get('fill')?.value) {
             this.warbandForm
               .get('fighters')

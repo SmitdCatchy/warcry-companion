@@ -38,6 +38,10 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 4.1.1 Dawnbringer - 2023.11.06.
+
+Fix: editing a fighter will not change it's faction
+
 ### 4.1.0 Dawnbringer - 2023.11.05.
 
 <summary>Features</summary>
