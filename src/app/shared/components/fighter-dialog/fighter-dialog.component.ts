@@ -105,10 +105,10 @@ export class FighterDialogComponent implements OnDestroy {
       icon: new FormControl(fighterCopy ? fighterCopy.icon : undefined, []),
       abilities: new FormControl(fighterCopy ? fighterCopy.abilities : [], []),
       faction: new FormControl(
-        data.warband
-          ? data.warband.faction
-          : fighterCopy
+        fighterCopy
           ? fighterCopy.faction
+          : data.warband
+          ? data.warband.faction
           : this.translateService.instant('common.unaligned'),
         data.storeDialog ? [Validators.required] : []
       ),
