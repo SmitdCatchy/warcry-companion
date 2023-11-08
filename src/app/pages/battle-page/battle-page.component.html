@@ -20,11 +20,15 @@
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Battle"
       (click)="battleService.endBattle(refreshUI)">{{'battle-page.menu.end' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster"
-      (click)="addFighter()">{{'battle-page.menu.fighter' | translate}}</button>
+      (click)="loadFighter()">{{'battle-page.menu.fighter' | translate}}</button>
+    <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster"
+      (click)="addFighter()">{{'battle-page.menu.fighter-custom' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Roster"
       routerLink="/print-groups">{{'battle-page.menu.print' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Battle"
-      (click)="addWildFighter()">{{'battle-page.menu.wild' | translate}}</button>
+      (click)="loadWildFighter()">{{'battle-page.menu.wild' | translate}}</button>
+    <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Battle"
+      (click)="addWildFighter()">{{'battle-page.menu.wild-custom' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState !== BattleState.Aftermath"
       (click)="battleService.abortBattle()">{{'battle-page.menu.abort' | translate}}</button>
     <button mat-menu-item *ngIf="battleService.battle.battleState === BattleState.Aftermath"
@@ -565,7 +569,7 @@
           <div class="fighters-list wild" *ngIf="battleService.battle.wild.length">
             <smitd-fighter-card [fighter]="fighter.stats" [fighterReference]="fighter" [mode]="FighterCardMode.battle"
               [campaign]="battleService.battle.campaign"
-              (callAbilities)="warbandService.showAbilities([], fighter.stats, undefined, false, battleService.battle.battlegrounds)"
+              (callAbilities)="warbandService.showAbilities(warband.abilities, fighter.stats, undefined, false, battleService.battle.battlegrounds)"
               *ngFor="let fighter of battleService.battle.wild; let index = index">
               <div class="options" options>
                 <smitd-divider-expansion>
@@ -785,10 +789,10 @@
     *ngIf="battleService.battle.battleState === BattleState.Battle">
     <mat-icon>handshake</mat-icon>
   </button>
-  <button mat-raised-button (click)="addFighter()" *ngIf="battleService.battle.battleState === BattleState.Roster">
+  <button mat-raised-button (click)="loadFighter()" *ngIf="battleService.battle.battleState === BattleState.Roster">
     <mat-icon>person_add</mat-icon>
   </button>
-  <button mat-raised-button (click)="addWildFighter()"
+  <button mat-raised-button (click)="loadWildFighter()"
     *ngIf="battleService.battle.battleState === BattleState.Battle  && multiplayerService.host">
     <mat-icon>pets</mat-icon>
   </button>

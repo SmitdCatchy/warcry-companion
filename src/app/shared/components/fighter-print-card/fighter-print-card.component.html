@@ -36,6 +36,7 @@
     </div>
 
     <div class="fighter-weapon-header">
+      <div></div>
       <div><img src="assets/runemarks/characteristic-range.svg" [alt]="'fighter-card.characteristic.range' | translate"
           class="runemark"></div>
       <div><img src="assets/runemarks/characteristic-attacks.svg"
@@ -56,6 +57,10 @@
     </div>
     <div class="fighter-weapons">
       <ng-container *ngFor="let weapon of fighter.weapons; let index = index">
+        <span [ngClass]="{'last-row': index === fighter.weapons.length - 1}">
+          <img [src]="runemark.icon"
+          [alt]="weapon.runemark" class="runemark" *ngIf="runemarksService.getRunemark(weapon.runemark || '') as runemark">
+        </span>
         <span class="number" [ngClass]="{'last-row': index === fighter.weapons.length - 1}">{{weapon.range}}</span>
         <span class="number" [ngClass]="{
           'last-row': index === fighter.weapons.length - 1,

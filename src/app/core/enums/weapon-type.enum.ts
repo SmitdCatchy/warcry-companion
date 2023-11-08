@@ -1,0 +1,16 @@
+export enum WeaponType {
+  Axe = 'axe',
+  Blast = 'blast',
+  Claws = 'claws',
+  Club = 'club',
+  Dagger = 'dagger',
+  Fangs = 'fangs',
+  Hammer = 'hammer',
+  Mace = 'mace',
+  Ranged = 'ranged',
+  Reach = 'reach',
+  Scythe = 'scythe',
+  Spear = 'spear',
+  Sword = 'sword',
+  Unarmed = 'unarmed',
+}

@@ -259,11 +259,13 @@
     "menu": {
       "warband": "Frakció képességek",
       "fighter": "Harcos hozzáadása",
+      "fighter-custom": "Egyedi Harcos hozzáadása",
       "begin": "Csata megkezdése",
       "turn": "Kör vége",
       "end": "Csata vége",
       "abort": "Csata elvetése",
       "wild": "Vad hozzáadása",
+      "wild-custom": "Egyedi  Vad hozzáadása",
       "multiplayer": "Online Csaták",
       "connect": "Csatlakozás egy csatához",
       "disconnect": "Csata elhagyása",
@@ -487,5 +489,23 @@
   "print-page": {
     "print": "Nyomtatás",
     "pagebreak": "<< OLDALTÖRÉS >>"
+  },
+  "weapon-type": {
+    "axe": "Balta",
+    "blast": "Robbanás",
+    "claws": "Karmok",
+    "club": "Bunkó",
+    "dagger": "Tőr",
+    "fangs": "Agyarak",
+    "hammer": "Kalapács",
+    "mace": "Buzogány",
+    "ranged": "Távolsági",
+    "reach": "Hosszú",
+    "scythe": "Kasza",
+    "spear": "Lándzsa",
+    "sword": "Kard",
+    "unarmed": "Ököl",
+    "hook": "Kampó",
+    "bident": "Bident"
   }
 }

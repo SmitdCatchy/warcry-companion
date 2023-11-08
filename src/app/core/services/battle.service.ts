@@ -24,6 +24,8 @@ import { BattleEndDialogComponent } from 'src/app/shared/components/battle-end-d
 import { EncampmentState } from '../enums/encampment-state.enum';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
+import { FighterLoadDialogComponent } from 'src/app/shared/components/fighter-load-dialog/fighter-load-dialog.component';
+import { Ability } from '../models/ability.model';
 
 @Injectable({
   providedIn: 'root'
@@ -191,6 +193,55 @@ export class BattleService {
       });
   }
 
+  loadFighter(cb: () => any = () => {}): void {
+    this.dialog
+      .open(FighterLoadDialogComponent, {
+        data: { warband: this.battle.warband },
+        disableClose: true,
+        panelClass: ['full-screen-modal'],
+        closeOnNavigation: false
+      })
+      .afterClosed()
+      .subscribe((result: {fighter: Fighter, abilities: Ability[]}) => {
+        if (result.fighter) {
+          this.battle.roster.push(
+            BattleService.createFighterReference(
+              result.fighter,
+              this.battle.roster.length
+            )
+          );
+          this.battle.warband.abilities.push(...result.abilities);
+          this._filterDuplicateAbilities();
+          this.saveBattle();
+          cb();
+        }
+      });
+  }
+
+  private _filterDuplicateAbilities(): void {
+    const existingAbilities: any[] = [];
+    const abilityForms = this.battle.warband.abilities.filter((ability: Ability) => {
+      if (
+        existingAbilities.find(
+          (existing) =>
+            existing.title === ability.title &&
+            existing.runemark === ability.runemarks[0] &&
+            existing.type === ability.type
+        )
+      ) {
+        return false;
+      }
+      existingAbilities.push({
+        title: ability.title,
+        runemark: ability.runemarks[0],
+        type: ability.type
+      });
+      return true;
+    });
+
+    this.battle.warband.abilities = abilityForms;
+  }
+
   addWildFighter(cb: () => any = () => {}): void {
     this.dialog
       .open(FighterDialogComponent, {
@@ -206,6 +257,32 @@ export class BattleService {
             fighter,
             this.battle.wild.length
           );
+          this.addWildFighterEffect(wildFighter, cb);
+          this.battleSubject.next({
+            changed: 'wild-fighter',
+            wildFighter
+          });
+        }
+      });
+  }
+
+  loadWildFighter(cb: () => any = () => {}): void {
+    this.dialog
+      .open(FighterLoadDialogComponent, {
+        data: { warband: this.battle.warband },
+        disableClose: true,
+        panelClass: ['full-screen-modal'],
+        closeOnNavigation: false
+      })
+      .afterClosed()
+      .subscribe((result: {fighter: Fighter, abilities: Ability[]}) => {
+        if (result.fighter) {
+          const wildFighter = BattleService.createFighterReference(
+            result.fighter,
+            this.battle.wild.length
+          );
+          this.battle.warband.abilities.push(...result.abilities);
+          this._filterDuplicateAbilities();
           this.addWildFighterEffect(wildFighter, cb);
           this.battleSubject.next({
             changed: 'wild-fighter',
@@ -309,9 +386,9 @@ export class BattleService {
           const modifiedWeapon = modifiers.weapons[index];
           if (
             weaponModification &&
-            ((!weaponModification.ranged && weapon.range < 4) ||
+            ((!weaponModification.ranged && Number(weapon.range) < 4) ||
               (weaponModification.ranged && isNaN(weapon.range as number)) ||
-              (weaponModification.ranged && weapon.range > 3))
+              (weaponModification.ranged && Number(weapon.range) > 3))
           ) {
             modifiedWeapon.attacks += weaponModification.attacks || 0;
             modifiedWeapon.strength += weaponModification.strength || 0;

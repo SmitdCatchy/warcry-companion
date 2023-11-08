@@ -6,7 +6,8 @@ form {
     }
   }
 
-  .quad {
+  .quad,
+  .penta {
     &.closer {
       margin-top: -12px;
     }
@@ -24,6 +25,10 @@ form {
         transform: translate(0);
       }
     }
+  }
+
+  .penta {
+    grid-template-columns: 3fr 2fr 2fr 2fr 3fr;
   }
 
   .runemark {

@@ -17,7 +17,7 @@ export class FighterPrintCardComponent {
   @Input() darkBorders: boolean;
   @Input() edit: boolean;
 
-  constructor(private readonly _runemarksService: RunemarksService) {
+  constructor(readonly runemarksService: RunemarksService) {
     this.fighter = {
       role: FighterRole.Thrall,
       type: 'Error Thrall',
@@ -49,7 +49,7 @@ export class FighterPrintCardComponent {
   get runemarks(): Runemark[] {
     return this.fighter.runemarks.map(
       (key) =>
-        this._runemarksService.runemarks.find(
+        this.runemarksService.runemarks.find(
           (runemark) => runemark.key === key
         ) || { key }
     );

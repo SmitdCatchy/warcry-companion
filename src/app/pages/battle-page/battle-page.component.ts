@@ -169,8 +169,20 @@ export class BattlePageComponent implements OnInit, OnDestroy {
     });
   }
 
+  loadFighter(): void {
+    this.battleService.loadFighter(() => {
+      this.cdr.detectChanges();
+    });
+  }
+
   addWildFighter(): void {
     this.battleService.addWildFighter(() => {
+      this.cdr.detectChanges();
+    });
+  }
+
+  loadWildFighter(): void {
+    this.battleService.loadWildFighter(() => {
       this.cdr.detectChanges();
     });
   }

@@ -38,6 +38,18 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 4.2.0 Dawnbringer - 2023.11.08.
+
+Feature: added weapon runemarks
+
+<details>
+  <summary>Fixes</summary>
+
+- remove universal runemark for universal abilities
+- fix battle screen using custom fighter dialog as default
+
+</details>
+
 ### 4.1.1 Dawnbringer - 2023.11.06.
 
 Fix: editing a fighter will not change it's faction

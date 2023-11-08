@@ -259,11 +259,13 @@
     "menu": {
       "warband": "Warband Abilities",
       "fighter": "Add Fighter to Roster",
+      "fighter-custom": "Add Custom Fighter to Roster",
       "begin": "Begin Battle",
       "turn": "End Turn",
       "end": "End Battle",
       "abort": "Abort Battle",
       "wild": "Add Wild Fighter",
+      "wild-custom": "Add Custom Wild Fighter",
       "multiplayer": "Online Battles",
       "connect": "Join a Running Battle",
       "disconnect": "Leave the Running Battle",
@@ -487,5 +489,23 @@
   "print-page": {
     "print": "Print",
     "pagebreak": "<< PAGEBREAK >>"
+  },
+  "weapon-type": {
+    "axe": "Axt",
+    "blast": "Explosion",
+    "claws": "Krallen",
+    "club": "Keule",
+    "dagger": "Dolch",
+    "fangs": "Fänge",
+    "hammer": "Hammer",
+    "mace": "Streitkolben",
+    "ranged": "Fernkampf",
+    "reach": "Reichweite",
+    "scythe": "Sense",
+    "spear": "Speer",
+    "sword": "Schwert",
+    "unarmed": "Unbewaffnet",
+    "hook": "Haken",
+    "bident": "Bident"
   }
 }
