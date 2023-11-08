@@ -86,7 +86,7 @@
 
     .fighter-characteristics {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 3fr 4fr;
       grid-template-rows: 34px auto;
       column-gap: 8px;
       width: 100%;
@@ -160,7 +160,7 @@
       .fighter-weapon-header,
       .fighter-weapons {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 
         & > * {
           display: flex;
@@ -173,7 +173,7 @@
           font-size: 14px;
           white-space: nowrap;
 
-          &:nth-of-type(4n) {
+          &:nth-of-type(5n) {
             border-right: none;
           }
 

@@ -22,6 +22,10 @@ export class RunemarksService {
     return this._runemarkList;
   }
 
+  getRunemark(key: string): Runemark | undefined {
+    return this._runemarkList.find(rm => rm.key == key);
+  }
+
   addRunemarks(runemarks: string[] | Runemark[]): void {
     runemarks.forEach((runemark) => this.addRunemark(runemark));
   }

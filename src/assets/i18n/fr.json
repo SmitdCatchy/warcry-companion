@@ -259,11 +259,13 @@
     "menu": {
       "warband": "Aptitudes de bande",
       "fighter": "Ajouter un combattant à la liste",
+      "fighter-custom": "Ajouter un combattant personnalisé à la liste",
       "begin": "Commencer la bataille",
       "turn": "Finir tour",
       "end": "Finir la bataille",
       "abort": "Abandonner la bataille",
       "wild": "Ajouter un combattant sauvage",
+      "wild-custom": "Ajouter un combattant sauvage personnalisé",
       "multiplayer": "Batailles en ligne",
       "connect": "Rejoindre une bataille en cours",
       "disconnect": "Quitter une bataille en cours",
@@ -487,5 +489,23 @@
   "print-page": {
     "print": "Imprimer",
     "pagebreak": "<< SAUT DE PAGE >>"
+  },
+  "weapon-type": {
+    "axe": "Hache",
+    "blast": "Souffle",
+    "claws": "Griffes",
+    "club": "Gourdin",
+    "dagger": "Dague",
+    "fangs": "Crocs",
+    "hammer": "Hammer",
+    "mace": "Masse",
+    "ranged": "Tir",
+    "reach": "Allonge",
+    "scythe": "Faux",
+    "spear": "Lance",
+    "sword": "Épée",
+    "unarmed": "Désarmé",
+    "hook": "Crochet",
+    "bident": "Bident"
   }
 }

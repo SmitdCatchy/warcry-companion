@@ -107,7 +107,8 @@
       <mat-divider></mat-divider>
     </div>
     <ng-container formArrayName="weapons">
-      <div class="quad">
+      <div class="penta">
+        <div></div>
         <img class="runemark invert" src="assets/runemarks/characteristic-range.svg"
           [alt]="'fighter-card.characteristic.range' | translate">
         <img class="runemark invert" src="assets/runemarks/characteristic-attacks.svg"
@@ -118,7 +119,13 @@
           [alt]="'fighter-card.characteristic.damage' | translate">
       </div>
       <ng-container *ngFor="let weaponForm of weapons.controls; let index = index">
-        <div class="quad" [ngClass]="{'closer': index > 0}" [formGroupName]="index">
+        <div class="penta" [ngClass]="{'closer': index > 0}" [formGroupName]="index">
+          <mat-form-field appearance="fill">
+            <mat-select formControlName="runemark">
+              <mat-option *ngFor="let runemark of weaponTypes" [value]="runemark">{{'weapon-type.' + runemark | translate}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
           <mat-form-field appearance="fill" class="center">
             <input matInput maxlength="4" formControlName="range">
           </mat-form-field>
@@ -138,7 +145,10 @@
           </div>
         </div>
       </ng-container>
-      <div class="quad">
+      <div class="penta">
+        <div class="hint">
+          <span>{{'fighter-dialog.form.type.label' | translate}}</span>
+        </div>
         <div class="hint">
           <span>{{'fighter-card.characteristic.range' | translate}}</span>
         </div>

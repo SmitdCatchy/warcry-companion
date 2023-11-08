@@ -259,11 +259,13 @@
     "menu": {
       "warband": "Kriegerschar Fähigkeiten",
       "fighter": "Krieger zur Übersicht hinzufügen",
+      "fighter-custom": "Benutzerdefiniert Krieger zur Übersicht hinzufügen",
       "begin": "Kampf beginnen",
       "turn": "Zug beenden",
       "end": "Kampf beenden",
       "abort": "Kampf abbrechen",
       "wild": "Wilden Krieger hinzufügen",
+      "wild-custom": "Benutzerdefiniert Wilden Krieger hinzufügen",
       "multiplayer": "Online Battles",
       "connect": "Join a Running Battle",
       "disconnect": "Leave the Running Battle",
@@ -479,5 +481,23 @@
   "print-page": {
     "print": "Drucken",
     "pagebreak": "<< SEITENUMBRUCH >>"
+  },
+  "weapon-type": {
+    "axe": "Axe",
+    "blast": "Blast",
+    "claws": "Claws",
+    "club": "Keule",
+    "dagger": "Dolch",
+    "fangs": "Reißzähne",
+    "hammer": "Hammer",
+    "mace": "Masse",
+    "ranged": "Ranged",
+    "reach": "Reach",
+    "scythe": "Scythe",
+    "spear": "Spear",
+    "sword": "Sword",
+    "unarmed": "Unarmed",
+    "hook": "Haken",
+    "bident": "Zweizack"
   }
 }

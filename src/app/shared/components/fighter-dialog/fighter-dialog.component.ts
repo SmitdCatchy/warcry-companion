@@ -28,6 +28,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Color } from 'src/app/core/enums/color.enum';
 import { RunemarksService } from 'src/app/core/services/runemarks.service';
 import { Runemark } from 'src/app/core/models/runemark.model';
+import { WeaponType } from 'src/app/core/enums/weapon-type.enum';
 
 @Component({
   selector: 'smitd-fighter-dialog',
@@ -39,6 +40,7 @@ export class FighterDialogComponent implements OnDestroy {
   separatorKeysCodes: number[] = [ENTER, COMMA, PERIOD];
   runemarkCtrl = new FormControl('');
   fighterRoleList = Object.values(FighterRole);
+  weaponTypes = Object.values(WeaponType);
   FighterRole = FighterRole;
   existsInStore: boolean;
   private _subscriptions: Subscription = new Subscription();
@@ -237,7 +239,8 @@ export class FighterDialogComponent implements OnDestroy {
         Validators.required,
         Validators.min(1),
         Validators.max(99)
-      ])
+      ]),
+      runemark: new FormControl(weapon ? weapon.runemark : WeaponType.Axe, [])
     });
     this.weapons.push(weaponFromGroup);
   }

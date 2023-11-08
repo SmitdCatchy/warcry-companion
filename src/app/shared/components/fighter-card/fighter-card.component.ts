@@ -45,7 +45,7 @@ export class FighterCardComponent {
   constructor(
     readonly core: CoreService,
     private translateService: TranslateService,
-    private readonly _runemarksService: RunemarksService
+    readonly runemarksService: RunemarksService
   ) {
     this.fighter = {
       role: FighterRole.Thrall,
@@ -103,7 +103,7 @@ export class FighterCardComponent {
   get runemarks(): Runemark[] {
     return this.fighter.runemarks.map(
       (key) =>
-        this._runemarksService.runemarks.find(
+        this.runemarksService.runemarks.find(
           (runemark) => runemark.key === key
         ) || { key }
     );

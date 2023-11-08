@@ -335,7 +335,8 @@ input:-internal-autofill-selected {
 
 .double,
 .triple,
-.quad {
+.quad,
+.penta {
   display: grid !important;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
@@ -365,12 +366,29 @@ input:-internal-autofill-selected {
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-.quad {
+.penta {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.quad,
+.penta {
   mat-form-field .mat-form-field-flex {
     padding: 0;
     .mat-form-field-infix {
       border: 8px;
       padding: 8px;
+    }
+  }
+
+  .mat-form-field-appearance-fill {
+    mat-select {
+      height: 21px;
+    }
+    .mat-select-arrow-wrapper {
+      display: none;
+    }
+    .mat-select-value {
+      text-align: center;
     }
   }
 }

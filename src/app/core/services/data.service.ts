@@ -126,6 +126,9 @@ export class DataService {
         commonAbilities[9],
         commonAbilities[10]
       ];
+      universalAbilities.forEach(ability => {
+        ability.prohibitiveRunemarks?.push('monster');
+      })
       const monsterHuntAbilities = [
         commonAbilities[5],
         commonAbilities[6],

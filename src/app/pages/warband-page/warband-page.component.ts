@@ -198,7 +198,6 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
           if (abilities?.length) {
             abilities.forEach((ability: Ability) => this.addAbility(ability));
           }
-          console.log(this.abilities);
           this._filterDuplicateAbilities();
         })
     );
@@ -209,18 +208,21 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     const abilityForms = this.abilities.controls.filter((control) => {
       const abilityTitle = control.get('title')?.value;
       const abilityFactionRunemark = control.get('runemarks')?.value[0];
+      const abilityType = control.get('type');
       if (
         existingAbilities.find(
           (existing) =>
             existing.title === abilityTitle &&
-            existing.runemark === abilityFactionRunemark
+            existing.runemark === abilityFactionRunemark &&
+            existing.type === abilityType
         )
       ) {
         return false;
       }
       existingAbilities.push({
         title: abilityTitle,
-        runemark: abilityFactionRunemark
+        runemark: abilityFactionRunemark,
+        type: abilityType
       });
       return true;
     });
@@ -656,7 +658,6 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     this.core.handleFileUpload(
       (result) => {
         const abilities = result.abilities as Ability[];
-        console.log(abilities);
         this.addInitialAbilities(abilities);
       },
       'json',
