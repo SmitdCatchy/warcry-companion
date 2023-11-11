@@ -38,7 +38,17 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
-### 4.2.0 Dawnbringer - 2023.11.08.
+### 4.2.1 - 2023.11.11.
+
+<details>
+  <summary>Fixes</summary>
+
+- remove ability duplication when adding new fighters
+- fix warband, ability and fighter list sorting
+
+</details>
+
+### 4.2.0 - 2023.11.08.
 
 Feature: added weapon runemarks
 
@@ -50,11 +60,11 @@ Feature: added weapon runemarks
 
 </details>
 
-### 4.1.1 Dawnbringer - 2023.11.06.
+### 4.1.1 - 2023.11.06.
 
 Fix: editing a fighter will not change it's faction
 
-### 4.1.0 Dawnbringer - 2023.11.05.
+### 4.1.0 - 2023.11.05.
 
 <summary>Features</summary>
 

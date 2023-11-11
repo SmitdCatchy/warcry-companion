@@ -208,7 +208,7 @@ export class WarbandPageComponent implements OnDestroy, AfterViewInit {
     const abilityForms = this.abilities.controls.filter((control) => {
       const abilityTitle = control.get('title')?.value;
       const abilityFactionRunemark = control.get('runemarks')?.value[0];
-      const abilityType = control.get('type');
+      const abilityType = control.get('type')?.value;
       if (
         existingAbilities.find(
           (existing) =>

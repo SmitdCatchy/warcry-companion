@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BattlegroundsService } from './battlegrounds.service';
 import cloneDeep from 'lodash.clonedeep';
 import { EncampmentState } from '../enums/encampment-state.enum';
+import { WarbandService } from './warband.service';
 
 @Injectable({
   providedIn: 'root'
@@ -103,7 +104,7 @@ export class DataService {
           });
           warbandMapper[
             warbandKey
-          ].warband = `Cities of Sigmar - ${warbandKey}`;
+          ].warband = `Cities of Sigmar: ${warbandKey}`;
           warbandMapper[warbandKey].alliance = 'order';
         }
         if (warbandMapper[warbandKey]?.bladeborn) {
@@ -126,9 +127,9 @@ export class DataService {
         commonAbilities[9],
         commonAbilities[10]
       ];
-      universalAbilities.forEach(ability => {
+      universalAbilities.forEach((ability) => {
         ability.prohibitiveRunemarks?.push('monster');
-      })
+      });
       const monsterHuntAbilities = [
         commonAbilities[5],
         commonAbilities[6],
@@ -154,29 +155,33 @@ export class DataService {
       }, 0);
       delete warbandMapper['universal'];
       this._warbands.next(
-        Object.values(warbandMapper).map((warbandData: any) => ({
-          name: `${warbandData.warband}${
-            warbandData.bladeborn ? ` - ${warbandData.bladeborn}` : ''
-          }`,
-          bladeborn: warbandData.bladeborn,
-          faction: warbandData.warband,
-          alliance: warbandData.alliance,
-          color: this._getFactionColor(warbandData.alliance) as Color,
-          fighters: warbandData.fighters,
-          abilities: warbandData.abilities,
-          campaign: {
-            name: '',
-            limit: 1000,
-            reputation: 2,
-            glory: 0,
-            progress: 0,
-            notes: '',
-            encampment: '',
-            encampmentState: EncampmentState.Secure,
-            quest: '',
-            questProgress: 0
-          }
-        }))
+        Object.values(warbandMapper)
+          .map((warbandData: any) => ({
+            name: `${warbandData.warband}${
+              warbandData.bladeborn ? ` - ${warbandData.bladeborn}` : ''
+            }`,
+            bladeborn: warbandData.bladeborn,
+            faction: warbandData.warband,
+            alliance: warbandData.alliance,
+            color: this._getFactionColor(warbandData.alliance) as Color,
+            fighters: warbandData.fighters.reverse(),
+            abilities: WarbandService.sortAbilities(warbandData.abilities),
+            campaign: {
+              name: '',
+              limit: 1000,
+              reputation: 2,
+              glory: 0,
+              progress: 0,
+              notes: '',
+              encampment: '',
+              encampmentState: EncampmentState.Secure,
+              quest: '',
+              questProgress: 0
+            }
+          }))
+          .sort((a: Warband, b: Warband) => {
+            return a.name < b.name ? -1 : 1;
+          })
       );
     });
   }
