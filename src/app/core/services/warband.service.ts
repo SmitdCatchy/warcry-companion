@@ -10,7 +10,6 @@ import { LogsBottomSheetComponent } from 'src/app/shared/components/logs-bottom-
 import { AbilityType } from '../enums/ability-type.enum';
 import { Color } from '../enums/color.enum';
 import { EncampmentState } from '../enums/encampment-state.enum';
-import { FighterRole } from '../enums/fighter-role.enum';
 import { LocalStorageKey, StoreKey } from '../enums/local-keys.enum';
 import { Ability } from '../models/ability.model';
 import { BattleLog } from '../models/battle-log.model';
