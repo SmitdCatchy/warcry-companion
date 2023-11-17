@@ -22,7 +22,8 @@
       "ES2022",
       "dom"
     ],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "types": ["gtag.js"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

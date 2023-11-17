@@ -499,5 +499,9 @@
     "unarmed": "Unarmed",
     "hook": "Haken",
     "bident": "Zweizack"
+  },
+  "cookie-consent": {
+    "title": "Cookie-Einwilligung",
+    "description": "Diese App verwendet Cookies, um Ihre Erfahrung zu verbessern."
   }
 }

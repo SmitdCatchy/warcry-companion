@@ -38,6 +38,16 @@ Run `ng deploy` to build the project and create the `docs/` directory that is th
 
 ## Versions
 
+### 4.3.0 - 2023.11.17.
+
+<details>
+  <summary>Features</summary>
+
+- add google analytics
+- add cookie consent
+
+</details>
+
 ### 4.2.1 - 2023.11.11.
 
 <details>

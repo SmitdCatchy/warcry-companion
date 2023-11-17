@@ -46,6 +46,7 @@
     "@angular-eslint/template-parser": "14.1.0",
     "@angular/cli": "14.1.0",
     "@angular/compiler-cli": "14.1.0",
+    "@types/gtag.js": "^0.0.18",
     "@types/jasmine": "3.10.0",
     "@types/lodash.clonedeep": "4.5.7",
     "@types/node": "^18.14.2",

@@ -1,5 +1,11 @@
-import { ApplicationRef, Component, OnDestroy } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ApplicationRef, Component, Inject, OnDestroy } from '@angular/core';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterOutlet,
+  RouterState
+} from '@angular/router';
 import { loadFull } from 'tsparticles';
 import { Engine, MoveDirection, OutMode } from 'tsparticles-engine';
 import { Theme } from './core/enums/theme.enum';
@@ -13,6 +19,9 @@ import { filter, from, Subscription } from 'rxjs';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { DataService } from './core/services/data.service';
+import { DOCUMENT } from '@angular/common';
+import { LocalStorageKey } from './core/enums/local-keys.enum';
+
 @Component({
   selector: 'smitd-root',
   templateUrl: './app.component.html',
@@ -30,6 +39,8 @@ export class AppComponent implements OnDestroy {
     private readonly updates: SwUpdate,
     private appRef: ApplicationRef,
     private readonly dataService: DataService,
+    private router: Router,
+    @Inject(DOCUMENT) private document: Document
   ) {
     this.particlesOptions = {
       fpsLimit: 60,
@@ -75,6 +86,8 @@ export class AppComponent implements OnDestroy {
       }
     };
     this.updateClient();
+    this.handleRouteEvents();
+    this.cookieConsent();
   }
 
   ngOnDestroy(): void {
@@ -126,5 +139,54 @@ export class AppComponent implements OnDestroy {
           );
         })
     );
+  }
+
+  private handleRouteEvents() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const title = this.getTitle(
+          this.router.routerState,
+          this.router.routerState.root
+        ).join('-');
+        (window as any).gtag('event', 'page_view', {
+          page_title: title,
+          page_path: event.urlAfterRedirects,
+          page_location: this.document.location.href,
+          selected_language: this.translationService.language
+        });
+      }
+    });
+  }
+
+  private getTitle(state: RouterState, parent: ActivatedRoute): string[] {
+    const data = [];
+    if (parent && parent.snapshot.data && parent.snapshot.data['title']) {
+      data.push(parent.snapshot.data['title']);
+    }
+    if (state && parent && parent.firstChild) {
+      data.push(...this.getTitle(state, parent.firstChild));
+    }
+    return data;
+  }
+
+  private cookieConsent(): void {
+    if (!CoreService.getLocalStorage(LocalStorageKey.CookieConsent)) {
+      this.dialog
+        .open(ConfirmDialogComponent, {
+          data: {
+            confirmation: true,
+            noLabel: this.translateService.instant('common.ok'),
+            title: this.translateService.instant('cookie-consent.title'),
+            question: this.translateService.instant(
+              'cookie-consent.description'
+            )
+          },
+          closeOnNavigation: false
+        })
+        .afterClosed()
+        .subscribe(() => {
+          CoreService.setLocalStorage(LocalStorageKey.CookieConsent, 'true');
+        });
+    }
   }
 }
