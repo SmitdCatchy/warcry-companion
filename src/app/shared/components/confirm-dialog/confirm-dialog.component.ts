@@ -12,6 +12,7 @@ export class ConfirmDialogComponent {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       question: string;
+      title?: string;
       yesLabel?: string;
       noLabel?: string;
       yesColor?: string;

@@ -507,5 +507,9 @@
     "unarmed": "Unbewaffnet",
     "hook": "Haken",
     "bident": "Bident"
+  },
+  "cookie-consent": {
+    "title": "Cookie Consent",
+    "description": "This app uses cookies to improve your experience."
   }
 }

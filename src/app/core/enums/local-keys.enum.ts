@@ -8,6 +8,7 @@ export enum LocalStorageKey {
   Battlegrounds = 'smitd.warcry-companion.battlegrounds',
   Battle = 'smitd.warcry-companion.battle',
   FighterStore = 'smitd.warcry-companion.fighter-store',
+  CookieConsent = 'smitd.warcry-companion.cookie-consent',
 }
 
 export enum StoreKey {

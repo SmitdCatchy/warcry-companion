@@ -507,5 +507,9 @@
     "unarmed": "Désarmé",
     "hook": "Crochet",
     "bident": "Bident"
+  },
+  "cookie-consent": {
+    "title": "Consentement aux cookies",
+    "description": "Cette application utilise des cookies pour améliorer votre expérience."
   }
 }

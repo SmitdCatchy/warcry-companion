@@ -507,5 +507,9 @@
     "unarmed": "Ököl",
     "hook": "Kampó",
     "bident": "Bident"
-  }
+  },
+  "cookie-consent": {
+    "title": "Sütik elfogadása",
+    "description": "Ez az alkalmazás sütiket használ a felhasználói élmény javításához."
+}
 }
