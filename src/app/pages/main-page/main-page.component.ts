@@ -87,6 +87,8 @@ export class MainPageComponent implements OnDestroy {
       .split(`'`)
       .join('')
       .split(' ')
+      .join('-')
+      .split('---')
       .join('-')}.json`;
     const jsonStr = JSON.stringify({ type: warbandFileType, warband });
     const element = document.createElement('a');
@@ -155,16 +157,16 @@ export class MainPageComponent implements OnDestroy {
   }
 
   getLatestVersion(): void {
-      navigator.serviceWorker.getRegistrations().then((registrations) => {
-        for (const registration of registrations) {
-          registration.unregister();
-        }
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (const registration of registrations) {
+        registration.unregister();
+      }
+    });
+    caches.keys().then((keys) => {
+      keys.forEach((key) => {
+        caches.delete(key);
       });
-      caches.keys().then((keys) => {
-        keys.forEach((key) => {
-          caches.delete(key);
-        });
-      });
-      location.reload();
+    });
+    location.reload();
   }
 }

@@ -205,7 +205,6 @@ export class DataService {
       faction: fighterData.warband,
       alliance: fighterData.grand_alliance,
       color: this._getFactionColor(fighterData.grand_alliance),
-      icon: `https://warcrier.net/img/fighters/${fighterData._id}.jpg`,
       monsterStatTable:
         role === FighterRole.Monster
           ? [
